@@ -18,6 +18,10 @@ file / "Lumen AI - DS - base" library and published as three packages:
 - `@lumen/patterns` — composed enterprise-SaaS screen patterns (CRUD list,
   settings, auth, dashboard) built entirely from `@lumen/ui`.
 
+`packages/storybook` is the live showcase of all three — one page per
+component with controls and auto-generated usage code, plus MDX pages for
+the patterns. Run it with `pnpm storybook`. See "Component checklist" below.
+
 ## Hard rules when working in this repo
 
 1. **Never hardcode a color, font size, spacing value, or shadow.** Every
@@ -35,7 +39,9 @@ file / "Lumen AI - DS - base" library and published as three packages:
    components named consistently so Code Connect mapping stays possible.
 4. **Every new/changed component ships with:** a TypeScript-typed props
    interface, semantic-token-only styling, keyboard + screen-reader support
-   (see `docs/accessibility.md`), and a Changeset (`pnpm changeset`).
+   (see `docs/accessibility.md`), a colocated Storybook story
+   (`Component.stories.tsx`, `tags: ["autodocs"]`), and a Changeset
+   (`pnpm changeset`).
 5. **Don't publish silently.** Version bumps happen through the Changesets
    flow in `docs/versioning-and-releases.md`, not by hand-editing `package.json` versions.
 
@@ -50,9 +56,10 @@ sourced.
 ## Repo map
 
 ```
-packages/tokens/   design tokens (source of truth: src/*.json)
-packages/ui/       components (primitives, composite, layout)
-packages/patterns/ composed enterprise screen patterns
-docs/              usage, accessibility, versioning, figma-sync guidelines
-.changeset/        pending version bumps
+packages/tokens/    design tokens (source of truth: src/*.json)
+packages/ui/        components (primitives, composite, layout) + colocated *.stories.tsx
+packages/patterns/  composed enterprise screen patterns + colocated *.stories.tsx / *.mdx
+packages/storybook/ the showcase app — Storybook config only, no component source
+docs/               usage, accessibility, versioning, figma-sync guidelines
+.changeset/         pending version bumps
 ```

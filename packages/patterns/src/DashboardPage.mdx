@@ -1,0 +1,23 @@
+import { Meta, Canvas } from "@storybook/blocks";
+import * as DashboardPageStories from "./DashboardPage.stories";
+
+<Meta of={DashboardPageStories} />
+
+# DashboardPage
+
+A metrics dashboard shell: a responsive grid of KPI `Card`s (one column per metric) plus a
+primary content area below for charts, recent activity, or anything else.
+
+<Canvas of={DashboardPageStories.Playground} />
+
+## Props
+
+| Prop | Type | Notes |
+|---|---|---|
+| `title` | `string` | Page heading |
+| `metrics` | `MetricCard[]` | `{ label, value, delta?, deltaTone?: "success" \| "error" }` — grid column count matches `metrics.length` |
+| `children` | `ReactNode` | Renders below the metrics grid — put charts/tables/activity feeds here |
+
+Metric deltas only support `success`/`error` tone today (no neutral/warning) — if a metric
+needs a neutral "no change" delta, propose extending `MetricCard["deltaTone"]` rather than
+styling it ad hoc in product code.

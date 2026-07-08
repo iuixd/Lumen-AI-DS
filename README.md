@@ -13,6 +13,7 @@ consume instead of re-deriving UI per app.
 | `@lumen/tokens` | Color, typography, spacing, radius, and elevation tokens. Generated CSS variables + Tailwind preset + typed TS exports. |
 | `@lumen/ui` | React + TypeScript + Tailwind components: primitives (Button, Input, Badge, Avatar, Tabs, Tooltip, ...), composites (Card, Modal, DataTable, Pagination, FormField, Toast, EmptyState), layout primitives (Container, Stack, Grid, AppShell). |
 | `@lumen/patterns` | Composed enterprise screens built from `@lumen/ui`: `CrudListPage`, `SettingsPage`, `AuthForm`, `DashboardPage`. |
+| `@lumen/storybook` | Live showcase of every component and pattern above — controls, auto-generated usage code, MDX pattern docs. Not published; local/deploy-only. |
 
 ## Quick start (working in this repo)
 
@@ -20,8 +21,22 @@ consume instead of re-deriving UI per app.
 pnpm install
 pnpm build        # builds tokens, typechecks packages
 pnpm typecheck
+pnpm test
 pnpm lint
 ```
+
+## Browsing the component showcase
+
+```bash
+pnpm storybook            # dev server at localhost:6006, live-reloads on component changes
+pnpm build-storybook       # static build, e.g. for deploying to a docs host
+```
+
+One page per component in `@lumen/ui` (Primitives / Composite / Layout), with a Controls
+panel to try every variant and a Docs tab showing the exact JSX to copy — plus one MDX page
+per `@lumen/patterns` screen (Patterns) explaining what it composes and when to reach for it.
+This is the fastest way for a product team to answer "does this already exist, and how do I
+use it" without reading source.
 
 ## Consuming this repo from a product app
 
@@ -70,6 +85,7 @@ generating new components).
 - [`docs/figma-sync.md`](docs/figma-sync.md) — what's directly sourced from Figma vs. engineering-extrapolated, and the ongoing sync workflow
 - [`docs/claude-code-integration.md`](docs/claude-code-integration.md) — wiring a product repo's Claude Code setup to this design system
 - [`CONTRIBUTING.md`](CONTRIBUTING.md) — component checklist and PR conventions
+- **Storybook** (`pnpm storybook`) — live component showcase with usage code; the fastest way to answer "what does this look like and how do I use it"
 
 ## Governance
 

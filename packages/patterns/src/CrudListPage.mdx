@@ -1,0 +1,37 @@
+import { Meta, Canvas } from "@storybook/blocks";
+import * as CrudListPageStories from "./CrudListPage.stories";
+
+<Meta of={CrudListPageStories} />
+
+# CrudListPage
+
+The reference shape for every "list of records" screen — users, invoices, projects,
+tickets, anything with a search header, a data table, pagination, and a primary create
+action. Composed entirely from `@lumen/ui`: `Container`, `Stack`, `Card`, `Button`, `Input`,
+`DataTable`, `Pagination`, `EmptyState`, `Badge`.
+
+**Use this instead of hand-building table/pagination/empty-state markup per feature.** If a
+list screen needs something this pattern doesn't support (bulk actions, column sorting,
+row selection), extend `CrudListPage` itself rather than bypassing it in product code — see
+`CONTRIBUTING.md`.
+
+<Canvas of={CrudListPageStories.Playground} />
+
+## Empty state
+
+Pass `data={[]}` and the built-in `EmptyState` renders automatically, with the same
+`onCreate` action wired to its call-to-action button.
+
+<Canvas of={CrudListPageStories.Empty} />
+
+## Props
+
+| Prop | Type | Notes |
+|---|---|---|
+| `title` | `string` | Page heading; also shows a count badge from `data.length` |
+| `columns` | `Column<T>[]` | Same `Column` type as `DataTable` |
+| `data` | `T[]` | Current page's rows |
+| `rowKey` | `(row: T) => string` | |
+| `page` / `pageCount` / `onPageChange` | | Forwarded to `Pagination` |
+| `onCreate` / `createLabel` | | Optional — omit to hide the create button entirely |
+| `onSearch` | `(query: string) => void` | Called on every keystroke in the search field |

@@ -1,0 +1,27 @@
+import { Meta, Canvas } from "@storybook/blocks";
+import * as AuthFormStories from "./AuthForm.stories";
+
+<Meta of={AuthFormStories} />
+
+# AuthForm
+
+The sign-in / sign-up form shell used for every auth surface — centered card, work-email +
+password fields via `FormField`/`Input`, a full-width submit `Button`, and the
+sign-in/sign-up cross-link. Switches copy and the submit label based on `mode`.
+
+<Canvas of={AuthFormStories.Playground} />
+
+## Sign-up mode
+
+<Canvas of={AuthFormStories.SignUp} />
+
+## Props
+
+| Prop | Type | Notes |
+|---|---|---|
+| `mode` | `"sign-in" \| "sign-up"` | Defaults to `"sign-in"` |
+| `onSubmit` | `(e: FormEvent) => void` | Standard form submit handler — call `e.preventDefault()` and handle the actual auth request in the product repo |
+
+This pattern is intentionally minimal (no OAuth buttons, no forgot-password link) — extend
+it in the product repo for app-specific auth flows rather than forking a copy here, unless
+the addition is generic enough to belong in the design system itself.

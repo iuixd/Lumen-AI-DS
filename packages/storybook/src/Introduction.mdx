@@ -1,0 +1,49 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Introduction" />
+
+# Lumen Design System
+
+The single source of truth for design tokens, UI components, layout primitives, and
+enterprise SaaS patterns used across every Lumen product. This is the live, interactive
+version of `packages/ui` and `packages/patterns` — every story renders the real component
+from the real package, not a copy.
+
+## The one rule
+
+**If a component, token, or pattern already exists here, use it. Do not create a parallel
+implementation in the product repo.** This applies to Claude Code, human engineers, and any
+other tool generating UI for a Lumen product.
+
+## How to use this
+
+- **Primitives / Composite / Layout** — one page per `@lumen/ui` component. Use the
+  **Controls** tab to try every variant, then open the **Docs** tab (or the "Show code"
+  toggle under the canvas) for the exact JSX to copy into your product code.
+- **Patterns** — full composed screens from `@lumen/patterns`, built entirely from the
+  components above. Start here for a whole screen shape (a CRUD list, a settings page, an
+  auth flow, a metrics dashboard) instead of assembling primitives from scratch.
+- **Theme toggle** — the sun/moon icon in the toolbar switches `data-theme` between light
+  and dark, exactly like a consuming product would.
+
+## Installing this in a product repo
+
+```bash
+pnpm add @lumen/tokens @lumen/ui @lumen/patterns
+```
+
+```tsx
+import { Button, Card, DataTable } from "@lumen/ui";
+import { CrudListPage } from "@lumen/patterns";
+import "@lumen/tokens/css";
+```
+
+See the root [README](https://github.com/iuixd/Lumen-DS#readme) for the current
+git-dependency install syntax, and `docs/claude-code-integration.md` for wiring Claude Code
+in a product repo to reuse this system automatically.
+
+## Contributing
+
+Adding or changing a component? Every component ships with a story (`Component.stories.tsx`,
+colocated next to the source) alongside its Changeset — see `CONTRIBUTING.md`'s component
+checklist.

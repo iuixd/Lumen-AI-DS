@@ -9,6 +9,8 @@
     "build": "pnpm --filter @lumen/tokens build && pnpm -r --filter=!@lumen/tokens run build --if-present",
     "typecheck": "pnpm -r --if-present run typecheck",
     "test": "pnpm -r --if-present run test",
+    "storybook": "pnpm --filter @lumen/storybook storybook",
+    "build-storybook": "pnpm --filter @lumen/storybook build-storybook",
     "lint": "eslint . --ext .ts,.tsx",
     "format": "prettier --write .",
     "changeset": "changeset",

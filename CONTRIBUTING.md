@@ -22,6 +22,9 @@
 - [ ] Added to the relevant `docs/` page if it introduces a new pattern
 - [ ] Unit test covering its variants and key interaction states
       (colocated as `Component.test.tsx`; see existing tests for the pattern)
+- [ ] Storybook story with controls for every variant/prop, `tags: ["autodocs"]`
+      (colocated as `Component.stories.tsx`; see existing stories for the pattern —
+      patterns in `packages/patterns` also get a paired `Component.mdx` doc page)
 - [ ] Changeset added (`pnpm changeset`)
 
 ## Local development
@@ -32,6 +35,7 @@ pnpm build        # builds @lumen/tokens, typechecks the rest
 pnpm typecheck
 pnpm test
 pnpm lint
+pnpm storybook    # localhost:6006 — check your component renders and controls work
 ```
 
 ## Commit / PR conventions

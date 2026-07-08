@@ -1,0 +1,38 @@
+import { Meta, Canvas } from "@storybook/blocks";
+import * as SettingsPageStories from "./SettingsPage.stories";
+
+<Meta of={SettingsPageStories} />
+
+# SettingsPage
+
+The tabbed settings shell (Profile / Team / Billing / Security / ...). Every settings-style
+screen should be a list of `SettingsSection` entries rendered through this shell, so tab
+navigation, spacing, and the card wrapper around each panel stay consistent across the
+product instead of being rebuilt per section.
+
+<Canvas of={SettingsPageStories.Playground} />
+
+## Composing a section
+
+Each `SettingsSection` is just an `id`, a `label` for the tab, and a `content` node — build
+the content itself from ordinary `@lumen/ui` components (`FormField` + `Input` for a form,
+`Switch` for toggles, etc.), the same way this example's "Profile" and "Notifications"
+sections do.
+
+```tsx
+const sections: SettingsSection[] = [
+  {
+    id: "profile",
+    label: "Profile",
+    content: (
+      <Stack gap={4}>
+        <FormField label="Full name" htmlFor="name">
+          <Input id="name" defaultValue="Jane Cooper" />
+        </FormField>
+      </Stack>
+    )
+  }
+];
+
+<SettingsPage title="Settings" sections={sections} />
+```

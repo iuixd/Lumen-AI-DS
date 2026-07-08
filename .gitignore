@@ -4,3 +4,4 @@ tsc-out/
 .DS_Store
 .env
 .turbo/
+storybook-static/
