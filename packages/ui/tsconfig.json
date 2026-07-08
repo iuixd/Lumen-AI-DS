@@ -3,7 +3,8 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "outDir": "./tsc-out",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "types": ["@testing-library/jest-dom"]
   },
   "include": ["src"]
 }

@@ -1,0 +1,14 @@
+# Code owners for Lumen-DS.
+# Every PR needs a review from an owner of the paths it touches before merge
+# (requires "Require review from Code Owners" enabled in branch protection).
+#
+# Add design-system maintainers here as the team grows — a single owner
+# doesn't scale past the pilot stage (see docs/versioning-and-releases.md).
+
+* @iuixd
+
+# Tokens changes ripple through every consuming product — flag explicitly.
+/packages/tokens/ @iuixd
+
+# Composed patterns are the highest-blast-radius surface for product teams.
+/packages/patterns/ @iuixd

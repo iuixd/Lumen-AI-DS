@@ -1,0 +1,21 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Iconly">
+<path d="M-2396.25 -1804.53C-2396.25 -1817.79 -2385.5 -1828.53 -2372.25 -1828.53H3643.75C3657 -1828.53 3667.75 -1817.79 3667.75 -1804.53V2731.47C3667.75 2744.72 3657 2755.47 3643.75 2755.47H-2372.25C-2385.5 2755.47 -2396.25 2744.72 -2396.25 2731.47V-1804.53Z" fill="white"/>
+<path d="M-2372.25 -1827.53H3643.75V-1829.53H-2372.25V-1827.53ZM3666.75 -1804.53V2731.47H3668.75V-1804.53H3666.75ZM3643.75 2754.47H-2372.25V2756.47H3643.75V2754.47ZM-2395.25 2731.47V-1804.53H-2397.25V2731.47H-2395.25ZM-2372.25 2754.47C-2384.95 2754.47 -2395.25 2744.17 -2395.25 2731.47H-2397.25C-2397.25 2745.27 -2386.06 2756.47 -2372.25 2756.47V2754.47ZM3666.75 2731.47C3666.75 2744.17 3656.45 2754.47 3643.75 2754.47V2756.47C3657.56 2756.47 3668.75 2745.27 3668.75 2731.47H3666.75ZM3643.75 -1827.53C3656.45 -1827.53 3666.75 -1817.24 3666.75 -1804.53H3668.75C3668.75 -1818.34 3657.56 -1829.53 3643.75 -1829.53V-1827.53ZM-2372.25 -1829.53C-2386.06 -1829.53 -2397.25 -1818.34 -2397.25 -1804.53H-2395.25C-2395.25 -1817.24 -2384.95 -1827.53 -2372.25 -1827.53V-1829.53Z" fill="#BABCD4"/>
+<g id=" ">
+<rect width="1688" height="594" transform="translate(-208.25 -276.535)" fill="white"/>
+<g id="Iconly/Sharp/Light/Calendar">
+<path id="Line_200" d="M3.76074 9.59898H20.248" stroke="#110E47" stroke-width="1.5" stroke-linecap="square"/>
+<path id="Line_201" d="M16.1087 13.2115H16.1173" stroke="#110E47" stroke-width="1.5" stroke-linecap="square"/>
+<path id="Line_202" d="M12.0045 13.2115H12.0131" stroke="#110E47" stroke-width="1.5" stroke-linecap="square"/>
+<path id="Line_203" d="M7.89122 13.2115H7.89979" stroke="#110E47" stroke-width="1.5" stroke-linecap="square"/>
+<path id="Line_204" d="M16.1087 16.8065H16.1173" stroke="#110E47" stroke-width="1.5" stroke-linecap="square"/>
+<path id="Line_205" d="M12.0045 16.8065H12.0131" stroke="#110E47" stroke-width="1.5" stroke-linecap="square"/>
+<path id="Line_206" d="M7.89122 16.8065H7.89979" stroke="#110E47" stroke-width="1.5" stroke-linecap="square"/>
+<path id="Line_207" d="M15.7408 2.75V5.79399" stroke="#110E47" stroke-width="1.5" stroke-linecap="square"/>
+<path id="Line_208" d="M8.26855 2.75V5.79399" stroke="#110E47" stroke-width="1.5" stroke-linecap="square"/>
+<path id="Path" fill-rule="evenodd" clip-rule="evenodd" d="M20.3258 4.21069H3.67578V21.25H20.3258V4.21069Z" stroke="#110E47" stroke-width="1.5" stroke-linecap="square"/>
+</g>
+</g>
+</g>
+</svg>

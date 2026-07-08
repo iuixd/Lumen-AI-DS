@@ -20,6 +20,8 @@
 - [ ] Passes the accessibility baseline in `docs/accessibility.md`
 - [ ] Exported from the package's `src/index.ts`
 - [ ] Added to the relevant `docs/` page if it introduces a new pattern
+- [ ] Unit test covering its variants and key interaction states
+      (colocated as `Component.test.tsx`; see existing tests for the pattern)
 - [ ] Changeset added (`pnpm changeset`)
 
 ## Local development
@@ -28,6 +30,7 @@
 pnpm install
 pnpm build        # builds @lumen/tokens, typechecks the rest
 pnpm typecheck
+pnpm test
 pnpm lint
 ```
 
@@ -37,7 +40,7 @@ pnpm lint
 - PR description should state: what Figma component/token this maps to (if
   any), and what's a deliberate engineering decision vs. a value pulled
   directly from Figma (see the "Known gaps" pattern used in `docs/figma-sync.md`).
-- CI (`.github/workflows/ci.yml`) must pass: build, typecheck, lint.
+- CI (`.github/workflows/ci.yml`) must pass: build, typecheck, test, lint.
 
 ## Reporting a design/code mismatch
 

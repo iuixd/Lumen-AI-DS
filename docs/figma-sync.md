@@ -47,11 +47,41 @@ product code should reference the code, not re-derive values from Figma.
 
 ## Icons
 
-The Figma library bundles a large third-party icon set (Iconly). Rather than
-hand-transcribing hundreds of icons through automated extraction, the
-recommended path is: export the icon set as SVGs from Figma (Export panel,
-batch export), then add a small `icons:import` script under
-`packages/ui/scripts/` that runs each SVG through SVGO and generates a typed
-`Icon` component per file, consistent with how `packages/ui/src/primitives`
-components are authored. That script does not exist yet in this repo — it's
-the next concrete step for whoever picks up icon coverage.
+The Figma library bundles the Iconly set (library: "Lumen AI - DS - base",
+file `Lumen AI - DS - base`, frame "Icons"): **3 corner styles (Sharp,
+Regular, Curved) × 6 weights (Bold, Light, Outline, Broken, Bulk, Two-tone)
+× up to 125 icon names = 1,949 individual components.** Extracting all of
+these mechanically (one Figma API call per icon) is impractical — the
+supported path is a native Figma batch export by a human.
+
+**What's shipped today:** a curated 22-icon starter set, all from the
+`Sharp/Light` family (arrow-left, arrow-right, bookmark, calendar, chat,
+close-square, danger-circle, delete, download, edit, filter, heart, hide,
+home, info-square, notification, plus, profile, search, setting, show,
+tick-square) — enough to cover the nav/table/form actions the existing
+`@lumen/ui` components need. Source SVGs live in
+`packages/ui/src/icons/svg/`; generated components in
+`packages/ui/src/icons/generated/` (do not hand-edit — regenerate instead).
+
+**To extend coverage:**
+
+1. In Figma, select the icons you need under the "Icons" frame in the
+   `Lumen AI - DS - base` library file and batch-export as SVG (Export
+   panel). Name each file in kebab-case matching the icon (e.g. `Arrow -
+   Right` → `arrow-right.svg`) — the import script derives the component
+   name and registry key from the filename.
+2. Drop the exported files into `packages/ui/src/icons/svg/`.
+3. Run `pnpm --filter @lumen/ui icons:import`. This extracts the real
+   geometry out of Figma's export (which includes page-background bleed
+   from the enclosing frame — the script strips that automatically),
+   recolors fixed hex strokes/fills to `currentColor` so icons inherit
+   text color, runs SVGO, and regenerates every `{Name}Icon.tsx` component
+   plus the `index.ts` barrel and `registry.ts` name lookup.
+4. Import the specific `{Name}Icon` component directly in JSX for
+   tree-shaking, or use `<Icon name="arrow-right" />` (from
+   `packages/ui/src/primitives/Icon.tsx`) when the icon name is
+   data-driven and not known until render.
+
+If a future icon export uses a different weight/style than `Sharp/Light`,
+confirm with design first (do not silently mix styles within one product
+screen — see the design sign-off doc for the open items on this system).

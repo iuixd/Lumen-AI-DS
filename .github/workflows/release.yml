@@ -29,11 +29,14 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
 
-      - name: Create Release Pull Request or Publish
+      # No npm publish step: packages are consumed as a git dependency
+      # (see README "Consuming this repo"), not published to a registry.
+      # This just opens/updates a "Version Packages" PR from accumulated
+      # changesets — merging that PR bumps package.json versions and
+      # changelogs, which product repos then pin a commit/tag against.
+      - name: Create Version Packages PR
         uses: changesets/action@v1
         with:
-          publish: pnpm release
           version: pnpm version-packages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

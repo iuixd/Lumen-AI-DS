@@ -25,23 +25,28 @@ pnpm lint
 
 ## Consuming this repo from a product app
 
-Until this is published to a private registry, add it as a pnpm workspace
-path or git dependency:
+This repo is consumed as a git dependency — there is no npm publish step.
+Add it as a pnpm workspace path or git dependency, pinned to a tag or commit
+SHA once one exists (see `docs/versioning-and-releases.md`):
 
 ```jsonc
 // product-app/package.json
 {
   "dependencies": {
-    "@lumen/tokens": "github:iuixd/lumenai#main&path:packages/tokens",
-    "@lumen/ui": "github:iuixd/lumenai#main&path:packages/ui",
-    "@lumen/patterns": "github:iuixd/lumenai#main&path:packages/patterns"
+    "@lumen/tokens": "github:iuixd/Lumen-DS#main&path:packages/tokens",
+    "@lumen/ui": "github:iuixd/Lumen-DS#main&path:packages/ui",
+    "@lumen/patterns": "github:iuixd/Lumen-DS#main&path:packages/patterns"
   }
 }
 ```
 
-Once you're ready for real version pinning, switch this to a private npm
-registry (GitHub Packages / Verdaccio / npm Enterprise) and publish via the
-`release` workflow — see `docs/versioning-and-releases.md`.
+`@lumen/ui` and `@lumen/patterns` ship as TypeScript source (no build step) —
+your bundler needs to transpile them like workspace code (e.g. Next.js
+`transpilePackages: ["@lumen/ui", "@lumen/patterns"]`, or Vite's default
+behavior for non-`node_modules`-published deps). `@lumen/tokens` ships a
+built `dist/` (CSS variables + Tailwind preset + typed exports) so it works
+as-is. If/when there are enough consuming teams to justify the overhead, this
+can move to a private registry — see `docs/versioning-and-releases.md`.
 
 ```tsx
 import { Button, Card, DataTable } from "@lumen/ui";
@@ -69,7 +74,8 @@ generating new components).
 ## Governance
 
 Changes to tokens or components are versioned via
-[Changesets](https://github.com/changesets/changesets) and released through
-`.github/workflows/release.yml`. Product repos pin a version and bump
-deliberately — see `docs/versioning-and-releases.md` for how updates
-propagate without silently breaking every downstream app.
+[Changesets](https://github.com/changesets/changesets): `.github/workflows/release.yml`
+opens a "Version Packages" PR that bumps `package.json` versions and
+generates changelogs on merge to `main`. Product repos pin a git tag or
+commit SHA and bump deliberately — see `docs/versioning-and-releases.md` for
+how updates propagate without silently breaking every downstream app.

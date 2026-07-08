@@ -1,4 +1,4 @@
-const tokensPreset = require("@lumen/tokens/dist/tailwind-preset.cjs");
+const tokensPreset = require("@lumen/tokens/tailwind-preset");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {

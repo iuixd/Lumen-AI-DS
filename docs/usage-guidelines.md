@@ -14,7 +14,7 @@ README "Consuming this repo" section.)
 
 ```js
 // tailwind.config.js in the consuming app
-const lumenPreset = require("@lumen/tokens/dist/tailwind-preset.cjs");
+const lumenPreset = require("@lumen/tokens/tailwind-preset");
 
 module.exports = {
   presets: [lumenPreset],

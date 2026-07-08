@@ -20,20 +20,31 @@ git commit -m "feat(ui): add DatePicker"
 
 ## Releasing
 
-CI (`.github/workflows/release.yml`) runs `changeset version` and
-`changeset publish` on merges to `main` once changesets have accumulated,
-opening a "Version Packages" PR that maintainers review and merge to cut the
-actual release. This keeps every version bump reviewable instead of
-publishing silently on every merge.
+There is no npm publish step — `@lumen/*` packages are consumed as a git
+dependency (see root README "Consuming this repo"), not published to a
+registry. CI (`.github/workflows/release.yml`) runs `changeset version` on
+merges to `main` once changesets have accumulated, opening a "Version
+Packages" PR that bumps `package.json` versions and changelogs. A maintainer
+reviews and merges that PR, then tags the resulting commit (e.g.
+`git tag ui-v0.2.0 && git push origin ui-v0.2.0`) so product repos have a
+stable ref to pin.
+
+If enough product teams end up consuming this that git-dependency installs
+become a bottleneck (slow installs, no lockfile integrity hashes, awkward
+private-repo auth for CI), revisit publishing to a private registry (GitHub
+Packages is the natural choice given the repo already lives on GitHub) — that
+just means adding a publish step back into `release.yml` and an
+`NPM_TOKEN`/`GITHUB_TOKEN`-scoped secret; the changesets flow itself doesn't
+change.
 
 ## Propagating updates to consuming products
 
-1. A release lands on `main` and is published (private registry or git tag —
-   see root README "Consuming this repo").
-2. Each product repo bumps its `@lumen/*` dependency versions — either
-   manually, via Renovate/Dependabot, or via a scheduled Claude Code task
-   that opens a PR bumping the design system and running the product's test
-   suite against it.
+1. A release lands on `main`, the Version Packages PR is merged, and the
+   commit is tagged (see above).
+2. Each product repo bumps its `@lumen/*` git dependency to the new tag —
+   either manually, via a Renovate/Dependabot git-ref rule, or via a
+   scheduled Claude Code task that opens a PR bumping the ref and running the
+   product's test suite against it.
 3. Breaking (major) changes must ship with a migration note in the
    changeset body; product teams should not discover a breaking change only
    from a failed build.

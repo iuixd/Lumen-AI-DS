@@ -8,11 +8,11 @@
   "scripts": {
     "build": "pnpm --filter @lumen/tokens build && pnpm -r --filter=!@lumen/tokens run build --if-present",
     "typecheck": "pnpm -r --if-present run typecheck",
+    "test": "pnpm -r --if-present run test",
     "lint": "eslint . --ext .ts,.tsx",
     "format": "prettier --write .",
     "changeset": "changeset",
-    "version-packages": "changeset version",
-    "release": "pnpm build && changeset publish"
+    "version-packages": "changeset version"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.7",

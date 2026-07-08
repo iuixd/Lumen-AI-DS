@@ -11,6 +11,11 @@ export * from "./primitives/Switch";
 export * from "./primitives/Select";
 export * from "./primitives/Tabs";
 export * from "./primitives/Tooltip";
+export * from "./primitives/Icon";
+
+// Icons
+export * from "./icons/generated";
+export type { IconName } from "./icons/generated/registry";
 
 // Composite
 export * from "./composite/Card";

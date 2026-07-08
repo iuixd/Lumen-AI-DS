@@ -21,7 +21,7 @@ up.)
 
 ```js
 // tailwind.config.js
-const lumenPreset = require("@lumen/tokens/dist/tailwind-preset.cjs");
+const lumenPreset = require("@lumen/tokens/tailwind-preset");
 module.exports = {
   presets: [lumenPreset],
   content: ["./src/**/*.{ts,tsx}", "./node_modules/@lumen/ui/src/**/*.{ts,tsx}"]
