@@ -16,7 +16,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
           className={cn(
             "relative inline-block h-6 w-10 shrink-0 rounded-full bg-neutral-black-100 transition-colors",
             "peer-checked:bg-[var(--color-brand-default)] peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--color-border-focus)]",
-            "after:absolute after:left-0.5 after:top-0.5 after:size-5 after:rounded-full after:bg-white after:transition-transform peer-checked:after:translate-x-4",
+            "after:absolute after:left-0.5 after:top-0.5 after:size-5 after:rounded-full after:bg-neutral-white after:transition-transform peer-checked:after:translate-x-4",
             className
           )}
         />

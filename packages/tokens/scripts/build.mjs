@@ -76,14 +76,13 @@ for (const [key, val] of Object.entries(typography.scale)) {
   css += `  --text-${key}-weight: ${val.weight};\n`;
 }
 
-for (const [theme, tokens] of Object.entries(semanticColor)) {
-  if (theme.startsWith("_")) continue;
-  css += "\n  /* semantic: " + theme + " */\n";
-  for (const [group, groupTokens] of Object.entries(tokens)) {
-    for (const [name, ref] of Object.entries(groupTokens)) {
-      const resolved = resolvePrimitive(ref);
-      css += `  --color-${group}-${kebab(name)}${theme === "dark" ? "" : ""}: ${theme === "light" ? resolved : "var(--_placeholder)"};\n`;
-    }
+// :root carries the light theme as the default — every consuming app gets
+// correct colors with zero setup. [data-theme="dark"] below overrides them.
+css += "\n  /* semantic: light (default) */\n";
+for (const [group, groupTokens] of Object.entries(semanticColor.light)) {
+  for (const [name, ref] of Object.entries(groupTokens)) {
+    const resolved = resolvePrimitive(ref);
+    css += `  --color-${group}-${kebab(name)}: ${resolved};\n`;
   }
 }
 css += "}\n\n";

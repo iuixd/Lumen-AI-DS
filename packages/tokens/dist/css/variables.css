@@ -168,7 +168,7 @@
   --text-body-sm-line-height: 16px;
   --text-body-sm-weight: 400;
 
-  /* semantic: light */
+  /* semantic: light (default) */
   --color-background-default: #FFFFFF;
   --color-background-subtle: #D6D8DC;
   --color-background-raised: #FFFFFF;
@@ -194,33 +194,6 @@
   --color-status-error-subtle: #FEDDDB;
   --color-status-info: #0040FF;
   --color-status-info-subtle: #D3DEFF;
-
-  /* semantic: dark */
-  --color-background-default: var(--_placeholder);
-  --color-background-subtle: var(--_placeholder);
-  --color-background-raised: var(--_placeholder);
-  --color-background-inverse: var(--_placeholder);
-  --color-text-title: var(--_placeholder);
-  --color-text-body: var(--_placeholder);
-  --color-text-muted: var(--_placeholder);
-  --color-text-inverse: var(--_placeholder);
-  --color-text-link: var(--_placeholder);
-  --color-text-disabled: var(--_placeholder);
-  --color-border-default: var(--_placeholder);
-  --color-border-strong: var(--_placeholder);
-  --color-border-focus: var(--_placeholder);
-  --color-brand-default: var(--_placeholder);
-  --color-brand-hover: var(--_placeholder);
-  --color-brand-pressed: var(--_placeholder);
-  --color-brand-subtle: var(--_placeholder);
-  --color-status-success: var(--_placeholder);
-  --color-status-success-subtle: var(--_placeholder);
-  --color-status-warning: var(--_placeholder);
-  --color-status-warning-subtle: var(--_placeholder);
-  --color-status-error: var(--_placeholder);
-  --color-status-error-subtle: var(--_placeholder);
-  --color-status-info: var(--_placeholder);
-  --color-status-info-subtle: var(--_placeholder);
 }
 
 [data-theme="dark"] {
