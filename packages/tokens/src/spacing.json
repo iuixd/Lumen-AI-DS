@@ -1,0 +1,19 @@
+{
+  "_comment": "Layout scale sourced from Figma Lumen-DS 'Spacing > Spacing Scale'. Use for section/page-level rhythm. Component-internal spacing (padding inside buttons/inputs) should use the finer 4px-based 'space' scale below, which is standard practice and not yet published as its own Figma page.",
+  "layout": {
+    "3xs": { "value": 2 },
+    "2xs": { "value": 4 },
+    "xs":  { "value": 8 },
+    "sm":  { "value": 16 },
+    "md":  { "value": 32 },
+    "lg":  { "value": 64 },
+    "xl":  { "value": 128 },
+    "2xl": { "value": 256 },
+    "3xl": { "value": 512 }
+  },
+  "space": {
+    "0": { "value": 0 }, "1": { "value": 4 }, "2": { "value": 8 }, "3": { "value": 12 },
+    "4": { "value": 16 }, "5": { "value": 20 }, "6": { "value": 24 }, "8": { "value": 32 },
+    "10": { "value": 40 }, "12": { "value": 48 }, "16": { "value": 64 }, "20": { "value": 80 }
+  }
+}

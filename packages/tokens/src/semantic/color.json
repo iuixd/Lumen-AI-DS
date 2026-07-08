@@ -1,0 +1,77 @@
+{
+  "_comment": "Semantic tokens reference primitives by dot-path. Consumed by scripts/build.mjs to emit CSS variables that swap by [data-theme].",
+  "light": {
+    "background": {
+      "default": "neutral.white",
+      "subtle": "grey.200",
+      "raised": "neutral.white",
+      "inverse": "neutral.black-700"
+    },
+    "text": {
+      "title": "neutral.black-700",
+      "body": "grey.body",
+      "muted": "grey.muted",
+      "inverse": "neutral.white",
+      "link": "brand.500",
+      "disabled": "neutral.black-300"
+    },
+    "border": {
+      "default": "grey.200",
+      "strong": "neutral.black-300",
+      "focus": "brand.500"
+    },
+    "brand": {
+      "default": "brand.500",
+      "hover": "red.700",
+      "pressed": "red.900",
+      "subtle": "red.50"
+    },
+    "status": {
+      "success": "green.500",
+      "success-subtle": "green.50",
+      "warning": "orange.500",
+      "warning-subtle": "orange.50",
+      "error": "red.500",
+      "error-subtle": "red.50",
+      "info": "blue.500",
+      "info-subtle": "blue.50"
+    }
+  },
+  "dark": {
+    "background": {
+      "default": "neutral.black-700",
+      "subtle": "neutral.black-500",
+      "raised": "neutral.black-500",
+      "inverse": "neutral.white"
+    },
+    "text": {
+      "title": "neutral.white",
+      "body": "neutral.black-100",
+      "muted": "neutral.black-300",
+      "inverse": "neutral.black-700",
+      "link": "red.300",
+      "disabled": "neutral.black-500"
+    },
+    "border": {
+      "default": "neutral.black-500",
+      "strong": "neutral.black-300",
+      "focus": "red.300"
+    },
+    "brand": {
+      "default": "red.300",
+      "hover": "red.100",
+      "pressed": "red.50",
+      "subtle": "red.900"
+    },
+    "status": {
+      "success": "green.300",
+      "success-subtle": "green.900",
+      "warning": "orange.300",
+      "warning-subtle": "orange.900",
+      "error": "red.300",
+      "error-subtle": "red.900",
+      "info": "blue.300",
+      "info-subtle": "blue.900"
+    }
+  }
+}

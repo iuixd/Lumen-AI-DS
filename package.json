@@ -1,0 +1,26 @@
+{
+  "name": "lumen-design-system",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Lumen Design System \u2014 single source of truth for design tokens, components, layout primitives, and enterprise patterns used across all Lumen SaaS products.",
+  "license": "UNLICENSED",
+  "packageManager": "pnpm@9.7.0",
+  "scripts": {
+    "build": "pnpm --filter @lumen/tokens build && pnpm -r --filter=!@lumen/tokens run build --if-present",
+    "typecheck": "pnpm -r --if-present run typecheck",
+    "lint": "eslint . --ext .ts,.tsx",
+    "format": "prettier --write .",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "pnpm build && changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.7",
+    "eslint": "^8.57.0",
+    "prettier": "^3.3.3",
+    "typescript": "^5.5.4",
+    "@typescript-eslint/parser": "^7.18.0",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "eslint-plugin-jsx-a11y": "^6.9.0"
+  }
+}

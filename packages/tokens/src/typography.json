@@ -1,0 +1,24 @@
+{
+  "_comment": "Sourced from Figma Lumen-DS 'Typography > Baseline'. Font family: Inter.",
+  "fontFamily": {
+    "sans": { "value": ["Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"] },
+    "mono": { "value": ["Cascadia Code", "SFMono-Regular", "Menlo", "monospace"] }
+  },
+  "scale": {
+    "display-lg":  { "fontSize": 57, "lineHeight": 64, "weight": 400, "usage": "Page hero, marketing headlines" },
+    "display-md":  { "fontSize": 45, "lineHeight": 52, "weight": 400, "usage": "Section hero, key messages" },
+    "display-sm":  { "fontSize": 36, "lineHeight": 44, "weight": 400, "usage": "Sub-hero, feature highlights" },
+    "headline-lg": { "fontSize": 32, "lineHeight": 40, "weight": 400, "usage": "Page titles, major sections" },
+    "headline-md": { "fontSize": 28, "lineHeight": 36, "weight": 400, "usage": "Section titles, card titles" },
+    "headline-sm": { "fontSize": 24, "lineHeight": 32, "weight": 400, "usage": "Subsection titles" },
+    "title-lg":    { "fontSize": 22, "lineHeight": 28, "weight": 400, "usage": "Important content titles" },
+    "title-md":    { "fontSize": 16, "lineHeight": 24, "weight": 500, "usage": "Card titles, form titles" },
+    "title-sm":    { "fontSize": 14, "lineHeight": 20, "weight": 500, "usage": "Table titles, small captions" },
+    "label-lg":    { "fontSize": 14, "lineHeight": 20, "weight": 500, "usage": "Form labels, button text" },
+    "label-md":    { "fontSize": 12, "lineHeight": 16, "weight": 500, "usage": "Helper labels, overline text" },
+    "label-sm":    { "fontSize": 11, "lineHeight": 16, "weight": 500, "usage": "Meta text, badges" },
+    "body-lg":     { "fontSize": 16, "lineHeight": 24, "weight": 400, "usage": "Primary paragraph text" },
+    "body-md":     { "fontSize": 14, "lineHeight": 20, "weight": 400, "usage": "Secondary paragraph text" },
+    "body-sm":     { "fontSize": 12, "lineHeight": 16, "weight": 400, "usage": "Fine print, captions" }
+  }
+}

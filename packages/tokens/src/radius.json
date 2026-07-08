@@ -1,0 +1,9 @@
+{
+  "_comment": "Corner radius observed in Figma component containers (~10px). Extended into a standard scale for consistency across all component sizes; confirm exact per-component values against Figma Code Connect when available.",
+  "none": { "value": 0 },
+  "sm": { "value": 4 },
+  "md": { "value": 8 },
+  "lg": { "value": 10 },
+  "xl": { "value": 16 },
+  "full": { "value": 9999 }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "@lumen/patterns",
+  "version": "0.1.0",
+  "description": "Composed, enterprise-SaaS patterns built entirely from @lumen/ui \u2014 reference implementations, not a component library. Copy and adapt; do not hand-roll a new version of these screens.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "dependencies": {
+    "@lumen/ui": "workspace:*",
+    "@lumen/tokens": "workspace:*"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "typescript": "^5.5.4",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0"
+  }
+}

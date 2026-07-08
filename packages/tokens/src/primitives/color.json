@@ -1,0 +1,269 @@
+{
+  "brand": {
+    "500": {
+      "value": "#BE003C",
+      "description": "Lumen brand red - primary brand color"
+    }
+  },
+  "neutral": {
+    "white": {
+      "value": "#FFFFFF"
+    },
+    "black-50": {
+      "value": "#EBEBEB"
+    },
+    "black-100": {
+      "value": "#D8D8D8"
+    },
+    "black-300": {
+      "value": "#8B8B8B"
+    },
+    "black-500": {
+      "value": "#3D3D3D"
+    },
+    "black-700": {
+      "value": "#141414"
+    },
+    "black": {
+      "value": "#000000"
+    }
+  },
+  "red": {
+    "50": {
+      "value": "#FEDDDB"
+    },
+    "100": {
+      "value": "#FDCBC8"
+    },
+    "300": {
+      "value": "#F8877F"
+    },
+    "500": {
+      "value": "#F44336"
+    },
+    "700": {
+      "value": "#AB2A20"
+    },
+    "900": {
+      "value": "#64100B"
+    }
+  },
+  "orange": {
+    "50": {
+      "value": "#FFE9D2"
+    },
+    "100": {
+      "value": "#FFDCBB"
+    },
+    "300": {
+      "value": "#FFAE5D"
+    },
+    "500": {
+      "value": "#FF7F00"
+    },
+    "700": {
+      "value": "#B15800"
+    },
+    "900": {
+      "value": "#633100"
+    }
+  },
+  "yellow": {
+    "50": {
+      "value": "#FFFAD2"
+    },
+    "100": {
+      "value": "#FFF7BB"
+    },
+    "300": {
+      "value": "#FFEC5D"
+    },
+    "500": {
+      "value": "#FFE100"
+    },
+    "700": {
+      "value": "#AD9800"
+    },
+    "900": {
+      "value": "#5A5000"
+    }
+  },
+  "green": {
+    "50": {
+      "value": "#DEFAD3"
+    },
+    "100": {
+      "value": "#CBF6BB"
+    },
+    "300": {
+      "value": "#82E45E"
+    },
+    "500": {
+      "value": "#38D200"
+    },
+    "700": {
+      "value": "#289300"
+    },
+    "900": {
+      "value": "#165400"
+    }
+  },
+  "teal": {
+    "50": {
+      "value": "#D5F2F2"
+    },
+    "100": {
+      "value": "#BDE6E6"
+    },
+    "300": {
+      "value": "#5FB3B3"
+    },
+    "500": {
+      "value": "#008080"
+    },
+    "700": {
+      "value": "#006060"
+    },
+    "900": {
+      "value": "#004040"
+    }
+  },
+  "cyan": {
+    "50": {
+      "value": "#D1FFFF"
+    },
+    "100": {
+      "value": "#BAFFFF"
+    },
+    "300": {
+      "value": "#5DFFFF"
+    },
+    "500": {
+      "value": "#00FFFF"
+    },
+    "700": {
+      "value": "#00ACAC"
+    },
+    "900": {
+      "value": "#005959"
+    }
+  },
+  "blue": {
+    "50": {
+      "value": "#D3DEFF"
+    },
+    "100": {
+      "value": "#BBCCFF"
+    },
+    "300": {
+      "value": "#9BB4FF"
+    },
+    "500": {
+      "value": "#0040FF"
+    },
+    "700": {
+      "value": "#002DB3"
+    },
+    "900": {
+      "value": "#001A67"
+    }
+  },
+  "light-blue": {
+    "50": {
+      "value": "#D0F5FF"
+    },
+    "100": {
+      "value": "#B9F0FF"
+    },
+    "300": {
+      "value": "#5CDCFF"
+    },
+    "500": {
+      "value": "#00C8FF"
+    },
+    "700": {
+      "value": "#0086AB"
+    },
+    "900": {
+      "value": "#004456"
+    }
+  },
+  "indigo": {
+    "50": {
+      "value": "#E6D3F2"
+    },
+    "100": {
+      "value": "#D4BBE6"
+    },
+    "300": {
+      "value": "#8F5EB4"
+    },
+    "500": {
+      "value": "#4B0082"
+    },
+    "700": {
+      "value": "#3A0064"
+    },
+    "900": {
+      "value": "#290046"
+    }
+  },
+  "purple": {
+    "50": {
+      "value": "#F0D1FF"
+    },
+    "100": {
+      "value": "#E8BAFF"
+    },
+    "300": {
+      "value": "#C95DFF"
+    },
+    "500": {
+      "value": "#AA00FF"
+    },
+    "700": {
+      "value": "#7200AC"
+    },
+    "900": {
+      "value": "#3B0058"
+    }
+  },
+  "pink": {
+    "50": {
+      "value": "#FEDAF3"
+    },
+    "100": {
+      "value": "#FEC9EC"
+    },
+    "300": {
+      "value": "#FC81D2"
+    },
+    "500": {
+      "value": "#FA3BB9"
+    },
+    "700": {
+      "value": "#AA237C"
+    },
+    "900": {
+      "value": "#5A0C3F"
+    }
+  },
+  "grey": {
+    "200": {
+      "value": "#D6D8DC",
+      "description": "Sourced from Figma (Background Colors / Table Header border)"
+    },
+    "700": {
+      "value": "#575C66",
+      "description": "Sourced from Figma (Background Colors / Table Header text)"
+    },
+    "body": {
+      "value": "#3B3E45",
+      "description": "Sourced from Figma (brand-colors/body-text)"
+    },
+    "muted": {
+      "value": "#737A87",
+      "description": "Sourced from Figma (brand-colors/grey)"
+    }
+  }
+}

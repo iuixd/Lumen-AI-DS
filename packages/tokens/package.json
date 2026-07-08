@@ -1,0 +1,19 @@
+{
+  "name": "@lumen/tokens",
+  "version": "0.1.0",
+  "description": "Lumen design tokens — single source of truth for color, typography, spacing, radius, and elevation. Generated from the Lumen-DS Figma library.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "main": "./dist/index.ts",
+  "types": "./dist/index.ts",
+  "files": ["dist", "src"],
+  "exports": {
+    ".": "./dist/index.ts",
+    "./css": "./dist/css/variables.css",
+    "./tailwind-preset": "./dist/tailwind-preset.cjs"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "clean": "rm -rf dist"
+  }
+}

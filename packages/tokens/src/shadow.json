@@ -1,0 +1,8 @@
+{
+  "_comment": "Elevation levels. Levels 1-2 sourced directly from Figma effect styles found on cards and swatches; levels 3-4 extended from the same shadow color/direction for consistency.",
+  "0": { "value": "none" },
+  "1": { "value": "0px 1px 0px 0px rgba(0,0,0,0.05)" },
+  "2": { "value": "0px 1px 12px 0px rgba(0,0,0,0.20)" },
+  "3": { "value": "0px 4px 16px 0px rgba(0,0,0,0.16)" },
+  "4": { "value": "0px 8px 32px 0px rgba(0,0,0,0.20)" }
+}
