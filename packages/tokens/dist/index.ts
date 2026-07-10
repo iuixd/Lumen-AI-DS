@@ -375,7 +375,7 @@ export const typography = {
   }
 } as const;
 export const spacing = {
-  "_comment": "Sourced from Figma 'Lumen-DS-2027' file, page 'Design Tokens' > '04 Spacing' (fileKey GJBYRm6ySR7XIECFcHMgy2, node 511:2). An 8pt grid with 2px/4px sub-steps. Keys are literal pixel values, not indices. 'layout' is a curated subset of the same scale for page/section-level rhythm; 'space' is the full scale for component-internal spacing. '5' and '120' were added later, sourced from the Button component's exact box-model values on the 'Buttons' page (node 466:4365, e.g. the xs size's 5px vertical padding and the lg size's 120px min-width) rather than the Spacing page itself. IMPORTANT: these keys are literal pixel values and collide in name with Tailwind's own default proportional spacing scale (e.g. core `h-8` means 32px) — see the TAILWIND_CORE_SPACING_KEYS guard in scripts/build.mjs. Only keys Tailwind's core scale does not already define (plus '0') are merged into the Tailwind preset; use `[var(--spacing-N)]` arbitrary-value syntax for any other key.",
+  "_comment": "Sourced from Figma 'Lumen-DS-2027' file, page 'Design Tokens' > '04 Spacing' (fileKey GJBYRm6ySR7XIECFcHMgy2, node 511:2). An 8pt grid with 2px/4px sub-steps. Keys are literal pixel values, not indices. 'layout' is a curated subset of the same scale for page/section-level rhythm; 'space' is the full scale for component-internal spacing. '5', '36', and '120' were added later, sourced from the Button component's exact box-model values on the 'Buttons' page (node 466:4365, e.g. the xs size's 5px vertical padding, the sm size's 36px height, and the lg size's 120px min-width) rather than the Spacing page itself — a `var(--spacing-N)` reference to a key that doesn't exist here resolves to nothing, silently invalidating the CSS property using it, so every arbitrary-value reference to this scale needs a real, defined key. IMPORTANT: these keys are literal pixel values and collide in name with Tailwind's own default proportional spacing scale (e.g. core `h-8` means 32px) — see the TAILWIND_CORE_SPACING_KEYS guard in scripts/build.mjs. Only keys Tailwind's core scale does not already define (plus '0') are merged into the Tailwind preset; use `[var(--spacing-N)]` arbitrary-value syntax for any other key.",
   "layout": {
     "xs": {
       "value": 8
@@ -432,6 +432,9 @@ export const spacing = {
     },
     "32": {
       "value": 32
+    },
+    "36": {
+      "value": 36
     },
     "40": {
       "value": 40

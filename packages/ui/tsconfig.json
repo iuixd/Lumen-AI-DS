@@ -4,7 +4,7 @@
     "jsx": "react-jsx",
     "outDir": "./tsc-out",
     "rootDir": "./src",
-    "types": ["@testing-library/jest-dom"]
+    "types": ["@testing-library/jest-dom", "node"]
   },
   "include": ["src"]
 }
