@@ -72,4 +72,20 @@ describe("Button", () => {
       expect(className).not.toMatch(/\bpy-\[var\(--spacing-\d+\)\]/);
     }
   );
+
+  it.each(["xs", "sm", "md", "lg"] as const)(
+    "keeps the text color class alongside the size's text-button-%s class instead of dropping one as a false conflict",
+    (size) => {
+      render(<Button size={size}>Save changes</Button>);
+      const className = screen.getByRole("button", { name: "Save changes" }).className;
+      // Without teaching tailwind-merge about the custom `button-*` font-size scale,
+      // it can't tell `text-button-md` (a font size) apart from `text-neutral-white`
+      // (a color) — both look like generic `text-<word>` values to it, so it treats
+      // them as the same "text-color" conflict group and silently drops one. That's
+      // exactly what made Primary button labels render in the default/inherited
+      // color instead of white.
+      expect(className).toMatch(new RegExp(`\\btext-button-${size}\\b`));
+      expect(className).toMatch(/\btext-neutral-white\b/);
+    }
+  );
 });
