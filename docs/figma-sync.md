@@ -44,9 +44,10 @@ confirms zero component libraries are linked to it. As a result:
 - The **shadow/elevation token tier was dropped entirely** (no shadow scale
   in the new file) — `Card`, `Modal`, and `Toast` now rely on borders instead
   of drop shadows for surface separation.
-- Icons (`packages/ui/src/icons/`) were **not** touched by this refresh —
-  they remain sourced from the old "Lumen AI - DS - base" Iconly library
-  (see "Icons" below) since the new file has no icon set of its own.
+- Icons (`packages/ui/src/icons/`) draw from **two** sources: the original
+  22-icon Iconly starter set (old "Lumen AI - DS - base" library) plus 5
+  form-control state glyphs added later from `Lumen-DS-2027`'s own "Icons"
+  page (node `432:15231`) — see "Icons" below.
 
 **Known gaps to close with design before this is fully authoritative:**
 - Dark-theme semantic color mappings in `src/semantic/color.json` are a
@@ -69,41 +70,59 @@ confirms zero component libraries are linked to it. As a result:
 
 ## Icons
 
-The Figma library bundles the Iconly set (library: "Lumen AI - DS - base",
-file `Lumen AI - DS - base`, frame "Icons"): **3 corner styles (Sharp,
-Regular, Curved) × 6 weights (Bold, Light, Outline, Broken, Bulk, Two-tone)
-× up to 125 icon names = 1,949 individual components.** Extracting all of
-these mechanically (one Figma API call per icon) is impractical — the
-supported path is a native Figma batch export by a human.
-
-**What's shipped today:** a curated 22-icon starter set, all from the
-`Sharp/Light` family (arrow-left, arrow-right, bookmark, calendar, chat,
-close-square, danger-circle, delete, download, edit, filter, heart, hide,
-home, info-square, notification, plus, profile, search, setting, show,
-tick-square) — enough to cover the nav/table/form actions the existing
-`@lumen/ui` components need. Source SVGs live in
-`packages/ui/src/icons/svg/`; generated components in
+Two Figma sources feed `packages/ui/src/icons/`, both processed by the same
+`pnpm --filter @lumen/ui icons:import` script (`packages/ui/scripts/icons-import.mjs`).
+Source SVGs live in `packages/ui/src/icons/svg/`; generated components in
 `packages/ui/src/icons/generated/` (do not hand-edit — regenerate instead).
 
-**To extend coverage:**
+**1. Iconly (legacy, "Lumen AI - DS - base" library, frame "Icons"):** 3
+corner styles (Sharp, Regular, Curved) × 6 weights (Bold, Light, Outline,
+Broken, Bulk, Two-tone) × up to 125 icon names = 1,949 individual components.
+Extracting all of these mechanically is impractical — the supported path is
+a native Figma batch export by a human. **What's shipped:** a curated
+22-icon `Sharp/Light` starter set (arrow-left, arrow-right, bookmark,
+calendar, chat, close-square, danger-circle, delete, download, edit, filter,
+heart, hide, home, info-square, notification, plus, profile, search,
+setting, show, tick-square) — enough to cover the nav/table/form actions the
+existing `@lumen/ui` components need.
 
-1. In Figma, select the icons you need under the "Icons" frame in the
-   `Lumen AI - DS - base` library file and batch-export as SVG (Export
-   panel). Name each file in kebab-case matching the icon (e.g. `Arrow -
-   Right` → `arrow-right.svg`) — the import script derives the component
-   name and registry key from the filename.
-2. Drop the exported files into `packages/ui/src/icons/svg/`.
+**2. Lumen-DS-2027's own "Icons" page** (node `432:15231`) — the current
+tokens-source file has started growing its own icon set, independent of the
+legacy Iconly library. As of now it holds 5 form-control state glyphs
+(checkbox-checked, checkbox-unchecked, checkbox-indeterminate,
+radio-selected, radio-unselected), extracted via `download_assets` (SVG
+format) per node rather than a human batch export, since there are few
+enough to pull individually. The page is a large, mostly-empty canvas — more
+icons are likely to be added over time; re-check `get_metadata` on
+`432:15231` for new symbols before assuming this list is complete.
+
+**To extend coverage from either source:**
+
+1. **Iconly:** in Figma, select the icons you need under the "Icons" frame
+   in the `Lumen AI - DS - base` library file and batch-export as SVG
+   (Export panel). Name each file in kebab-case matching the icon (e.g.
+   `Arrow - Right` → `arrow-right.svg`).
+   **Lumen-DS-2027:** find the node ID for each new icon under `432:15231`
+   (via `get_metadata`) and export it with `download_assets`
+   (`defaultFormat: "svg"`). Name the saved file in kebab-case matching what
+   the icon actually is (Figma's own layer names on this page aren't
+   descriptive — they're literally `_hidden`).
+2. Drop the exported files into `packages/ui/src/icons/svg/` — the import
+   script derives the component name and registry key from the filename.
 3. Run `pnpm --filter @lumen/ui icons:import`. This extracts the real
-   geometry out of Figma's export (which includes page-background bleed
-   from the enclosing frame — the script strips that automatically),
-   recolors fixed hex strokes/fills to `currentColor` so icons inherit
-   text color, runs SVGO, and regenerates every `{Name}Icon.tsx` component
-   plus the `index.ts` barrel and `registry.ts` name lookup.
+   geometry out of Figma's export — it recognizes both the Iconly shape
+   (`<g id="Iconly/...">`) and the Lumen-DS-2027 page-export shape
+   (`<g id="Icons"><rect bleed/><g id="...">real geometry</g></g>`), and
+   strips the page-background bleed either way — recolors fixed
+   fills/strokes (hex *or* named, e.g. `fill="black"`) to `currentColor` so
+   icons inherit text color, drops any baked-in `fill-opacity`, runs SVGO,
+   and regenerates every `{Name}Icon.tsx` component plus the `index.ts`
+   barrel and `registry.ts` name lookup.
 4. Import the specific `{Name}Icon` component directly in JSX for
    tree-shaking, or use `<Icon name="arrow-right" />` (from
    `packages/ui/src/primitives/Icon.tsx`) when the icon name is
    data-driven and not known until render.
 
-If a future icon export uses a different weight/style than `Sharp/Light`,
+If a future Iconly export uses a different weight/style than `Sharp/Light`,
 confirm with design first (do not silently mix styles within one product
 screen — see the design sign-off doc for the open items on this system).

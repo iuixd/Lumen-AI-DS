@@ -10,7 +10,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Looks up a generated Iconly icon by name — for data-driven cases where the icon isn't known until render. Prefer importing the specific `{Name}Icon` component directly when the icon is static in JSX, so bundlers can tree-shake unused icons. See docs/figma-sync.md for the full Iconly extraction workflow — this is a curated Sharp/Light starter set, not the full 1,949-icon library."
+          "Looks up a generated icon by name — for data-driven cases where the icon isn't known until render. Prefer importing the specific `{Name}Icon` component directly when the icon is static in JSX, so bundlers can tree-shake unused icons. Two sources feed this set: a curated Sharp/Light starter subset of the old Iconly library (not the full 1,949-icon set), and the form-control state glyphs (checkbox/radio) from the current Lumen-DS-2027 Figma file's 'Icons' page. See docs/figma-sync.md for the extraction workflow for both."
       }
     }
   },

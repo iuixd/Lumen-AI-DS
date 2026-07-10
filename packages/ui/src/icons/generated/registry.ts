@@ -4,6 +4,9 @@ import { ArrowRightIcon } from "./ArrowRightIcon";
 import { BookmarkIcon } from "./BookmarkIcon";
 import { CalendarIcon } from "./CalendarIcon";
 import { ChatIcon } from "./ChatIcon";
+import { CheckboxCheckedIcon } from "./CheckboxCheckedIcon";
+import { CheckboxIndeterminateIcon } from "./CheckboxIndeterminateIcon";
+import { CheckboxUncheckedIcon } from "./CheckboxUncheckedIcon";
 import { CloseSquareIcon } from "./CloseSquareIcon";
 import { DangerCircleIcon } from "./DangerCircleIcon";
 import { DeleteIcon } from "./DeleteIcon";
@@ -17,6 +20,8 @@ import { InfoSquareIcon } from "./InfoSquareIcon";
 import { NotificationIcon } from "./NotificationIcon";
 import { PlusIcon } from "./PlusIcon";
 import { ProfileIcon } from "./ProfileIcon";
+import { RadioSelectedIcon } from "./RadioSelectedIcon";
+import { RadioUnselectedIcon } from "./RadioUnselectedIcon";
 import { SearchIcon } from "./SearchIcon";
 import { SettingIcon } from "./SettingIcon";
 import { ShowIcon } from "./ShowIcon";
@@ -31,6 +36,9 @@ export const iconRegistry: Record<string, IconComponent> = {
   "bookmark": BookmarkIcon,
   "calendar": CalendarIcon,
   "chat": ChatIcon,
+  "checkbox-checked": CheckboxCheckedIcon,
+  "checkbox-indeterminate": CheckboxIndeterminateIcon,
+  "checkbox-unchecked": CheckboxUncheckedIcon,
   "close-square": CloseSquareIcon,
   "danger-circle": DangerCircleIcon,
   "delete": DeleteIcon,
@@ -44,6 +52,8 @@ export const iconRegistry: Record<string, IconComponent> = {
   "notification": NotificationIcon,
   "plus": PlusIcon,
   "profile": ProfileIcon,
+  "radio-selected": RadioSelectedIcon,
+  "radio-unselected": RadioUnselectedIcon,
   "search": SearchIcon,
   "setting": SettingIcon,
   "show": ShowIcon,

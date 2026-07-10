@@ -1,11 +1,20 @@
-// Converts raw Iconly SVGs (batch-exported from Figma, see docs/figma-sync.md
+// Converts raw SVGs batch-exported from Figma (see docs/figma-sync.md
 // "Icons") into typed React icon components.
 //
-// Input:  src/icons/svg/*.svg  — one file per icon, named in kebab-case
-//         (e.g. "arrow-right.svg" for "Iconly/Sharp/Light/Arrow - Right").
-//         Figma's export nests the real geometry inside a single
-//         <g id="Iconly/..."> group alongside page-background bleed from the
-//         enclosing frame — this script extracts just that group.
+// Input:  src/icons/svg/*.svg — one file per icon, named in kebab-case
+//         (e.g. "arrow-right.svg", "checkbox-checked.svg"). Two source
+//         shapes are supported, both a byproduct of exporting one icon node
+//         out of a much larger Figma page/frame rather than a standalone
+//         icon file:
+//           1. Legacy Iconly library exports (the old "Lumen AI - DS - base"
+//              file): real geometry lives one level deep inside a single
+//              <g id="Iconly/Sharp/Light/..."> group, alongside page-
+//              background bleed from the enclosing frame.
+//           2. Lumen-DS-2027 "Icons" page exports (download_assets, svg
+//              format): real geometry lives inside <g id="Icons"><rect .../>
+//              <g id="...">HERE</g></g> — the outer wrapper plus a giant
+//              bleed-border rect tracing the whole page's bounds.
+//         Either way this script extracts just the real geometry group.
 // Output: src/icons/generated/{PascalCase}Icon.tsx — one component per icon,
 //         plus an index.ts barrel and a name -> component registry.
 //
@@ -21,8 +30,14 @@ const here = dirname(fileURLToPath(import.meta.url));
 const svgDir = join(here, "../src/icons/svg");
 const outDir = join(here, "../src/icons/generated");
 
-const ICON_GROUP_RE = /<g[^>]*id="Iconly\/[^"]*"[^>]*>([\s\S]*?)<\/g>/;
-const FIXED_COLOR_RE = /(fill|stroke)="#[0-9a-fA-F]{3,8}"/g;
+const ICONLY_GROUP_RE = /<g[^>]*id="Iconly\/[^"]*"[^>]*>([\s\S]*?)<\/g>/;
+const PAGE_EXPORT_GROUP_RE = /<g[^>]*id="Icons"[^>]*>[\s\S]*?<g[^>]*>([\s\S]*?)<\/g>\s*<\/g>/;
+// Matches any fixed fill/stroke value, not just hex — Figma sometimes exports
+// named colors (fill="black") instead of hex, and those need recoloring too
+// or they slip through untouched (and can get minified to a hex code like
+// "#000" by the SVGO pass below, which then looks like a legitimate color).
+const FIXED_COLOR_RE = /(fill|stroke)="(?!none"|currentColor")[^"]*"/g;
+const FIXED_OPACITY_RE = /\s*fill-opacity="[^"]*"/g;
 
 function toPascalCase(kebab) {
   return kebab
@@ -32,16 +47,15 @@ function toPascalCase(kebab) {
 }
 
 function extractIconGroup(rawSvg, fileName) {
-  const match = rawSvg.match(ICON_GROUP_RE);
+  const match = rawSvg.match(ICONLY_GROUP_RE) ?? rawSvg.match(PAGE_EXPORT_GROUP_RE);
   if (!match) {
     throw new Error(
-      `${fileName}: couldn't find a <g id="Iconly/..."> group. This script assumes ` +
-        `Figma's export nests real geometry one level deep inside that group with no ` +
-        `further nested <g> elements — inspect the raw export and adjust ICON_GROUP_RE ` +
-        `if the icon set's structure differs.`
+      `${fileName}: couldn't find a recognized icon geometry group (neither ` +
+        `<g id="Iconly/..."> nor the <g id="Icons"><g>...</g></g> page-export shape). ` +
+        `Inspect the raw export and adjust icons-import.mjs if the source shape differs.`
     );
   }
-  return match[1].replace(FIXED_COLOR_RE, '$1="currentColor"');
+  return match[1].replace(FIXED_OPACITY_RE, "").replace(FIXED_COLOR_RE, '$1="currentColor"');
 }
 
 async function buildIconSvg(innerMarkup) {
