@@ -23,7 +23,7 @@ const config: StorybookConfig = {
   },
   managerHead: (head) => `${head}
     <style>
-      img[src="/lumen-ds-logo.svg"] {
+      img[src="./lumen-ds-logo.svg"] {
         display: block;
         width: auto;
         height: 40px;

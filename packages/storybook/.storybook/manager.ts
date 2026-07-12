@@ -8,8 +8,8 @@ addons.setConfig({
   theme: create({
     base: "light",
     brandTitle: "Lumen Design System",
-    brandImage: "/lumen-ds-logo.svg",
-    brandUrl: "/",
+    brandImage: "./lumen-ds-logo.svg",
+    brandUrl: "./",
     brandTarget: "_self",
     colorSecondary: "#0096B7",
     // Sidebar.tsx uses `theme.background.app` (this key) exclusively for

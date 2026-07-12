@@ -41,6 +41,15 @@ Use the following headings for every release:
 ### Deprecated
 ### Removed
 ### Fixed
+
+- Fixed the Lumen logo URL in the published Storybook manager.
+  - Source: production Storybook at `/Lumen-DS/`; no Figma node is involved
+  - Previous: the logo and brand link used domain-root URLs, causing GitHub Pages to request `/lumen-ds-logo.svg` outside the repository deployment path
+  - Current: the logo and brand link use relative URLs that resolve correctly for local Storybook and the `/Lumen-DS/` production base path
+  - Affects: `packages/storybook/.storybook/manager.ts`, `packages/storybook/.storybook/main.ts`, and the Storybook navigation brand
+  - Migration: none
+  - Validation: lint, typecheck, and production Storybook build passed; generated manager bundle uses `./lumen-ds-logo.svg`; deployed URL verification pending
+  - Changeset: none (`@lumen/storybook` is private and no published package API changed)
 ### Migration
 ### Validation
 ```
