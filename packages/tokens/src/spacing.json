@@ -1,5 +1,5 @@
 {
-  "_comment": "Sourced from Figma 'Lumen-DS-2027' file, page 'Design Tokens' > '04 Spacing' (fileKey GJBYRm6ySR7XIECFcHMgy2, node 511:2). An 8pt grid with 2px/4px sub-steps. Keys are literal pixel values, not indices. 'layout' is a curated subset of the same scale for page/section-level rhythm; 'space' is the full scale for component-internal spacing. '5', '36', and '120' were added later, sourced from the Button component's exact box-model values on the 'Buttons' page (node 466:4365, e.g. the xs size's 5px vertical padding, the sm size's 36px height, and the lg size's 120px min-width) rather than the Spacing page itself — a `var(--spacing-N)` reference to a key that doesn't exist here resolves to nothing, silently invalidating the CSS property using it, so every arbitrary-value reference to this scale needs a real, defined key. IMPORTANT: these keys are literal pixel values and collide in name with Tailwind's own default proportional spacing scale (e.g. core `h-8` means 32px) — see the TAILWIND_CORE_SPACING_KEYS guard in scripts/build.mjs. Only keys Tailwind's core scale does not already define (plus '0') are merged into the Tailwind preset; use `[var(--spacing-N)]` arbitrary-value syntax for any other key.",
+  "_comment": "Sourced from Figma 'Lumen-DS-2027' file, page 'Design Tokens' > '04 Spacing' (fileKey GJBYRm6ySR7XIECFcHMgy2, node 511:2). An 8pt grid with 2px/4px sub-steps. Keys are literal pixel values, not indices. 'layout' is a curated subset of the same scale for page/section-level rhythm; 'space' is the full scale for component-internal spacing. '5', '36', and '120' were added later, sourced from the Button component's exact box-model values on the 'Buttons' page (node 466:4365, e.g. the xs size's 5px vertical padding, the sm size's 36px height, and the lg size's 120px min-width) rather than the Spacing page itself. '14' and '18' were added the same way, sourced from the Buttons page's Left/Right icon-position instances (node 475:7210, e.g. 658:751/658:607/658:535 — the icon glyph is 14px square at Button size xs, 16px at sm (already covered by the existing '16' key), and 18px at both md and lg) — a `var(--spacing-N)` reference to a key that doesn't exist here resolves to nothing, silently invalidating the CSS property using it, so every arbitrary-value reference to this scale needs a real, defined key. IMPORTANT: these keys are literal pixel values and collide in name with Tailwind's own default proportional spacing scale (e.g. core `h-8` means 32px) — see the TAILWIND_CORE_SPACING_KEYS guard in scripts/build.mjs. Only keys Tailwind's core scale does not already define (plus '0') are merged into the Tailwind preset; use `[var(--spacing-N)]` arbitrary-value syntax for any other key.",
   "layout": {
     "xs": { "value": 8 },
     "sm": { "value": 16 },
@@ -16,7 +16,9 @@
     "8":   { "value": 8 },
     "10":  { "value": 10 },
     "12":  { "value": 12 },
+    "14":  { "value": 14 },
     "16":  { "value": 16 },
+    "18":  { "value": 18 },
     "20":  { "value": 20 },
     "24":  { "value": 24 },
     "28":  { "value": 28 },

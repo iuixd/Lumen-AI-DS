@@ -19,7 +19,7 @@
     "label-sm":    { "fontSize": 11, "lineHeight": 16, "weight": 600, "usage": "Meta text, badges (Figma Label sm)" },
     "body-lg":     { "fontSize": 20, "lineHeight": 32, "weight": 400, "usage": "Primary paragraph text (Figma Body lg)" },
     "body-md":     { "fontSize": 16, "lineHeight": 26, "weight": 400, "usage": "Secondary paragraph text (Figma Body md)" },
-    "body-sm":     { "fontSize": 14, "lineHeight": 22, "weight": 400, "usage": "Fine print, captions (Figma Body sm)" },
+    "body-sm":     { "fontSize": 16, "lineHeight": 24, "weight": 400, "usage": "Fine print, captions (Figma Body sm)" },
     "body-xs":     { "fontSize": 12, "lineHeight": 20, "weight": 400, "usage": "Smallest body text (Figma Body xs)" },
     "overline":    { "fontSize": 11, "lineHeight": 16, "weight": 600, "usage": "Section category eyebrow text — pair with `uppercase tracking-wide` (Figma Overline)" },
     "caption":     { "fontSize": 11, "lineHeight": 18, "weight": 400, "usage": "Image/table captions (Figma Caption)" },

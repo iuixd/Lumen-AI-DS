@@ -1,5 +1,5 @@
 {
-  "_comment": "Sourced from Figma 'Lumen-DS-2027' file, page 'Design Tokens' > '01 Colors' (fileKey GJBYRm6ySR7XIECFcHMgy2, node 426:4396). Every family uses a 9-step ramp: 50/100/200/300/400/500/600/700/800, where 500 is the Figma 'Default' step. Read swatch fill colors, not the printed hex labels — several 'Default' rows in the source file have mislabeled caption text (a copy/paste artifact) though the swatches themselves render correctly.",
+  "_comment": "Sourced from Figma 'Lumen-DS-2027' file, page 'Design Tokens' > '01 Colors' (fileKey GJBYRm6ySR7XIECFcHMgy2, node 426:4396). Every family uses a 9-step ramp: 50/100/200/300/400/500/600/700/800, where 500 is the Figma 'Default' step. Read swatch fill colors, not the printed hex labels — several 'Default' rows in the source file have mislabeled caption text (a copy/paste artifact) though the swatches themselves render correctly. 'cobalt', 'japonica', 'deep-purple', and 'forest' were added from a later Figma Variables publish (get_variable_defs on node 426:4396) alongside the originally-documented 14 families — verified via the Variables export rather than canvas swatches, each a full 50-800 ramp matching this same step convention. That same publish also exposed 'Gray'/'Foundation' variable collections that duplicate 'neutral' step-for-step and a 'Lumen Crimson' collection duplicating 'primary' step-for-step — those are unresolved naming collisions (not value conflicts) pending a canonical-name decision, not reflected here.",
   "neutral": {
     "white": { "value": "#FFFFFF" },
     "black": { "value": "#000000" },
@@ -14,7 +14,7 @@
     "800": { "value": "#262626" }
   },
   "primary": {
-    "_comment": "This is also the brand ramp — primary.500 (#BE003C) is the Lumen brand color, shown separately as 'Brand Color' in the source file.",
+    "_comment": "This is also the brand ramp — primary.500 (#BE003C) is the Lumen brand color, shown separately as 'Brand Color' in the source file. The 9-step 50-800 ramp is from the Colors page; primary.900 (#310010) isn't part of that documented ramp — it's read directly off the Buttons page's own Primary/Raised/Icon-only 'Active' instance fills (node 475:7210), a step darker than 800, so it's kept here rather than invented as an extrapolation.",
     "50": { "value": "#F9E6EC" },
     "100": { "value": "#F2CCD8" },
     "200": { "value": "#E599B1" },
@@ -23,7 +23,8 @@
     "500": { "value": "#BE003C" },
     "600": { "value": "#980030" },
     "700": { "value": "#720024" },
-    "800": { "value": "#4C0018" }
+    "800": { "value": "#4C0018" },
+    "900": { "value": "#310010" }
   },
   "lumen-gray": {
     "50": { "value": "#F6F8F8" },
@@ -156,5 +157,49 @@
     "600": { "value": "#8AC602" },
     "700": { "value": "#689501" },
     "800": { "value": "#456301" }
+  },
+  "cobalt": {
+    "50": { "value": "#EBF1FF" },
+    "100": { "value": "#E3EEFF" },
+    "200": { "value": "#99BCEF" },
+    "300": { "value": "#669AE8" },
+    "400": { "value": "#3379E0" },
+    "500": { "value": "#0057D8" },
+    "600": { "value": "#0046AF" },
+    "700": { "value": "#003A8C" },
+    "800": { "value": "#002356" }
+  },
+  "japonica": {
+    "50": { "value": "#FCF2EF" },
+    "100": { "value": "#F7E4DD" },
+    "200": { "value": "#F0C9BC" },
+    "300": { "value": "#E8AD9A" },
+    "400": { "value": "#E19279" },
+    "500": { "value": "#D97757" },
+    "600": { "value": "#AE5F46" },
+    "700": { "value": "#824734" },
+    "800": { "value": "#573023" }
+  },
+  "deep-purple": {
+    "50": { "value": "#F0EBF9" },
+    "100": { "value": "#EDE7F6" },
+    "200": { "value": "#BFAEE0" },
+    "300": { "value": "#9E86D0" },
+    "400": { "value": "#7E5DC1" },
+    "500": { "value": "#5E35B1" },
+    "600": { "value": "#4527A0" },
+    "700": { "value": "#311B92" },
+    "800": { "value": "#261547" }
+  },
+  "forest": {
+    "50": { "value": "#E8F5EF" },
+    "100": { "value": "#E3F5EC" },
+    "200": { "value": "#99CAB1" },
+    "300": { "value": "#66AF8B" },
+    "400": { "value": "#339564" },
+    "500": { "value": "#007A3D" },
+    "600": { "value": "#005E2E" },
+    "700": { "value": "#004723" },
+    "800": { "value": "#003118" }
   }
 }

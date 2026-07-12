@@ -20,6 +20,7 @@ export const colorPrimitives = {
   "primary.600": "#980030",
   "primary.700": "#720024",
   "primary.800": "#4C0018",
+  "primary.900": "#310010",
   "lumen-gray.50": "#F6F8F8",
   "lumen-gray.100": "#EDF0F1",
   "lumen-gray.200": "#DBE1E2",
@@ -127,10 +128,46 @@ export const colorPrimitives = {
   "lemon-green.500": "#ADF802",
   "lemon-green.600": "#8AC602",
   "lemon-green.700": "#689501",
-  "lemon-green.800": "#456301"
+  "lemon-green.800": "#456301",
+  "cobalt.50": "#EBF1FF",
+  "cobalt.100": "#E3EEFF",
+  "cobalt.200": "#99BCEF",
+  "cobalt.300": "#669AE8",
+  "cobalt.400": "#3379E0",
+  "cobalt.500": "#0057D8",
+  "cobalt.600": "#0046AF",
+  "cobalt.700": "#003A8C",
+  "cobalt.800": "#002356",
+  "japonica.50": "#FCF2EF",
+  "japonica.100": "#F7E4DD",
+  "japonica.200": "#F0C9BC",
+  "japonica.300": "#E8AD9A",
+  "japonica.400": "#E19279",
+  "japonica.500": "#D97757",
+  "japonica.600": "#AE5F46",
+  "japonica.700": "#824734",
+  "japonica.800": "#573023",
+  "deep-purple.50": "#F0EBF9",
+  "deep-purple.100": "#EDE7F6",
+  "deep-purple.200": "#BFAEE0",
+  "deep-purple.300": "#9E86D0",
+  "deep-purple.400": "#7E5DC1",
+  "deep-purple.500": "#5E35B1",
+  "deep-purple.600": "#4527A0",
+  "deep-purple.700": "#311B92",
+  "deep-purple.800": "#261547",
+  "forest.50": "#E8F5EF",
+  "forest.100": "#E3F5EC",
+  "forest.200": "#99CAB1",
+  "forest.300": "#66AF8B",
+  "forest.400": "#339564",
+  "forest.500": "#007A3D",
+  "forest.600": "#005E2E",
+  "forest.700": "#004723",
+  "forest.800": "#003118"
 } as const;
 export const semanticColor = {
-  "_comment": "Semantic tokens reference primitives by dot-path. Consumed by scripts/build.mjs to emit CSS variables that swap by [data-theme]. The Figma source (Lumen-DS-2027) defines only one mode per variable collection — there is no Figma-authored dark theme. The 'dark' block below is a manual, documented mapping onto the same primitive ramps, carried over from the previous system. light.brand.hover/pressed are sourced from the actual Primary-button Hover/Active instance fills on the 'Buttons' page (node 466:4365) — trust those over the page's '04 Design Tokens' documentation table, which has a stale/mismatched hover value (a copy-paste artifact, same pattern seen on the Colors page).",
+  "_comment": "Semantic tokens reference primitives by dot-path. Consumed by scripts/build.mjs to emit CSS variables that swap by [data-theme]. The Figma source (Lumen-DS-2027) defines only one mode per variable collection — there is no Figma-authored dark theme. The 'dark' block below is a manual, documented mapping onto the same primitive ramps, carried over from the previous system. light.brand.hover/pressed are sourced from the actual Primary-button Hover/Active instance fills on the 'Buttons' page (node 475:7210, formerly 466:4365) — trust those over the page's '04 Design Tokens' documentation table, which has a stale/mismatched hover value (a copy-paste artifact, same pattern seen on the Colors page). light.brand.pressed was updated again when that page's own instances were updated: the real Active fill is primary.900 (#310010), one step darker than the primary.800 previously read — see primitives/color.json's note on primary.900. light.brand.border/subtle-pressed are new tokens sourced from that same refresh (button border color at rest, and outlined/text-button active-state fill). dark.brand.border/subtle-pressed have no Figma source (same caveat as the rest of the dark block) — mirrored onto the ramp by position rather than invented outright: border sits one step lighter than dark's subtle, same relative distance light.border sits darker than light.subtle.",
   "light": {
     "background": {
       "default": "neutral.white",
@@ -154,8 +191,10 @@ export const semanticColor = {
     "brand": {
       "default": "primary.500",
       "hover": "primary.700",
-      "pressed": "primary.800",
-      "subtle": "primary.50"
+      "pressed": "primary.900",
+      "subtle": "primary.50",
+      "subtle-pressed": "primary.100",
+      "border": "primary.100"
     },
     "status": {
       "success": "green.500",
@@ -192,7 +231,9 @@ export const semanticColor = {
       "default": "primary.300",
       "hover": "primary.100",
       "pressed": "primary.50",
-      "subtle": "primary.800"
+      "subtle": "primary.800",
+      "subtle-pressed": "primary.600",
+      "border": "primary.700"
     },
     "status": {
       "success": "green.300",
@@ -313,8 +354,8 @@ export const typography = {
       "usage": "Secondary paragraph text (Figma Body md)"
     },
     "body-sm": {
-      "fontSize": 14,
-      "lineHeight": 22,
+      "fontSize": 16,
+      "lineHeight": 24,
       "weight": 400,
       "usage": "Fine print, captions (Figma Body sm)"
     },
@@ -375,7 +416,7 @@ export const typography = {
   }
 } as const;
 export const spacing = {
-  "_comment": "Sourced from Figma 'Lumen-DS-2027' file, page 'Design Tokens' > '04 Spacing' (fileKey GJBYRm6ySR7XIECFcHMgy2, node 511:2). An 8pt grid with 2px/4px sub-steps. Keys are literal pixel values, not indices. 'layout' is a curated subset of the same scale for page/section-level rhythm; 'space' is the full scale for component-internal spacing. '5', '36', and '120' were added later, sourced from the Button component's exact box-model values on the 'Buttons' page (node 466:4365, e.g. the xs size's 5px vertical padding, the sm size's 36px height, and the lg size's 120px min-width) rather than the Spacing page itself — a `var(--spacing-N)` reference to a key that doesn't exist here resolves to nothing, silently invalidating the CSS property using it, so every arbitrary-value reference to this scale needs a real, defined key. IMPORTANT: these keys are literal pixel values and collide in name with Tailwind's own default proportional spacing scale (e.g. core `h-8` means 32px) — see the TAILWIND_CORE_SPACING_KEYS guard in scripts/build.mjs. Only keys Tailwind's core scale does not already define (plus '0') are merged into the Tailwind preset; use `[var(--spacing-N)]` arbitrary-value syntax for any other key.",
+  "_comment": "Sourced from Figma 'Lumen-DS-2027' file, page 'Design Tokens' > '04 Spacing' (fileKey GJBYRm6ySR7XIECFcHMgy2, node 511:2). An 8pt grid with 2px/4px sub-steps. Keys are literal pixel values, not indices. 'layout' is a curated subset of the same scale for page/section-level rhythm; 'space' is the full scale for component-internal spacing. '5', '36', and '120' were added later, sourced from the Button component's exact box-model values on the 'Buttons' page (node 466:4365, e.g. the xs size's 5px vertical padding, the sm size's 36px height, and the lg size's 120px min-width) rather than the Spacing page itself. '14' and '18' were added the same way, sourced from the Buttons page's Left/Right icon-position instances (node 475:7210, e.g. 658:751/658:607/658:535 — the icon glyph is 14px square at Button size xs, 16px at sm (already covered by the existing '16' key), and 18px at both md and lg) — a `var(--spacing-N)` reference to a key that doesn't exist here resolves to nothing, silently invalidating the CSS property using it, so every arbitrary-value reference to this scale needs a real, defined key. IMPORTANT: these keys are literal pixel values and collide in name with Tailwind's own default proportional spacing scale (e.g. core `h-8` means 32px) — see the TAILWIND_CORE_SPACING_KEYS guard in scripts/build.mjs. Only keys Tailwind's core scale does not already define (plus '0') are merged into the Tailwind preset; use `[var(--spacing-N)]` arbitrary-value syntax for any other key.",
   "layout": {
     "xs": {
       "value": 8
@@ -418,8 +459,14 @@ export const spacing = {
     "12": {
       "value": 12
     },
+    "14": {
+      "value": 14
+    },
     "16": {
       "value": 16
+    },
+    "18": {
+      "value": 18
     },
     "20": {
       "value": 20
@@ -490,6 +537,40 @@ export const radius = {
   },
   "full": {
     "value": 9999
+  }
+} as const;
+export const shadow = {
+  "_comment": "Elevation/shadow tier — previously undefined in this token set (see docs/figma-sync.md's former 'known gap'). Sourced fresh from the Buttons page (Lumen-DS-2027, node 475:7210)'s 'Raised' button type, the first real component in this file to use elevation. Each 'button' value is a two-layer drop-shadow (a soft ambient layer + a directional layer) read directly off that state's real Figma fill, not extrapolated. 'button.pressed-inset' is a separate inset shadow used by the flat (non-elevated) Primary/Icon-only types specifically on their Active state, to convey a pressed effect without giving them permanent elevation.",
+  "button": {
+    "default": {
+      "value": "0px 0px 1.5px rgba(0,0,0,0.16), 0px 2px 2px rgba(0,0,0,0.26)"
+    },
+    "hover": {
+      "value": "0px 0px 2.5px rgba(0,0,0,0.16), 0px 4px 4px rgba(0,0,0,0.32)"
+    },
+    "active": {
+      "value": "0px 0px 1px rgba(0,0,0,0.16), 0px 1px 1px rgba(0,0,0,0.18)"
+    },
+    "disabled": {
+      "value": "0px 1px 1px rgba(0,0,0,0.12)"
+    },
+    "pressed-inset": {
+      "value": "inset 0px 2px 4px rgba(0,0,0,0.18)"
+    }
+  }
+} as const;
+export const divider = {
+  "_comment": "Translucent divider colors, sourced from the Buttons page's Split Button (Lumen-DS-2027, node 555:300) — the `--button/separator*` variables between a Split Button's main and dropdown segments. Stored as raw rgba values rather than primitive references (like shadow.json) because Tailwind's opacity modifier (`bg-x/30`) can't blend a custom color that's itself a CSS-variable reference — it silently produces no rule at all rather than an error, so a real token beats trying to force that utility to work.",
+  "button": {
+    "primary": {
+      "value": "rgba(255, 255, 255, 0.3)"
+    },
+    "secondary": {
+      "value": "rgba(190, 0, 60, 0.3)"
+    },
+    "disabled": {
+      "value": "rgba(127, 127, 127, 0.3)"
+    }
   }
 } as const;
 

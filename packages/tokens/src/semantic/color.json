@@ -1,5 +1,5 @@
 {
-  "_comment": "Semantic tokens reference primitives by dot-path. Consumed by scripts/build.mjs to emit CSS variables that swap by [data-theme]. The Figma source (Lumen-DS-2027) defines only one mode per variable collection — there is no Figma-authored dark theme. The 'dark' block below is a manual, documented mapping onto the same primitive ramps, carried over from the previous system. light.brand.hover/pressed are sourced from the actual Primary-button Hover/Active instance fills on the 'Buttons' page (node 466:4365) — trust those over the page's '04 Design Tokens' documentation table, which has a stale/mismatched hover value (a copy-paste artifact, same pattern seen on the Colors page).",
+  "_comment": "Semantic tokens reference primitives by dot-path. Consumed by scripts/build.mjs to emit CSS variables that swap by [data-theme]. The Figma source (Lumen-DS-2027) defines only one mode per variable collection — there is no Figma-authored dark theme. The 'dark' block below is a manual, documented mapping onto the same primitive ramps, carried over from the previous system. light.brand.hover/pressed are sourced from the actual Primary-button Hover/Active instance fills on the 'Buttons' page (node 475:7210, formerly 466:4365) — trust those over the page's '04 Design Tokens' documentation table, which has a stale/mismatched hover value (a copy-paste artifact, same pattern seen on the Colors page). light.brand.pressed was updated again when that page's own instances were updated: the real Active fill is primary.900 (#310010), one step darker than the primary.800 previously read — see primitives/color.json's note on primary.900. light.brand.border/subtle-pressed are new tokens sourced from that same refresh (button border color at rest, and outlined/text-button active-state fill). dark.brand.border/subtle-pressed have no Figma source (same caveat as the rest of the dark block) — mirrored onto the ramp by position rather than invented outright: border sits one step lighter than dark's subtle, same relative distance light.border sits darker than light.subtle.",
   "light": {
     "background": {
       "default": "neutral.white",
@@ -23,8 +23,10 @@
     "brand": {
       "default": "primary.500",
       "hover": "primary.700",
-      "pressed": "primary.800",
-      "subtle": "primary.50"
+      "pressed": "primary.900",
+      "subtle": "primary.50",
+      "subtle-pressed": "primary.100",
+      "border": "primary.100"
     },
     "status": {
       "success": "green.500",
@@ -61,7 +63,9 @@
       "default": "primary.300",
       "hover": "primary.100",
       "pressed": "primary.50",
-      "subtle": "primary.800"
+      "subtle": "primary.800",
+      "subtle-pressed": "primary.600",
+      "border": "primary.700"
     },
     "status": {
       "success": "green.300",

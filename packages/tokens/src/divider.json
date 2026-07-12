@@ -1,0 +1,8 @@
+{
+  "_comment": "Translucent divider colors, sourced from the Buttons page's Split Button (Lumen-DS-2027, node 555:300) — the `--button/separator*` variables between a Split Button's main and dropdown segments. Stored as raw rgba values rather than primitive references (like shadow.json) because Tailwind's opacity modifier (`bg-x/30`) can't blend a custom color that's itself a CSS-variable reference — it silently produces no rule at all rather than an error, so a real token beats trying to force that utility to work.",
+  "button": {
+    "primary": { "value": "rgba(255, 255, 255, 0.3)" },
+    "secondary": { "value": "rgba(190, 0, 60, 0.3)" },
+    "disabled": { "value": "rgba(127, 127, 127, 0.3)" }
+  }
+}

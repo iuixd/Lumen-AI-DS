@@ -17,6 +17,8 @@ const semanticColor = JSON.parse(readFileSync(path.join(srcDir, "semantic/color.
 const typography = JSON.parse(readFileSync(path.join(srcDir, "typography.json"), "utf8"));
 const spacing = JSON.parse(readFileSync(path.join(srcDir, "spacing.json"), "utf8"));
 const radius = JSON.parse(readFileSync(path.join(srcDir, "radius.json"), "utf8"));
+const shadow = JSON.parse(readFileSync(path.join(srcDir, "shadow.json"), "utf8"));
+const divider = JSON.parse(readFileSync(path.join(srcDir, "divider.json"), "utf8"));
 
 function kebab(str) {
   return String(str).replace(/[._]/g, "-");
@@ -60,6 +62,20 @@ css += "\n  /* radius */\n";
 for (const [key, val] of Object.entries(radius)) {
   if (key.startsWith("_")) continue;
   css += `  --radius-${key}: ${val.value}px;\n`;
+}
+css += "\n  /* shadow (elevation) */\n";
+for (const [group, groupTokens] of Object.entries(shadow)) {
+  if (group.startsWith("_")) continue;
+  for (const [name, val] of Object.entries(groupTokens)) {
+    css += `  --shadow-${group}-${kebab(name)}: ${val.value};\n`;
+  }
+}
+css += "\n  /* divider (translucent, raw rgba — see divider.json) */\n";
+for (const [group, groupTokens] of Object.entries(divider)) {
+  if (group.startsWith("_")) continue;
+  for (const [name, val] of Object.entries(groupTokens)) {
+    css += `  --divider-${group}-${kebab(name)}: ${val.value};\n`;
+  }
 }
 css += "\n  /* typography */\n";
 css += `  --font-sans: ${typography.fontFamily.sans.value.map((f) => (f.includes(" ") ? `"${f}"` : f)).join(", ")};\n`;
@@ -170,6 +186,8 @@ export const semanticColor = ${JSON.stringify(semanticColor, null, 2)} as const;
 export const typography = ${JSON.stringify(typography, null, 2)} as const;
 export const spacing = ${JSON.stringify(spacing, null, 2)} as const;
 export const radius = ${JSON.stringify(radius, null, 2)} as const;
+export const shadow = ${JSON.stringify(shadow, null, 2)} as const;
+export const divider = ${JSON.stringify(divider, null, 2)} as const;
 
 export type ColorPrimitive = keyof typeof colorPrimitives;
 export type SpacingLayoutKey = keyof typeof spacing.layout;

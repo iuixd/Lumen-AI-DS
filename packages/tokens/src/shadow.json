@@ -1,0 +1,10 @@
+{
+  "_comment": "Elevation/shadow tier — previously undefined in this token set (see docs/figma-sync.md's former 'known gap'). Sourced fresh from the Buttons page (Lumen-DS-2027, node 475:7210)'s 'Raised' button type, the first real component in this file to use elevation. Each 'button' value is a two-layer drop-shadow (a soft ambient layer + a directional layer) read directly off that state's real Figma fill, not extrapolated. 'button.pressed-inset' is a separate inset shadow used by the flat (non-elevated) Primary/Icon-only types specifically on their Active state, to convey a pressed effect without giving them permanent elevation.",
+  "button": {
+    "default": { "value": "0px 0px 1.5px rgba(0,0,0,0.16), 0px 2px 2px rgba(0,0,0,0.26)" },
+    "hover": { "value": "0px 0px 2.5px rgba(0,0,0,0.16), 0px 4px 4px rgba(0,0,0,0.32)" },
+    "active": { "value": "0px 0px 1px rgba(0,0,0,0.16), 0px 1px 1px rgba(0,0,0,0.18)" },
+    "disabled": { "value": "0px 1px 1px rgba(0,0,0,0.12)" },
+    "pressed-inset": { "value": "inset 0px 2px 4px rgba(0,0,0,0.18)" }
+  }
+}
