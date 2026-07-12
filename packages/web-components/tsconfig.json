@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false,
+    "outDir": "./tsc-out",
+    "rootDir": "./src",
+    "types": ["node"]
+  },
+  "include": ["src"]
+}

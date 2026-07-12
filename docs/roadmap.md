@@ -1218,29 +1218,41 @@ Support React, Angular, Vue, and future frameworks without treating any single f
 ## Status
 
 ```text
-Not started — docs decoupled from React as of 2026-07-12; no non-React package exists yet
+In progress — Web Components proof of concept shipped (Button only) as of 2026-07-12.
+Surfaced a real docs/implementation discrepancy in the process; see Findings below.
 ```
 
 ## Sequencing
 
-This phase depends on Phases 0–8 (governance, foundations, primitive/composite libraries, Storybook) reaching a stable state in the React reference implementation first. Adding framework packages before the contract itself is stable multiplies the cost of every subsequent Figma-sourced change.
+This phase depends on Phases 0–8 (governance, foundations, primitive/composite libraries, Storybook) reaching a stable state in the React reference implementation first. Adding framework packages before the contract itself is stable multiplies the cost of every subsequent Figma-sourced change. The Web Components proof of concept was built ahead of that sequencing being fully satisfied, deliberately scoped to one component (Button) to keep the exception small.
 
 ## Deliverables
 
 - [x] Decouple `docs/component-architecture.md` and `docs/component-specifications.md` from React so the component contract is framework-neutral and React is documented as the current reference implementation, not the definition.
-- [ ] Build one additional framework package as a proof of concept: Web Components (chosen over Angular/Vue first because custom elements are natively consumable from both, reducing the total number of adapters ultimately needed, and validate the contract without committing to one framework's idioms).
-- [ ] Validate that the Web Components package can implement the existing Button specification (§5 of `docs/component-specifications.md`) without requiring spec changes.
-- [ ] Decide Storybook strategy for multiple frameworks (separate Storybook instance per framework package vs. one canonical live-example framework with contract-only docs for the rest).
+- [x] Build one additional framework package as a proof of concept: Web Components (chosen over Angular/Vue first because custom elements are natively consumable from both, reducing the total number of adapters ultimately needed, and validate the contract without committing to one framework's idioms). Shipped as `@lumen/web-components`, Button only, built with Lit. See `packages/web-components/README.md`.
+- [x] Attempt to validate that the Web Components package can implement the existing Button specification (§5 of `docs/component-specifications.md`) without requiring spec changes — **result: it could not**, because the spec itself doesn't match the real React implementation. See Findings below.
+- [ ] Decide Storybook strategy for multiple frameworks (separate Storybook instance per framework package vs. one canonical live-example framework with contract-only docs for the rest). Deliberately deferred — out of scope for a one-component proof of concept.
 - [ ] Update `docs/versioning-and-releases.md` so each framework package versions against a shared contract version rather than independently.
 - [ ] Build the Angular framework package.
 - [ ] Build the Vue framework package.
 - [ ] Add a "Framework" column/section to every component specification's Code mapping once more than one framework package exists.
+- [ ] Reconcile `docs/component-specifications.md` §5 (Button) against the real `Button.tsx`/`Button.stories.tsx`/`Button.test.tsx` — see Findings.
+
+## Findings
+
+Building the Web Components Button surfaced that `docs/component-specifications.md` §5 does not match what `@lumen/ui`'s `Button.tsx` actually ships:
+
+- Docs list variants `primary | secondary | tertiary | ghost | link | danger | ai`. The real component ships `primary | raised | secondary | tertiary | link` — no `ghost`/`danger`/`ai`, and has `raised` instead.
+- Docs list a `fullWidth` property that the real component doesn't implement.
+- Docs name icon props `leadingIcon`/`trailingIcon`; the real component uses `iconStart`/`iconEnd`, plus undocumented `iconOnly` and `pill` modifiers.
+
+`@lumen/web-components`'s Button was built to match the real React implementation, not the docs — matching neither would have defeated the point of a cross-framework consistency check. This means the Phase 13 exit criterion below ("without requiring spec changes") technically failed for the reason that matters: the spec was already wrong before this phase started, independent of multi-framework work. Reconciling `docs/component-specifications.md` against real component source is a separate, scoped documentation-accuracy task, not done as part of this phase.
 
 ## Exit criteria
 
-- at least one non-React framework package ships a component that conforms to an existing, unmodified component specification
-- the component contract in `docs/component-specifications.md` requires no React-specific language to be understood or implemented by a new framework package
-- Storybook (or its documented equivalent) covers every shipped framework package
-- release process versions framework packages against the shared contract without silent drift
+- [x] at least one non-React framework package ships a component that conforms to the real, shipped component behavior — met, against `Button.tsx`, not against the (currently inaccurate) written specification
+- [ ] the component contract in `docs/component-specifications.md` requires no React-specific language to be understood or implemented by a new framework package — the *language* is framework-neutral (see the earlier decoupling pass), but the Button section's actual *content* is inaccurate; not fully met until the reconciliation above happens
+- [ ] Storybook (or its documented equivalent) covers every shipped framework package — deferred, see Deliverables
+- [ ] release process versions framework packages against the shared contract without silent drift — not yet addressed
 
-Do not begin building additional framework packages until the docs-only decoupling above is confirmed sufficient — see `docs/changelog.md` for the authorized scope of this phase's current increment.
+Do not begin building the Angular or Vue framework packages until the `docs/component-specifications.md` reconciliation above is done — building against a spec that's already known to be wrong for one component risks repeating the same discrepancy across every component two more times.

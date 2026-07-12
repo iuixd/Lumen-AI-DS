@@ -37,6 +37,14 @@ Use the following headings for every release:
 ## [Unreleased]
 
 ### Added
+
+- Added `@lumen/web-components`, a new framework package shipping `<lumen-button>` — a Web Components (Lit) implementation of Button, Lumen's first non-React framework package.
+  - Source: `docs/roadmap.md` Phase 13 (Multi-framework expansion); no new Figma node — implements the same design already sourced from Lumen-DS-2027 node 475:7210 for `@lumen/ui`'s `Button.tsx`
+  - Previous: no non-React framework package existed; `docs/roadmap.md` Phase 13 listed this as a not-yet-started deliverable
+  - Current: `packages/web-components/src/button/lumen-button.ts` implements Button's real, shipped behavior — variants `primary | raised | secondary | tertiary | link`, sizes `xs | sm | md | lg`, `icon-only`/`pill`/`loading`/`disabled` states, `icon-start`/`icon-end` slots, `aria-disabled`/`aria-busy` handling, and the icon-only accessible-name dev warning — matching `Button.tsx` prop-for-prop with framework-idiomatic naming (`loading` not `isLoading`, slots not node props). Styled entirely through `@lumen/tokens`' CSS custom properties (`:host([variant="…"])`/`:host([size="…"])` selectors), no Tailwind. 14 Vitest/jsdom tests cover DOM structure, attribute reflection, and accessibility behavior. Building it surfaced that `docs/component-specifications.md` §5's variant list, `fullWidth` property, and `leadingIcon`/`trailingIcon` naming don't match what `Button.tsx` actually ships — this package matches the real implementation, not the inaccurate doc; see `docs/roadmap.md` Phase 13 Findings and `packages/web-components/README.md` for the full discrepancy and why it wasn't silently fixed here. No Storybook coverage yet (explicitly deferred, see Phase 13). No Changeset — new package starting at its own initial `0.1.0`, nothing to version-bump from.
+  - Affects: `packages/web-components/**` (new package), `docs/roadmap.md`, `docs/component-architecture.md`, `README.md`, `CLAUDE.md`
+  - Migration: none — new package, no existing public API changed
+  - Validation: lint, typecheck, and test passed repo-wide (56 tests: 39 `@lumen/ui` + 3 `@lumen/patterns` + 14 `@lumen/web-components`); tokens build and production Storybook build unaffected
 ### Changed
 
 - Reworked the repository README as an audience-oriented onboarding and navigation page.

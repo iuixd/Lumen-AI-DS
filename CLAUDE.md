@@ -21,7 +21,7 @@ confirm vs. implement directly) — read it rather than re-deriving it here.
 The single source of truth for Lumen's design tokens, UI components, layout
 primitives, and enterprise patterns. Tokens are derived from the
 `Lumen-DS-2027` Figma file (page "Design Tokens"); see `docs/figma-sync.md`
-for exactly which nodes and what's still provisional. Published as three
+for exactly which nodes and what's still provisional. Published as four
 packages:
 
 - `@lumen/tokens` — color, typography, spacing, radius. No shadow/elevation
@@ -37,10 +37,18 @@ packages:
   `@lumen/ui` any less canonical for React consumers.
 - `@lumen/patterns` — composed enterprise-SaaS screen patterns (CRUD list,
   settings, auth, dashboard) built entirely from `@lumen/ui`.
+- `@lumen/web-components` — framework-agnostic custom elements built with
+  Lit, implementing the same component specifications as `@lumen/ui`.
+  Proof-of-concept package, currently Button only — see
+  `packages/web-components/README.md`, including a known discrepancy
+  between the real `Button.tsx` and `docs/component-specifications.md` §5
+  that this package's existence surfaced but did not fix.
 
-`packages/storybook` is the live showcase of all three — one page per
-component with controls and auto-generated usage code, plus MDX pages for
-the patterns. Run it with `pnpm storybook`. See "Component checklist" below.
+`packages/storybook` is the live showcase of `@lumen/tokens`, `@lumen/ui`,
+and `@lumen/patterns` — one page per component with controls and
+auto-generated usage code, plus MDX pages for the patterns.
+`@lumen/web-components` is not yet covered (see `docs/roadmap.md` Phase 13).
+Run it with `pnpm storybook`. See "Component checklist" below.
 
 ## Documentation system
 

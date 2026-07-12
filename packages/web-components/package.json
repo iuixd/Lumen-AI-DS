@@ -1,0 +1,24 @@
+{
+  "name": "@lumen/web-components",
+  "version": "0.1.0",
+  "description": "Lumen Web Components — framework-agnostic custom elements implementing the same component specifications as @lumen/ui. Proof-of-concept package; currently ships Button only. See docs/roadmap.md Phase 13.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "sideEffects": true,
+  "dependencies": {
+    "@lumen/tokens": "workspace:*",
+    "lit": "^3.3.3"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4",
+    "@types/node": "^20.14.15",
+    "vitest": "^2.0.5",
+    "jsdom": "^25.0.0"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  }
+}

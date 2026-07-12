@@ -42,10 +42,10 @@ Component Specifications   (docs/component-specifications.md — anatomy, varian
     ↓                        sizes, states, behavior, accessibility, and token
     ↓                        dependencies, expressed independent of any framework)
 Framework Packages
-    ├── React            (@lumen/ui, @lumen/patterns — current reference implementation)
+    ├── React            (@lumen/ui, @lumen/patterns — reference implementation)
+    ├── Web Components     (@lumen/web-components — proof of concept, Button only)
     ├── Angular           (not yet built)
-    ├── Vue                (not yet built)
-    └── Web Components      (not yet built)
+    └── Vue                (not yet built)
 ```
 
 The shared layers (tokens through component specifications) define the design language and the component contract once. Each framework package implements that same contract using framework-native APIs and idioms — a `variant` or `loading` property means the same thing everywhere, but a React package exposes it as a typed prop, an Angular package as an `@Input()`, and a Web Components package as an HTML attribute.
@@ -432,9 +432,9 @@ packages/
 │
 ├── patterns/            # React composed enterprise patterns (current)
 │
-├── angular/              # future — implements the same component specs
-├── vue/                   # future — implements the same component specs
-├── web-components/         # future — implements the same component specs
+├── web-components/       # Lit — proof of concept (Button only)
+├── angular/                # future — implements the same component specs
+├── vue/                     # future — implements the same component specs
 │
 └── storybook/
     ├── stories/
@@ -989,17 +989,23 @@ Recommended mapping record — one row per framework package that ships the comp
 
 Use Figma Code Connect for approved production mappings.
 
-Example (current React reference implementation — the only shipped framework package today):
+Example — two framework packages now ship Button, so it gets two rows, not one replaced by the other:
 
 ```text
 Figma: Button
 Framework: React
 Code: Button
-Source: packages/ui/src/primitives/button/Button.tsx
+Source: packages/ui/src/primitives/Button.tsx
 Storybook: Components/Primitives/Button
+
+Figma: Button
+Framework: Web Components
+Code: lumen-button (custom element)
+Source: packages/web-components/src/button/lumen-button.ts
+Storybook: not covered — see packages/web-components/README.md
 ```
 
-Figma and code variant names should match unless a documented platform constraint requires an explicit mapping. When a second framework package ships a component, add its own row rather than replacing the React row.
+Figma and code variant names should match unless a documented platform constraint requires an explicit mapping. Note: as of 2026-07-12 the React and Web Components rows above both match each other and the real shipped behavior, but do **not** match `docs/component-specifications.md` §5's written variant list — see `docs/roadmap.md` Phase 13 Findings for the discrepancy and why it wasn't fixed here.
 
 ---
 
