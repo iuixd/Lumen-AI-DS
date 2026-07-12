@@ -68,7 +68,7 @@ The canonical design foundation is **Lumen DS 2027**, page **Design Tokens**. So
 ## Prerequisites
 
 - Node.js 22
-- pnpm 9.7.0, selected through Corepack
+- pnpm 11.12.0, selected through Corepack
 - React 18 or later when consuming `@lumen/ui` or `@lumen/patterns`
 
 Confirm the repository package-manager version:
@@ -77,7 +77,7 @@ Confirm the repository package-manager version:
 corepack pnpm --version
 ```
 
-The result must be `9.7.0`. Avoid using a globally installed incompatible pnpm version.
+The result must be `11.12.0`. Avoid using a globally installed incompatible pnpm version.
 
 ## Quick start
 
