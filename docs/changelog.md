@@ -39,6 +39,15 @@ Use the following headings for every release:
 ### Added
 ### Changed
 
+- Reworked the repository README as an audience-oriented onboarding and navigation page.
+  - Source: repository documentation and deployed Storybook; no Figma node is involved
+  - Previous: contributor-focused package and command reference with no prominent deployed Storybook link, audience paths, maturity status, prerequisites, architecture overview, or support guidance
+  - Current: prominent Storybook and documentation links, role-based entry points, corrected Figma/token/publication facts, reliable pnpm commands, integration guidance, architecture, accessibility and quality expectations, release navigation, and support information
+  - Affects: `README.md` and the GitHub repository landing experience
+  - Migration: none
+  - Validation: Markdown formatting check passed and all 45 repository-relative links resolve
+  - Changeset: none (documentation-only change)
+
 - Updated the Storybook manager branding and browser metadata.
   - Source: local Storybook manager; no Figma node is involved
   - Previous: the sidebar used a combined SVG wordmark on the gray app background, and browser tabs used Storybook's dynamic title and default favicon
