@@ -158,59 +158,65 @@ html:not([data-theme="dark"]) body {
    fixes legibility independent of the color choice. Font size/line-height
    here override Storybook's own default docs theme (13px/19px, not a Lumen
    token — this is Storybook chrome, like `.sbdocs-wrapper h1` above). */
-.docblock-source pre,
-.docblock-source code {
+.sbdocs-wrapper pre,
+.sbdocs-wrapper pre code {
   font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", Consolas, monospace !important;
   font-weight: 700 !important;
   font-size: 16px !important;
   line-height: 24px !important;
+  color: #001080 !important;
   -webkit-font-smoothing: auto !important;
 }
 
 /* VS Code "Light+" token colors (the default light theme). */
-.docblock-source .token.keyword {
+.sbdocs-wrapper pre .token.keyword {
   color: #0000ff !important;
 }
 
-.docblock-source .token.string {
+.sbdocs-wrapper pre .token.string {
   color: #a31515 !important;
 }
 
-.docblock-source .token.function {
+.sbdocs-wrapper pre .token.function {
   color: #795e26 !important;
 }
 
-.docblock-source .token.imports.maybe-class-name {
+.sbdocs-wrapper pre .token.imports.maybe-class-name {
   color: #267f99 !important;
 }
 
 /* "Tokyo Night" token colors (the reference screenshot's theme) for dark
    mode — light mode keeps the VS Code "Light+" colors above unchanged. */
-[data-preview-theme="dark"] .docblock-source .token.keyword {
+[data-preview-theme="dark"] .sbdocs-wrapper pre,
+[data-preview-theme="dark"] .sbdocs-wrapper pre code {
+  color: #c0caf5 !important;
+}
+
+[data-preview-theme="dark"] .sbdocs-wrapper pre .token.keyword {
   color: #bb9af7 !important;
 }
 
-[data-preview-theme="dark"] .docblock-source .token.string {
+[data-preview-theme="dark"] .sbdocs-wrapper pre .token.string {
   color: #9ece6a !important;
 }
 
-[data-preview-theme="dark"] .docblock-source .token.function {
+[data-preview-theme="dark"] .sbdocs-wrapper pre .token.function {
   color: #7aa2f7 !important;
 }
 
-[data-preview-theme="dark"] .docblock-source .token.imports.maybe-class-name {
+[data-preview-theme="dark"] .sbdocs-wrapper pre .token.imports.maybe-class-name {
   color: #c0caf5 !important;
 }
 
-[data-preview-theme="dark"] .docblock-source .token.punctuation {
+[data-preview-theme="dark"] .sbdocs-wrapper pre .token.punctuation {
   color: #c0caf5 !important;
 }
 
-[data-preview-theme="dark"] .docblock-source .token.number {
+[data-preview-theme="dark"] .sbdocs-wrapper pre .token.number {
   color: #ff9e64 !important;
 }
 
-[data-preview-theme="dark"] .docblock-source .token.comment {
+[data-preview-theme="dark"] .sbdocs-wrapper pre .token.comment {
   color: #565f89 !important;
   font-style: italic;
 }
@@ -259,8 +265,22 @@ html:not([data-theme="dark"]) body {
    of the surrounding `<td>`, so it didn't inherit the body-sm bump above
    even though the cell itself did. */
 .docblock-argstable code {
-  font-size: var(--text-body-sm-size) !important;
+  font-size: 14px !important;
   line-height: var(--text-body-sm-line-height) !important;
+  color: rgba(46, 52, 56, 1) !important;
+}
+
+/* Text-entry and dropdown controls rendered by Storybook's Docs ArgsTable.
+   Keep this scoped to Docs chrome so Lumen product controls are unaffected. */
+.docblock-argstable textarea,
+.docblock-argstable input[type="text"],
+.docblock-argstable input:not([type]),
+.docblock-argstable select {
+  padding: 6px 16px !important;
+  border-radius: 16px !important;
+  box-shadow: none !important;
+  transition: none !important;
+  font-size: 16px !important;
 }
 
 .docblock-argstable table,

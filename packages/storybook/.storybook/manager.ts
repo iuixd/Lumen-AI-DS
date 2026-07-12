@@ -28,5 +28,9 @@ addons.setConfig({
     barBg: "#EDF0F1",
     barSelectedColor: "#0096B7",
     barHoverColor: "#0096B7"
+    // Controls addon panel's shadow/bevel + radius are handled in
+    // manager-head.html instead of here — `inputBorder`/`inputBorderRadius`
+    // type-check against ThemeVars but the Controls addon's Form.Textarea/
+    // Form.Select don't actually consume them, so they were a no-op.
   })
 });

@@ -26,4 +26,21 @@
   html[data-lumen-docs] .sb-argstableBlock-body td {
     background: transparent !important;
   }
+
+  /* Docs page ArgsTable row controls (Textarea/Select/text Input) —
+     confirmed via DevTools that these render inside the preview iframe as
+     part of @storybook/blocks' docblock ArgsTable, not the manager-hosted
+     Controls addon panel (that one's fix lives in manager-head.html
+     instead, a separate document this stylesheet can't reach). Their
+     border renders as a themed inset box-shadow rather than a real
+     `border`, same "bevel" pattern as the addon panel, overridden here the
+     same way. Border color matches this file's existing
+     .sb-argstableBlock-body card border for visual consistency. */
+  html[data-lumen-docs] .sb-argstableBlock-body textarea,
+  html[data-lumen-docs] .sb-argstableBlock-body select,
+  html[data-lumen-docs] .sb-argstableBlock-body input[type="text"] {
+    box-shadow: none !important;
+    border: 1px solid #c8d1d4 !important;
+    border-radius: 999px !important;
+  }
 </style>

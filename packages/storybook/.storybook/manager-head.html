@@ -52,4 +52,24 @@
   #storybook-explorer-tree [data-nodetype="group"][data-parent-id="patterns"] svg[type="group"] {
     display: none;
   }
+
+  /* Controls addon panel's args-table inputs (Textarea/Select/text Input).
+     Storybook's Form.* components render their border as an inset
+     box-shadow rather than a real `border` — that's the "bevel" look —
+     and the theme object's inputBorder/inputBorderRadius keys (tried
+     first, in manager.ts) type-check but aren't actually consumed by
+     these specific components, so this overrides the rendered CSS
+     directly. This file only ever loads inside the manager document, not
+     the preview iframe where @lumen/ui components actually render — an
+     iframe's contents are a separate document a parent page's <style>
+     cannot reach — so unscoped native-tag selectors are safe here without
+     needing a (possibly version-specific, unverified) container id. */
+  textarea,
+  select,
+  input[type="text"],
+  input[type="number"] {
+    box-shadow: none !important;
+    border: 1px solid #dfdfdf !important;
+    border-radius: 999px !important;
+  }
 </style>
