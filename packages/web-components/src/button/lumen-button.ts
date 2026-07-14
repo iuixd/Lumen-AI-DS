@@ -17,9 +17,16 @@ import { customElement, property } from "lit/decorators.js";
  * Icon slots use the native Web Components mechanism for "renderable
  * content" — named `<slot>`s — instead of React's `iconStart`/`iconEnd`
  * node props: `<lumen-button><span slot="icon-start">…</span>Save</lumen-button>`.
+ *
+ * `status` ("success" | "warning" | "error") mirrors Button.tsx's later
+ * addition (2026-07-14, Lumen-DS-2027 node 475:7210's State property) — a
+ * tinted surface/text override independent of `variant`, with a
+ * status-colored border only on the `secondary` variant (the only bordered
+ * variant Figma specced a status instance for).
  */
 export type LumenButtonVariant = "primary" | "raised" | "secondary" | "tertiary" | "link";
 export type LumenButtonSize = "xs" | "sm" | "md" | "lg";
+export type LumenButtonStatus = "success" | "warning" | "error";
 
 @customElement("lumen-button")
 export class LumenButton extends LitElement {
@@ -216,6 +223,63 @@ export class LumenButton extends LitElement {
       color: var(--color-neutral-400);
     }
 
+    :host([status="success"]) button:not([aria-disabled="true"]) {
+      border-color: transparent;
+      background-color: var(--color-status-success-subtle);
+      color: var(--color-status-success-text);
+    }
+    :host([status="success"]) button:hover:not([aria-disabled="true"]),
+    :host([status="success"]) button:active:not([aria-disabled="true"]) {
+      background-color: var(--color-status-success-subtle);
+      color: var(--color-status-success-text);
+    }
+    :host([status="success"]) button:focus-visible {
+      border-color: transparent;
+    }
+    :host([variant="secondary"][status="success"]) button:not([aria-disabled="true"]),
+    :host([variant="secondary"][status="success"]) button:hover:not([aria-disabled="true"]),
+    :host([variant="secondary"][status="success"]) button:active:not([aria-disabled="true"]) {
+      border-color: var(--color-status-success-border);
+    }
+
+    :host([status="warning"]) button:not([aria-disabled="true"]) {
+      border-color: transparent;
+      background-color: var(--color-status-warning-subtle);
+      color: var(--color-status-warning-text);
+    }
+    :host([status="warning"]) button:hover:not([aria-disabled="true"]),
+    :host([status="warning"]) button:active:not([aria-disabled="true"]) {
+      background-color: var(--color-status-warning-subtle);
+      color: var(--color-status-warning-text);
+    }
+    :host([status="warning"]) button:focus-visible {
+      border-color: transparent;
+    }
+    :host([variant="secondary"][status="warning"]) button:not([aria-disabled="true"]),
+    :host([variant="secondary"][status="warning"]) button:hover:not([aria-disabled="true"]),
+    :host([variant="secondary"][status="warning"]) button:active:not([aria-disabled="true"]) {
+      border-color: var(--color-status-warning-border);
+    }
+
+    :host([status="error"]) button:not([aria-disabled="true"]) {
+      border-color: transparent;
+      background-color: var(--color-status-error-subtle);
+      color: var(--color-status-error-text);
+    }
+    :host([status="error"]) button:hover:not([aria-disabled="true"]),
+    :host([status="error"]) button:active:not([aria-disabled="true"]) {
+      background-color: var(--color-status-error-subtle);
+      color: var(--color-status-error-text);
+    }
+    :host([status="error"]) button:focus-visible {
+      border-color: transparent;
+    }
+    :host([variant="secondary"][status="error"]) button:not([aria-disabled="true"]),
+    :host([variant="secondary"][status="error"]) button:hover:not([aria-disabled="true"]),
+    :host([variant="secondary"][status="error"]) button:active:not([aria-disabled="true"]) {
+      border-color: var(--color-status-error-border);
+    }
+
     .label {
       display: inline;
     }
@@ -252,6 +316,9 @@ export class LumenButton extends LitElement {
 
   @property({ type: String, reflect: true })
   size: LumenButtonSize = "md";
+
+  @property({ type: String, reflect: true })
+  status?: LumenButtonStatus;
 
   @property({ type: Boolean, reflect: true, attribute: "icon-only" })
   iconOnly = false;

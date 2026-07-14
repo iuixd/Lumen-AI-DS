@@ -1,0 +1,310 @@
+import {
+  Component,
+  ChangeDetectionStrategy,
+  ElementRef,
+  inject,
+  Input,
+  OnChanges,
+  TemplateRef,
+  booleanAttribute
+} from "@angular/core";
+import { NgTemplateOutlet } from "@angular/common";
+
+/**
+ * `<lumen-ai-button>` — Angular standalone implementation of `AIButton`
+ * (packages/ui/src/primitives/AIButton.tsx), sourced from the Figma "AI
+ * Communication Component Library" (Lumen-DS-2027, node 760:1965). See the
+ * React component's doc comment for the full sourcing rationale (why this
+ * is a standalone component rather than a `Button` variant, why
+ * `destructive` changes no styling, and the known xs-height/status-tint/
+ * Split-Button-AI gaps carried over unchanged here) and the Web Components
+ * package's `<lumen-ai-button>` for the same contract via `<slot>`.
+ *
+ * A leading icon is always rendered. The override uses a `TemplateRef`
+ * input (`[icon]`) rather than content projection with fallback content —
+ * see `<lumen-filter-chip>`'s doc comment for why `<ng-content>` alone
+ * can't express "default icon unless overridden" the way a native `<slot>`
+ * can.
+ */
+export type LumenAIButtonVariant = "primary" | "secondary" | "tertiary" | "outline";
+export type LumenAIButtonSize = "xs" | "sm" | "md" | "lg";
+
+@Component({
+  selector: "lumen-ai-button",
+  standalone: true,
+  imports: [NgTemplateOutlet],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "[attr.variant]": "variant",
+    "[attr.size]": "size",
+    "[attr.icon-only]": "iconOnly ? '' : null",
+    "[attr.destructive]": "destructive ? '' : null"
+  },
+  template: `
+    <button
+      type="button"
+      part="button"
+      [attr.data-destructive]="destructive ? 'true' : null"
+      [attr.aria-disabled]="isDisabled ? 'true' : null"
+      [attr.aria-busy]="loading ? 'true' : null"
+      [attr.aria-label]="resolvedAriaLabel"
+      [attr.aria-labelledby]="hostAriaLabelledby"
+      (click)="handleClick($event)"
+    >
+      @if (loading) {
+        <span class="spinner" aria-hidden="true"></span>
+      } @else if (icon) {
+        <ng-container [ngTemplateOutlet]="icon"></ng-container>
+      } @else {
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linejoin="round"
+          />
+        </svg>
+      }
+      <span class="label" [class.sr-only]="loading">
+        <ng-content></ng-content>
+      </span>
+    </button>
+  `,
+  styles: `
+    :host {
+      display: inline-block;
+    }
+
+    button {
+      all: unset;
+      box-sizing: border-box;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--spacing-8);
+      white-space: nowrap;
+      cursor: pointer;
+      border-radius: var(--radius-md);
+      border: 1.5px solid transparent;
+      transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease;
+    }
+
+    button:focus-visible {
+      outline: 2px solid var(--color-border-focus);
+      outline-offset: 4px;
+    }
+
+    button[aria-disabled="true"] {
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    :host([size="xs"]) button {
+      height: var(--spacing-32);
+      min-width: var(--spacing-64);
+      padding: var(--spacing-5) var(--spacing-10);
+      font-size: var(--text-button-xs-size);
+      line-height: var(--text-button-xs-line-height);
+      font-weight: var(--text-button-xs-weight);
+    }
+    :host([size="sm"]) button {
+      height: var(--spacing-36);
+      min-width: var(--spacing-80);
+      padding: var(--spacing-6) var(--spacing-12);
+      font-size: var(--text-button-sm-size);
+      line-height: var(--text-button-sm-line-height);
+      font-weight: var(--text-button-sm-weight);
+    }
+    :host([size="md"]) button,
+    :host(:not([size])) button {
+      height: var(--spacing-40);
+      min-width: var(--spacing-96);
+      padding: var(--spacing-8) var(--spacing-16);
+      font-size: var(--text-button-md-size);
+      line-height: var(--text-button-md-line-height);
+      font-weight: var(--text-button-md-weight);
+    }
+    :host([size="lg"]) button {
+      height: var(--spacing-48);
+      min-width: var(--spacing-120);
+      padding: var(--spacing-10) var(--spacing-20);
+      font-size: var(--text-button-lg-size);
+      line-height: var(--text-button-lg-line-height);
+      font-weight: var(--text-button-lg-weight);
+    }
+
+    :host([icon-only]) button {
+      min-width: 0;
+      padding: 0;
+    }
+    :host([icon-only][size="xs"]) button {
+      width: var(--spacing-32);
+      height: var(--spacing-32);
+    }
+    :host([icon-only][size="sm"]) button {
+      width: var(--spacing-36);
+      height: var(--spacing-36);
+    }
+    :host([icon-only][size="md"]) button,
+    :host([icon-only]:not([size])) button {
+      width: var(--spacing-40);
+      height: var(--spacing-40);
+    }
+    :host([icon-only][size="lg"]) button {
+      width: var(--spacing-48);
+      height: var(--spacing-48);
+    }
+
+    :host([variant="primary"]) button,
+    :host(:not([variant])) button {
+      background-color: var(--color-brand-default);
+      color: var(--color-neutral-white);
+    }
+    :host([variant="primary"]) button:hover:not([aria-disabled="true"]),
+    :host(:not([variant])) button:hover:not([aria-disabled="true"]) {
+      background-color: var(--color-brand-hover);
+    }
+    :host([variant="primary"]) button:active:not([aria-disabled="true"]),
+    :host(:not([variant])) button:active:not([aria-disabled="true"]) {
+      background-color: var(--color-brand-pressed);
+    }
+    :host([variant="primary"]) button[aria-disabled="true"],
+    :host(:not([variant])) button[aria-disabled="true"] {
+      background-color: var(--color-neutral-50);
+      color: var(--color-neutral-400);
+    }
+
+    :host([variant="secondary"]) button {
+      border-color: var(--color-brand-border-strong);
+      background-color: var(--color-brand-subtle);
+      color: var(--color-brand-default);
+    }
+    :host([variant="secondary"]) button:hover:not([aria-disabled="true"]),
+    :host([variant="secondary"]) button:active:not([aria-disabled="true"]) {
+      border-color: var(--color-brand-default);
+    }
+    :host([variant="secondary"]) button:active:not([aria-disabled="true"]) {
+      background-color: var(--color-brand-subtle-pressed);
+    }
+    :host([variant="secondary"]) button[aria-disabled="true"] {
+      border-color: var(--color-neutral-200);
+      background-color: var(--color-neutral-50);
+      color: var(--color-neutral-400);
+    }
+
+    :host([variant="tertiary"]) button {
+      background-color: transparent;
+      color: var(--color-brand-default);
+    }
+    :host([variant="tertiary"]) button:hover:not([aria-disabled="true"]) {
+      background-color: var(--color-brand-subtle);
+    }
+    :host([variant="tertiary"]) button:active:not([aria-disabled="true"]) {
+      background-color: var(--color-brand-subtle-pressed);
+    }
+    :host([variant="tertiary"]) button[aria-disabled="true"] {
+      background-color: transparent;
+      color: var(--color-neutral-400);
+    }
+
+    :host([variant="outline"]) button {
+      border-color: var(--color-brand-border-strong);
+      background-color: transparent;
+      color: var(--color-brand-default);
+    }
+    :host([variant="outline"]) button:hover:not([aria-disabled="true"]) {
+      border-color: var(--color-brand-subtle);
+      background-color: var(--color-brand-subtle);
+    }
+    :host([variant="outline"]) button:active:not([aria-disabled="true"]) {
+      border-color: var(--color-brand-default);
+      background-color: var(--color-brand-subtle-pressed);
+    }
+    :host([variant="outline"]) button[aria-disabled="true"] {
+      border-color: var(--color-neutral-200);
+      background-color: transparent;
+      color: var(--color-neutral-400);
+    }
+
+    .label.sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .spinner {
+      width: 1em;
+      height: 1em;
+      flex-shrink: 0;
+      border-radius: var(--radius-full);
+      border: 2px solid currentColor;
+      border-top-color: transparent;
+      animation: lumen-ai-button-spin 0.6s linear infinite;
+    }
+
+    @keyframes lumen-ai-button-spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+  `
+})
+export class LumenAIButtonComponent implements OnChanges {
+  private readonly elementRef = inject(ElementRef<HTMLElement>);
+
+  @Input() variant: LumenAIButtonVariant = "primary";
+  @Input() size: LumenAIButtonSize = "md";
+  @Input() icon?: TemplateRef<unknown>;
+  @Input({ transform: booleanAttribute }) iconOnly = false;
+  @Input({ transform: booleanAttribute }) loading = false;
+  @Input({ transform: booleanAttribute }) disabled = false;
+  @Input({ transform: booleanAttribute }) destructive = false;
+
+  get isDisabled(): boolean {
+    return this.disabled || this.loading;
+  }
+
+  private get hostAriaLabel(): string | null {
+    return this.elementRef.nativeElement.getAttribute("aria-label");
+  }
+
+  get hostAriaLabelledby(): string | null {
+    return this.elementRef.nativeElement.getAttribute("aria-labelledby");
+  }
+
+  get resolvedAriaLabel(): string | null {
+    const hostLabel = this.hostAriaLabel;
+    if (this.loading && this.iconOnly && !hostLabel) {
+      return "Generating";
+    }
+    return hostLabel;
+  }
+
+  ngOnChanges(): void {
+    if (this.iconOnly && !this.hostAriaLabel && !this.hostAriaLabelledby) {
+      // eslint-disable-next-line no-console
+      console.warn("lumen-ai-button: iconOnly buttons must have an accessible name — pass aria-label.");
+    }
+  }
+
+  handleClick(event: MouseEvent): void {
+    if (this.isDisabled) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }
+}

@@ -2,8 +2,11 @@
 
 Angular (standalone components) implementation of Lumen's component
 specifications. This is Lumen's second non-React framework package — see
-`docs/roadmap.md` Phase 13 — following `@lumen/web-components`. It currently
-ships **Button only**.
+`docs/roadmap.md` Phase 13 — following `@lumen/web-components`. It ships
+`LumenButtonComponent`, `LumenSplitButtonComponent`,
+`LumenFilterChipComponent`, `LumenChoiceChipComponent`, and
+`LumenAIButtonComponent`, matching `@lumen/ui`'s 2026-07-14 Figma sync (see
+`docs/changelog.md` `[Unreleased]`).
 
 ## Angular version
 
@@ -45,6 +48,57 @@ Icon content uses Angular's native content-projection selectors, not React's
   <span iconEnd>…</span>
 </lumen-button>
 ```
+
+## Property contract
+
+### `LumenButtonComponent` (`<lumen-button>`)
+
+Same properties as `@lumen/web-components`' `<lumen-button>`, plus `status`
+(`success | warning | error`, optional), added 2026-07-14 to mirror
+`Button.tsx`'s later addition — a tinted override independent of `variant`,
+status-colored border only on `secondary`.
+
+### `LumenSplitButtonComponent` (`<lumen-split-button>`)
+
+Mirrors `SplitButton.tsx`. `variant` (`primary | raised | secondary |
+outline`, default `primary`), `size` (`sm | md | lg`, default `lg`), `pill`,
+`loading`, `disabled`, `dropdownLabel` (default `"More options"`, warns in
+the console if left at that default). Renders two real `<button>`s, so it
+exposes `(mainClick)`/`(dropdownClick)` outputs instead of a single
+ambiguous `(click)`. Leading icon uses content projection (`<span
+iconStart>`).
+
+**Known limitation**: Figma's `sm` dropdown-toggle segment is a non-square
+30px width, which isn't on the approved spacing scale
+(`docs/design-tokens.md` §4) — shipped as a square 36px segment instead,
+same simplification as the React and Web Components versions.
+
+### `LumenFilterChipComponent` / `LumenChoiceChipComponent`
+
+Toggleable pills. `selected`/`disabled` map directly to `aria-pressed`/
+`aria-disabled` (not the native `disabled` attribute). Only the `lg` size
+(36px) is specced for either.
+
+`LumenFilterChipComponent` accepts `TemplateRef` inputs (`[icon]`/
+`[removeIcon]`) to override its default plus/remove glyphs — not content
+projection with fallback content, since Angular's `<ng-content>` has no
+fallback mechanism the way a native `<slot>` does (see the component's doc
+comment). `LumenChoiceChipComponent` has no icon override — it shows no
+icon by default and a fixed check icon only when `selected`, matching
+`ChoiceChip.tsx` exactly.
+
+### `LumenAIButtonComponent` (`<lumen-ai-button>`)
+
+Mirrors `AIButton.tsx`. `variant` (`primary | secondary | tertiary |
+outline`, default `primary`; `secondary`/`outline` do not reuse
+`LumenButtonComponent`'s own colors for those names), `size` (`xs | sm | md
+| lg`, default `md`; Figma's `xs` AI Button is 28px tall vs. this package's
+32px `xs`, not matched exactly), `iconOnly`, `loading`, `disabled`,
+`destructive` (behavioral only — sets `data-destructive` on the inner
+button, no color change). A leading icon is always rendered; override via
+the `[icon]` `TemplateRef` input (same pattern as `LumenFilterChipComponent`).
+`status` (Success/Warning/Error) is not implemented, matching the React and
+Web Components components' own open item.
 
 ## Why classic `@Input()` decorators, not signal `input()`
 

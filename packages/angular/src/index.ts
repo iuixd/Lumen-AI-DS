@@ -1,2 +1,11 @@
 export { LumenButtonComponent } from "./button/lumen-button";
-export type { LumenButtonVariant, LumenButtonSize } from "./button/lumen-button";
+export type { LumenButtonVariant, LumenButtonSize, LumenButtonStatus } from "./button/lumen-button";
+
+export { LumenSplitButtonComponent } from "./split-button/lumen-split-button";
+export type { LumenSplitButtonVariant, LumenSplitButtonSize } from "./split-button/lumen-split-button";
+
+export { LumenFilterChipComponent } from "./filter-chip/lumen-filter-chip";
+export { LumenChoiceChipComponent } from "./choice-chip/lumen-choice-chip";
+
+export { LumenAIButtonComponent } from "./ai-button/lumen-ai-button";
+export type { LumenAIButtonVariant, LumenAIButtonSize } from "./ai-button/lumen-ai-button";

@@ -151,6 +151,24 @@ describe("LumenButtonComponent (bare, no content projection)", () => {
     expect(warnSpy).not.toHaveBeenCalled();
     warnSpy.mockRestore();
   });
+
+  it("has no status attribute by default", () => {
+    TestBed.configureTestingModule({ providers: [provideZonelessChangeDetection()] });
+    const fixture = TestBed.createComponent(LumenButtonComponent);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.hasAttribute("status")).toBe(false);
+  });
+
+  it.each(["success", "warning", "error"] as const)(
+    "reflects status=%s as a host attribute",
+    (status) => {
+      TestBed.configureTestingModule({ providers: [provideZonelessChangeDetection()] });
+      const fixture = TestBed.createComponent(LumenButtonComponent);
+      fixture.componentRef.setInput("status", status);
+      fixture.detectChanges();
+      expect(fixture.nativeElement.getAttribute("status")).toBe(status);
+    }
+  );
 });
 
 describe("LumenButtonComponent (via host, with projected content)", () => {
