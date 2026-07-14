@@ -152,6 +152,16 @@ Example:
 
 ### Added
 
+- Brought `@lumen/web-components` and `@lumen/angular` to parity with the 2026-07-14 `@lumen/ui` Figma sync below (Button `status`, `SplitButton` expansion, `FilterChip`, `ChoiceChip`, `AIButton`).
+  - Source: no new Figma nodes — implements the same design already sourced from Lumen-DS-2027 for `@lumen/ui`'s corresponding components (see each entry below for its own node).
+  - Previous: both framework packages shipped Button only, and that Button lacked `status`; neither package had `SplitButton`, `FilterChip`, `ChoiceChip`, or `AIButton` equivalents.
+  - Current: `@lumen/web-components` ships `<lumen-button status="...">`, `<lumen-split-button>`, `<lumen-filter-chip>`, `<lumen-choice-chip>`, and `<lumen-ai-button>`; `@lumen/angular` ships the matching `LumenButtonComponent` (`status` input), `LumenSplitButtonComponent`, `LumenFilterChipComponent`, `LumenChoiceChipComponent`, and `LumenAIButtonComponent`. Both use the same `--color-*`/`--spacing-*` CSS custom properties as `@lumen/ui` — no token duplication. `SplitButton`'s two-real-buttons structure required per-framework event handling: `@lumen/web-components` dispatches `lumen-main-click`/`lumen-dropdown-click` `CustomEvent`s (a plain `click` retargeted at the host can't distinguish which inner button fired); `@lumen/angular` exposes `(mainClick)`/`(dropdownClick)` `EventEmitter` outputs instead, matching that framework's own idiom. `FilterChip`'s and `AIButton`'s default-icon-unless-overridden behavior — trivial with a native `<slot>`'s fallback-content mechanism in Web Components — has no `<ng-content>` equivalent in Angular, so the Angular versions use `TemplateRef` inputs (`[icon]`/`[removeIcon]`) instead of content projection for those specific slots.
+  - Known limitations carried over unchanged from the React components: SplitButton's `sm` dropdown segment is a square 36px vs. Figma's non-square 30px (not an approved spacing-scale value); AIButton's `status` tint and `xs` exact height (28px in Figma vs. 32px shipped) are not implemented; Split Button AI is not implemented in any framework package.
+  - Affects: `packages/web-components/src/{split-button,filter-chip,choice-chip,ai-button}/*` (new), `packages/web-components/src/button/lumen-button.ts`, `packages/web-components/src/index.ts`, `packages/web-components/README.md`, `packages/angular/src/{split-button,filter-chip,choice-chip,ai-button}/*` (new), `packages/angular/src/button/lumen-button.ts`, `packages/angular/src/index.ts`, `packages/angular/README.md`
+  - Migration: none — `status` is an additive optional property/input on both packages' Button; the four new components are additive
+  - Validation: `tsc --noEmit` passed for both packages; 55 `@lumen/web-components` tests passed (18 Button + 12 SplitButton + 7 FilterChip + 5 ChoiceChip + 13 AIButton); 53 `@lumen/angular` tests passed (19 Button + 11 SplitButton + 7 FilterChip + 5 ChoiceChip + 11 AIButton)
+  - Changeset: `.changeset/web-components-angular-parity.md` (`@lumen/web-components` minor, `@lumen/angular` minor)
+
 - Added the `status` (Success/Warning/Error) property to `Button`.
   - Figma source: Buttons page, node `475:7210` — the component-set's State
     property now includes Success/Error/Warning instances for Primary and

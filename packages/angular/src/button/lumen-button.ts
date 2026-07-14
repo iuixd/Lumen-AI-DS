@@ -34,9 +34,17 @@ import {
  * selectors instead of React's `iconStart`/`iconEnd` node props or Web
  * Components' named `<slot>`s:
  * `<lumen-button><span iconStart>…</span>Save</lumen-button>`.
+ *
+ * `status` ("success" | "warning" | "error") mirrors Button.tsx's later
+ * addition (2026-07-14, Lumen-DS-2027 node 475:7210's State property) and
+ * the Web Components package's own `status` — see
+ * packages/web-components/src/button/lumen-button.ts for the shared
+ * sourcing rationale (tinted surface/text override independent of
+ * `variant`, status-colored border only on `secondary`).
  */
 export type LumenButtonVariant = "primary" | "raised" | "secondary" | "tertiary" | "link";
 export type LumenButtonSize = "xs" | "sm" | "md" | "lg";
+export type LumenButtonStatus = "success" | "warning" | "error";
 
 @Component({
   selector: "lumen-button",
@@ -45,6 +53,7 @@ export type LumenButtonSize = "xs" | "sm" | "md" | "lg";
   host: {
     "[attr.variant]": "variant",
     "[attr.size]": "size",
+    "[attr.status]": "status ?? null",
     "[attr.icon-only]": "iconOnly ? '' : null",
     "[attr.pill]": "pill ? '' : null"
   },
@@ -264,6 +273,63 @@ export type LumenButtonSize = "xs" | "sm" | "md" | "lg";
       color: var(--color-neutral-400);
     }
 
+    :host([status="success"]) button:not([aria-disabled="true"]) {
+      border-color: transparent;
+      background-color: var(--color-status-success-subtle);
+      color: var(--color-status-success-text);
+    }
+    :host([status="success"]) button:hover:not([aria-disabled="true"]),
+    :host([status="success"]) button:active:not([aria-disabled="true"]) {
+      background-color: var(--color-status-success-subtle);
+      color: var(--color-status-success-text);
+    }
+    :host([status="success"]) button:focus-visible {
+      border-color: transparent;
+    }
+    :host([variant="secondary"][status="success"]) button:not([aria-disabled="true"]),
+    :host([variant="secondary"][status="success"]) button:hover:not([aria-disabled="true"]),
+    :host([variant="secondary"][status="success"]) button:active:not([aria-disabled="true"]) {
+      border-color: var(--color-status-success-border);
+    }
+
+    :host([status="warning"]) button:not([aria-disabled="true"]) {
+      border-color: transparent;
+      background-color: var(--color-status-warning-subtle);
+      color: var(--color-status-warning-text);
+    }
+    :host([status="warning"]) button:hover:not([aria-disabled="true"]),
+    :host([status="warning"]) button:active:not([aria-disabled="true"]) {
+      background-color: var(--color-status-warning-subtle);
+      color: var(--color-status-warning-text);
+    }
+    :host([status="warning"]) button:focus-visible {
+      border-color: transparent;
+    }
+    :host([variant="secondary"][status="warning"]) button:not([aria-disabled="true"]),
+    :host([variant="secondary"][status="warning"]) button:hover:not([aria-disabled="true"]),
+    :host([variant="secondary"][status="warning"]) button:active:not([aria-disabled="true"]) {
+      border-color: var(--color-status-warning-border);
+    }
+
+    :host([status="error"]) button:not([aria-disabled="true"]) {
+      border-color: transparent;
+      background-color: var(--color-status-error-subtle);
+      color: var(--color-status-error-text);
+    }
+    :host([status="error"]) button:hover:not([aria-disabled="true"]),
+    :host([status="error"]) button:active:not([aria-disabled="true"]) {
+      background-color: var(--color-status-error-subtle);
+      color: var(--color-status-error-text);
+    }
+    :host([status="error"]) button:focus-visible {
+      border-color: transparent;
+    }
+    :host([variant="secondary"][status="error"]) button:not([aria-disabled="true"]),
+    :host([variant="secondary"][status="error"]) button:hover:not([aria-disabled="true"]),
+    :host([variant="secondary"][status="error"]) button:active:not([aria-disabled="true"]) {
+      border-color: var(--color-status-error-border);
+    }
+
     .label {
       display: inline;
     }
@@ -300,6 +366,7 @@ export class LumenButtonComponent implements OnChanges {
 
   @Input() variant: LumenButtonVariant = "primary";
   @Input() size: LumenButtonSize = "md";
+  @Input() status?: LumenButtonStatus;
   @Input({ transform: booleanAttribute }) iconOnly = false;
   @Input({ transform: booleanAttribute }) pill = false;
   @Input({ transform: booleanAttribute }) loading = false;

@@ -128,4 +128,17 @@ describe("lumen-button", () => {
     expect(button.querySelector('slot[name="icon-end"]')).toBeNull();
     expect(button.querySelector(".spinner")).not.toBeNull();
   });
+
+  it.each(["success", "warning", "error"] as const)(
+    "reflects status=%s as a host attribute for styling",
+    async (status) => {
+      const el = await renderButton(`<lumen-button status="${status}">Save changes</lumen-button>`);
+      expect(el.getAttribute("status")).toBe(status);
+    }
+  );
+
+  it("has no status attribute by default", async () => {
+    const el = await renderButton("<lumen-button>Save changes</lumen-button>");
+    expect(el.hasAttribute("status")).toBe(false);
+  });
 });

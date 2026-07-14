@@ -1021,6 +1021,35 @@ Storybook: not covered — see packages/angular/README.md
 
 Figma and code variant names should match unless a documented platform constraint requires an explicit mapping. All three rows above match each other, the real shipped behavior, and `docs/component-specifications.md` §5 — that spec was reconciled against the real implementation on 2026-07-12, see `docs/roadmap.md` Phase 13 Findings for the history.
 
+As of 2026-07-14, `SplitButton`, `FilterChip`, `ChoiceChip`, and `AIButton`
+also ship as three-row (React/Web Components/Angular) mappings, same
+pattern as Button:
+
+```text
+Figma: Split Button          Node: 555:300
+React: SplitButton                    packages/ui/src/composite/SplitButton.tsx
+Web Components: lumen-split-button    packages/web-components/src/split-button/lumen-split-button.ts
+Angular: LumenSplitButtonComponent    packages/angular/src/split-button/lumen-split-button.ts
+
+Figma: Filter Chip            Node: 581:409
+React: FilterChip                     packages/ui/src/primitives/FilterChip.tsx
+Web Components: lumen-filter-chip     packages/web-components/src/filter-chip/lumen-filter-chip.ts
+Angular: LumenFilterChipComponent     packages/angular/src/filter-chip/lumen-filter-chip.ts
+
+Figma: Choice Chip            Node: 581:485
+React: ChoiceChip                     packages/ui/src/primitives/ChoiceChip.tsx
+Web Components: lumen-choice-chip     packages/web-components/src/choice-chip/lumen-choice-chip.ts
+Angular: LumenChoiceChipComponent     packages/angular/src/choice-chip/lumen-choice-chip.ts
+
+Figma: AI Button              Node: 760:1965
+React: AIButton                       packages/ui/src/primitives/AIButton.tsx
+Web Components: lumen-ai-button       packages/web-components/src/ai-button/lumen-ai-button.ts
+Angular: LumenAIButtonComponent       packages/angular/src/ai-button/lumen-ai-button.ts
+```
+
+Storybook coverage for all three Web Components/Angular rows above remains
+"not covered" (same open decision noted in each package's README).
+
 ---
 
 # 14. Component maturity model
