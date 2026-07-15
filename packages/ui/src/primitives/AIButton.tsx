@@ -1,7 +1,7 @@
 import { forwardRef, type ButtonHTMLAttributes, type MouseEventHandler, type ReactNode } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../lib/cn";
-import { SparklesIcon } from "../icons/generated";
+import { LmAisymbolIcon } from "../icons/generated";
 
 /**
  * AIButton
@@ -18,10 +18,13 @@ import { SparklesIcon } from "../icons/generated";
  * `tertiary` do reuse Button's exact primary/tertiary colors.
  *
  * Every instance in Figma — every variant, every size, Loading, even
- * Destructive — carries a mandatory leading sparkle icon; there is no
- * icon-less AI Button instance. `icon` is still an overridable prop (Figma
- * swaps the glyph per capability — Rewrite uses a wand icon, Translate a
- * languages icon — see the Capability Catalog), but it always renders one.
+ * Destructive — carries a mandatory leading icon, the `lm-aisymbol` glyph
+ * (confirmed via `get_design_context` on node 760:1965's Secondary Icon
+ * Only AI instances, 2026-07-15 — supersedes the generic sparkle glyph
+ * this shipped with initially); there is no icon-less AI Button instance.
+ * `icon` is still an overridable prop (Figma swaps the glyph per
+ * capability — Rewrite uses a wand icon, Translate a languages icon — see
+ * the Capability Catalog), but it always renders one.
  *
  * `destructive` is a behavioral flag, not a color: Figma's "Destructive AI"
  * instance is pixel-identical to Secondary AI (same surface/border/text
@@ -81,7 +84,7 @@ const aiButtonVariants = cva(
 export interface AIButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof aiButtonVariants> {
-  /** Leading icon override — defaults to the Figma-specced sparkle glyph, present on every instance. */
+  /** Leading icon override — defaults to the Figma-specced `lm-aisymbol` glyph, present on every instance. */
   icon?: ReactNode;
   isLoading?: boolean;
   /**
@@ -131,7 +134,7 @@ export const AIButton = forwardRef<HTMLButtonElement, AIButtonProps>(
         {isLoading ? (
           <span className="size-[1em] shrink-0 animate-spin rounded-full border-2 border-current border-t-transparent" aria-hidden />
         ) : (
-          (icon ?? <SparklesIcon className="size-[18px] shrink-0" aria-hidden />)
+          (icon ?? <LmAisymbolIcon className="size-[18px] shrink-0" aria-hidden />)
         )}
         {isLoading ? children && <span className="sr-only">{children}</span> : children}
       </button>

@@ -2134,7 +2134,11 @@ serves; only its old, pre-Figma variant and state lists were wrong.
 - Node: `760:1965` ("AI Communication Component Library", Buttons page)
 - Component set: AI Button (Primary/Secondary/Tertiary/Outline AI, plus
   Icon-Only and Split Button AI sub-sections)
-- Last synchronized: 2026-07-14
+- Last synchronized: 2026-07-15 — re-verified the leading-icon instance
+  swap on the Secondary Icon Only AI sub-section (`get_design_context`
+  showed a component explicitly named `lm-aisymbol`, nodes `843:7818`–
+  `843:7824`); the initial 2026-07-14 sync had approximated this as a
+  generic sparkle glyph before that instance swap was visible
 
 ## Purpose
 
@@ -2158,8 +2162,8 @@ this component implements.
 
 ```text
 AI Button
-├── Leading icon (sparkle by default, swappable per capability — mandatory,
-│   every Figma instance has one)
+├── Leading icon (`lm-aisymbol` by default, swappable per capability —
+│   mandatory, every Figma instance has one)
 ├── Label
 ├── Loading indicator (replaces the leading icon)
 └── Focus ring
@@ -2238,7 +2242,7 @@ Property contract (framework-neutral):
 ```text
 variant     enum: primary | secondary | tertiary | outline
 size        enum: xs | sm | md | lg
-icon        renderable content (icon) — always rendered; defaults to a sparkle glyph
+icon        renderable content (icon) — always rendered; defaults to the `lm-aisymbol` glyph
 iconOnly    boolean
 loading     boolean
 disabled    boolean

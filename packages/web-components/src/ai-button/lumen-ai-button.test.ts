@@ -18,7 +18,7 @@ describe("lumen-ai-button", () => {
     document.body.innerHTML = "";
   });
 
-  it("renders its label through the default slot with a default sparkle icon slot", async () => {
+  it("renders its label through the default slot with a default lm-aisymbol icon slot", async () => {
     const el = await renderButton("<lumen-ai-button>Summarize</lumen-ai-button>");
     expect(el.textContent?.trim()).toBe("Summarize");
     expect(innerButton(el).querySelector('slot[name="icon"]')).not.toBeNull();

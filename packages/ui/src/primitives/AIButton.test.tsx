@@ -4,7 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { AIButton } from "./AIButton";
 
 describe("AIButton", () => {
-  it("renders its label with a leading sparkle icon by default", () => {
+  it("renders its label with a leading lm-aisymbol icon by default", () => {
     render(<AIButton>Summarize</AIButton>);
     const button = screen.getByRole("button", { name: "Summarize" });
     expect(button).toBeInTheDocument();

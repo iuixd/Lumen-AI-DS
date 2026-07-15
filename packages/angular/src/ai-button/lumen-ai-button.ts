@@ -20,11 +20,14 @@ import { NgTemplateOutlet } from "@angular/common";
  * Split-Button-AI gaps carried over unchanged here) and the Web Components
  * package's `<lumen-ai-button>` for the same contract via `<slot>`.
  *
- * A leading icon is always rendered. The override uses a `TemplateRef`
- * input (`[icon]`) rather than content projection with fallback content —
- * see `<lumen-filter-chip>`'s doc comment for why `<ng-content>` alone
- * can't express "default icon unless overridden" the way a native `<slot>`
- * can.
+ * A leading icon is always rendered — the default is the Figma-specced
+ * `lm-aisymbol` glyph (confirmed via `get_design_context` on node
+ * 760:1965's Secondary Icon Only AI instances, 2026-07-15 — supersedes the
+ * generic sparkle glyph this shipped with initially). The override uses a
+ * `TemplateRef` input (`[icon]`) rather than content projection with
+ * fallback content — see `<lumen-filter-chip>`'s doc comment for why
+ * `<ng-content>` alone can't express "default icon unless overridden" the
+ * way a native `<slot>` can.
  */
 export type LumenAIButtonVariant = "primary" | "secondary" | "tertiary" | "outline";
 export type LumenAIButtonSize = "xs" | "sm" | "md" | "lg";
@@ -58,10 +61,8 @@ export type LumenAIButtonSize = "xs" | "sm" | "md" | "lg";
       } @else {
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path
-            d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z"
-            stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linejoin="round"
+            fill="currentColor"
+            d="M13.111 7.785c-1.336-1.336-2.251-3.67-2.705-5.794-.454 2.124-1.368 4.459-2.705 5.795s-3.671 2.25-5.795 2.705c2.125.454 4.46 1.368 5.796 2.705s2.25 3.671 2.705 5.795c.454-2.125 1.368-4.459 2.704-5.796 1.337-1.336 3.672-2.25 5.795-2.705-2.124-.454-4.458-1.368-5.795-2.705M18 14c-.214.999-.644 2.099-1.273 2.727C16.098 17.356 15 17.786 14 18c1 .215 2.098.644 2.727 1.273S17.787 21 18.001 22c.213-1 .643-2.098 1.272-2.727s1.728-1.059 2.727-1.274c-.999-.213-2.098-.643-2.727-1.272-.629-.628-1.06-1.728-1.273-2.727"
           />
         </svg>
       }

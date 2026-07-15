@@ -376,7 +376,14 @@ Example:
 
 ### Fixed
 
-- None.
+- Replaced `AIButton`'s default leading icon with the Figma-approved `lm-aisymbol` glyph, across all three framework packages.
+  - Source: Buttons page, node `760:1965` ("AI Communication Component Library") — `get_design_context` on 2026-07-15 showed the Secondary Icon Only AI sub-section's icon instances (nodes `843:7818`–`843:7824`, all four sizes) explicitly swapped to a component named `lm-aisymbol`, not the generic sparkle glyph the 2026-07-14 `AIButton` sync had approximated.
+  - Previous: `packages/ui/src/primitives/AIButton.tsx` defaulted to the generated `SparklesIcon` (a Lucide-style 4-point sparkle); `@lumen/web-components`'s `<lumen-ai-button>` and `@lumen/angular`'s `LumenAIButtonComponent` each hardcoded an inline stroke-drawn diamond/sparkle path as their default icon slot — three different, Figma-inaccurate glyphs across the three packages.
+  - Current: all three default to the same `lm-aisymbol` glyph (a two-sparkle mark, fill-based `currentColor` path). React imports the existing generated `LmAisymbolIcon` (already present in `packages/ui/src/icons/generated`, previously unused by `AIButton`); Web Components and Angular inline the equivalent `<path fill="currentColor" d="…">`, matching React's SVG exactly since neither package has an icon-import pipeline. Capability-specific icon overrides (e.g. the wand icon for "Rewrite", languages icon for "Translate" in the Capability Catalog story) are unchanged — only the *default* AI-symbol glyph was in scope.
+  - Affects: `packages/ui/src/primitives/AIButton.tsx`, `AIButton.stories.tsx`, `AIButton.test.tsx`; `packages/web-components/src/ai-button/lumen-ai-button.ts`, `lumen-ai-button.test.ts`; `packages/angular/src/ai-button/lumen-ai-button.ts`, `lumen-ai-button.test.ts`; `docs/component-specifications.md` §46
+  - Migration: none — `icon` remains an optional override prop/input/slot in all three packages; only the unoverridden default glyph's appearance changes
+  - Validation: `eslint .` passed repo-wide; `tsc --noEmit` passed for all three packages; 184 tests passed (76 `@lumen/ui` incl. the renamed AIButton default-icon test, 55 `@lumen/web-components` incl. AIButton, 53 `@lumen/angular` incl. AIButton); `pnpm --filter @lumen/tokens build` passed; production Storybook build passed (`AIButton.stories` and `Icon.stories` chunks built clean, capability-icon chunks like `WandSparklesIcon` unaffected)
+  - Changeset: `.changeset/ai-button-lm-aisymbol-icon.md` (`@lumen/ui` patch, `@lumen/web-components` patch, `@lumen/angular` patch)
 
 ### Migration
 

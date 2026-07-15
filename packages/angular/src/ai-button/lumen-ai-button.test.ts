@@ -46,7 +46,7 @@ describe("LumenAIButtonComponent", () => {
     return fixture;
   }
 
-  it("renders its projected label with a default sparkle icon", () => {
+  it("renders its projected label with a default lm-aisymbol icon", () => {
     const fixture = createHost();
     const button = innerButton(fixture.nativeElement);
     expect(button.textContent).toContain("Summarize");

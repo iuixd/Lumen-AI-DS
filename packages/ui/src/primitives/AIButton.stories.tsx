@@ -10,7 +10,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Sourced from the Figma 'Buttons' page's AI Communication Component Library (Lumen-DS-2027, node 760:1965): Primary, Secondary, Tertiary, and Outline AI, each in xs/sm/md/lg, always with a leading sparkle icon. `destructive` documents intent only — Figma specs no distinct color for it, so callers must add their own confirmation step before invoking a destructive AI action."
+          "Sourced from the Figma 'Buttons' page's AI Communication Component Library (Lumen-DS-2027, node 760:1965): Primary, Secondary, Tertiary, and Outline AI, each in xs/sm/md/lg, always with a leading `lm-aisymbol` icon. `destructive` documents intent only — Figma specs no distinct color for it, so callers must add their own confirmation step before invoking a destructive AI action."
       }
     }
   },
