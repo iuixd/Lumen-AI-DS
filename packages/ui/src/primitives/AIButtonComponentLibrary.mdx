@@ -1,0 +1,136 @@
+import { Meta, Canvas } from "@storybook/blocks";
+import * as AIButtonStories from "./AIButton.stories";
+import { aiCapabilities } from "./ai-capabilities";
+
+<Meta title="AI Components/AI Button Component Library" />
+
+# One AI button, every capability.
+
+A single reusable AI Button component. Applications expose different capabilities by
+changing only the label, icon, action, and prompt — never by inventing new button
+styles. Sourced from the Figma "Buttons" page's AI Communication Component Library
+(Lumen-AI-Design-System, node `760:1965`).
+
+This page is a living reference, not a static design mockup — every example below is
+a real `AIButton` from `@lumen/ui`, rendered from the same stories used in
+`AI Components/AI Button`'s own interactive Docs tab. Nothing here is a screenshot;
+when the component changes, this page changes with it.
+
+## Component Variants
+
+`primary` and `tertiary` reuse `Button`'s own colors exactly. `secondary` is a
+filled-tint look (brand-subtle fill + brand-border-strong border) — not the same
+treatment as `Button`'s borderless-until-hover `secondary`. `outline` has no
+equivalent on `Button` yet.
+
+<Canvas of={AIButtonStories.AllVariants} />
+
+## Sizes
+
+`xs`/`sm`/`md`/`lg` reuse `Button`'s padding and text scale. Figma's `xs` AI Button is
+28px tall (4px shorter than `Button`'s own `xs`) — not matched exactly, to avoid a
+second `xs` height scale for one component; tracked as a known limitation.
+
+<Canvas of={AIButtonStories.Sizes} />
+
+## States
+
+Loading replaces the leading icon with a spinner and is expected to pair with a label
+change (e.g. "Generating…"). Disabled uses `aria-disabled`, not the native `disabled`
+attribute, so the button stays keyboard-reachable.
+
+<Canvas of={AIButtonStories.Loading} />
+<Canvas of={AIButtonStories.Disabled} />
+
+## Capability Catalog
+
+The `capability` prop resolves a default label and icon from a single shared catalog
+(`./ai-capabilities`) — the same data both of the examples below render from. Category
+names and action descriptions are sourced verbatim from Figma's Capability Catalog
+section (node `860:9109`); icon choices are an editorial addition for usability, since
+Figma's own Capability Catalog frame uses the default `lm-aisymbol` glyph on every
+instance rather than specifying per-action icons.
+
+<Canvas of={AIButtonStories.ByCapability} />
+<Canvas of={AIButtonStories.CapabilityCatalog} />
+
+## Best Practices
+
+- Use for a single, explicit, user-initiated AI action (e.g. "Summarize", "Draft
+  reply") — not an implicit or automatic action the user didn't request.
+- Use `AIButton` for triggering an AI action; it is not for presenting AI-generated
+  output itself (that's a future `AIResponsePanel`, still unbuilt).
+- Mark data-altering AI actions `destructive` and require confirmation before running
+  them — Figma specifies no distinct color for this, it's a behavioral flag only.
+- Prefer `capability` over hand-assembling `icon`/label pairs for any of the 24
+  cataloged actions; it keeps every instance of the same action visually consistent
+  and machine-readable via `data-capability`.
+
+## Accessibility
+
+Same contract as `Button`: a native `<button>`, `aria-disabled` (not the native
+`disabled` attribute) so a disabled AI Button stays keyboard-reachable, `aria-busy`
+while loading, and a mandatory accessible name for icon-only instances — either an
+explicit `aria-label`/`aria-labelledby`, or (new) an automatic fallback to the
+resolved `capability`'s label. Passing neither logs a dev-mode console warning.
+
+## Design Tokens
+
+| Token | Used for |
+|---|---|
+| `color.brand.default` / `hover` / `pressed` | `primary` variant |
+| `color.brand.subtle` / `subtle-pressed` | `secondary` / `tertiary` / `outline` fills |
+| `color.brand.border-strong` | `secondary` / `outline` border |
+| `radius.md` | Corner radius, all variants |
+| `spacing.32` / `36` / `40` / `48` | Button heights (xs/sm/md/lg) |
+| `spacing.8` | Icon-to-label gap |
+| `spacing.10` / `12` / `16` / `20` | Horizontal padding (xs/sm/md/lg) |
+
+No new tokens were required beyond `brand.border-strong`, already added for Split
+Button's Outline type.
+
+## Do & Don't
+
+| Do | Don't |
+|---|---|
+| Use one `AIButton` per explicit AI action a user can trigger | Use it for an action the system runs automatically without the user asking |
+| Pass `capability` for any of the 24 cataloged actions | Hand-roll a custom icon/label pair that duplicates an existing capability |
+| Require confirmation before running a `destructive` AI action | Assume `destructive` changes the button's appearance — it doesn't |
+| Pair `isLoading` with a label change like "Generating…" | Leave the original label showing while `isLoading` is true |
+
+## Code Examples
+
+**React** — real, working today:
+
+```tsx
+import { AIButton } from "@lumen/ui";
+
+<AIButton capability="summarize" />
+<AIButton capability="draft" variant="secondary" />
+<AIButton capability="translate" variant="outline" />
+```
+
+**Web Components** — current API (`capability` prop parity is a tracked follow-up,
+not yet implemented):
+
+```html
+<lumen-ai-button variant="primary">
+  <span slot="icon"><!-- wand icon --></span>
+  Rewrite
+</lumen-ai-button>
+```
+
+**Angular** — current API (`capability` input parity is a tracked follow-up, not yet
+implemented):
+
+```html
+<lumen-ai-button variant="secondary" [icon]="rewriteIconTemplate">
+  Rewrite
+</lumen-ai-button>
+```
+
+## Split Button AI
+
+Documented in Figma (node `760:1965`'s Split Button AI sub-section) but not
+implemented in any framework package yet — no shipped component pairs `AIButton`
+with a dropdown segment. Tracked as a known limitation, not part of this page.

@@ -28,6 +28,7 @@ const preview: Preview = {
           "Introduction",
           "Foundations",
           "Primitives",
+          "AI Components",
           "Composite",
           "Layout",
           "Patterns"

@@ -80,4 +80,47 @@ describe("AIButton", () => {
     );
     expect(screen.getByTestId("custom-icon")).toBeInTheDocument();
   });
+
+  describe("capability", () => {
+    it("resolves a default label and icon from the catalog when no children are passed", () => {
+      render(<AIButton capability="summarize" />);
+      const button = screen.getByRole("button", { name: "Summarize" });
+      expect(button).toBeInTheDocument();
+      expect(button.querySelector("svg")).toBeInTheDocument();
+    });
+
+    it("lets explicit children override the capability's default label", () => {
+      render(<AIButton capability="summarize">Custom label</AIButton>);
+      expect(screen.getByRole("button", { name: "Custom label" })).toBeInTheDocument();
+    });
+
+    it("lets an explicit icon override the capability's default icon", () => {
+      render(
+        <AIButton capability="summarize" icon={<span data-testid="custom-icon" />}>
+          Summarize
+        </AIButton>
+      );
+      expect(screen.getByTestId("custom-icon")).toBeInTheDocument();
+    });
+
+    it("stamps data-capability and data-ai-analytics-event on the rendered button", () => {
+      render(<AIButton capability="draft" />);
+      const button = screen.getByRole("button", { name: "Draft" });
+      expect(button).toHaveAttribute("data-capability", "draft");
+      expect(button).toHaveAttribute("data-ai-analytics-event", "ai_button.draft");
+    });
+
+    it("defaults aria-label to the capability's label for an icon-only button with no explicit label", () => {
+      render(<AIButton iconOnly capability="translate" />);
+      expect(screen.getByRole("button", { name: "Translate" })).toBeInTheDocument();
+    });
+
+    it("warns in dev and falls back to default rendering for an unrecognized capability id", () => {
+      const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+      render(<AIButton capability="not-a-real-capability">Fallback label</AIButton>);
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining("unrecognized capability"));
+      expect(screen.getByRole("button", { name: "Fallback label" })).toBeInTheDocument();
+      warnSpy.mockRestore();
+    });
+  });
 });

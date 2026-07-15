@@ -5,6 +5,7 @@ const config: StorybookConfig = {
   stories: [
     "../src/**/*.mdx",
     "../../ui/src/**/*.stories.@(ts|tsx)",
+    "../../ui/src/**/*.mdx",
     "../../patterns/src/**/*.mdx",
     "../../patterns/src/**/*.stories.@(ts|tsx)"
   ],

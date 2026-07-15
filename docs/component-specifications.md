@@ -2247,6 +2247,11 @@ iconOnly    boolean
 loading     boolean
 disabled    boolean
 destructive boolean (behavioral only — no visual change)
+capability  string (React only, see Known limitations) — not a Figma property;
+            looks up a shared capability catalog (`packages/ui/src/primitives/
+            ai-capabilities.ts`) for a default label/icon, and stamps
+            `data-capability`/`data-ai-analytics-event` for a consuming app's
+            own action/tracking hook-in. Explicit `icon`/label props still win.
 ```
 
 ## Reference implementation (React)
@@ -2308,24 +2313,46 @@ icon-only instances (dev-mode console warning if omitted).
 
 ## Storybook
 
-`Primitives/AIButton`: Playground, All Variants, Sizes, Icon Only, Custom
-Icon, Loading, Destructive, Disabled, and a Capability Catalog composition
+`AI Components/AI Button` (renamed 2026-07-15 from `Primitives/AIButton`):
+Playground, All Variants, Sizes, Icon Only, Custom Icon, Loading,
+Destructive, Disabled, By Capability, and a Capability Catalog composition
 story (the category → example-action mapping from node `860:9109`, shown
 as a story rather than a new `packages/patterns` pattern — see Known
-limitations).
+limitations; both capability stories are now data-driven from
+`packages/ui/src/primitives/ai-capabilities.ts` rather than a hardcoded
+local array).
+
+`AI Components/AI Button Component Library`
+(`packages/ui/src/primitives/AIButtonComponentLibrary.mdx`, new
+2026-07-15): a standalone documentation page reproducing the Figma AI
+Communication Component Library's layout — Hero, Component Variants,
+Sizes, States, Capability Catalog, Best Practices, Accessibility, Design
+Tokens, Do & Don't, Code Examples, plus a Split Button AI "not yet
+implemented" note. Built entirely from `<Canvas of={...}>` embeds of the
+real stories above (no screenshots) so it can't drift from the actual
+component.
 
 ## Testing
 
 `packages/ui/src/primitives/AIButton.test.tsx`: label + default icon
 render, onClick, disabled behavior, loading aria-disabled/aria-busy,
 loading blocks onClick, icon-only accessible-name warning, all four
-variants render, destructive data-attribute, custom icon override.
+variants render, destructive data-attribute, custom icon override,
+capability label/icon resolution and override precedence, capability
+data-attributes, capability icon-only aria-label fallback, unrecognized
+capability dev warning + fallback.
+
+`packages/ui/src/primitives/ai-capabilities.test.ts` (new): catalog
+data-integrity checks (every entry has a label/description/category/
+analyticsEvent/icon, ids are unique) and `getAICapability` lookup
+behavior.
 
 ## Code mapping
 
 | Framework | Export | Source |
 |---|---|---|
 | React | `AIButton` | `packages/ui/src/primitives/AIButton.tsx` |
+| React | `aiCapabilities`, `AICapability`, `AICapabilityId`, `getAICapability` | `packages/ui/src/primitives/ai-capabilities.ts` |
 
 ## Known limitations
 
@@ -2334,11 +2361,26 @@ variants render, destructive data-attribute, custom icon override.
 - Split Button AI (a dropdown-toggle pairing analogous to `SplitButton`,
   documented under node `760:1965`) is not implemented — no shipped
   component composes `AIButton` with a dropdown segment yet.
-- The Capability Catalog is shown only as a Storybook story, not shipped
-  as a `packages/patterns` composition — it has no interaction behavior
-  beyond the individual `AIButton`s themselves, so promoting it to a real
-  pattern was deferred pending a concrete consumer need.
+- The Capability Catalog is shown only as a Storybook story (now data-
+  driven, see Storybook above), not shipped as a `packages/patterns`
+  composition — it has no interaction behavior beyond the individual
+  `AIButton`s themselves, so promoting it to a real pattern was deferred
+  pending a concrete consumer need.
+- `capability` is React-only — `@lumen/web-components`'s `<lumen-ai-button>`
+  and `@lumen/angular`'s `LumenAIButtonComponent` don't yet have an
+  equivalent property/input; parity is a tracked follow-up, matching this
+  repo's established pattern of shipping a React change first and bringing
+  the other two frameworks to parity in a separate PR.
+- `capability`'s icon-per-action mapping is an editorial choice, not
+  literally specified in Figma — the Capability Catalog frame (node
+  `860:9109`) uses the default `lm-aisymbol` glyph on every instance with
+  no per-action icon override documented there.
 
 ## Change history
 
 - 2026-07-14: added, sourced from node `760:1965`.
+- 2026-07-15: added the `capability` prop and its backing
+  `ai-capabilities.ts` catalog (React only), renamed the Storybook category
+  from `Primitives/AIButton` to `AI Components/AI Button`, refactored the
+  Capability Catalog story to be data-driven, and added the
+  `AI Components/AI Button Component Library` documentation page.

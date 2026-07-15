@@ -2,6 +2,7 @@ import { forwardRef, type ButtonHTMLAttributes, type MouseEventHandler, type Rea
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../lib/cn";
 import { LmAisymbolIcon } from "../icons/generated";
+import { getAICapability, type AICapabilityId } from "./ai-capabilities";
 
 /**
  * AIButton
@@ -46,6 +47,17 @@ import { LmAisymbolIcon } from "../icons/generated";
  * Split Button AI (a dropdown-toggle pairing, analogous to `SplitButton`)
  * is documented in Figma but not implemented here — see
  * `docs/changelog.md` `[Unreleased]`.
+ *
+ * `capability` is a convenience prop, not a Figma-sourced property: it looks
+ * up `./ai-capabilities`' catalog and supplies a default label/icon so
+ * callers don't have to hand-assemble both for every AI action (e.g.
+ * `<AIButton capability="summarize" />` instead of manually passing
+ * `icon`/`children`). Explicit `icon`/`children` always win when both are
+ * given — `capability` only fills in what's missing. It also stamps
+ * `data-capability`/`data-ai-analytics-event` on the rendered `<button>` so
+ * a consuming app can wire its own action/tracking; see `ai-capabilities.ts`
+ * for why `analyticsEvent` is a naming convention only, not a real
+ * analytics integration.
  */
 const aiButtonVariants = cva(
   "inline-flex items-center justify-center gap-[var(--spacing-8)] whitespace-nowrap rounded-md border-[1.5px] border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-[var(--color-border-focus)] aria-disabled:pointer-events-none aria-disabled:opacity-60",
@@ -100,15 +112,40 @@ export interface AIButtonProps
    * only documents intent and does not change styling.
    */
   destructive?: boolean;
+  /**
+   * Looks up `./ai-capabilities` and supplies a default `icon`/label for a
+   * known AI action (e.g. `capability="summarize"`). Not a Figma property —
+   * see the file doc comment above. Explicit `icon`/`children` still take
+   * precedence when passed; an unrecognized id falls back to default
+   * rendering with a dev-mode warning, same pattern as the `iconOnly`
+   * accessible-name check below.
+   */
+  capability?: AICapabilityId | (string & NonNullable<unknown>);
 }
 
 export const AIButton = forwardRef<HTMLButtonElement, AIButtonProps>(
-  ({ className, variant, size, icon, isLoading, iconOnly, destructive, disabled, onClick, children, ...props }, ref) => {
+  (
+    { className, variant, size, icon, isLoading, iconOnly, destructive, capability, disabled, onClick, children, ...props },
+    ref
+  ) => {
     const isDisabled = Boolean(disabled || isLoading);
+    const resolvedCapability = capability ? getAICapability(capability) : undefined;
+    const label = children ?? resolvedCapability?.label;
+    const CapabilityIcon = resolvedCapability?.icon;
+    const resolvedAriaLabel =
+      isLoading && iconOnly && !props["aria-label"]
+        ? "Generating"
+        : (props["aria-label"] ?? (iconOnly ? resolvedCapability?.label : undefined));
 
-    if (process.env.NODE_ENV !== "production" && iconOnly && !props["aria-label"] && !props["aria-labelledby"]) {
-      // eslint-disable-next-line no-console
-      console.warn("AIButton: iconOnly buttons must have an accessible name — pass aria-label.");
+    if (process.env.NODE_ENV !== "production") {
+      if (iconOnly && !resolvedAriaLabel && !props["aria-labelledby"]) {
+        // eslint-disable-next-line no-console
+        console.warn("AIButton: iconOnly buttons must have an accessible name — pass aria-label.");
+      }
+      if (capability && !resolvedCapability) {
+        // eslint-disable-next-line no-console
+        console.warn(`AIButton: unrecognized capability "${capability}" — falling back to default rendering.`);
+      }
     }
 
     const handleClick: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -125,18 +162,23 @@ export const AIButton = forwardRef<HTMLButtonElement, AIButtonProps>(
         type="button"
         {...props}
         data-destructive={destructive || undefined}
+        data-capability={capability || undefined}
+        data-ai-analytics-event={resolvedCapability?.analyticsEvent}
         className={cn(aiButtonVariants({ variant, size, iconOnly }), className)}
         aria-disabled={isDisabled || undefined}
         aria-busy={isLoading || undefined}
-        aria-label={isLoading && iconOnly && !props["aria-label"] ? "Generating" : props["aria-label"]}
+        aria-label={resolvedAriaLabel}
         onClick={handleClick}
       >
         {isLoading ? (
           <span className="size-[1em] shrink-0 animate-spin rounded-full border-2 border-current border-t-transparent" aria-hidden />
         ) : (
-          (icon ?? <LmAisymbolIcon className="size-[18px] shrink-0" aria-hidden />)
+          (icon ??
+            (CapabilityIcon ? <CapabilityIcon className="size-[18px] shrink-0" aria-hidden /> : undefined) ?? (
+              <LmAisymbolIcon className="size-[18px] shrink-0" aria-hidden />
+            ))
         )}
-        {isLoading ? children && <span className="sr-only">{children}</span> : children}
+        {isLoading ? label && <span className="sr-only">{label}</span> : label}
       </button>
     );
   }
