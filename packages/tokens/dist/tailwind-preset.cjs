@@ -189,6 +189,7 @@ module.exports = {
   "brand-subtle-pressed": "var(--color-brand-subtle-pressed)",
   "brand-border": "var(--color-brand-border)",
   "brand-border-strong": "var(--color-brand-border-strong)",
+  "brand-solid-active": "var(--color-brand-solid-active)",
   "status-success": "var(--color-status-success)",
   "status-success-subtle": "var(--color-status-success-subtle)",
   "status-success-text": "var(--color-status-success-text)",

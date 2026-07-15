@@ -77,6 +77,15 @@ describe("LumenButtonComponent (bare, no content projection)", () => {
     expect(host.hasAttribute("pill")).toBe(true);
   });
 
+  it("reflects variant=outline as a host attribute", () => {
+    TestBed.configureTestingModule({ providers: [provideZonelessChangeDetection()] });
+    const fixture = TestBed.createComponent(LumenButtonComponent);
+    fixture.componentRef.setInput("variant", "outline");
+    fixture.detectChanges();
+    const host: HTMLElement = fixture.nativeElement;
+    expect(host.getAttribute("variant")).toBe("outline");
+  });
+
   it("marks aria-disabled and aria-busy while loading", () => {
     TestBed.configureTestingModule({ providers: [provideZonelessChangeDetection()] });
     const fixture = TestBed.createComponent(LumenButtonComponent);
