@@ -104,6 +104,11 @@ describe("lumen-button", () => {
     expect(el.hasAttribute("pill")).toBe(true);
   });
 
+  it("reflects variant=outline as a host attribute", async () => {
+    const el = await renderButton('<lumen-button variant="outline">Save</lumen-button>');
+    expect(el.getAttribute("variant")).toBe("outline");
+  });
+
   it("defaults to variant=primary and size=md", async () => {
     const el = await renderButton("<lumen-button>Save changes</lumen-button>");
     expect(el.getAttribute("variant")).toBe("primary");

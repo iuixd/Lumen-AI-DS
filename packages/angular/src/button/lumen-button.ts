@@ -40,9 +40,18 @@ import {
  * the Web Components package's own `status` — see
  * packages/web-components/src/button/lumen-button.ts for the shared
  * sourcing rationale (tinted surface/text override independent of
- * `variant`, status-colored border only on `secondary`).
+ * `variant`, status-colored border only on `secondary`; not re-verified for
+ * `outline`).
+ *
+ * `secondary` was corrected and `outline` added 2026-07-16 — see
+ * Button.tsx's own doc comment for the full Figma node-id citations and
+ * reasoning (both variants share border/text colors, differing only in
+ * rest/hover fill; both share an identical solid-dark-fill-plus-white-text
+ * `active` state, `--color-brand-solid-active`; `outline`'s hover border is
+ * bound to the same variable as its hover fill in Figma, reproduced here as
+ * specced), matching the Web Components package's own identical fix.
  */
-export type LumenButtonVariant = "primary" | "raised" | "secondary" | "tertiary" | "link";
+export type LumenButtonVariant = "primary" | "raised" | "secondary" | "tertiary" | "link" | "outline";
 export type LumenButtonSize = "xs" | "sm" | "md" | "lg";
 export type LumenButtonStatus = "success" | "warning" | "error";
 
@@ -224,8 +233,8 @@ export type LumenButtonStatus = "success" | "warning" | "error";
     }
 
     :host([variant="secondary"]) button {
-      border-color: var(--color-brand-border);
-      background-color: transparent;
+      border-color: var(--color-brand-border-strong);
+      background-color: var(--color-brand-subtle);
       color: var(--color-brand-default);
     }
     :host([variant="secondary"]) button:hover:not([aria-disabled="true"]) {
@@ -233,10 +242,32 @@ export type LumenButtonStatus = "success" | "warning" | "error";
       background-color: var(--color-brand-subtle);
     }
     :host([variant="secondary"]) button:active:not([aria-disabled="true"]) {
-      border-color: var(--color-brand-default);
-      background-color: var(--color-brand-subtle-pressed);
+      border-color: transparent;
+      background-color: var(--color-brand-solid-active);
+      color: var(--color-neutral-white);
     }
     :host([variant="secondary"]) button[aria-disabled="true"] {
+      border-width: 1px;
+      border-color: var(--color-neutral-200);
+      background-color: var(--color-neutral-50);
+      color: var(--color-neutral-400);
+    }
+
+    :host([variant="outline"]) button {
+      border-color: var(--color-brand-border-strong);
+      background-color: transparent;
+      color: var(--color-brand-default);
+    }
+    :host([variant="outline"]) button:hover:not([aria-disabled="true"]) {
+      border-color: var(--color-brand-subtle);
+      background-color: var(--color-brand-subtle);
+    }
+    :host([variant="outline"]) button:active:not([aria-disabled="true"]) {
+      border-color: transparent;
+      background-color: var(--color-brand-solid-active);
+      color: var(--color-neutral-white);
+    }
+    :host([variant="outline"]) button[aria-disabled="true"] {
       border-width: 1px;
       border-color: var(--color-neutral-200);
       background-color: var(--color-neutral-50);

@@ -5,23 +5,24 @@ import { cn } from "../lib/cn";
 /**
  * Button
  * Sourced from the Figma "Buttons" page (Lumen-AI-Design-System, node 475:7210, formerly
- * 466:4365): variant taxonomy (Primary/Secondary/Tertiary/Link/Raised), sizes
- * (xs/sm/md/lg), per-size text (the dedicated `button-*` type scale), per-state
- * colors, the Pill Button shape modifier, and the focus-ring/elevation treatment
- * all trace to real component instances there. "Icon only" is documented as its
- * own Type in Figma (always Primary-styled, always bordered) rather than a
- * variant of its own — modeled here as the `{ variant: "primary", iconOnly: true }`
- * compound, since Figma doesn't spec icon-only Secondary/Tertiary/Link/Raised
- * looks and `iconOnly` still works as a general square-shape modifier for those.
- * See that page's "02 Accessibility & WCAG 2.1" section for the source of the
- * aria-disabled/aria-busy/aria-label requirements below. The page also has
- * `Left`/`Right` icon-position instances for Primary/Raised/Secondary/
- * Tertiary/Link — these don't get their own `variant`, since the existing
- * `iconStart`/`iconEnd` props already reproduce their exact box model (6px
- * gap, unchanged per-size padding); only the icon's own size is new — it
- * scales with Button `size` (14/16/18/18px for xs/sm/md/lg, the `--spacing-
- * 14`/`--spacing-18` tokens) independently of the `button-*` text scale, see
- * `Button.stories.tsx`'s `WithIcons` story for the sizing per size.
+ * 466:4365): variant taxonomy (Primary/Secondary/Tertiary/Link/Raised/Outline),
+ * sizes (xs/sm/md/lg), per-size text (the dedicated `button-*` type scale),
+ * per-state colors, the Pill Button shape modifier, and the focus-ring/elevation
+ * treatment all trace to real component instances there. "Icon only" is
+ * documented as its own Type in Figma (always Primary-styled, always bordered)
+ * rather than a variant of its own — modeled here as the `{ variant: "primary",
+ * iconOnly: true }` compound, since Figma doesn't spec icon-only Secondary/
+ * Tertiary/Link/Raised/Outline looks and `iconOnly` still works as a general
+ * square-shape modifier for those. See that page's "02 Accessibility & WCAG
+ * 2.1" section for the source of the aria-disabled/aria-busy/aria-label
+ * requirements below. The page also has `Left`/`Right` icon-position instances
+ * for Primary/Raised/Secondary/Tertiary/Link — these don't get their own
+ * `variant`, since the existing `iconStart`/`iconEnd` props already reproduce
+ * their exact box model (6px gap, unchanged per-size padding); only the icon's
+ * own size is new — it scales with Button `size` (14/16/18/18px for xs/sm/md/lg,
+ * the `--spacing-14`/`--spacing-18` tokens) independently of the `button-*`
+ * text scale, see `Button.stories.tsx`'s `WithIcons` story for the sizing per
+ * size.
  *
  * `status` ("success" | "warning" | "error") is a later addition sourced from
  * the same component-set's State property, which now includes Success/Error/
@@ -34,7 +35,31 @@ import { cn } from "../lib/cn";
  * Secondary instances were sourced; the override is applied to every variant
  * on the assumption the same tint is variant-agnostic, consistent with what
  * Primary vs. Secondary already showed (identical surface/text, border only
- * where the variant normally has one).
+ * where the variant normally has one). Not re-verified against `outline` —
+ * see Known limitations in `docs/component-specifications.md` §5.
+ *
+ * `secondary` and the new `outline` variant (both re-verified/added 2026-07-16
+ * via `get_design_context` on nodes 538:62/538:302/538:1262/538:842 for
+ * Secondary and 806:5997/806:5993/806:5989/806:5980 for Outline, all at
+ * Size=md): both share the exact same border (`brand.border-strong`, not the
+ * lighter `brand.border` `secondary` previously used at rest — a stale token
+ * this pass corrects) and text (`brand.default`) colors at every state — the
+ * *only* difference between them is the rest/hover fill: `secondary` is
+ * filled (`brand.subtle`) at rest and hover; `outline` is transparent at rest
+ * and only fills (`brand.subtle`) on hover, matching a bordered→filled
+ * "outline" convention. Active is identical for both: a solid `brand.solid-
+ * active` fill with white text and no border (see that token's own doc
+ * comment in `packages/tokens/src/semantic/color.json` — this replaces the
+ * `brand.subtle-pressed` fill `secondary` previously used on `active:`, which
+ * was a stale guess from before this direct re-verification). `outline`'s own
+ * hover border binds to the exact same Figma variable as its hover fill
+ * (`--button/surface/secondary/surface`) rather than a separate border
+ * variable — reproduced here as literally specced (`hover:border-[var(--color-
+ * brand-subtle)]`, matching its `hover:bg-*`) even though it reads as a likely
+ * Figma authoring artifact (a copy-paste of the fill variable into the border
+ * slot, the same class of quirk already documented elsewhere in this file),
+ * because the visual result (an invisible border blending into the fill) is
+ * unambiguous and reproducible either way.
  */
 export const buttonVariants = cva(
   "inline-flex items-center justify-center gap-[var(--spacing-6)] whitespace-nowrap rounded-md border-[1.5px] border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-[var(--color-border-focus)] aria-disabled:pointer-events-none aria-disabled:opacity-60",
@@ -55,7 +80,9 @@ export const buttonVariants = cva(
         raised:
           "bg-[var(--color-brand-default)] text-neutral-white [box-shadow:var(--shadow-button-default)] hover:bg-[var(--color-brand-hover)] hover:[box-shadow:var(--shadow-button-hover)] active:bg-[var(--color-brand-pressed)] active:[box-shadow:var(--shadow-button-active)] focus-visible:border-[var(--color-brand-border)] aria-disabled:border-transparent aria-disabled:bg-neutral-50 aria-disabled:text-neutral-400 aria-disabled:[box-shadow:var(--shadow-button-disabled)]",
         secondary:
-          "border-[var(--color-brand-border)] bg-transparent text-[var(--color-brand-default)] hover:border-[var(--color-brand-default)] hover:bg-[var(--color-brand-subtle)] active:border-[var(--color-brand-default)] active:bg-[var(--color-brand-subtle-pressed)] aria-disabled:border aria-disabled:border-neutral-200 aria-disabled:bg-neutral-50 aria-disabled:text-neutral-400",
+          "border-[var(--color-brand-border-strong)] bg-[var(--color-brand-subtle)] text-[var(--color-brand-default)] hover:border-[var(--color-brand-default)] hover:bg-[var(--color-brand-subtle)] active:border-transparent active:bg-[var(--color-brand-solid-active)] active:text-neutral-white aria-disabled:border aria-disabled:border-neutral-200 aria-disabled:bg-neutral-50 aria-disabled:text-neutral-400",
+        outline:
+          "border-[var(--color-brand-border-strong)] bg-transparent text-[var(--color-brand-default)] hover:border-[var(--color-brand-subtle)] hover:bg-[var(--color-brand-subtle)] active:border-transparent active:bg-[var(--color-brand-solid-active)] active:text-neutral-white aria-disabled:border aria-disabled:border-neutral-200 aria-disabled:bg-neutral-50 aria-disabled:text-neutral-400",
         tertiary:
           "bg-transparent text-[var(--color-brand-default)] hover:bg-[var(--color-brand-subtle)] active:bg-[var(--color-brand-subtle-pressed)] aria-disabled:bg-transparent aria-disabled:text-neutral-400",
         link: "min-w-0 border-0 bg-transparent p-[var(--spacing-4)] text-[var(--color-brand-default)] hover:underline active:underline aria-disabled:text-neutral-400"

@@ -53,9 +53,9 @@ inherit through the shadow DOM boundary, so no extra wiring is needed.
 
 | Property (attribute) | Type | Default | Notes |
 |---|---|---|---|
-| `variant` | `primary \| raised \| secondary \| tertiary \| link` | `primary` | |
+| `variant` | `primary \| raised \| secondary \| tertiary \| outline \| link` | `primary` | `outline` added 2026-07-16, alongside a fix to `secondary` (it previously rendered `bg-transparent` at rest — Figma re-verification confirmed a filled `brand.subtle` background all along). `outline` shares `secondary`'s border/text colors, differing only in rest/hover fill — see `Button.tsx`'s doc comment for the full citation. |
 | `size` | `xs \| sm \| md \| lg` | `md` | |
-| `status` | `success \| warning \| error` (optional) | none | Added 2026-07-14, mirrors `Button.tsx`. Tinted override independent of `variant`; status-colored border only on `secondary`. |
+| `status` | `success \| warning \| error` (optional) | none | Added 2026-07-14, mirrors `Button.tsx`. Tinted override independent of `variant`; status-colored border only on `secondary`, not re-verified for `outline`. |
 | `icon-only` | boolean | `false` | Requires `aria-label` or `aria-labelledby`; warns in the console otherwise. |
 | `pill` | boolean | `false` | |
 | `loading` | boolean | `false` | React's equivalent is named `isLoading` — this package drops the `is-` prefix per `docs/component-architecture.md` §5.1's own naming guidance, which the React package doesn't currently follow either. |

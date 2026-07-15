@@ -56,7 +56,10 @@ Icon content uses Angular's native content-projection selectors, not React's
 Same properties as `@lumen/web-components`' `<lumen-button>`, plus `status`
 (`success | warning | error`, optional), added 2026-07-14 to mirror
 `Button.tsx`'s later addition — a tinted override independent of `variant`,
-status-colored border only on `secondary`.
+status-colored border only on `secondary`, not re-verified for `outline`.
+`variant` gained `outline` 2026-07-16, alongside a fix to `secondary` (it
+previously rendered transparent at rest) — see `Button.tsx`'s doc comment
+for the full Figma citation; both packages fixed identically.
 
 ### `LumenSplitButtonComponent` (`<lumen-split-button>`)
 

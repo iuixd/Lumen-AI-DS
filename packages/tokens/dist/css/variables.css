@@ -319,6 +319,7 @@
   --color-brand-subtle-pressed: #F2CCD8;
   --color-brand-border: #F2CCD8;
   --color-brand-border-strong: #E599B1;
+  --color-brand-solid-active: #4C0018;
   --color-status-success: #00A700;
   --color-status-success-subtle: #E6F7E6;
   --color-status-success-text: #006400;
@@ -356,6 +357,7 @@
   --color-brand-subtle-pressed: #980030;
   --color-brand-border: #720024;
   --color-brand-border-strong: #980030;
+  --color-brand-solid-active: #720024;
   --color-status-success: #66CA66;
   --color-status-success-subtle: #004300;
   --color-status-success-text: #CCEDCC;

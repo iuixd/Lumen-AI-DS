@@ -22,14 +22,14 @@ const meta = {
     docs: {
       description: {
         component:
-          "Sourced from the Figma 'Buttons' page (Lumen-AI-Design-System, node 475:7210): Primary, Secondary, Tertiary, Link, Raised (Primary with elevation), each in xs/sm/md/lg, plus the Pill Button shape modifier. The page's Left/Right icon-position instances map to the `iconStart`/`iconEnd` props rather than their own variant — see the WithIcons story. `status` (success/warning/error) is a tinted status override sourced from the same component-set's State property — see the StatusStates story. Extend with a new variant/prop instead of creating a new button component — see CONTRIBUTING.md."
+          "Sourced from the Figma 'Buttons' page (Lumen-AI-Design-System, node 475:7210): Primary, Secondary, Tertiary, Link, Raised (Primary with elevation), Outline (transparent-until-hover, same border/text colors as Secondary), each in xs/sm/md/lg, plus the Pill Button shape modifier. The page's Left/Right icon-position instances map to the `iconStart`/`iconEnd` props rather than their own variant — see the WithIcons story. `status` (success/warning/error) is a tinted status override sourced from the same component-set's State property — see the StatusStates story (verified for Primary/Secondary only, not yet re-verified for Outline)."
       }
     }
   },
   argTypes: {
     variant: {
       control: "select",
-      options: ["primary", "secondary", "tertiary", "link", "raised"]
+      options: ["primary", "secondary", "tertiary", "link", "raised", "outline"]
     },
     size: { control: "select", options: ["xs", "sm", "md", "lg"] },
     status: { control: "select", options: [undefined, "success", "warning", "error"] },
@@ -60,6 +60,7 @@ export const AllVariants: Story = {
       <Button variant="raised">Raised</Button>
       <Button variant="secondary">Secondary</Button>
       <Button variant="tertiary">Tertiary</Button>
+      <Button variant="outline">Outline</Button>
       <Button variant="link">Link</Button>
     </div>
   )
@@ -80,6 +81,9 @@ export const Pill: Story = {
       </Button>
       <Button pill variant="tertiary">
         Tertiary
+      </Button>
+      <Button pill variant="outline">
+        Outline
       </Button>
     </div>
   )
@@ -134,6 +138,9 @@ export const WithIcons: Story = {
         <Button variant="tertiary" iconStart={<ArrowLeftIcon className={iconSizeBySize.md} />}>
           Tertiary
         </Button>
+        <Button variant="outline" iconStart={<ArrowLeftIcon className={iconSizeBySize.md} />}>
+          Outline
+        </Button>
         <Button variant="link" iconStart={<ArrowLeftIcon className={iconSizeBySize.md} />}>
           Link
         </Button>
@@ -150,6 +157,9 @@ export const WithIcons: Story = {
         </Button>
         <Button variant="tertiary" iconEnd={<ArrowRightIcon className={iconSizeBySize.md} />}>
           Tertiary
+        </Button>
+        <Button variant="outline" iconEnd={<ArrowRightIcon className={iconSizeBySize.md} />}>
+          Outline
         </Button>
         <Button variant="link" iconEnd={<ArrowRightIcon className={iconSizeBySize.md} />}>
           Link
@@ -243,6 +253,9 @@ export const Disabled: Story = {
         Save changes
       </Button>
       <Button disabled variant="tertiary">
+        Save changes
+      </Button>
+      <Button disabled variant="outline">
         Save changes
       </Button>
       <Button disabled pill variant="primary">

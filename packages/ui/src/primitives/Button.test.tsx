@@ -161,6 +161,42 @@ describe("Button", () => {
     }
   );
 
+  it("fills the secondary variant with the brand-subtle background and brand-border-strong border at rest, not transparent", () => {
+    // Regression test: secondary previously rendered bg-transparent at rest,
+    // only filling on hover, and used the lighter brand.border token — both
+    // wrong per a direct Figma re-check (Type=Secondary, State=Default).
+    render(<Button variant="secondary">Save changes</Button>);
+    const className = screen.getByRole("button", { name: "Save changes" }).className;
+    expect(className).toMatch(/\bbg-\[var\(--color-brand-subtle\)\]/);
+    const alwaysOnBorder = /(?<![-:\w])border-\[var\(--color-brand-border-strong\)\]/;
+    expect(className).toMatch(alwaysOnBorder);
+  });
+
+  it("gives secondary a solid dark fill with white text and no border when active", () => {
+    render(<Button variant="secondary">Save changes</Button>);
+    const className = screen.getByRole("button", { name: "Save changes" }).className;
+    expect(className).toMatch(/\bactive:bg-\[var\(--color-brand-solid-active\)\]/);
+    expect(className).toMatch(/\bactive:text-neutral-white\b/);
+    expect(className).toMatch(/\bactive:border-transparent\b/);
+  });
+
+  it("renders the outline variant transparent at rest with the same border/text colors as secondary", () => {
+    render(<Button variant="outline">Save changes</Button>);
+    const className = screen.getByRole("button", { name: "Save changes" }).className;
+    expect(className).toMatch(/\bbg-transparent\b/);
+    const alwaysOnBorder = /(?<![-:\w])border-\[var\(--color-brand-border-strong\)\]/;
+    expect(className).toMatch(alwaysOnBorder);
+    expect(className).toMatch(/\btext-\[var\(--color-brand-default\)\]/);
+  });
+
+  it("fills the outline variant on hover and gives it the same solid active fill as secondary", () => {
+    render(<Button variant="outline">Save changes</Button>);
+    const className = screen.getByRole("button", { name: "Save changes" }).className;
+    expect(className).toMatch(/\bhover:bg-\[var\(--color-brand-subtle\)\]/);
+    expect(className).toMatch(/\bactive:bg-\[var\(--color-brand-solid-active\)\]/);
+    expect(className).toMatch(/\bactive:text-neutral-white\b/);
+  });
+
   it("lets disabled styling win over a status tint when both are set", () => {
     render(
       <Button status="success" disabled>

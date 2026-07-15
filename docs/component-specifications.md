@@ -318,7 +318,13 @@ Baseline specification, reconciled against the shipped implementation
 formerly `466:4365`) on 2026-07-12 — see `docs/roadmap.md` Phase 13
 Findings for what was wrong before this reconciliation and why. Updated
 2026-07-14 to add the `status` (Success/Warning/Error) property — see
-`docs/changelog.md` `[Unreleased]`.
+`docs/changelog.md` `[Unreleased]`. Updated 2026-07-16: corrected `secondary`
+(it rendered `bg-transparent` at rest and used the lighter `brand.border`
+token — a direct `get_design_context` re-check against `Type=Secondary,
+State=Default` showed a filled `brand.subtle` background and the stronger
+`brand.border-strong` border at rest all along) and added the previously-
+unimplemented `outline` variant, across all three framework packages — see
+`docs/changelog.md` `[Unreleased]` for the full node-id citations.
 
 ## Purpose
 
@@ -366,6 +372,7 @@ Primary
 Raised
 Secondary
 Tertiary
+Outline
 Link
 ```
 
@@ -379,11 +386,24 @@ Same priority and coloring as Primary, with an elevation shadow that increases o
 
 ### Secondary
 
-Use for important supporting actions.
+Use for important supporting actions. Filled (`brand.subtle`) at rest and hover, with a `brand.border-strong` border and `brand.default` text — same border/text colors as Outline, differing only in the rest-state fill.
 
 ### Tertiary
 
 Use for lower-emphasis actions that still require a visible control boundary or text action treatment.
+
+### Outline
+
+Added 2026-07-16 (previously documented as an unresolved Figma-to-code
+difference — see `docs/changelog.md`). Same border (`brand.border-strong`)
+and text (`brand.default`) colors as Secondary; the only difference is fill —
+Outline stays transparent at rest and only fills (`brand.subtle`) on hover,
+where Secondary is already filled at rest. Both variants share an identical
+solid-dark-fill, white-text, no-border `active` state (`brand.solid-active`).
+Use where a bordered action should read as lower-emphasis than Secondary at
+rest — e.g. next to a Secondary button in the same group, or on a surface
+already busy enough that Secondary's constant fill would compete for
+attention.
 
 ### Link
 
@@ -483,7 +503,7 @@ exists on the Figma component or the shipped implementation; removed.
 Property contract (framework-neutral — every framework package exposes these, named and typed identically in spirit):
 
 ```text
-variant   enum: primary | raised | secondary | tertiary | link
+variant   enum: primary | raised | secondary | tertiary | outline | link
 size      enum: xs | sm | md | lg
 status    enum: success | warning | error (optional — no value means no status tint)
 iconOnly  boolean
@@ -499,7 +519,7 @@ Reference implementation — React (`@lumen/ui`, `packages/ui/src/primitives/But
 ```ts
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "raised" | "secondary" | "tertiary" | "link";
+  variant?: "primary" | "raised" | "secondary" | "tertiary" | "outline" | "link";
   size?: "xs" | "sm" | "md" | "lg";
   status?: "success" | "warning" | "error";
   iconStart?: React.ReactNode;
@@ -561,7 +581,13 @@ Button/Focus/Ring/Offset
 Button/Focus/Ring/Color
 ```
 
-Status tint tokens (variant-agnostic, applied via `status` rather than `variant`):
+`brand.solid-active` is the solid dark fill + white text used by both
+Secondary's and Outline's `active` state (added 2026-07-16) — distinct from
+`brand.pressed` (Primary/Raised's own solid-fill active state, one primitive
+step darker) and from `brand.subtle-pressed` (Tertiary's and AIButton's own
+lighter pressed fill, unaffected by this change).
+
+Status tint tokens (variant-agnostic, applied via `status` rather than `variant`; verified against Primary and Secondary only — not yet re-verified for Outline):
 
 ```text
 Color/Status/Success/Subtle   → --color-status-success-subtle
@@ -610,6 +636,9 @@ covers Playground, All Variants, Pill, Sizes, Icon Only, With Icons (by
 default size and by every size), Status States, Loading, and Disabled — Long
 Labels, explicit Dark Mode, and Keyboard Focus stories are still gaps against
 this requirement, not yet false claims corrected by this reconciliation.
+`outline` was added to All Variants, Pill, With Icons, and Disabled
+2026-07-16; Status States intentionally excludes it (not yet re-verified
+against Figma, see Status above).
 
 ## Testing
 
