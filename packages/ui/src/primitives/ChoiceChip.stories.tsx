@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { ChoiceChip } from "./ChoiceChip";
+import { getAICapability } from "./ai-capabilities";
 
 const meta = {
   title: "Primitives/ChoiceChip",
@@ -16,12 +17,14 @@ const meta = {
   },
   argTypes: {
     selected: { control: "boolean" },
-    disabled: { control: "boolean" }
+    disabled: { control: "boolean" },
+    tone: { control: "select", options: ["solid", "subtle"] }
   },
   args: {
     children: "Small",
     selected: false,
-    disabled: false
+    disabled: false,
+    tone: "solid"
   }
 } satisfies Meta<typeof ChoiceChip>;
 
@@ -39,6 +42,50 @@ export const States: Story = {
       <ChoiceChip disabled>Disabled</ChoiceChip>
     </div>
   )
+};
+
+export const ToggleGroup: Story = {
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          "`tone=\"subtle\"` reproduces the Figma 'AI ButtonGroup Component Library' Toggle Group (node 969:5151, multi-select capability pills) — reusing `ChoiceChip` rather than a new component, since its toggle+leading-icon+trailing-check interaction already matched. Labels/icons are drawn from the existing `ai-capabilities` catalog; each pill toggles independently (multi-select), unlike `SingleChoiceGroup` below."
+      }
+    }
+  },
+  render: () => {
+    function Demo() {
+      const ids = ["summarize", "explain-data", "translate", "detect-trends", "draft-reply", "show-references"] as const;
+      const [selected, setSelected] = useState<Set<string>>(new Set(["summarize", "explain-data", "show-references"]));
+      const toggle = (id: string) =>
+        setSelected((prev) => {
+          const next = new Set(prev);
+          next.has(id) ? next.delete(id) : next.add(id);
+          return next;
+        });
+      return (
+        <div className="flex flex-wrap items-center gap-3">
+          {ids.map((id) => {
+            const capability = getAICapability(id)!;
+            const Icon = capability.icon;
+            return (
+              <ChoiceChip
+                key={id}
+                tone="subtle"
+                icon={<Icon />}
+                selected={selected.has(id)}
+                onClick={() => toggle(id)}
+              >
+                {capability.label}
+              </ChoiceChip>
+            );
+          })}
+        </div>
+      );
+    }
+    return <Demo />;
+  }
 };
 
 export const SingleChoiceGroup: Story = {

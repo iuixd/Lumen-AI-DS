@@ -7,6 +7,7 @@ export * from "./primitives/TextLink";
 export * from "./primitives/Badge";
 export * from "./primitives/FilterChip";
 export * from "./primitives/ChoiceChip";
+export * from "./primitives/SegmentedControl";
 export * from "./primitives/Avatar";
 export * from "./primitives/Input";
 export * from "./primitives/Checkbox";
