@@ -13,13 +13,17 @@ import { cn } from "../lib/cn";
  * since it's a single-choice value picker, not a tab-panel switcher like
  * `Tabs`.
  *
- * Container padding, segment gap, segment padding, and both radii are
- * Figma-confirmed (3px/2px/16px/8px/12px respectively) against the "Tone
- * Selector" (`md`) instance only. `size` values are named in Figma's own
- * "Sizes" note as `sm`/`md`/`lg` = 28/36/44px, but only the height was
- * independently verified — `sm`/`lg` segment padding, gap, and radii reuse
- * the same `md`-derived values rather than inventing unverified per-size
- * figures. `lg`'s 44px isn't on the confirmed spacing scale (no
+ * Container padding, track radius, and segment radius are Figma-confirmed
+ * (3px/12px/8px) uniformly across all sizes. Per-size segment padding and
+ * type were re-verified 2026-07-16 against the "Size Rows" example (node
+ * 958:5090, `sm`/`md`/`lg` "Concise"/"Detailed" instances) — `sm` uses
+ * `Spacing/12` padding + `button-sm` type (12px/20px), `md` uses
+ * `Spacing/16` + `button-md` (14px/22px, the original "Tone Selector"
+ * evidence), `lg` uses `Spacing/20` + `button-lg` (16px/24px) — all three
+ * text tiers are exact matches for this repo's existing `button-*` type
+ * scale, already read off this same Buttons page for `Button` itself.
+ * `size` values are named in Figma's own "Sizes" note as `sm`/`md`/`lg` =
+ * 28/36/44px; `lg`'s 44px isn't on the confirmed spacing scale (no
  * `Spacing/44` token) and is rounded up to the existing `Spacing/48` — the
  * same treatment already applied to `SplitButton`'s sm dropdown segment.
  * Container padding is likewise rounded from Figma's exact 3px up to the
@@ -29,6 +33,7 @@ interface SegmentedControlContextValue {
   value: string;
   setValue: (v: string) => void;
   name: string;
+  size: "sm" | "md" | "lg";
   disabled?: boolean;
 }
 const SegmentedControlContext = createContext<SegmentedControlContextValue | null>(null);
@@ -43,6 +48,12 @@ const heightBySize = {
   sm: "h-[var(--spacing-28)]",
   md: "h-[var(--spacing-36)]",
   lg: "h-[var(--spacing-48)]"
+} as const;
+
+const optionStyleBySize = {
+  sm: "px-[var(--spacing-12)] text-button-sm",
+  md: "px-[var(--spacing-16)] text-button-md",
+  lg: "px-[var(--spacing-20)] text-button-lg"
 } as const;
 
 export interface SegmentedControlProps {
@@ -76,7 +87,7 @@ export function SegmentedControl({
   };
 
   return (
-    <SegmentedControlContext.Provider value={{ value: current, setValue, name, disabled }}>
+    <SegmentedControlContext.Provider value={{ value: current, setValue, name, size, disabled }}>
       <div
         {...props}
         role="radiogroup"
@@ -93,7 +104,7 @@ export function SegmentedControl({
 }
 
 export function SegmentedControlOption({ value: optionValue, disabled: optionDisabled, children }: { value: string; disabled?: boolean; children: ReactNode }) {
-  const { value, setValue, name, disabled: groupDisabled } = useSegmentedControlContext();
+  const { value, setValue, name, size, disabled: groupDisabled } = useSegmentedControlContext();
   const selected = value === optionValue;
   const disabled = groupDisabled || optionDisabled;
 
@@ -124,7 +135,8 @@ export function SegmentedControlOption({ value: optionValue, disabled: optionDis
       onClick={() => !disabled && setValue(optionValue)}
       onKeyDown={handleKeyDown}
       className={cn(
-        "inline-flex h-full shrink-0 items-center justify-center gap-[var(--spacing-6)] whitespace-nowrap rounded-[var(--radius-lg)] px-[var(--spacing-16)] text-button-md font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-[var(--color-border-focus)] disabled:pointer-events-none disabled:opacity-60",
+        "inline-flex h-full shrink-0 items-center justify-center gap-[var(--spacing-6)] whitespace-nowrap rounded-[var(--radius-lg)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-[var(--color-border-focus)] disabled:pointer-events-none disabled:opacity-60",
+        optionStyleBySize[size],
         selected
           ? "bg-[var(--color-segment-surface-selected)] text-[var(--color-segment-text-selected)] shadow-[0px_2px_2px_rgba(0,0,0,0.04)] border border-[var(--color-segment-border-selected)]"
           : "border border-transparent text-[var(--color-segment-text)] hover:text-[var(--color-segment-text-selected)]"

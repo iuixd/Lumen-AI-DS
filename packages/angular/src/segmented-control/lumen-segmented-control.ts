@@ -7,7 +7,9 @@ import {
   ContentChildren,
   QueryList,
   forwardRef,
-  booleanAttribute
+  booleanAttribute,
+  type OnChanges,
+  type SimpleChanges
 } from "@angular/core";
 import { LumenSegmentedControlOptionComponent } from "./lumen-segmented-control-option";
 
@@ -67,7 +69,7 @@ import { LumenSegmentedControlOptionComponent } from "./lumen-segmented-control-
     }
   `
 })
-export class LumenSegmentedControlComponent {
+export class LumenSegmentedControlComponent implements OnChanges {
   @Input() value = "";
   @Input() size: "sm" | "md" | "lg" = "md";
   @Input({ transform: booleanAttribute }) disabled = false;
@@ -76,6 +78,17 @@ export class LumenSegmentedControlComponent {
 
   @ContentChildren(forwardRef(() => LumenSegmentedControlOptionComponent), { descendants: true })
   options!: QueryList<LumenSegmentedControlOptionComponent>;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // OnPush: a `size`/`disabled` binding change on this host doesn't itself
+    // refresh child options (same sibling-refresh gap `select()` works
+    // around below) — only fires once options are queried (after content
+    // init), so the initial binding is covered by each option's own first
+    // render instead.
+    if ((changes["size"] || changes["disabled"]) && this.options) {
+      this.options.forEach((option) => option.refresh());
+    }
+  }
 
   isSelected(value: string): boolean {
     return this.value === value;

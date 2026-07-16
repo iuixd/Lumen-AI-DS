@@ -26,13 +26,22 @@ import { LumenSegmentedControlComponent } from "./lumen-segmented-control";
  * without this, clicking "Formal" would render correctly but a
  * previously-selected sibling like "Neutral" would keep showing
  * `aria-checked="true"` until some unrelated re-render touched it.
+ *
+ * `size` is read live from the injected parent (same getter pattern as
+ * `selected`/`isDisabled`) rather than pushed down as an `@Input` — the
+ * parent's `refresh()` fan-out (used for selection changes) also covers
+ * `size` changes for the same `OnPush`-sibling reason. Per-size padding/type
+ * re-verified 2026-07-16 against Figma's "Size Rows" example: `sm` =
+ * `Spacing/12` padding + `button-sm` type, `md` = `Spacing/16` +
+ * `button-md`, `lg` = `Spacing/20` + `button-lg`.
  */
 @Component({
   selector: "lumen-segmented-control-option",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    "[attr.selected]": "selected ? '' : null"
+    "[attr.selected]": "selected ? '' : null",
+    "[attr.size]": "size"
   },
   template: `
     <button
@@ -76,6 +85,17 @@ import { LumenSegmentedControlComponent } from "./lumen-segmented-control";
         color 0.15s ease;
     }
 
+    :host([size="sm"]) button {
+      padding: 0 var(--spacing-12);
+      font-size: var(--text-button-sm-size);
+      line-height: var(--text-button-sm-line-height);
+    }
+    :host([size="lg"]) button {
+      padding: 0 var(--spacing-20);
+      font-size: var(--text-button-lg-size);
+      line-height: var(--text-button-lg-line-height);
+    }
+
     button:hover {
       color: var(--color-segment-text-selected);
     }
@@ -116,6 +136,10 @@ export class LumenSegmentedControlOptionComponent {
 
   get selected(): boolean {
     return this.parent?.isSelected(this.value) ?? false;
+  }
+
+  get size(): "sm" | "md" | "lg" {
+    return this.parent?.size ?? "md";
   }
 
   get isDisabled(): boolean {

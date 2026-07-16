@@ -12,6 +12,7 @@ import { LumenSegmentedControlOptionComponent } from "./lumen-segmented-control-
       aria-label="Tone"
       [value]="value"
       [disabled]="disabled"
+      [size]="size"
       (valueChange)="onValueChange($event)"
     >
       <lumen-segmented-control-option value="formal">Formal</lumen-segmented-control-option>
@@ -23,6 +24,7 @@ import { LumenSegmentedControlOptionComponent } from "./lumen-segmented-control-
 })
 class TestHostComponent {
   value = "neutral";
+  size: "sm" | "md" | "lg" = "md";
   disabled = false;
   changes: string[] = [];
   onValueChange(value: string) {
@@ -79,6 +81,17 @@ describe("LumenSegmentedControlComponent", () => {
     fixture.detectChanges();
     expect(fixture.componentInstance.changes).toEqual(["friendly"]);
     expect(radio(fixture.nativeElement, "friendly").getAttribute("aria-checked")).toBe("true");
+  });
+
+  it("propagates size to every option", () => {
+    const lgFixture = createHost({ size: "lg" });
+    expect(option(lgFixture.nativeElement, "formal").getAttribute("size")).toBe("lg");
+    expect(option(lgFixture.nativeElement, "neutral").getAttribute("size")).toBe("lg");
+
+    TestBed.resetTestingModule();
+    const smFixture = createHost({ size: "sm" });
+    expect(option(smFixture.nativeElement, "formal").getAttribute("size")).toBe("sm");
+    expect(option(smFixture.nativeElement, "neutral").getAttribute("size")).toBe("sm");
   });
 
   it("disables all options when the group is disabled", () => {

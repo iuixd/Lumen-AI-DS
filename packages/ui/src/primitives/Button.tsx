@@ -38,6 +38,12 @@ import { cn } from "../lib/cn";
  * where the variant normally has one). Not re-verified against `outline` —
  * see Known limitations in `docs/component-specifications.md` §5.
  *
+ * Corner radius (2026-07-16): every checked instance across every type/size
+ * now binds `--radius/segment` (8px), not the `--radius/md` (6px) previously
+ * used here — confirmed via `get_design_context` on Primary xs/sm/lg and
+ * Secondary md instances. Maps directly onto the existing `radius.lg`
+ * primitive (8px), so this is `rounded-lg`, not a new token.
+ *
  * `secondary` and the new `outline` variant (both re-verified/added 2026-07-16
  * via `get_design_context` on nodes 538:62/538:302/538:1262/538:842 for
  * Secondary and 806:5997/806:5993/806:5989/806:5980 for Outline, all at
@@ -62,7 +68,7 @@ import { cn } from "../lib/cn";
  * unambiguous and reproducible either way.
  */
 export const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-[var(--spacing-6)] whitespace-nowrap rounded-md border-[1.5px] border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-[var(--color-border-focus)] aria-disabled:pointer-events-none aria-disabled:opacity-60",
+  "inline-flex items-center justify-center gap-[var(--spacing-6)] whitespace-nowrap rounded-lg border-[1.5px] border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-[var(--color-border-focus)] aria-disabled:pointer-events-none aria-disabled:opacity-60",
   {
     variants: {
       variant: {
@@ -159,7 +165,7 @@ export interface ButtonProps
    * pass `aria-label`. A dev-mode console warning fires if one isn't provided.
    */
   iconOnly?: boolean;
-  /** Figma's "Pill Button" modifier — fully rounded corners instead of the default `rounded-md`. */
+  /** Figma's "Pill Button" modifier — fully rounded corners instead of the default `rounded-lg`. */
   pill?: boolean;
 }
 

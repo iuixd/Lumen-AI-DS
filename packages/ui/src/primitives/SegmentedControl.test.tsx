@@ -64,4 +64,20 @@ describe("SegmentedControl", () => {
     await userEvent.click(formal);
     expect(onValueChange).not.toHaveBeenCalled();
   });
+
+  it("applies per-size padding and type instead of reusing md for every size", () => {
+    const { rerender } = renderControl({ size: "sm" });
+    const sm = screen.getByRole("radio", { name: "Formal" }).className;
+    expect(sm).toContain("spacing-12");
+    expect(sm).toContain("text-button-sm");
+
+    rerender(
+      <SegmentedControl aria-label="Tone" defaultValue="neutral" size="lg">
+        <SegmentedControlOption value="formal">Formal</SegmentedControlOption>
+      </SegmentedControl>
+    );
+    const lg = screen.getByRole("radio", { name: "Formal" }).className;
+    expect(lg).toContain("spacing-20");
+    expect(lg).toContain("text-button-lg");
+  });
 });

@@ -50,7 +50,7 @@ export const ToggleGroup: Story = {
     docs: {
       description: {
         story:
-          "`tone=\"subtle\"` reproduces the Figma 'AI ButtonGroup Component Library' Toggle Group (node 969:5151, multi-select capability pills) — reusing `ChoiceChip` rather than a new component, since its toggle+leading-icon+trailing-check interaction already matched. Labels/icons are drawn from the existing `ai-capabilities` catalog; each pill toggles independently (multi-select), unlike `SingleChoiceGroup` below."
+          "`tone=\"subtle\"` reproduces the Figma 'AI ButtonGroup Component Library' Toggle Group (node 969:5151, multi-select capability pills) — reusing `ChoiceChip` rather than a new component, since its toggle+leading-icon+trailing-check interaction already matched. Labels/icons are drawn from the existing `ai-capabilities` catalog; each pill toggles independently (multi-select), unlike `SingleChoiceGroup` below. The workspace-summary caption (node 969:5317, \"status-text\") is example content, not a `ChoiceChip` prop — its color (`#424849`) is `lumen-gray.800`, a primitive this component doesn't otherwise alias, used here via the raw CSS variable since it's illustrative story text, not a shipped API surface."
       }
     }
   },
@@ -65,22 +65,27 @@ export const ToggleGroup: Story = {
           return next;
         });
       return (
-        <div className="flex flex-wrap items-center gap-3">
-          {ids.map((id) => {
-            const capability = getAICapability(id)!;
-            const Icon = capability.icon;
-            return (
-              <ChoiceChip
-                key={id}
-                tone="subtle"
-                icon={<Icon />}
-                selected={selected.has(id)}
-                onClick={() => toggle(id)}
-              >
-                {capability.label}
-              </ChoiceChip>
-            );
-          })}
+        <div className="flex flex-col items-start gap-3">
+          <div className="flex flex-wrap items-center gap-3">
+            {ids.map((id) => {
+              const capability = getAICapability(id)!;
+              const Icon = capability.icon;
+              return (
+                <ChoiceChip
+                  key={id}
+                  tone="subtle"
+                  icon={<Icon />}
+                  selected={selected.has(id)}
+                  onClick={() => toggle(id)}
+                >
+                  {capability.label}
+                </ChoiceChip>
+              );
+            })}
+          </div>
+          <p className="text-body-xs text-[var(--color-lumen-gray-800)]">
+            {selected.size} of {ids.length} capabilities enabled for this workspace
+          </p>
         </div>
       );
     }

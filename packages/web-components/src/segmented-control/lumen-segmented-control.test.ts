@@ -79,4 +79,15 @@ describe("lumen-segmented-control", () => {
     await Promise.all(options.map((o) => o.updateComplete));
     expect(options.every((o) => o.disabled)).toBe(true);
   });
+
+  it("propagates size to every option", async () => {
+    document.body.innerHTML = markup;
+    const el = document.querySelector("lumen-segmented-control") as LumenSegmentedControl;
+    el.size = "lg";
+    await el.updateComplete;
+    const options = Array.from(el.querySelectorAll("lumen-segmented-control-option")) as LumenSegmentedControlOption[];
+    await Promise.all(options.map((o) => o.updateComplete));
+    expect(options.every((o) => o.size === "lg")).toBe(true);
+    expect(options.every((o) => o.getAttribute("size") === "lg")).toBe(true);
+  });
 });

@@ -9,6 +9,12 @@ import { customElement, property } from "lit/decorators.js";
  * events — the parent (not this element) owns which segment is selected,
  * same division of responsibility as `<lumen-split-button>`'s two buttons
  * reporting to their host.
+ *
+ * `size` is pushed down from the parent (reflected `size` attribute, synced
+ * the same way as `selected`/`disabled`) so each segment's padding/type can
+ * vary per size — re-verified 2026-07-16 against Figma's "Size Rows"
+ * example: `sm` = `Spacing/12` padding + `button-sm` type, `md` =
+ * `Spacing/16` + `button-md`, `lg` = `Spacing/20` + `button-lg`.
  */
 @customElement("lumen-segmented-control-option")
 export class LumenSegmentedControlOption extends LitElement {
@@ -39,6 +45,17 @@ export class LumenSegmentedControlOption extends LitElement {
         color 0.15s ease;
     }
 
+    :host([size="sm"]) button {
+      padding: 0 var(--spacing-12);
+      font-size: var(--text-button-sm-size);
+      line-height: var(--text-button-sm-line-height);
+    }
+    :host([size="lg"]) button {
+      padding: 0 var(--spacing-20);
+      font-size: var(--text-button-lg-size);
+      line-height: var(--text-button-lg-line-height);
+    }
+
     button:hover {
       color: var(--color-segment-text-selected);
     }
@@ -64,6 +81,9 @@ export class LumenSegmentedControlOption extends LitElement {
 
   @property({ type: String })
   value = "";
+
+  @property({ type: String, reflect: true })
+  size: "sm" | "md" | "lg" = "md";
 
   @property({ type: Boolean, reflect: true })
   selected = false;

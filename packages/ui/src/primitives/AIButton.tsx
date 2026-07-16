@@ -33,6 +33,10 @@ import { getAICapability, type AICapabilityId } from "./ai-capabilities";
  * confirmation before running, same rule Button.tsx already documents for
  * regular destructive actions. No dedicated visual treatment was invented.
  *
+ * Corner radius (2026-07-16): moved to `rounded-lg` (8px) — see `Button.tsx`'s
+ * matching note; confirmed via `get_design_context` on a "Split Button
+ * Groups" AI instance (node 769:9290) binding `--radius/segment`.
+ *
  * `isLoading` mirrors Button's own pattern exactly: the leading icon is
  * replaced by a spinner and the label is expected to change ("Generating…")
  * — confirmed via the Loading AI instance, which is otherwise identical to
@@ -60,7 +64,7 @@ import { getAICapability, type AICapabilityId } from "./ai-capabilities";
  * analytics integration.
  */
 const aiButtonVariants = cva(
-  "inline-flex items-center justify-center gap-[var(--spacing-8)] whitespace-nowrap rounded-md border-[1.5px] border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-[var(--color-border-focus)] aria-disabled:pointer-events-none aria-disabled:opacity-60",
+  "inline-flex items-center justify-center gap-[var(--spacing-8)] whitespace-nowrap rounded-lg border-[1.5px] border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-[var(--color-border-focus)] aria-disabled:pointer-events-none aria-disabled:opacity-60",
   {
     variants: {
       variant: {

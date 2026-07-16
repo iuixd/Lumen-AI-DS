@@ -14,11 +14,11 @@ import type { LumenSegmentedControlOption } from "./lumen-segmented-control-opti
  * children rather than a React-style render-prop/context API: each option
  * reports clicks and arrow-key intent via bubbling `lumen-segment-select`/
  * `lumen-segment-navigate` events; this host owns `value` and pushes
- * `selected`/`disabled` down onto its children directly (no shared context
- * mechanism exists across independent custom elements) — the parent/child
- * division of responsibility mirrors `<lumen-split-button>`'s own two
- * internal buttons, just across separate elements instead of one shadow
- * root. Fires a bubbling `lumen-value-change` event on selection.
+ * `selected`/`disabled`/`size` down onto its children directly (no shared
+ * context mechanism exists across independent custom elements) — the
+ * parent/child division of responsibility mirrors `<lumen-split-button>`'s
+ * own two internal buttons, just across separate elements instead of one
+ * shadow root. Fires a bubbling `lumen-value-change` event on selection.
  */
 @customElement("lumen-segmented-control")
 export class LumenSegmentedControl extends LitElement {
@@ -93,11 +93,12 @@ export class LumenSegmentedControl extends LitElement {
     for (const option of this._options) {
       option.selected = option.value === this.value;
       option.disabled = this.disabled || option.hasAttribute("disabled");
+      option.size = this.size;
     }
   }
 
   updated(changed: Map<string, unknown>) {
-    if (changed.has("value") || changed.has("disabled")) this._syncChildren();
+    if (changed.has("value") || changed.has("disabled") || changed.has("size")) this._syncChildren();
   }
 
   render() {

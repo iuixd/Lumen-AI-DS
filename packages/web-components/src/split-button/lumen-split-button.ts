@@ -36,7 +36,7 @@ export class LumenSplitButton extends LitElement {
       min-width: var(--spacing-120);
       align-items: stretch;
       overflow: hidden;
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-lg);
       transition:
         background-color 0.15s ease,
         border-color 0.15s ease;

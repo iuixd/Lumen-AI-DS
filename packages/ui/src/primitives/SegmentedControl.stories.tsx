@@ -10,7 +10,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Sourced from the Figma 'Buttons' page's 'AI ButtonGroup Component Library' section (Lumen-AI-Design-System, node 958:5058, 'Segmented Control Group'): a single-choice, tab-like control distinct from `ButtonGroup` (which joins full `Button`s with shared borders) — this is a padded track where the selected segment lifts onto its own elevated pill. Uses `role=\"radiogroup\"`/`role=\"radio\"`, not `Tabs`' tab-panel pattern, since it's a value picker rather than a content switcher. Only the `md` instance ('Tone Selector') was independently verified against Figma; `sm`/`lg` reuse the same padding/gap/radii."
+          "Sourced from the Figma 'Buttons' page's 'AI ButtonGroup Component Library' section (Lumen-AI-Design-System, node 958:5058, 'Segmented Control Group', and node 958:5090, 'Size Rows'): a single-choice, tab-like control distinct from `ButtonGroup` (which joins full `Button`s with shared borders) — this is a padded track where the selected segment lifts onto its own elevated pill. Uses `role=\"radiogroup\"`/`role=\"radio\"`, not `Tabs`' tab-panel pattern, since it's a value picker rather than a content switcher. Container padding, track radius, and segment radius are uniform across sizes; per-size segment padding and type (`button-sm`/`button-md`/`button-lg`) were independently verified against Figma's own `sm`/`md`/`lg` size-row instances."
       }
     }
   },

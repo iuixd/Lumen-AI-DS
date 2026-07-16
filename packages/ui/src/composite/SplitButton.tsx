@@ -22,6 +22,12 @@ import { ChevronDownIcon } from "../icons/generated";
  * (`docs/design-tokens.md` §4) — a new `Spacing/30` token wasn't invented for
  * one non-square edge case; see `docs/changelog.md` `[Unreleased]`.
  *
+ * Corner radius (2026-07-16): moved to `rounded-lg` (8px) — see `Button.tsx`'s
+ * matching note; confirmed via `get_design_context` on the Primary lg
+ * Default instance (node 555:202) and the Split Button AI examples (node
+ * 969:5761), both binding `--radius/segment`, not the `--radius/md` (6px)
+ * previously used here.
+ *
  * Renders two real <button> elements so each half stays independently focusable
  * and clickable — they're genuinely two different actions (run the default
  * action vs open a menu of alternatives). All color/shape styling lives on the
@@ -37,7 +43,7 @@ const containerVariants = cva(
   // `focus-within:` would also fire on a plain mouse click, since clicking a
   // <button> gives it real DOM focus. `:has(:focus-visible)` matches only
   // when a descendant's focus came from the keyboard, same as everywhere else.
-  "inline-flex min-w-[var(--spacing-120)] items-stretch overflow-hidden rounded-md transition-colors has-[:focus-visible]:outline-none has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-offset-4 has-[:focus-visible]:ring-[var(--color-border-focus)] aria-disabled:pointer-events-none aria-disabled:opacity-60",
+  "inline-flex min-w-[var(--spacing-120)] items-stretch overflow-hidden rounded-lg transition-colors has-[:focus-visible]:outline-none has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-offset-4 has-[:focus-visible]:ring-[var(--color-border-focus)] aria-disabled:pointer-events-none aria-disabled:opacity-60",
   {
     variants: {
       variant: {

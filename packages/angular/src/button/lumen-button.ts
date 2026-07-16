@@ -103,7 +103,7 @@ export type LumenButtonStatus = "success" | "warning" | "error";
       gap: var(--spacing-6);
       white-space: nowrap;
       cursor: pointer;
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-lg);
       border: 1.5px solid transparent;
       transition:
         background-color 0.15s ease,
