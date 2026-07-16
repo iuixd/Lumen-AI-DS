@@ -9,7 +9,7 @@
 - **Design Tokens node:** `426:4395`
 - **Dev Mode URL:** https://www.figma.com/design/GJBYRm6ySR7XIECFcHMgy2/Lumen-AI-Design-System?node-id=426-4395&m=dev
 - **Local Storybook:** http://localhost:6006/?path=/docs/introduction--docs
-- **Last reviewed:** 2026-07-15
+- **Last reviewed:** 2026-07-16
 
 ## Related documents
 
@@ -596,11 +596,14 @@ Maintain a synchronization manifest.
 | Scale | `429:14216` | Verification required | Foundation page required | Blocked | 2026-07-12 |
 | Spacing | `511:2` | Token source required | Foundation page required | Partially Synced | 2026-07-12 |
 | Radius | `511:78` | Token source required | Foundation page required | Partially Synced | 2026-07-12 |
-| Button (states/status) | `475:7210` | `packages/ui/src/primitives/Button.tsx` | `Primitives/Button` | Partially Synced — Outline type and possible Secondary Active drift unresolved, see `docs/changelog.md` `[Unreleased]` | 2026-07-14 |
+| Button (states/status) | `475:7210` | `packages/ui/src/primitives/Button.tsx` | `Primitives/Button` | Synced — Outline type and Secondary Active drift resolved, see `docs/changelog.md` "Fixed" | 2026-07-16 |
 | Split Button | `555:300` | `packages/ui/src/composite/SplitButton.tsx` | `Composite/SplitButton` | Partially Synced — sm dropdown segment squared to 36px vs. Figma's 30px, see `docs/component-specifications.md` §43 | 2026-07-14 |
 | Filter Chip | `581:409` | `packages/ui/src/primitives/FilterChip.tsx` | `Primitives/FilterChip` | Synced | 2026-07-14 |
-| Choice Chip | `581:485` | `packages/ui/src/primitives/ChoiceChip.tsx` | `Primitives/ChoiceChip` | Partially Synced — Hover/Focus/Disabled inferred from Filter Chip's identical tokens, not independently sourced per state | 2026-07-14 |
-| AI Button | `760:1965` | `packages/ui/src/primitives/AIButton.tsx` | `Primitives/AIButton` | Partially Synced — status tint, xs height, and Split Button AI not implemented, see `docs/component-specifications.md` §46 | 2026-07-14 |
+| Choice Chip | `581:485` | `packages/ui/src/primitives/ChoiceChip.tsx` | `Primitives/ChoiceChip` | Partially Synced — Hover/Focus/Disabled inferred from Filter Chip's identical tokens, not independently sourced per state; `tone`/`icon` (2026-07-16) independently confirmed | 2026-07-16 |
+| AI Button | `760:1965` | `packages/ui/src/primitives/AIButton.tsx` | `Primitives/AIButton` | Partially Synced — status tint and xs height not implemented, see `docs/component-specifications.md` §46; Split Button AI resolved below | 2026-07-16 |
+| Segmented Control | `958:5058` | `packages/ui/src/primitives/SegmentedControl.tsx` | `Primitives/SegmentedControl` | Partially Synced — only the `md` "Tone Selector" instance independently verified; `sm`/`lg` reuse `md`'s padding/gap/radii; `lg` height rounded 44→48px and container padding rounded 3→4px (both off the confirmed spacing scale) | 2026-07-16 |
+| Toggle Group | `969:5151` | `packages/ui/src/primitives/ChoiceChip.tsx` (`tone="subtle"`) | `Primitives/ChoiceChip` (`ToggleGroup` story) | Synced | 2026-07-16 |
+| Split Button AI | `969:5841` | `packages/ui/src/composite/SplitButton.stories.tsx` (composition only, no new component/variant) | `Composite/SplitButton` (`AI` story) | Synced | 2026-07-16 |
 | Other components | Component nodes required | Component package | Component stories | Not Synced | Not verified |
 
 Update this manifest only with evidence.

@@ -1,6 +1,8 @@
+import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { SplitButton } from "./SplitButton";
-import { PlusIcon } from "../icons/generated";
+import { PlusIcon, LmAisymbolIcon } from "../icons/generated";
+import { getAICapability } from "../primitives/ai-capabilities";
 
 const meta = {
   title: "Composite/SplitButton",
@@ -133,6 +135,56 @@ export const Loading: Story = {
       </SplitButton>
     </div>
   )
+};
+
+export const AI: Story = {
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          "Sourced from the Figma 'AI ButtonGroup Component Library' section (Lumen-AI-Design-System, node 969:5841, 'AI Draft'): a Split Button Group AI example — this resolves a previously-deferred gap ('Split Button AI... not built'). No new component or variant was needed: the instance reuses `SplitButton`'s existing `variant=\"primary\"` tokens exactly (`--button/surface`/`--button/onsurface`/`--button/separator` are unchanged from Primary), with `iconStart` set to the existing AI mark and the dropdown menu built from the existing `ai-capabilities` catalog (Summarize/Rewrite/Fix Grammar/Translate, matching Figma's own dropdown items). `SplitButton` deliberately renders no menu of its own — `onDropdownClick` is wired up by the consumer, demonstrated here with a minimal inline menu."
+      }
+    }
+  },
+  render: () => {
+    function Demo() {
+      const [open, setOpen] = useState(false);
+      const items = ["summarize", "rewrite", "fix-grammar", "translate"] as const;
+      return (
+        <div className="relative inline-block">
+          <SplitButton
+            iconStart={<LmAisymbolIcon className="size-[18px]" />}
+            onDropdownClick={() => setOpen((o) => !o)}
+            dropdownLabel="More AI actions"
+          >
+            AI Draft
+          </SplitButton>
+          {open && (
+            <div role="menu" className="absolute left-0 top-full z-10 mt-[var(--spacing-6)] min-w-[var(--spacing-120)] rounded-md border border-[var(--color-border-default)] bg-neutral-white py-[var(--spacing-6)] shadow-lg">
+              {items.map((id) => {
+                const capability = getAICapability(id)!;
+                const Icon = capability.icon;
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    role="menuitem"
+                    className="flex w-full items-center gap-[var(--spacing-8)] px-[var(--spacing-16)] py-[var(--spacing-8)] text-left text-button-md text-[var(--color-text-body)] hover:bg-[var(--color-background-subtle)]"
+                    onClick={() => setOpen(false)}
+                  >
+                    <Icon className="size-4 shrink-0" aria-hidden />
+                    {capability.label}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      );
+    }
+    return <Demo />;
+  }
 };
 
 export const Disabled: Story = {

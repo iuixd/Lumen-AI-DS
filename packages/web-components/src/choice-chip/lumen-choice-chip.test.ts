@@ -49,4 +49,23 @@ describe("lumen-choice-chip", () => {
     innerButton(el).click();
     expect(onClick).not.toHaveBeenCalled();
   });
+
+  it("defaults to tone=\"solid\"", async () => {
+    const el = await renderChip("<lumen-choice-chip>Small</lumen-choice-chip>");
+    expect(el.tone).toBe("solid");
+    expect(el.getAttribute("tone")).toBe("solid");
+  });
+
+  it("exposes an icon slot for an always-visible leading icon", async () => {
+    const el = await renderChip("<lumen-choice-chip>Summarize</lumen-choice-chip>");
+    expect(innerButton(el).querySelector('slot[name="icon"]')).not.toBeNull();
+  });
+
+  it("tone=\"subtle\" renders the check icon trailing, only when selected", async () => {
+    const unselected = await renderChip('<lumen-choice-chip tone="subtle">Summarize</lumen-choice-chip>');
+    expect(innerButton(unselected).querySelector("svg")).toBeNull();
+
+    const selected = await renderChip('<lumen-choice-chip tone="subtle" selected>Summarize</lumen-choice-chip>');
+    expect(innerButton(selected).querySelector("svg")).not.toBeNull();
+  });
 });

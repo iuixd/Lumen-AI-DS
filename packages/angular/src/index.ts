@@ -7,5 +7,8 @@ export type { LumenSplitButtonVariant, LumenSplitButtonSize } from "./split-butt
 export { LumenFilterChipComponent } from "./filter-chip/lumen-filter-chip";
 export { LumenChoiceChipComponent } from "./choice-chip/lumen-choice-chip";
 
+export { LumenSegmentedControlComponent } from "./segmented-control/lumen-segmented-control";
+export { LumenSegmentedControlOptionComponent } from "./segmented-control/lumen-segmented-control-option";
+
 export { LumenAIButtonComponent } from "./ai-button/lumen-ai-button";
 export type { LumenAIButtonVariant, LumenAIButtonSize } from "./ai-button/lumen-ai-button";

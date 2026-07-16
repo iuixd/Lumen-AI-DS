@@ -203,7 +203,12 @@ module.exports = {
   "status-error-text": "var(--color-status-error-text)",
   "status-error-border": "var(--color-status-error-border)",
   "status-info": "var(--color-status-info)",
-  "status-info-subtle": "var(--color-status-info-subtle)"
+  "status-info-subtle": "var(--color-status-info-subtle)",
+  "segment-surface": "var(--color-segment-surface)",
+  "segment-surface-selected": "var(--color-segment-surface-selected)",
+  "segment-border-selected": "var(--color-segment-border-selected)",
+  "segment-text": "var(--color-segment-text)",
+  "segment-text-selected": "var(--color-segment-text-selected)"
 },
       spacing: {
   "18": "var(--spacing-18)",
