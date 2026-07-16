@@ -18,13 +18,17 @@ import { PlusIcon, XIcon } from "../icons/generated";
  * page's "02 Accessibility & WCAG 2.1" guidance already followed by Button
  * and SplitButton, so a disabled chip stays keyboard-reachable.
  *
- * The default `PlusIcon` rendered a bordered square around the "+" glyph
- * until 2026-07-16 — not a component bug, but a stray extra path
- * (`packages/ui/src/icons/svg/plus.svg`'s "Stroke 18") left over from its
- * original Iconly-library export, unrelated to Figma's own bare-plus
- * glyph. Fixed at the icon-source level (affects every `PlusIcon`
- * consumer, not just this component) and regenerated via
- * `icons:import`.
+ * The default `PlusIcon` had two separate defects, both fixed 2026-07-16
+ * at the icon-source level (`packages/ui/src/icons/svg/plus.svg`,
+ * affecting every `PlusIcon` consumer, not just this component): (1) a
+ * bordered-square outline around the "+" — a stray extra path
+ * ("Stroke 18") left over from its original Iconly-library export; and
+ * (2) the "+" itself was far too small and thin — arms spanning ~30% of
+ * the icon at a 1.5-unit (of 24) stroke, when the live Figma instance
+ * (node `834:7026`, measured pixel-for-pixel from its 16×16 export since
+ * `get_design_context` returns it as a flattened image, not vector data)
+ * is a bold cross spanning 75% of the icon at a 3-unit stroke — over twice
+ * as long and twice as thick.
  */
 const filterChipVariants = cva(
   "inline-flex h-[var(--spacing-36)] items-center justify-center gap-[var(--spacing-6)] whitespace-nowrap rounded-full border-[1.5px] text-button-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-[var(--color-border-focus)] aria-disabled:pointer-events-none aria-disabled:border-neutral-200 aria-disabled:bg-neutral-50 aria-disabled:text-neutral-400",

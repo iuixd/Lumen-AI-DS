@@ -414,6 +414,15 @@ Example:
 
 ### Fixed
 
+- Corrected `PlusIcon`'s proportions — the "+" itself was roughly half the size and weight it should be, reported by the user against a fresh Figma screenshot after the bordered-square fix below shipped.
+  - Source: since `get_design_context` returns Figma's live "plus" instance (node `834:7026`, in the `FilterChip` "State=Default, Size=lg" instance `581:262`) as a flattened image rather than vector data, measured it pixel-for-pixel instead: downloaded its 16×16 PNG export and read raw pixel color (`System.Drawing.Bitmap.GetPixel`, thresholding near-white as background) to map the exact "+" shape. Result: a bold cross with 12px arms and 2px stroke width, centered — arms spanning 75% of the icon, stroke 12.5% of the icon.
+  - Previous: `plus.svg`'s two stroke paths spanned only ~30% of the 24-unit viewBox at 1.5-unit stroke width (Figma's proportions, scaled to the same 24-unit viewBox, are 18-unit arms at 3-unit stroke — over twice as long and twice as thick).
+  - Current: `plus.svg` updated to `M12 3V21` / `M3 12H21` at `stroke-width="3"`, matching the measured pixel geometry exactly (scaled 16→24 by the same 1.5× factor the viewBox difference implies); regenerated via `icons:import`. Same scope as the border fix below — affects every `PlusIcon` consumer identically, since the defect was in the shared icon source, not any one component.
+  - Affects: `packages/ui/src/icons/svg/plus.svg`, `packages/ui/src/icons/generated/PlusIcon.tsx` (regenerated, not hand-edited), `packages/ui/src/primitives/FilterChip.tsx` (doc comment only)
+  - Migration: none — rendering-geometry fix only, no prop or icon-name changed
+  - Validation: `eslint .` passed repo-wide; `tsc --noEmit` passed for `@lumen/ui`; 100 `@lumen/ui` tests passed (unchanged); confirmed only `plus.svg`/`PlusIcon.tsx` changed in the regenerated icon set; production Storybook build passed with the corrected path (`M12 3v18m-9-9h18`) confirmed present in the built `PlusIcon` chunk
+  - Changeset: none (same rationale as the border-fix entry below — a rendering-geometry bugfix to shared icon output, not a `@lumen/ui` prop/behavior change; rides along with the already-pending `@lumen/ui` patch changeset)
+
 - Fixed `FilterChip`'s default plus icon rendering with a stray bordered-square outline around the "+" glyph, reported by the user against a Figma screenshot and a Storybook screenshot.
   - Source: `packages/ui/src/icons/svg/plus.svg` — a legacy Iconly-library export whose `<g id="Iconly/Sharp/Light/Plus">` group carried three paths, not two: the two stroke segments that actually form the "+", plus an unrelated third path (`id="Stroke 18"`, a closed rectangle from `(2.75,2.75)` to `(21.25,21.25)`) that isn't part of the plus glyph at all. `packages/ui/src/icons/generated/PlusIcon.tsx` (auto-generated, "do not edit by hand") faithfully reproduced all three, since `icons-import.mjs` extracts the whole geometry group verbatim.
   - Previous: every `PlusIcon` consumer (`FilterChip`'s default leading icon, `SplitButton.stories.tsx`'s `WithIcon`/`AI` stories) rendered a bordered square around the "+", not present in Figma's own bare-plus glyph.

@@ -5,8 +5,8 @@
 <g id=" ">
 <rect width="1688" height="594" transform="translate(-376.25 -276.535)" fill="white"/>
 <g id="Iconly/Sharp/Light/Plus">
-<path id="Line_185" d="M11.9996 8.32764V15.654" stroke="#110E47" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"/>
-<path id="Line_186" d="M15.6673 11.9904H8.33398" stroke="#110E47" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"/>
+<path id="Line_185" d="M12 3V21" stroke="#110E47" stroke-width="3"/>
+<path id="Line_186" d="M3 12H21" stroke="#110E47" stroke-width="3"/>
 </g>
 </g>
 </g>
