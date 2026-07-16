@@ -16,8 +16,9 @@ export interface AppShellProps {
 }
 
 /** The standard product shell: fixed sidebar + main content area. Matches the
- * navigation pattern used in the Lumen-DS showcase site. Every enterprise
- * screen should be built inside this shell rather than a bespoke layout. */
+ * navigation pattern used in the Lumen AI Design System showcase site. Every
+ * enterprise screen should be built inside this shell rather than a bespoke
+ * layout. */
 export function AppShell({ nav, children, header, logo }: AppShellProps) {
   return (
     <div className="flex min-h-screen bg-[var(--color-background-subtle)]">

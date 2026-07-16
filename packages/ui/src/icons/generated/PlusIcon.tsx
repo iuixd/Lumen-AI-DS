@@ -13,7 +13,7 @@ export const PlusIcon = forwardRef<SVGSVGElement, SVGProps<SVGSVGElement>>(
       aria-hidden="true"
       {...props}
     >
-      <path stroke="currentColor" strokeLinecap="square" strokeLinejoin="round" strokeWidth="1.5" d="M12 8.328v7.326m3.667-3.664H8.334"/><path stroke="currentColor" strokeLinecap="round" strokeWidth="1.5" d="M21.25 21.25V2.75H2.75v18.5z" clipRule="evenodd"/>
+      <path stroke="currentColor" strokeLinecap="square" strokeLinejoin="round" strokeWidth="1.5" d="M12 8.328v7.326m3.667-3.664H8.334"/>
     </svg>
   )
 );
