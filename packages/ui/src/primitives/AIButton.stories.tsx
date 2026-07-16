@@ -11,16 +11,17 @@ const meta = {
     docs: {
       description: {
         component:
-          "Sourced from the Figma 'Buttons' page's AI Communication Component Library (Lumen-AI-Design-System, node 760:1965): Primary, Secondary, Tertiary, and Outline AI, each in xs/sm/md/lg, always with a leading `lm-aisymbol` icon. `destructive` documents intent only — Figma specs no distinct color for it, so callers must add their own confirmation step before invoking a destructive AI action. See the 'AI Components/AI Button Component Library' docs page for the full capability catalog and usage guidance."
+          "Sourced from the Figma 'Buttons' page's AI Communication Component Library (Lumen-AI-Design-System, node 760:1965): Primary, Raised (Primary with elevation), Secondary, Tertiary, Outline, and Link AI, each in xs/sm/md/lg, always with a leading `lm-aisymbol` icon. `destructive` documents intent only — Figma specs no distinct color for it, so callers must add their own confirmation step before invoking a destructive AI action. `status` (success/warning/error) is a tinted status override sourced from the same 'States' table (node 852:7996) — Primary/Raised get a solid fill instead of the subtle tint the other variants use, see the StatusStates story and the component's own doc comment. See the 'AI Components/AI Button Component Library' docs page for the full capability catalog and usage guidance."
       }
     }
   },
   argTypes: {
     variant: {
       control: "select",
-      options: ["primary", "secondary", "tertiary", "outline"]
+      options: ["primary", "raised", "secondary", "tertiary", "outline", "link"]
     },
     size: { control: "select", options: ["xs", "sm", "md", "lg"] },
+    status: { control: "select", options: [undefined, "success", "warning", "error"] },
     isLoading: { control: "boolean" },
     disabled: { control: "boolean" },
     destructive: { control: "boolean" },
@@ -49,9 +50,52 @@ export const AllVariants: Story = {
   render: () => (
     <div className="flex flex-wrap items-center gap-3">
       <AIButton variant="primary">Primary AI</AIButton>
+      <AIButton variant="raised">Raised AI</AIButton>
       <AIButton variant="secondary">Secondary AI</AIButton>
       <AIButton variant="tertiary">Tertiary AI</AIButton>
       <AIButton variant="outline">Outline AI</AIButton>
+      <AIButton variant="link">Link AI</AIButton>
+    </div>
+  )
+};
+
+export const StatusStates: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div className="flex flex-col gap-3">
+      <div className="flex flex-wrap items-center gap-3">
+        <AIButton variant="primary" status="success">
+          Success
+        </AIButton>
+        <AIButton variant="primary" status="warning">
+          Warning
+        </AIButton>
+        <AIButton variant="primary" status="error">
+          Error
+        </AIButton>
+      </div>
+      <div className="flex flex-wrap items-center gap-3">
+        <AIButton variant="raised" status="success">
+          Success
+        </AIButton>
+        <AIButton variant="raised" status="warning">
+          Warning
+        </AIButton>
+        <AIButton variant="raised" status="error">
+          Error
+        </AIButton>
+      </div>
+      <div className="flex flex-wrap items-center gap-3">
+        <AIButton variant="secondary" status="success">
+          Success
+        </AIButton>
+        <AIButton variant="secondary" status="warning">
+          Warning
+        </AIButton>
+        <AIButton variant="secondary" status="error">
+          Error
+        </AIButton>
+      </div>
     </div>
   )
 };

@@ -28,12 +28,27 @@ import { CheckIcon } from "../icons/generated";
  * variant already binds to (Figma reuses `--button/surface/secondary/*`
  * variables here, not a new set) — no new tokens were needed for either
  * state.
+ *
+ * `tone="subtle"`'s box model was corrected 2026-07-16 (re-verified via
+ * `get_design_context` on the live Toggle Group pill instances, node
+ * `969:5287`/`969:5299`) — it does NOT share `tone="solid"`'s 36px/
+ * `button-lg`/6px-gap/12px-padding/1.5px-border box model, which is
+ * `ChoiceChip`'s own 581:485 spec, a different Figma component instance.
+ * The Toggle Group pill instead hugs `py-8` around an 18px-line-height
+ * 14px label to a **38px** height (the new `--spacing-38` token), uses
+ * `button-md` type (14px/22px, not `button-lg`'s 16px/24px), an **8px**
+ * gap, **16px** horizontal padding, and a plain 1px border (not 1.5px) —
+ * and its leading icon is **14px**, not the 16px `size-4` used elsewhere.
+ * The trailing check icon (12px, `size-3`) was already correct.
  */
 const choiceChipVariants = cva(
-  "inline-flex h-[var(--spacing-36)] items-center justify-center gap-[var(--spacing-6)] whitespace-nowrap rounded-full border-[1.5px] px-[var(--spacing-12)] text-button-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-[var(--color-border-focus)] aria-disabled:pointer-events-none aria-disabled:border-neutral-200 aria-disabled:bg-neutral-50 aria-disabled:text-neutral-400",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-[var(--color-border-focus)] aria-disabled:pointer-events-none aria-disabled:border-neutral-200 aria-disabled:bg-neutral-50 aria-disabled:text-neutral-400",
   {
     variants: {
-      tone: { solid: "", subtle: "" },
+      tone: {
+        solid: "h-[var(--spacing-36)] gap-[var(--spacing-6)] border-[1.5px] px-[var(--spacing-12)] text-button-lg",
+        subtle: "h-[var(--spacing-38)] gap-[var(--spacing-8)] border px-[var(--spacing-16)] text-button-md"
+      },
       selected: { false: "", true: "" }
     },
     compoundVariants: [
@@ -102,7 +117,13 @@ export const ChoiceChip = forwardRef<HTMLButtonElement, ChoiceChipProps>(
         onClick={handleClick}
       >
         {tone === "solid" && selected && <CheckIcon className="size-4 shrink-0" aria-hidden />}
-        {icon && <span className="size-4 shrink-0 [&>svg]:size-full">{icon}</span>}
+        {icon && (
+          <span
+            className={cn("shrink-0 [&>svg]:size-full", tone === "subtle" ? "size-[var(--spacing-14)]" : "size-4")}
+          >
+            {icon}
+          </span>
+        )}
         {children}
         {tone === "subtle" && selected && <CheckIcon className="size-3 shrink-0" aria-hidden />}
       </button>
