@@ -54,11 +54,29 @@ describe("AIButton", () => {
     warnSpy.mockRestore();
   });
 
-  it.each(["primary", "secondary", "tertiary", "outline"] as const)(
+  it.each(["primary", "raised", "secondary", "tertiary", "outline", "link"] as const)(
     "renders the %s variant without throwing",
     (variant) => {
       render(<AIButton variant={variant}>Summarize</AIButton>);
       expect(screen.getByRole("button", { name: "Summarize" })).toBeInTheDocument();
+    }
+  );
+
+  it.each(["success", "warning", "error"] as const)(
+    "renders the %s status without throwing, for both solid and subtle variants",
+    (status) => {
+      render(
+        <>
+          <AIButton variant="primary" status={status}>
+            Primary
+          </AIButton>
+          <AIButton variant="secondary" status={status}>
+            Secondary
+          </AIButton>
+        </>
+      );
+      expect(screen.getByRole("button", { name: "Primary" })).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Secondary" })).toBeInTheDocument();
     }
   );
 

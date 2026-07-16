@@ -212,6 +212,7 @@ module.exports = {
 },
       spacing: {
   "18": "var(--spacing-18)",
+  "38": "var(--spacing-38)",
   "120": "var(--spacing-120)",
   "128": "var(--spacing-128)",
   "layout-xs": "var(--spacing-layout-xs)",

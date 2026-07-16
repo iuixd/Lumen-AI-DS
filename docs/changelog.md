@@ -350,6 +350,15 @@ Example:
   - Migration: none
   - Validation: re-queried `get_variable_defs` on node `426:4396` after the Figma fix; confirmed no `Gray`/`Foundation`/`Lumen Crimson` entries remain and every remaining value matches the existing primitive source
 
+- Added `raised`/`link` variants and a `status` (success/warning/error) modifier to `AIButton`, closing a gap found during a full visual QA re-audit of the "Buttons" page (node `466:4365`) against fresh Figma Dev Mode data.
+  - Source: the "AI Button Component Library" States table (node `852:7996`), which specs 6 variant columns (Primary Raised, Primary, Secondary, Tertiary, Outline, Link) × 9 state rows (Default/Hover/Active/Focus/Disabled/Loading/Success/Error/Warning) — `AIButton` only covered 4 of those columns and none of the status rows. Confirmed via `get_design_context` on: `852:8035` (Primary Raised Default), `860:8464` (Link Default), `860:8278`/`860:8242` (Primary/Primary Raised Success), `860:8280`/`860:8282` (Primary Error/Warning), `860:8344`/`860:8346` (Secondary Success/Error).
+  - Previous: `AIButton`'s `variant` union was `"primary" | "secondary" | "tertiary" | "outline"` only, with no elevated-Primary or text-link option and no `status` prop at all — every AI action needing a success/error/warning tint had no supported way to express it.
+  - Current: `raised` reuses `Button`'s exact elevation classes (same `--button/shadow/ambient`/`--button/shadow` tokens) — Figma's "Primary Raised" AI instance is pixel-identical to `Button`'s own. `link` is deliberately NOT a copy of `Button`'s `link` (which only underlines on hover) — Figma's AI Link instance is always underlined and still carries the mandatory leading icon, reusing `Button.link`'s `gap-8`/`p-4`/`min-w-0` compact layout otherwise. `status` is NOT a copy of `Button`'s status treatment either: `secondary`/`tertiary`/`outline`/`link` get the same subtle tint `Button` uses (with the same Secondary-only tinted-border exception `Button.tsx` already documents), but `primary`/`raised` get a **solid** fill with white text instead — Success uses the darker `success.text` tier (green.700, `#006400`) as its own solid fill rather than the usual light `success.subtle`, while Error/Warning use their base tier (red.500/orange.500) directly, an asymmetry reproduced as literally specced rather than smoothed over (plausibly a contrast-driven Figma choice, since green.500 against white wouldn't clear the same ratio red.500/orange.500 do). `raised` keeps its elevation shadow under a status override, matching the Figma instance.
+  - Affects: `packages/ui/src/primitives/{AIButton.tsx,AIButton.stories.tsx,AIButton.test.tsx}`
+  - Migration: none — both are new, additive `variant`/`status` values; existing `primary`/`secondary`/`tertiary`/`outline` usage is unchanged
+  - Validation: `eslint .` passed repo-wide; `tsc --noEmit` passed for `@lumen/ui`; 236 tests passed across the workspace (105 `@lumen/ui`, up from 100 — 5 new `AIButton` variant/status tests; `@lumen/web-components`/`@lumen/angular`/`@lumen/patterns` unaffected, `AIButton` is `@lumen/ui`-only); production Storybook build passed with `raised`/`link`/`status`-tinted classes confirmed present in the built `AIButton` chunk. Live browser/visual verification was not performed (no browser automation available in this session).
+  - Changeset: `.changeset/aibutton-raised-link-status.md` (`@lumen/ui` minor)
+
 ### Changed
 
 - No confirmed token-value changes are recorded yet.
@@ -476,6 +485,15 @@ Example:
   - Migration: none
   - Validation: fetched both URLs directly — old path returns 404, new path returns the live Storybook (`@storybook/core - Storybook` title)
   - Changeset: none (documentation-only change, no package affected)
+
+- Corrected `ChoiceChip`'s `tone="subtle"` box model, found during a full visual QA re-audit of the "Buttons" page (node `466:4365`) against fresh Figma Dev Mode data.
+  - Source: `get_design_context` on the live "Toggle Group" pill instances (node `969:5287` "pill-summarize", `969:5299` "pill-translate") that `tone="subtle"` is sourced from.
+  - Previous: `tone="subtle"` shared its entire box model (36px height, `button-lg` type, 6px gap, 12px horizontal padding, 1.5px border, 16px leading-icon slot) with `tone="solid"`, which is correct for `tone="solid"`'s own Figma source (node `581:485`) but not for the Toggle Group pill — a different Figma component instance the two tones happened to have been conflated under one shared set of box-model classes.
+  - Current: `tone="subtle"` now independently binds the Toggle Group pill's real values: a hugged **38px** height (`py-8` around an 18px-line-height label; added `--spacing-38`, since no existing token matched), `button-md` type (14px/22px, not `button-lg`'s 16px/24px), an **8px** gap, **16px** horizontal padding, a plain 1px border (not 1.5px), and a **14px** leading-icon slot (not the 16px `size-4` used elsewhere) — colors were already exact matches and are unchanged. `tone="solid"` is untouched.
+  - Affects: `packages/tokens/src/spacing.json` (new `38` key), `packages/ui/src/primitives/ChoiceChip.tsx`
+  - Migration: none — visual/box-model correction only, no prop or default changed
+  - Validation: `eslint .` passed repo-wide; `tsc --noEmit` passed for `@lumen/ui`; `pnpm --filter @lumen/tokens build` passed with `--spacing-38` confirmed in the generated CSS; 236 tests passed across the workspace (`ChoiceChip.test.tsx`'s existing 8 tests unaffected, behavior-only assertions); production Storybook build passed with the corrected `ToggleGroup` story confirmed in the built output. Live browser/visual verification was not performed (no browser automation available in this session).
+  - Changeset: `.changeset/aibutton-raised-link-status.md` (shared with the `AIButton` entry above — both are part of the same visual QA audit pass; `@lumen/tokens` minor, `@lumen/ui` minor)
 
 ### Migration
 
