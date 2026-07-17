@@ -64,6 +64,15 @@ Use the following headings for every release:
   - Validation: Markdown formatting check passed and all 45 repository-relative links resolve
   - Changeset: none (documentation-only change)
 
+- Restructured README.md's "Create a React application" section into progressive disclosure, and added Corepack pnpm-version-mismatch troubleshooting guidance to Prerequisites.
+  - Source: user-directed feedback that the installation walkthrough felt overwhelming, plus a live-reproduced Corepack/pnpm version-resolution failure (`corepack pnpm --version` resolving a newer cached release than this repository's `11.11.0` pin, tripping pnpm's own corepack-invocation version guard) — see `docs/roadmap.md` Phase 14 Findings
+  - Previous: "Create a React application" presented the quick-start commands, the "what you get" bullets, and non-interactive scripting flags as one flat, equally-weighted block, with no step showing how to run the generated app; Prerequisites had no guidance beyond "the result must be `11.11.0`" if the pnpm version check failed
+  - Current: "Create a React application" now has a "Quick start" subsection (scaffold, then `cd apps/<name>` + `corepack pnpm dev`), a "What you get" subsection, and non-interactive/scripted usage collapsed into a `<details>` block; Prerequisites has a new "If `corepack pnpm --version` reports the wrong version" subsection with an ordered remediation path (`corepack install`, then `COREPACK_DEFAULT_TO_LATEST=0`) — tested end-to-end against a live reproduction of the version-mismatch error, which resolved successfully afterward
+  - Affects: `README.md`, `docs/roadmap.md` (Phase 14 Findings)
+  - Migration: none — documentation only, no command or script behavior changed
+  - Validation: reviewed diff manually; all referenced commands already existed and were unchanged; the troubleshooting remediation was verified live against a real, reproduced version-mismatch failure
+  - Changeset: none (documentation-only change)
+
 - Updated the Storybook manager branding and browser metadata.
   - Source: local Storybook manager; no Figma node is involved
   - Previous: the sidebar used a combined SVG wordmark on the gray app background, and browser tabs used Storybook's dynamic title and default favicon
