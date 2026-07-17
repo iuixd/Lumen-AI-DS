@@ -66,9 +66,11 @@ jobs:
       # so pnpm-lock.yaml can't know about it yet). A second, non-frozen install
       # here links its workspace:* dependencies and updates the lockfile only
       # inside this ephemeral CI workspace; nothing from this step is committed
-      # back to the repository.
+      # back to the repository. `--no-frozen-lockfile` is required explicitly:
+      # pnpm auto-detects GitHub Actions' CI=true and defaults to frozen-lockfile
+      # mode even for a bare `pnpm install`, which would otherwise fail here.
       - name: Install the generated app's workspace dependencies
-        run: pnpm install
+        run: pnpm install --no-frozen-lockfile
 
       - name: Type-check the generated app
         run: pnpm --filter ci-lumen-react-app typecheck
