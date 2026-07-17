@@ -10,7 +10,7 @@
 - **Dev Mode URL:** https://www.figma.com/design/GJBYRm6ySR7XIECFcHMgy2/Lumen-AI-Design-System?node-id=426-4395&m=dev
 - **Local Storybook:** http://localhost:6006/?path=/docs/introduction--docs
 - **Roadmap horizon:** 2026–2027
-- **Last reviewed:** 2026-07-15
+- **Last reviewed:** 2026-07-17
 
 ## Related documents
 
@@ -785,7 +785,7 @@ Enable product teams to adopt Lumen efficiently.
 - [ ] AI-pattern training
 - [ ] Office hours
 - [ ] Support channel
-- [ ] Example application
+- [x] Example application — generalized into `@lumen/create-app`, a `pnpm create:react` scaffolder that generates a working React/TypeScript/Vite/Tailwind app under `apps/<name>` wired to `@lumen/tokens`/`@lumen/ui`/`@lumen/patterns` via `workspace:*`, rather than one static example. Delivered out of sequence (direct engineering request, not planned as part of this phase's rollout) — see `docs/changelog.md` `[Unreleased]` for the full entry.
 - [ ] Adoption dashboard
 - [ ] Feedback process
 
