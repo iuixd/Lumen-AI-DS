@@ -1263,3 +1263,37 @@ Building `@lumen/angular` surfaced a separate, tooling-level finding (not a spec
 - [ ] release process versions framework packages against the shared contract without silent drift — not yet addressed
 
 The Vue framework package may now be started against an accurate Button specification. Apply the same real-source verification (Figma node + actual component/test/story files, not assumed prior docs) to each additional component before or as it's ported to a new framework — the Button discrepancy is exactly the failure mode this phase exists to catch early. Also check Vue's Vitest testing story for an equivalent JIT/compiler gap before assuming the Angular package's approach transfers directly.
+
+---
+
+# 29. Phase 14: Product scaffolding
+
+## Objective
+
+Let a product application be developed alongside the design system itself, in this same repository, without the pinned-Git-dependency overhead the "Use Lumen in a product application" model requires — so day-to-day component and token changes are visible in a real consuming app immediately, with no publish, tag, or link step.
+
+## Status
+
+```text
+Shipped 2026-07-17 as @lumen/create-app, a CLI scaffolder (pnpm create:react)
+generating a React + TypeScript + Vite + Tailwind app under apps/<name>, wired
+to @lumen/tokens, @lumen/ui, and (optionally) @lumen/patterns via workspace:*
+dependencies. This phase was not planned ahead of time on this roadmap — it is
+recorded here retroactively for tracking, per this document's own governance
+requirement that shipped work be discoverable here.
+```
+
+## Deliverables
+
+- [x] A non-interactive and interactive CLI (`packages/create-app`) that scaffolds a workspace-member React app under `apps/<name>`, prompting for (or accepting flags for) project name, whether to include `@lumen/patterns`, and whether to install dependencies immediately.
+- [x] Generated app wired to the local `@lumen/tokens`/`@lumen/ui`/`@lumen/patterns` sources via pnpm `workspace:*` symlinks — no build or reinstall step needed to see package changes reflected.
+- [x] `apps/*` added to `pnpm-workspace.yaml`; root `typecheck`/`test` rescoped to `./packages/**` and `.eslintrc.cjs` updated so generated scaffolds never leak into the repository's own quality gates.
+- [x] CI coverage (`.github/workflows/react-starter.yml`) proving a generated app installs, type-checks, and builds from a clean, frozen-then-workspace install — not just that the scaffolder's own unit tests pass.
+- [x] `README.md` documentation of the flow ("Create a React application").
+- [ ] Decide whether `@lumen/create-app` should offer a Vue or framework-agnostic template once a corresponding framework package exists (see Phase 13) — not yet addressed, no demand identified.
+
+## Exit criteria
+
+- [x] `pnpm create:react` produces an app that installs, type-checks, and builds without manual intervention, verified both in CI and via a local end-to-end run
+- [x] the generated app requires no Git-dependency pinning or publish step to consume `@lumen/tokens`/`@lumen/ui`/`@lumen/patterns`
+- [x] generated scaffolds are excluded from the repository's own lint/typecheck/test runs by construction, not by convention

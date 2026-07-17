@@ -90,6 +90,14 @@ corepack pnpm --version
 
 The result must be `11.11.0`. Avoid using a globally installed incompatible pnpm version.
 
+If `corepack pnpm <script>` fails with a pnpm version mismatch error (for example
+`This project is configured to use 11.11.0 of pnpm. Your current pnpm is v<other>`),
+a global pnpm install is shadowing Corepack's shim on `PATH`. Root scripts that
+internally shell out to `pnpm --filter <pkg> ...` (including `create:react`) resolve
+that inner `pnpm` from `PATH`, not back through Corepack, so the mismatch surfaces
+there too. Running the same command as plain `pnpm <script>` (without the `corepack`
+prefix) lets pnpm auto-switch to the pinned version instead of erroring.
+
 ## Quick start
 
 Install dependencies:

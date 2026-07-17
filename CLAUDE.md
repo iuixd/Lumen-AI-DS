@@ -57,6 +57,16 @@ auto-generated usage code, plus MDX pages for the patterns.
 `docs/roadmap.md` Phase 13).
 Run it with `pnpm storybook`. See "Component checklist" below.
 
+A seventh package, `@lumen/create-app` (`packages/create-app`), is private
+and never published — it's a CLI scaffolder (`pnpm create:react`) that
+generates a React + TypeScript + Vite + Tailwind app under `apps/<name>`,
+wired to `@lumen/tokens`/`@lumen/ui`/`@lumen/patterns` via pnpm `workspace:*`
+dependencies for developing a product application alongside this design
+system in one repository. See `docs/roadmap.md` Phase 14 and the
+"Create a React application" section of `README.md`. Generated apps under
+`apps/*` are gitignored scaffolds, not part of the design system itself —
+don't treat them as a place to add or change `@lumen/*` package source.
+
 ## Documentation system
 
 `docs/` implements a governance system that keeps Figma, tokens, components,
