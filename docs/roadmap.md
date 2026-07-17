@@ -1292,6 +1292,10 @@ requirement that shipped work be discoverable here.
 - [x] `README.md` documentation of the flow ("Create a React application").
 - [ ] Decide whether `@lumen/create-app` should offer a Vue or framework-agnostic template once a corresponding framework package exists (see Phase 13) — not yet addressed, no demand identified.
 
+## Findings
+
+`corepack pnpm <script>` does not unconditionally guarantee the pinned `11.11.0` pnpm version is what actually runs. Corepack maintains its own cached "known good release" per package-manager major line and auto-updates it by default; when that cache has moved ahead of this repository's exact pin, `corepack pnpm` can resolve the newer cached version instead, and pnpm's own corepack-invocation version guard then refuses to proceed rather than silently run the wrong version — reproduced live on 2026-07-17 (`corepack pnpm create:react` failing with "Your current pnpm is v11.12.0"). `corepack install` (fetches/installs the exact pinned version for local project use) did not resolve the reproduced case on its own; disabling Corepack's default auto-update behavior via `COREPACK_DEFAULT_TO_LATEST=0` was also required. See `README.md` Prerequisites, "If `corepack pnpm --version` reports the wrong version," for the documented remediation path.
+
 ## Exit criteria
 
 - [x] `pnpm create:react` produces an app that installs, type-checks, and builds without manual intervention, verified both in CI and via a local end-to-end run

@@ -95,6 +95,49 @@ Every root script that runs a nested `pnpm --filter`/`pnpm dlx` command (includi
 the pinned `11.11.0` regardless of what pnpm install, if any, is also on `PATH` —
 running any root script as `corepack pnpm <script>` is always safe.
 
+### If `corepack pnpm --version` reports the wrong version
+
+Corepack auto-updates its own cached "known good" release for a package-manager major
+line by default. If that cache has moved ahead of this repository's exact pin, `corepack
+pnpm` can resolve the newer cached version instead of `11.11.0`, and pnpm refuses to
+continue with an error like:
+
+```text
+This project is configured to use 11.11.0 of pnpm. Your current pnpm is v11.12.0.
+Corepack invoked pnpm with this version, and pnpm does not switch versions when
+running under corepack.
+```
+
+This is a local Corepack resolution issue, not a problem with the repository's
+configuration. Try the following, in order, re-running `corepack pnpm --version` after
+each until it reports `11.11.0`:
+
+1. Fetch and install the exact pinned version for local use:
+
+   ```bash
+   corepack install
+   ```
+
+2. If that alone doesn't change what `corepack pnpm --version` reports, Corepack's
+   default "always prefer the latest known release" behavior may be overriding the
+   project pin. Disable it for the invocation:
+
+   ```powershell
+   # PowerShell
+   $env:COREPACK_DEFAULT_TO_LATEST = "0"
+   corepack pnpm --version
+   ```
+
+   ```bash
+   # bash/zsh
+   COREPACK_DEFAULT_TO_LATEST=0 corepack pnpm --version
+   ```
+
+If neither step resolves it, this is environment-specific rather than a known,
+documented failure mode — open an issue with the output of `corepack --version`,
+`corepack pnpm --version`, and (on Windows) `Get-Command pnpm -All` so the root cause
+can be tracked down for that environment.
+
 ## Quick start
 
 Install dependencies:
@@ -165,19 +208,23 @@ For developing a product application and the design system together in this mono
 member of this repository's pnpm workspace, consuming `@lumen/tokens`, `@lumen/ui`, and (optionally)
 `@lumen/patterns` as `workspace:*` dependencies — no Git-dependency pinning, no publish step.
 
+### Quick start
+
 ```bash
 corepack pnpm install
 corepack pnpm --filter @lumen/create-app build
 corepack pnpm create:react
 ```
 
-The command prompts for a project name (default `lumen-ai-saas`), whether to include
-`@lumen/patterns`, and whether to install dependencies immediately. Non-interactive flags are also
-supported, e.g. for scripting:
+Answer the three prompts — project name (default `lumen-ai-saas`), whether to include
+`@lumen/patterns`, and whether to install dependencies now — then run the generated app:
 
 ```bash
-corepack pnpm create:react -- --name my-app --patterns --no-install
+cd apps/<name>
+corepack pnpm dev
 ```
+
+### What you get
 
 - The app is created under `apps/<name>` — never committed by default; generate a throwaway app
   locally whenever you need one.
@@ -189,6 +236,17 @@ corepack pnpm create:react -- --name my-app --patterns --no-install
 - This setup is intended for developing the product and the design system together, side by side,
   in one repository — for consuming Lumen from a separate product repository, see
   [Use Lumen in a product application](#use-lumen-in-a-product-application) above instead.
+
+<details>
+<summary>Non-interactive / scripted usage</summary>
+
+Skip the prompts with flags, e.g. for CI or scripting:
+
+```bash
+corepack pnpm create:react -- --name my-app --patterns --no-install
+```
+
+</details>
 
 ## Design and Figma workflow
 
