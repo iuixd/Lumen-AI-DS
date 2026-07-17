@@ -1,0 +1,28 @@
+{
+  "name": "@lumen/create-app",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Scaffolds a React + TypeScript + Vite + Tailwind application under apps/<name>, wired to @lumen/tokens, @lumen/ui, and @lumen/patterns via pnpm workspace dependencies.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "bin": {
+    "create-lumen-app": "./dist/cli.js"
+  },
+  "files": ["dist", "templates"],
+  "scripts": {
+    "dev": "tsx src/cli.ts",
+    "start": "node ./dist/cli.js",
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.7.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.15",
+    "tsx": "^4.19.1",
+    "typescript": "^5.5.4",
+    "vitest": "^2.0.5"
+  }
+}

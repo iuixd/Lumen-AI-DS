@@ -102,11 +102,15 @@ Run the repository quality checks:
 
 ```bash
 corepack pnpm lint
-corepack pnpm --recursive --if-present run typecheck
-corepack pnpm --recursive --if-present run test
+corepack pnpm typecheck
+corepack pnpm test
 corepack pnpm --filter @lumen/tokens build
 corepack pnpm --filter @lumen/storybook build-storybook
 ```
+
+`typecheck` and `test` are scoped to `./packages/**` (not a blanket recursive run) so that
+generated apps under `apps/*` — see [Create a React application](#create-a-react-application)
+below — never get silently picked up by the repository's own root commands.
 
 Start Storybook locally:
 
@@ -148,6 +152,38 @@ import "@lumen/tokens/css";
 ```
 
 Review the [usage guide](docs/usage-guidelines.md) before integrating themes or extending components.
+
+## Create a React application
+
+For developing a product application and the design system together in this monorepo, use the
+**pnpm workspace integration model** instead: a generated app lives under `apps/<name>` as a real
+member of this repository's pnpm workspace, consuming `@lumen/tokens`, `@lumen/ui`, and (optionally)
+`@lumen/patterns` as `workspace:*` dependencies — no Git-dependency pinning, no publish step.
+
+```bash
+corepack pnpm install
+corepack pnpm --filter @lumen/create-app build
+corepack pnpm create:react
+```
+
+The command prompts for a project name (default `lumen-ai-saas`), whether to include
+`@lumen/patterns`, and whether to install dependencies immediately. Non-interactive flags are also
+supported, e.g. for scripting:
+
+```bash
+corepack pnpm create:react -- --name my-app --patterns --no-install
+```
+
+- The app is created under `apps/<name>` — never committed by default; generate a throwaway app
+  locally whenever you need one.
+- It uses local `workspace:*` dependencies, linked via pnpm symlinks, not copied.
+- Changes to any package under `packages/` (tokens, ui, patterns) are available in the generated
+  app immediately — no build or reinstall step.
+- Installation is always managed from the repository root, even when prompted from inside the
+  generated app's directory.
+- This setup is intended for developing the product and the design system together, side by side,
+  in one repository — for consuming Lumen from a separate product repository, see
+  [Use Lumen in a product application](#use-lumen-in-a-product-application) above instead.
 
 ## Design and Figma workflow
 

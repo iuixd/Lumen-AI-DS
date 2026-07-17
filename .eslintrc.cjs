@@ -8,5 +8,5 @@ module.exports = {
     "plugin:jsx-a11y/recommended"
   ],
   env: { browser: true, es2022: true, node: true },
-  ignorePatterns: ["dist", "node_modules", "tsc-out", "packages/ui/src/icons/generated", "storybook-static"]
+  ignorePatterns: ["dist", "node_modules", "tsc-out", "packages/ui/src/icons/generated", "storybook-static", "apps"]
 };

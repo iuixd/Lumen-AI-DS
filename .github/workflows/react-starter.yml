@@ -1,0 +1,89 @@
+name: React starter (clean install)
+
+# Proves that `pnpm create:react` produces a working, installable, type-safe,
+# buildable app from a clean checkout — not just that the scaffolder's own
+# unit tests pass. Runs the same non-interactive flow documented for
+# contributors, then treats the generated app as a real workspace member.
+on:
+  pull_request:
+    paths:
+      - "packages/create-app/**"
+      - "packages/tokens/**"
+      - "packages/ui/**"
+      - "packages/patterns/**"
+      - "pnpm-workspace.yaml"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - ".github/workflows/react-starter.yml"
+  push:
+    branches: [main]
+    paths:
+      - "packages/create-app/**"
+      - "packages/tokens/**"
+      - "packages/ui/**"
+      - "packages/patterns/**"
+      - "pnpm-workspace.yaml"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - ".github/workflows/react-starter.yml"
+
+jobs:
+  react-starter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # No `version:` input — pnpm/action-setup reads it from package.json's
+      # "packageManager" field, matching the main ci.yml workflow.
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: "pnpm"
+
+      - name: Install workspace dependencies (frozen lockfile)
+        run: pnpm install --frozen-lockfile
+
+      - name: Type-check the scaffolder
+        run: pnpm --filter @lumen/create-app typecheck
+
+      - name: Run scaffolder unit tests
+        run: pnpm --filter @lumen/create-app test
+
+      - name: Build the scaffolder CLI
+        run: pnpm --filter @lumen/create-app build
+
+      - name: Generate a workspace app non-interactively
+        run: >
+          pnpm create:react --
+          --name ci-lumen-react-app
+          --patterns
+          --no-install
+
+      # The generated app is new to pnpm-workspace.yaml's `apps/*` glob and was
+      # never part of the frozen lockfile above (by design — it's not committed,
+      # so pnpm-lock.yaml can't know about it yet). A second, non-frozen install
+      # here links its workspace:* dependencies and updates the lockfile only
+      # inside this ephemeral CI workspace; nothing from this step is committed
+      # back to the repository. `--no-frozen-lockfile` is required explicitly:
+      # pnpm auto-detects GitHub Actions' CI=true and defaults to frozen-lockfile
+      # mode even for a bare `pnpm install`, which would otherwise fail here.
+      - name: Install the generated app's workspace dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Type-check the generated app
+        run: pnpm --filter ci-lumen-react-app typecheck
+
+      - name: Build the generated app
+        run: pnpm --filter ci-lumen-react-app build
+
+      - name: Confirm expected files exist
+        run: |
+          test -f apps/ci-lumen-react-app/package.json
+          test -f apps/ci-lumen-react-app/src/App.tsx
+          test -f apps/ci-lumen-react-app/dist/index.html
+
+      # Generated app lives only in this ephemeral runner's workspace — the
+      # runner is discarded after the job, and it was never committed to the
+      # repository, so no explicit cleanup step is required.

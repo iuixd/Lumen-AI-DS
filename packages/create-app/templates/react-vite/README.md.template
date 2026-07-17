@@ -1,0 +1,61 @@
+# {{PROJECT_NAME}}
+
+Generated with the [Lumen AI Design System](https://github.com/iuixd/Lumen-AI-DS) React starter,
+using the **pnpm workspace integration model**. This app is a member of the Lumen monorepo's pnpm
+workspace and consumes `@lumen/tokens`, `@lumen/ui`{{PATTERNS_DEPENDENCY_NOTE}} directly from
+`packages/` via `workspace:*` dependencies — no publish or link step, changes to those packages are
+available here immediately.
+
+## Install
+
+Install from the **repository root**, not from this directory — pnpm workspace installs are
+managed centrally:
+
+```bash
+corepack pnpm install
+```
+
+## Develop
+
+From this directory (`apps/{{PROJECT_NAME}}`):
+
+```bash
+corepack pnpm dev
+```
+
+Or from the repository root:
+
+```bash
+corepack pnpm --filter {{PROJECT_NAME}} dev
+```
+
+## Type-check
+
+```bash
+corepack pnpm typecheck
+```
+
+## Build
+
+```bash
+corepack pnpm build
+```
+
+## Where the Lumen packages are linked from
+
+- `@lumen/tokens` → `../../packages/tokens`
+- `@lumen/ui` → `../../packages/ui`{{PATTERNS_PACKAGE_LINE}}
+
+These are pnpm workspace symlinks, not copies. Editing a component in `packages/ui/src` is visible
+here immediately, with no build or reinstall step.
+
+## Dark mode
+
+Lumen's theme mechanism is a `data-theme` attribute — set it on `<html>` (or any ancestor element)
+to switch modes:
+
+```html
+<html data-theme="dark"></html>
+```
+
+The light theme is the default and needs no attribute.

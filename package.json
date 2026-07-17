@@ -9,14 +9,16 @@
     "build": "pnpm --filter @lumen/tokens build",
     "dev": "pnpm --filter @lumen/storybook storybook",
     "start": "pnpm --filter @lumen/storybook build-storybook && pnpm dlx serve packages/storybook/storybook-static",
-    "typecheck": "pnpm -r --if-present run typecheck",
-    "test": "pnpm -r --if-present run test",
+    "typecheck": "pnpm --filter \"./packages/**\" --if-present run typecheck",
+    "test": "pnpm --filter \"./packages/**\" --if-present run test",
     "storybook": "pnpm --filter @lumen/storybook storybook",
     "build-storybook": "pnpm --filter @lumen/storybook build-storybook",
     "lint": "eslint . --ext .ts,.tsx",
     "format": "prettier --write .",
     "changeset": "changeset",
-    "version-packages": "changeset version"
+    "version-packages": "changeset version",
+    "create:react": "pnpm --filter @lumen/create-app start",
+    "create:react:dev": "pnpm --filter @lumen/create-app dev"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.7",
