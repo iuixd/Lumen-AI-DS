@@ -6,19 +6,19 @@
   "license": "Apache-2.0",
   "packageManager": "pnpm@11.11.0+sha512.4463f65fd80ed80d69bc1d4bf163ee94f605c7380fc318bb5b2ebe15f8cd12d49c51a4d59e951b401e764d3b6ca751cbf51bc50ed7001a6bcb4935e684c34882",
   "scripts": {
-    "build": "pnpm --filter @lumen/tokens build",
-    "dev": "pnpm --filter @lumen/storybook storybook",
-    "start": "pnpm --filter @lumen/storybook build-storybook && pnpm dlx serve packages/storybook/storybook-static",
-    "typecheck": "pnpm --filter \"./packages/**\" --if-present run typecheck",
-    "test": "pnpm --filter \"./packages/**\" --if-present run test",
-    "storybook": "pnpm --filter @lumen/storybook storybook",
-    "build-storybook": "pnpm --filter @lumen/storybook build-storybook",
+    "build": "corepack pnpm --filter @lumen/tokens build",
+    "dev": "corepack pnpm --filter @lumen/storybook storybook",
+    "start": "corepack pnpm --filter @lumen/storybook build-storybook && corepack pnpm dlx serve packages/storybook/storybook-static",
+    "typecheck": "corepack pnpm --filter \"./packages/**\" --if-present run typecheck",
+    "test": "corepack pnpm --filter \"./packages/**\" --if-present run test",
+    "storybook": "corepack pnpm --filter @lumen/storybook storybook",
+    "build-storybook": "corepack pnpm --filter @lumen/storybook build-storybook",
     "lint": "eslint . --ext .ts,.tsx",
     "format": "prettier --write .",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "create:react": "pnpm --filter @lumen/create-app start",
-    "create:react:dev": "pnpm --filter @lumen/create-app dev"
+    "create:react": "corepack pnpm --filter @lumen/create-app start",
+    "create:react:dev": "corepack pnpm --filter @lumen/create-app dev"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.7",
