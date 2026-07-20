@@ -201,5 +201,9 @@
     "600": { "value": "#005E2E" },
     "700": { "value": "#004723" },
     "800": { "value": "#003118" }
+  },
+  "sky": {
+    "_comment": "Added 2026-07-20, sourced from the canonical 'AppShell' page (node 1007:3700, Breakpoint=Desktop/Theme=Light instance 1127:4196) via get_variable_defs: the `text/link` variable (#2563EB) used for breadcrumb and footer inline links in that context. Only this one step is evidenced — no full 50-800 ramp was found for this family, unlike every other family in this file. Do not assume or invent the missing steps.",
+    "500": { "value": "#2563EB" }
   }
 }

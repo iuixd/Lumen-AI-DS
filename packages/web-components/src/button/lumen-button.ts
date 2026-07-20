@@ -32,7 +32,7 @@ import { customElement, property } from "lit/decorators.js";
  * solid-active`; `outline`'s hover border is bound to the same variable as
  * its hover fill in Figma, reproduced here as specced).
  */
-export type LumenButtonVariant = "primary" | "raised" | "secondary" | "tertiary" | "link" | "outline";
+export type LumenButtonVariant = "primary" | "raised" | "secondary" | "tertiary" | "link" | "outline" | "accent";
 export type LumenButtonSize = "xs" | "sm" | "md" | "lg";
 export type LumenButtonStatus = "success" | "warning" | "error";
 
@@ -250,6 +250,30 @@ export class LumenButton extends LitElement {
       text-decoration: underline;
     }
     :host([variant="link"]) button[aria-disabled="true"] {
+      color: var(--color-neutral-400);
+    }
+
+    /* Sourced from the canonical "AppShell" page (Lumen-AI-Design-System, node
+       1007:3700, instance 1127:4196) via get_variable_defs: btn/accent/bg
+       (#2B2F2F, rounds to neutral.800) / btn/accent/text (white) — a deliberate
+       non-brand accent treatment for dashboard contexts, mirrors Button.tsx's
+       own "accent" variant. Only the Default state was sourced; hover/active
+       below are a placeholder, not Figma-confirmed. */
+    :host([variant="accent"]) button {
+      background-color: var(--color-neutral-800);
+      color: var(--color-neutral-white);
+    }
+    :host([variant="accent"]) button:hover:not([aria-disabled="true"]) {
+      background-color: var(--color-neutral-700);
+    }
+    :host([variant="accent"]) button:active:not([aria-disabled="true"]) {
+      background-color: var(--color-neutral-600);
+    }
+    :host([variant="accent"]) button:focus-visible {
+      border-color: var(--color-neutral-600);
+    }
+    :host([variant="accent"]) button[aria-disabled="true"] {
+      background-color: var(--color-neutral-50);
       color: var(--color-neutral-400);
     }
 

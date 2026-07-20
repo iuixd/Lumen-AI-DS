@@ -86,6 +86,15 @@ describe("LumenButtonComponent (bare, no content projection)", () => {
     expect(host.getAttribute("variant")).toBe("outline");
   });
 
+  it("reflects variant=accent as a host attribute", () => {
+    TestBed.configureTestingModule({ providers: [provideZonelessChangeDetection()] });
+    const fixture = TestBed.createComponent(LumenButtonComponent);
+    fixture.componentRef.setInput("variant", "accent");
+    fixture.detectChanges();
+    const host: HTMLElement = fixture.nativeElement;
+    expect(host.getAttribute("variant")).toBe("accent");
+  });
+
   it("marks aria-disabled and aria-busy while loading", () => {
     TestBed.configureTestingModule({ providers: [provideZonelessChangeDetection()] });
     const fixture = TestBed.createComponent(LumenButtonComponent);

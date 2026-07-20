@@ -1087,6 +1087,47 @@ mapping. The Header's notification bell and the table's status pills
 reuse `Button`/`Badge`/`DataTable` with no new component, per §1.3
 "Composition before duplication."
 
+As of 2026-07-20 (same day, later audit), the `1197:1652`
+"appshell-desktop-closed-light" frame used above turned out to be one
+example instance living inside a larger canonical "AppShell" canvas (node
+`1007:3700`) — not the canonical source itself. Re-auditing against that
+canvas's real `SideNav/Expanded` (`1079:2427`), `NavigationRail` (`1079:2686`,
+confirmed to already match the shipped `rail` variant exactly, no changes
+needed), `AIPanel` (`1079:3141`), and `Breakpoint=Desktop/Theme=Light`
+composition (`1127:4196`) instances surfaced a real, larger gap:
+
+- `AppShell`'s `sidebar` variant was rebuilt (**breaking**: `nav` changed
+  from `NavItem[]` to `NavSection[]` — migrate `nav={items}` to
+  `nav={[{ items }]}`) to match `SideNav/Expanded`: a `WorkspaceSwitcher`
+  header (new `workspace` prop), nav-item unread badges (new `NavItem.badge`),
+  a neutral (not brand) active fill, an "ADMIN"-style section grouping (new
+  `NavSection.label`), and a "Collapse" control (new `onCollapse` prop). The
+  prior flat-list sidebar didn't match any sourced Figma evidence — it
+  predated this repo's Figma-sync discipline.
+- `AIPanel` (new composite, `packages/ui/src/composite/AIPanel.tsx`) — see
+  `docs/component-specifications.md` §51. Entirely new; no prior
+  implementation in any framework package.
+- `Button` gained an `accent` variant (near-black, `neutral.800`) — see
+  `docs/component-specifications.md` §5 "Accent" — mirrored to
+  `@lumen/web-components`/`@lumen/angular` the same day, keeping Button's
+  three-framework parity intact.
+- `PageHeader`'s and `Footer`'s inline/breadcrumb link colors were corrected
+  from `text.secondary`/`text.muted` (gray, sourced from the non-canonical
+  example instance) to the new `text.link-subtle` (blue) token, sourced
+  from the canonical instance.
+- `KPICard`'s `shadow.elevation.sm` opacity was corrected from 0.04 to 0.08
+  — the canonical instance disagrees with the example instance it was
+  first sourced from; the canonical value wins per this repo's Figma
+  authority order.
+
+```text
+Figma: AI Panel                Node: 1007:3700 (1079:3141)
+React: AIPanel                         packages/ui/src/composite/AIPanel.tsx
+```
+
+`AIPanel` is React-only, same reasoning as `PageHeader` — composite/
+page-level, no Web Components/Angular equivalent expected.
+
 ---
 
 # 14. Component maturity model

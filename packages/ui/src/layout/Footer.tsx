@@ -28,7 +28,11 @@ const statusToneMap = {
  * a trailing link row (Privacy/Terms/Security in the source instance,
  * generalized here as a `links` prop since those are page-specific, not a
  * fixed Lumen contract). Renders links as real `<a>` elements per
- * `docs/accessibility.md` ("navigation uses a link, not a button").
+ * `docs/accessibility.md` ("navigation uses a link, not a button"). Link
+ * color corrected 2026-07-20 against the canonical "AppShell" page (node
+ * 1007:3700, instance `1119:3352`) — `text.link-subtle` (blue), not
+ * `text.muted` (gray) as the example instance this was first sourced from
+ * suggested; version/status text stay `text.muted`.
  */
 export function Footer({ className, version, statusLabel, statusTone = "success", links, children, ...props }: FooterProps) {
   return (
@@ -49,7 +53,7 @@ export function Footer({ className, version, statusLabel, statusTone = "success"
       <div className="min-w-px flex-1" />
       {children}
       {links?.map((link) => (
-        <a key={link.href} href={link.href} className="text-label-sm text-[var(--color-text-muted)] hover:text-[var(--color-text-body)]">
+        <a key={link.href} href={link.href} className="text-label-sm text-[var(--color-text-link-subtle)] hover:underline">
           {link.label}
         </a>
       ))}

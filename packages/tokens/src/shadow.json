@@ -1,5 +1,5 @@
 {
-  "_comment": "Elevation/shadow tier — previously undefined in this token set (see docs/figma-sync.md's former 'known gap'). Sourced fresh from the Buttons page (Lumen-AI-Design-System, node 475:7210)'s 'Raised' button type, the first real component in this file to use elevation. Each 'button' value is a two-layer drop-shadow (a soft ambient layer + a directional layer) read directly off that state's real Figma fill, not extrapolated. 'button.pressed-inset' is a separate inset shadow used by the flat (non-elevated) Primary/Icon-only types specifically on their Active state, to convey a pressed effect without giving them permanent elevation. 'elevation.sm' is the first entry in the generic Elevation/None-Sm-Md-Lg-Xl scale docs/design-tokens.md §6 calls for — sourced from the appshell-desktop-closed-light reference screen's KPICard instance (Lumen-AI-Design-System node 1197:1652, `1102:6521`) via get_design_context on 2026-07-20, a single soft ambient shadow distinct from the directional button.* shadows above. Only this one tier is sourced so far; None/Md/Lg/Xl remain unimplemented pending a component that specs them.",
+  "_comment": "Elevation/shadow tier — previously undefined in this token set (see docs/figma-sync.md's former 'known gap'). Sourced fresh from the Buttons page (Lumen-AI-Design-System, node 475:7210)'s 'Raised' button type, the first real component in this file to use elevation. Each 'button' value is a two-layer drop-shadow (a soft ambient layer + a directional layer) read directly off that state's real Figma fill, not extrapolated. 'button.pressed-inset' is a separate inset shadow used by the flat (non-elevated) Primary/Icon-only types specifically on their Active state, to convey a pressed effect without giving them permanent elevation. 'elevation.sm' is the first entry in the generic Elevation/None-Sm-Md-Lg-Xl scale docs/design-tokens.md §6 calls for. Corrected 2026-07-20: originally sourced at 0.04 opacity from the 'appshell-desktop-closed-light' example instance (node 1197:1652, `1102:6521`), then re-verified against the canonical 'AppShell' page's own Breakpoint=Desktop/Theme=Light KPICard instance (node 1007:3700, `1119:3343`) via get_design_context — the authoritative source disagrees with the example instance and specs 0.08 opacity; the canonical value wins per this repo's Figma authority order. Only this one tier is sourced so far; None/Md/Lg/Xl remain unimplemented pending a component that specs them.",
   "button": {
     "default": { "value": "0px 0px 1.5px rgba(0,0,0,0.16), 0px 2px 2px rgba(0,0,0,0.26)" },
     "hover": { "value": "0px 0px 2.5px rgba(0,0,0,0.16), 0px 4px 4px rgba(0,0,0,0.32)" },
@@ -8,6 +8,6 @@
     "pressed-inset": { "value": "inset 0px 2px 4px rgba(0,0,0,0.18)" }
   },
   "elevation": {
-    "sm": { "value": "0px 1px 2px rgba(0,0,0,0.04)" }
+    "sm": { "value": "0px 1px 2px rgba(0,0,0,0.08)" }
   }
 }
