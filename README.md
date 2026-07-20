@@ -140,6 +140,13 @@ can be tracked down for that environment.
 
 ## Quick start
 
+Clone the repository and enter its root directory:
+
+```bash
+git clone https://github.com/iuixd/Lumen-AI-DS.git
+cd Lumen-AI-DS
+```
+
 Install dependencies:
 
 ```bash
@@ -149,9 +156,9 @@ corepack pnpm install --frozen-lockfile
 Run the repository quality checks:
 
 ```bash
-corepack pnpm lint
-corepack pnpm typecheck
-corepack pnpm test
+corepack pnpm run lint
+corepack pnpm run typecheck
+corepack pnpm run test
 corepack pnpm --filter @lumen/tokens build
 corepack pnpm --filter @lumen/storybook build-storybook
 ```
