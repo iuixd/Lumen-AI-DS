@@ -68,12 +68,12 @@ import { cn } from "../lib/cn";
  * unambiguous and reproducible either way.
  */
 export const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-[var(--spacing-6)] whitespace-nowrap rounded-lg border-[1.5px] border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-[var(--color-border-focus)] aria-disabled:pointer-events-none aria-disabled:opacity-60",
+  "inline-flex items-center justify-center gap-[var(--spacing-6)] whitespace-nowrap rounded-lg border-[1.5px] border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-[var(--color-border-focus)] aria-disabled:pointer-events-none",
   {
     variants: {
       variant: {
         primary:
-          "bg-[var(--color-brand-default)] text-neutral-white hover:bg-[var(--color-brand-hover)] active:bg-[var(--color-brand-pressed)] active:[box-shadow:var(--shadow-button-pressed-inset)] focus-visible:border-[var(--color-brand-border)] aria-disabled:border-transparent aria-disabled:bg-neutral-50 aria-disabled:text-neutral-400",
+          "bg-[var(--color-brand-default)] text-neutral-white hover:bg-[var(--color-brand-hover)] active:bg-[var(--color-brand-pressed)] active:[box-shadow:var(--shadow-button-pressed-inset)] focus-visible:border-[var(--color-brand-border)] aria-disabled:border-transparent aria-disabled:bg-[var(--color-button-disabled-background)] aria-disabled:text-[var(--color-button-disabled-text)]",
         // Elevation uses the arbitrary-CSS-PROPERTY syntax (`[box-shadow:var(...)]`),
         // not the `shadow-[var(...)]` arbitrary-VALUE syntax — Tailwind's `shadow-*`
         // utility guesses whether a bracketed value is a full shadow or just a shadow
@@ -84,21 +84,21 @@ export const buttonVariants = cva(
         // rendered instead — a shadow that "looked plausible" but didn't match Figma at
         // all. `[box-shadow:...]` sets the CSS property directly, no ambiguity.
         raised:
-          "bg-[var(--color-brand-default)] text-neutral-white [box-shadow:var(--shadow-button-default)] hover:bg-[var(--color-brand-hover)] hover:[box-shadow:var(--shadow-button-hover)] active:bg-[var(--color-brand-pressed)] active:[box-shadow:var(--shadow-button-active)] focus-visible:border-[var(--color-brand-border)] aria-disabled:border-transparent aria-disabled:bg-neutral-50 aria-disabled:text-neutral-400 aria-disabled:[box-shadow:var(--shadow-button-disabled)]",
+          "bg-[var(--color-brand-default)] text-neutral-white [box-shadow:var(--shadow-button-default)] hover:bg-[var(--color-brand-hover)] hover:[box-shadow:var(--shadow-button-hover)] active:bg-[var(--color-brand-pressed)] active:[box-shadow:var(--shadow-button-active)] focus-visible:border-[var(--color-brand-border)] aria-disabled:border-transparent aria-disabled:bg-[var(--color-button-disabled-background)] aria-disabled:text-[var(--color-button-disabled-text)] aria-disabled:[box-shadow:var(--shadow-button-disabled)]",
         secondary:
-          "border-[var(--color-brand-border-strong)] bg-[var(--color-brand-subtle)] text-[var(--color-brand-default)] hover:border-[var(--color-brand-default)] hover:bg-[var(--color-brand-subtle)] active:border-transparent active:bg-[var(--color-brand-solid-active)] active:text-neutral-white aria-disabled:border aria-disabled:border-neutral-200 aria-disabled:bg-neutral-50 aria-disabled:text-neutral-400",
+          "border-[var(--color-brand-border-strong)] bg-[var(--color-brand-subtle)] text-[var(--color-brand-default)] hover:border-[var(--color-brand-default)] hover:bg-[var(--color-brand-subtle)] active:border-transparent active:bg-[var(--color-brand-solid-active)] active:text-neutral-white aria-disabled:border aria-disabled:border-[var(--color-button-disabled-border)] aria-disabled:bg-[var(--color-button-disabled-background)] aria-disabled:text-[var(--color-button-disabled-text)]",
         outline:
-          "border-[var(--color-brand-border-strong)] bg-transparent text-[var(--color-brand-default)] hover:border-[var(--color-brand-subtle)] hover:bg-[var(--color-brand-subtle)] active:border-transparent active:bg-[var(--color-brand-solid-active)] active:text-neutral-white aria-disabled:border aria-disabled:border-neutral-200 aria-disabled:bg-neutral-50 aria-disabled:text-neutral-400",
+          "border-[var(--color-brand-border-strong)] bg-transparent text-[var(--color-brand-default)] hover:border-[var(--color-brand-subtle)] hover:bg-[var(--color-brand-subtle)] active:border-transparent active:bg-[var(--color-brand-solid-active)] active:text-neutral-white aria-disabled:border aria-disabled:border-[var(--color-button-disabled-border)] aria-disabled:bg-[var(--color-button-disabled-background)] aria-disabled:text-[var(--color-button-disabled-text)]",
         tertiary:
-          "bg-transparent text-[var(--color-brand-default)] hover:bg-[var(--color-brand-subtle)] active:bg-[var(--color-brand-subtle-pressed)] aria-disabled:bg-transparent aria-disabled:text-neutral-400",
-        link: "min-w-0 border-0 bg-transparent p-[var(--spacing-4)] text-[var(--color-brand-default)] hover:underline active:underline aria-disabled:text-neutral-400",
+          "bg-transparent text-[var(--color-brand-default)] hover:bg-[var(--color-brand-subtle)] active:bg-[var(--color-brand-subtle-pressed)] aria-disabled:bg-transparent aria-disabled:text-[var(--color-button-disabled-text)]",
+        link: "min-w-0 border-0 bg-transparent p-[var(--spacing-4)] text-[var(--color-brand-default)] hover:underline active:underline aria-disabled:text-[var(--color-button-disabled-text)]",
         // Sourced from the canonical "AppShell" page (Lumen-AI-Design-System, node
         // 1007:3700, Breakpoint=Desktop/Theme=Light instance 1127:4196) via
         // get_variable_defs: exact theme-aware `btn/accent/bg` and
         // `btn/accent/text` roles. Used for the PageHeader "New project" button
         // and AIPanel send button; no unsourced hover/active treatment is added.
         accent:
-          "bg-[var(--color-app-shell-button-accent-bg)] text-[var(--color-app-shell-button-accent-text)] focus-visible:border-[var(--color-app-shell-button-accent-bg)]"
+          "bg-[var(--color-app-shell-button-accent-bg)] text-[var(--color-app-shell-button-accent-text)] focus-visible:border-[var(--color-app-shell-button-accent-bg)] aria-disabled:bg-[var(--color-button-disabled-background)] aria-disabled:text-[var(--color-button-disabled-text)]"
       },
       size: {
         xs: "h-[var(--spacing-32)] min-w-[var(--spacing-64)] px-[var(--spacing-10)] py-[var(--spacing-5)] text-button-xs",

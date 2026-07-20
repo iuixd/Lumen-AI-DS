@@ -1,4 +1,9 @@
-import { forwardRef, type ButtonHTMLAttributes, type MouseEventHandler, type ReactNode } from "react";
+import {
+  forwardRef,
+  type ButtonHTMLAttributes,
+  type MouseEventHandler,
+  type ReactNode
+} from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../lib/cn";
 import { LmAisymbolIcon } from "../icons/generated";
@@ -96,21 +101,21 @@ import { getAICapability, type AICapabilityId } from "./ai-capabilities";
  * analytics integration.
  */
 const aiButtonVariants = cva(
-  "inline-flex items-center justify-center gap-[var(--spacing-8)] whitespace-nowrap rounded-lg border-[1.5px] border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-[var(--color-border-focus)] aria-disabled:pointer-events-none aria-disabled:opacity-60",
+  "inline-flex items-center justify-center gap-[var(--spacing-8)] whitespace-nowrap rounded-lg border-[1.5px] border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-[var(--color-border-focus)] aria-disabled:pointer-events-none",
   {
     variants: {
       variant: {
         primary:
-          "bg-[var(--color-brand-default)] text-neutral-white hover:bg-[var(--color-brand-hover)] active:bg-[var(--color-brand-pressed)] aria-disabled:bg-neutral-50 aria-disabled:text-neutral-400",
+          "bg-[var(--color-brand-default)] text-neutral-white hover:bg-[var(--color-brand-hover)] active:bg-[var(--color-brand-pressed)] aria-disabled:bg-[var(--color-button-disabled-background)] aria-disabled:text-[var(--color-button-disabled-text)]",
         raised:
-          "bg-[var(--color-brand-default)] text-neutral-white [box-shadow:var(--shadow-button-default)] hover:bg-[var(--color-brand-hover)] hover:[box-shadow:var(--shadow-button-hover)] active:bg-[var(--color-brand-pressed)] active:[box-shadow:var(--shadow-button-active)] aria-disabled:bg-neutral-50 aria-disabled:text-neutral-400 aria-disabled:[box-shadow:var(--shadow-button-disabled)]",
+          "bg-[var(--color-brand-default)] text-neutral-white [box-shadow:var(--shadow-button-default)] hover:bg-[var(--color-brand-hover)] hover:[box-shadow:var(--shadow-button-hover)] active:bg-[var(--color-brand-pressed)] active:[box-shadow:var(--shadow-button-active)] aria-disabled:bg-[var(--color-button-disabled-background)] aria-disabled:text-[var(--color-button-disabled-text)] aria-disabled:[box-shadow:var(--shadow-button-disabled)]",
         secondary:
-          "border-[var(--color-brand-border-strong)] bg-[var(--color-brand-subtle)] text-[var(--color-brand-default)] hover:border-[var(--color-brand-default)] active:border-[var(--color-brand-default)] active:bg-[var(--color-brand-subtle-pressed)] aria-disabled:border-neutral-200 aria-disabled:bg-neutral-50 aria-disabled:text-neutral-400",
+          "border-[var(--color-brand-border-strong)] bg-[var(--color-brand-subtle)] text-[var(--color-brand-default)] hover:border-[var(--color-brand-default)] active:border-[var(--color-brand-default)] active:bg-[var(--color-brand-subtle-pressed)] aria-disabled:border-[var(--color-button-disabled-border)] aria-disabled:bg-[var(--color-button-disabled-background)] aria-disabled:text-[var(--color-button-disabled-text)]",
         tertiary:
-          "bg-transparent text-[var(--color-brand-default)] hover:bg-[var(--color-brand-subtle)] active:bg-[var(--color-brand-subtle-pressed)] aria-disabled:bg-transparent aria-disabled:text-neutral-400",
+          "bg-transparent text-[var(--color-brand-default)] hover:bg-[var(--color-brand-subtle)] active:bg-[var(--color-brand-subtle-pressed)] aria-disabled:bg-transparent aria-disabled:text-[var(--color-button-disabled-text)]",
         outline:
-          "border-[var(--color-brand-border-strong)] bg-transparent text-[var(--color-brand-default)] hover:bg-[var(--color-brand-subtle)] hover:border-[var(--color-brand-subtle)] active:border-[var(--color-brand-default)] active:bg-[var(--color-brand-subtle-pressed)] aria-disabled:border-neutral-200 aria-disabled:bg-transparent aria-disabled:text-neutral-400",
-        link: "min-w-0 border-0 bg-transparent p-[var(--spacing-4)] text-[var(--color-brand-default)] underline aria-disabled:text-neutral-400"
+          "border-[var(--color-brand-border-strong)] bg-transparent text-[var(--color-brand-default)] hover:bg-[var(--color-brand-subtle)] hover:border-[var(--color-brand-subtle)] active:border-[var(--color-brand-default)] active:bg-[var(--color-brand-subtle-pressed)] aria-disabled:border-[var(--color-button-disabled-border)] aria-disabled:bg-transparent aria-disabled:text-[var(--color-button-disabled-text)]",
+        link: "min-w-0 border-0 bg-transparent p-[var(--spacing-4)] text-[var(--color-brand-default)] underline aria-disabled:text-[var(--color-button-disabled-text)]"
       },
       size: {
         xs: "h-[var(--spacing-32)] min-w-[var(--spacing-64)] px-[var(--spacing-10)] py-[var(--spacing-5)] text-button-xs",
@@ -184,8 +189,7 @@ const aiButtonVariants = cva(
 );
 
 export interface AIButtonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof aiButtonVariants> {
+  extends ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof aiButtonVariants> {
   /** Leading icon override — defaults to the Figma-specced `lm-aisymbol` glyph, present on every instance. */
   icon?: ReactNode;
   isLoading?: boolean;
@@ -248,7 +252,9 @@ export const AIButton = forwardRef<HTMLButtonElement, AIButtonProps>(
       }
       if (capability && !resolvedCapability) {
         // eslint-disable-next-line no-console
-        console.warn(`AIButton: unrecognized capability "${capability}" — falling back to default rendering.`);
+        console.warn(
+          `AIButton: unrecognized capability "${capability}" — falling back to default rendering.`
+        );
       }
     }
 
@@ -275,12 +281,15 @@ export const AIButton = forwardRef<HTMLButtonElement, AIButtonProps>(
         onClick={handleClick}
       >
         {isLoading ? (
-          <span className="size-[1em] shrink-0 animate-spin rounded-full border-2 border-current border-t-transparent" aria-hidden />
+          <span
+            className="size-[1em] shrink-0 animate-spin rounded-full border-2 border-current border-t-transparent"
+            aria-hidden
+          />
         ) : (
           (icon ??
-            (CapabilityIcon ? <CapabilityIcon className="size-[18px] shrink-0" aria-hidden /> : undefined) ?? (
-              <LmAisymbolIcon className="size-[18px] shrink-0" aria-hidden />
-            ))
+          (CapabilityIcon ? (
+            <CapabilityIcon className="size-[18px] shrink-0" aria-hidden />
+          ) : undefined) ?? <LmAisymbolIcon className="size-[18px] shrink-0" aria-hidden />)
         )}
         {isLoading ? label && <span className="sr-only">{label}</span> : label}
       </button>

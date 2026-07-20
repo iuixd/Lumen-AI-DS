@@ -49,7 +49,6 @@ export class LumenSplitButton extends LitElement {
 
     :host([disabled]) .container {
       pointer-events: none;
-      opacity: 0.6;
     }
 
     :host([pill]) .container {
@@ -150,8 +149,8 @@ export class LumenSplitButton extends LitElement {
     }
     :host([disabled][variant="primary"]) .container,
     :host([disabled]:not([variant])) .container {
-      background-color: var(--color-neutral-50);
-      color: var(--color-neutral-400);
+      background-color: var(--color-button-disabled-background);
+      color: var(--color-button-disabled-text);
     }
 
     :host([variant="raised"]) .container {
@@ -171,8 +170,8 @@ export class LumenSplitButton extends LitElement {
       background-color: var(--divider-button-primary);
     }
     :host([disabled][variant="raised"]) .container {
-      background-color: var(--color-neutral-50);
-      color: var(--color-neutral-400);
+      background-color: var(--color-button-disabled-background);
+      color: var(--color-button-disabled-text);
       box-shadow: var(--shadow-button-disabled);
     }
 
@@ -193,9 +192,9 @@ export class LumenSplitButton extends LitElement {
       background-color: var(--divider-button-secondary);
     }
     :host([disabled][variant="secondary"]) .container {
-      border-color: var(--color-neutral-200);
-      background-color: var(--color-neutral-50);
-      color: var(--color-neutral-400);
+      border-color: var(--color-button-disabled-border);
+      background-color: var(--color-button-disabled-background);
+      color: var(--color-button-disabled-text);
     }
 
     :host([variant="outline"]) .container {
@@ -215,9 +214,9 @@ export class LumenSplitButton extends LitElement {
       background-color: var(--divider-button-secondary);
     }
     :host([disabled][variant="outline"]) .container {
-      border-color: var(--color-neutral-200);
-      background-color: var(--color-neutral-50);
-      color: var(--color-neutral-400);
+      border-color: var(--color-button-disabled-border);
+      background-color: var(--color-button-disabled-background);
+      color: var(--color-button-disabled-text);
     }
 
     .spinner {
@@ -286,7 +285,9 @@ export class LumenSplitButton extends LitElement {
       event.stopPropagation();
       return;
     }
-    this.dispatchEvent(new CustomEvent("lumen-main-click", { bubbles: true, composed: true, detail: event }));
+    this.dispatchEvent(
+      new CustomEvent("lumen-main-click", { bubbles: true, composed: true, detail: event })
+    );
   }
 
   private _handleDropdownClick(event: MouseEvent) {
@@ -295,7 +296,9 @@ export class LumenSplitButton extends LitElement {
       event.stopPropagation();
       return;
     }
-    this.dispatchEvent(new CustomEvent("lumen-dropdown-click", { bubbles: true, composed: true, detail: event }));
+    this.dispatchEvent(
+      new CustomEvent("lumen-dropdown-click", { bubbles: true, composed: true, detail: event })
+    );
   }
 
   render() {
@@ -311,9 +314,11 @@ export class LumenSplitButton extends LitElement {
           aria-busy=${this.loading ? "true" : nothing}
           @click=${this._handleMainClick}
         >
-          ${this.loading
-            ? html`<span class="spinner" aria-hidden="true"></span>`
-            : html`<slot name="icon-start"></slot>`}
+          ${
+            this.loading
+              ? html`<span class="spinner" aria-hidden="true"></span>`
+              : html`<slot name="icon-start"></slot>`
+          }
           <span class="label ${this.loading ? "sr-only" : ""}">
             <slot></slot>
           </span>
@@ -329,7 +334,13 @@ export class LumenSplitButton extends LitElement {
           @click=${this._handleDropdownClick}
         >
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path
+              d="M6 9l6 6 6-6"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
           </svg>
         </button>
       </div>

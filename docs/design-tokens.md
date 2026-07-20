@@ -609,6 +609,24 @@ Button/Md/Height
 Button/Md/Padding/Inline
 ```
 
+## Published theme-aware button roles
+
+The `Lumen/Theme` Variables collection publishes shared disabled roles for
+the Button family. These are component tokens rather than primitive neutral
+utilities because their values intentionally change by theme:
+
+| Figma variable        | CSS custom property                  | Light     | Dark      |
+| --------------------- | ------------------------------------ | --------- | --------- |
+| `btn/disabled/bg`     | `--color-button-disabled-background` | `#EDF0F1` | `#20272D` |
+| `btn/disabled/border` | `--color-button-disabled-border`     | `#DBE1E2` | `#2C343B` |
+| `btn/disabled/text`   | `--color-button-disabled-text`       | `#A4B3B7` | `#A4B3B7` |
+
+`text/brand`, `icon/brand`, and `stroke/brand` are also published as
+`--color-text-brand`, `--color-icon-brand`, and `--color-border-brand`.
+They are available for exact component bindings, but must not replace older
+brand tokens globally until a component-specific Figma binding proves that
+usage.
+
 ---
 
 # 8. Figma implementation rules

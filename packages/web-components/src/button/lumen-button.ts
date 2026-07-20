@@ -32,7 +32,8 @@ import { customElement, property } from "lit/decorators.js";
  * solid-active`; `outline`'s hover border is bound to the same variable as
  * its hover fill in Figma, reproduced here as specced).
  */
-export type LumenButtonVariant = "primary" | "raised" | "secondary" | "tertiary" | "link" | "outline" | "accent";
+export type LumenButtonVariant =
+  "primary" | "raised" | "secondary" | "tertiary" | "link" | "outline" | "accent";
 export type LumenButtonSize = "xs" | "sm" | "md" | "lg";
 export type LumenButtonStatus = "success" | "warning" | "error";
 
@@ -67,7 +68,6 @@ export class LumenButton extends LitElement {
 
     button[aria-disabled="true"] {
       pointer-events: none;
-      opacity: 0.6;
     }
 
     :host([size="xs"]) button {
@@ -144,8 +144,8 @@ export class LumenButton extends LitElement {
     }
     :host([variant="primary"]) button[aria-disabled="true"] {
       border-color: transparent;
-      background-color: var(--color-neutral-50);
-      color: var(--color-neutral-400);
+      background-color: var(--color-button-disabled-background);
+      color: var(--color-button-disabled-text);
     }
     :host([variant="primary"][icon-only]) button {
       border-color: var(--color-brand-border);
@@ -176,8 +176,8 @@ export class LumenButton extends LitElement {
     }
     :host([variant="raised"]) button[aria-disabled="true"] {
       border-color: transparent;
-      background-color: var(--color-neutral-50);
-      color: var(--color-neutral-400);
+      background-color: var(--color-button-disabled-background);
+      color: var(--color-button-disabled-text);
       box-shadow: var(--shadow-button-disabled);
     }
 
@@ -197,9 +197,9 @@ export class LumenButton extends LitElement {
     }
     :host([variant="secondary"]) button[aria-disabled="true"] {
       border-width: 1px;
-      border-color: var(--color-neutral-200);
-      background-color: var(--color-neutral-50);
-      color: var(--color-neutral-400);
+      border-color: var(--color-button-disabled-border);
+      background-color: var(--color-button-disabled-background);
+      color: var(--color-button-disabled-text);
     }
 
     :host([variant="outline"]) button {
@@ -218,9 +218,9 @@ export class LumenButton extends LitElement {
     }
     :host([variant="outline"]) button[aria-disabled="true"] {
       border-width: 1px;
-      border-color: var(--color-neutral-200);
-      background-color: var(--color-neutral-50);
-      color: var(--color-neutral-400);
+      border-color: var(--color-button-disabled-border);
+      background-color: var(--color-button-disabled-background);
+      color: var(--color-button-disabled-text);
     }
 
     :host([variant="tertiary"]) button {
@@ -235,7 +235,7 @@ export class LumenButton extends LitElement {
     }
     :host([variant="tertiary"]) button[aria-disabled="true"] {
       background-color: transparent;
-      color: var(--color-neutral-400);
+      color: var(--color-button-disabled-text);
     }
 
     :host([variant="link"]) button {
@@ -250,7 +250,7 @@ export class LumenButton extends LitElement {
       text-decoration: underline;
     }
     :host([variant="link"]) button[aria-disabled="true"] {
-      color: var(--color-neutral-400);
+      color: var(--color-button-disabled-text);
     }
 
     /* Sourced from the canonical "AppShell" page (Lumen-AI-Design-System, node
@@ -273,8 +273,8 @@ export class LumenButton extends LitElement {
       border-color: var(--color-neutral-600);
     }
     :host([variant="accent"]) button[aria-disabled="true"] {
-      background-color: var(--color-neutral-50);
-      color: var(--color-neutral-400);
+      background-color: var(--color-button-disabled-background);
+      color: var(--color-button-disabled-text);
     }
 
     :host([status="success"]) button:not([aria-disabled="true"]) {
@@ -394,7 +394,9 @@ export class LumenButton extends LitElement {
       !this.getAttribute("aria-labelledby")
     ) {
       // eslint-disable-next-line no-console
-      console.warn("lumen-button: icon-only buttons must have an accessible name — pass aria-label.");
+      console.warn(
+        "lumen-button: icon-only buttons must have an accessible name — pass aria-label."
+      );
     }
   }
 
@@ -422,9 +424,11 @@ export class LumenButton extends LitElement {
         aria-labelledby=${hostAriaLabelledby ?? nothing}
         @click=${this._handleClick}
       >
-        ${this.loading
-          ? html`<span class="spinner" aria-hidden="true"></span>`
-          : html`<slot name="icon-start"></slot>`}
+        ${
+          this.loading
+            ? html`<span class="spinner" aria-hidden="true"></span>`
+            : html`<slot name="icon-start"></slot>`
+        }
         <span class="label ${this.loading ? "sr-only" : ""}">
           <slot></slot>
         </span>

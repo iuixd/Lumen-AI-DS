@@ -213,7 +213,8 @@ describe("Button", () => {
       </Button>
     );
     const className = screen.getByRole("button", { name: "Save changes" }).className;
-    expect(className).toMatch(/\baria-disabled:bg-neutral-50\b/);
-    expect(className).toMatch(/\baria-disabled:text-neutral-400\b/);
+    expect(className).toContain("aria-disabled:bg-[var(--color-button-disabled-background)]");
+    expect(className).toContain("aria-disabled:text-[var(--color-button-disabled-text)]");
+    expect(className).not.toContain("aria-disabled:opacity-60");
   });
 });

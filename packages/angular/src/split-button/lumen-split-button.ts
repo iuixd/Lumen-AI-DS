@@ -69,7 +69,13 @@ export type LumenSplitButtonSize = "sm" | "md" | "lg";
         (click)="handleDropdownClick($event)"
       >
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <path
+            d="M6 9l6 6 6-6"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
       </button>
     </div>
@@ -98,7 +104,6 @@ export type LumenSplitButtonSize = "sm" | "md" | "lg";
 
     :host([disabled]) .container {
       pointer-events: none;
-      opacity: 0.6;
     }
 
     :host([pill]) .container {
@@ -199,8 +204,8 @@ export type LumenSplitButtonSize = "sm" | "md" | "lg";
     }
     :host([disabled][variant="primary"]) .container,
     :host([disabled]:not([variant])) .container {
-      background-color: var(--color-neutral-50);
-      color: var(--color-neutral-400);
+      background-color: var(--color-button-disabled-background);
+      color: var(--color-button-disabled-text);
     }
 
     :host([variant="raised"]) .container {
@@ -220,8 +225,8 @@ export type LumenSplitButtonSize = "sm" | "md" | "lg";
       background-color: var(--divider-button-primary);
     }
     :host([disabled][variant="raised"]) .container {
-      background-color: var(--color-neutral-50);
-      color: var(--color-neutral-400);
+      background-color: var(--color-button-disabled-background);
+      color: var(--color-button-disabled-text);
       box-shadow: var(--shadow-button-disabled);
     }
 
@@ -242,9 +247,9 @@ export type LumenSplitButtonSize = "sm" | "md" | "lg";
       background-color: var(--divider-button-secondary);
     }
     :host([disabled][variant="secondary"]) .container {
-      border-color: var(--color-neutral-200);
-      background-color: var(--color-neutral-50);
-      color: var(--color-neutral-400);
+      border-color: var(--color-button-disabled-border);
+      background-color: var(--color-button-disabled-background);
+      color: var(--color-button-disabled-text);
     }
 
     :host([variant="outline"]) .container {
@@ -264,9 +269,9 @@ export type LumenSplitButtonSize = "sm" | "md" | "lg";
       background-color: var(--divider-button-secondary);
     }
     :host([disabled][variant="outline"]) .container {
-      border-color: var(--color-neutral-200);
-      background-color: var(--color-neutral-50);
-      color: var(--color-neutral-400);
+      border-color: var(--color-button-disabled-border);
+      background-color: var(--color-button-disabled-background);
+      color: var(--color-button-disabled-text);
     }
 
     .spinner {

@@ -18,7 +18,8 @@
       "link": "primary.500",
       "link-subtle": "sky.500",
       "disabled": "neutral.300",
-      "secondary": "lumen-gray.700"
+      "secondary": "lumen-gray.700",
+      "brand": "primary.800"
     },
     "border": {
       "default": "neutral.100",
@@ -26,7 +27,16 @@
       "focus": "primary.500",
       "subtle": "lumen-gray.100",
       "table": "lumen-gray.200",
-      "input": "lumen-gray.300"
+      "input": "lumen-gray.300",
+      "brand": "primary.100"
+    },
+    "icon": {
+      "brand": "primary.800"
+    },
+    "button": {
+      "disabled-background": "lumen-gray.100",
+      "disabled-border": "lumen-gray.200",
+      "disabled-text": "lumen-gray.500"
     },
     "brand": {
       "default": "primary.500",
@@ -112,7 +122,8 @@
       "link": "primary.300",
       "link-subtle": "sky.500",
       "disabled": "neutral.500",
-      "secondary": "lumen-gray.100"
+      "secondary": "lumen-gray.100",
+      "brand": "primary.200"
     },
     "border": {
       "default": "neutral.600",
@@ -120,7 +131,16 @@
       "focus": "primary.300",
       "subtle": "lumen-gray.700",
       "table": "lumen-gray.600",
-      "input": "lumen-gray.500"
+      "input": "lumen-gray.500",
+      "brand": "app-shell.dark.brand-stroke"
+    },
+    "icon": {
+      "brand": "primary.200"
+    },
+    "button": {
+      "disabled-background": "app-shell.dark.button-disabled-bg",
+      "disabled-border": "app-shell.dark.button-disabled-border",
+      "disabled-text": "lumen-gray.500"
     },
     "brand": {
       "default": "primary.300",

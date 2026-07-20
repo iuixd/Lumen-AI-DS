@@ -1,4 +1,9 @@
-import { forwardRef, type ButtonHTMLAttributes, type MouseEventHandler, type ReactNode } from "react";
+import {
+  forwardRef,
+  type ButtonHTMLAttributes,
+  type MouseEventHandler,
+  type ReactNode
+} from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../lib/cn";
 import { ChevronDownIcon } from "../icons/generated";
@@ -43,18 +48,18 @@ const containerVariants = cva(
   // `focus-within:` would also fire on a plain mouse click, since clicking a
   // <button> gives it real DOM focus. `:has(:focus-visible)` matches only
   // when a descendant's focus came from the keyboard, same as everywhere else.
-  "inline-flex min-w-[var(--spacing-120)] items-stretch overflow-hidden rounded-lg transition-colors has-[:focus-visible]:outline-none has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-offset-4 has-[:focus-visible]:ring-[var(--color-border-focus)] aria-disabled:pointer-events-none aria-disabled:opacity-60",
+  "inline-flex min-w-[var(--spacing-120)] items-stretch overflow-hidden rounded-lg transition-colors has-[:focus-visible]:outline-none has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-offset-4 has-[:focus-visible]:ring-[var(--color-border-focus)] aria-disabled:pointer-events-none",
   {
     variants: {
       variant: {
         primary:
-          "bg-[var(--color-brand-default)] text-neutral-white hover:bg-[var(--color-brand-hover)] active:bg-[var(--color-brand-pressed)] aria-disabled:bg-neutral-50 aria-disabled:text-neutral-400",
+          "bg-[var(--color-brand-default)] text-neutral-white hover:bg-[var(--color-brand-hover)] active:bg-[var(--color-brand-pressed)] aria-disabled:bg-[var(--color-button-disabled-background)] aria-disabled:text-[var(--color-button-disabled-text)]",
         raised:
-          "bg-[var(--color-brand-default)] text-neutral-white [box-shadow:var(--shadow-button-default)] hover:bg-[var(--color-brand-hover)] hover:[box-shadow:var(--shadow-button-hover)] active:bg-[var(--color-brand-pressed)] active:[box-shadow:var(--shadow-button-active)] aria-disabled:bg-neutral-50 aria-disabled:text-neutral-400 aria-disabled:[box-shadow:var(--shadow-button-disabled)]",
+          "bg-[var(--color-brand-default)] text-neutral-white [box-shadow:var(--shadow-button-default)] hover:bg-[var(--color-brand-hover)] hover:[box-shadow:var(--shadow-button-hover)] active:bg-[var(--color-brand-pressed)] active:[box-shadow:var(--shadow-button-active)] aria-disabled:bg-[var(--color-button-disabled-background)] aria-disabled:text-[var(--color-button-disabled-text)] aria-disabled:[box-shadow:var(--shadow-button-disabled)]",
         secondary:
-          "border-[1.5px] border-[var(--color-brand-border)] bg-neutral-white text-[var(--color-brand-default)] hover:border-[var(--color-brand-default)] hover:bg-[var(--color-brand-subtle)] active:border-[var(--color-brand-default)] active:bg-[var(--color-brand-subtle-pressed)] aria-disabled:border aria-disabled:border-neutral-200 aria-disabled:bg-neutral-50 aria-disabled:text-neutral-400",
+          "border-[1.5px] border-[var(--color-brand-border)] bg-neutral-white text-[var(--color-brand-default)] hover:border-[var(--color-brand-default)] hover:bg-[var(--color-brand-subtle)] active:border-[var(--color-brand-default)] active:bg-[var(--color-brand-subtle-pressed)] aria-disabled:border aria-disabled:border-[var(--color-button-disabled-border)] aria-disabled:bg-[var(--color-button-disabled-background)] aria-disabled:text-[var(--color-button-disabled-text)]",
         outline:
-          "border-[1.5px] border-[var(--color-brand-border-strong)] bg-neutral-white text-[var(--color-brand-default)] hover:border-[var(--color-brand-default)] hover:bg-[var(--color-brand-subtle)] active:border-[var(--color-brand-default)] active:bg-[var(--color-brand-subtle-pressed)] aria-disabled:border aria-disabled:border-neutral-200 aria-disabled:bg-neutral-50 aria-disabled:text-neutral-400"
+          "border-[1.5px] border-[var(--color-brand-border-strong)] bg-neutral-white text-[var(--color-brand-default)] hover:border-[var(--color-brand-default)] hover:bg-[var(--color-brand-subtle)] active:border-[var(--color-brand-default)] active:bg-[var(--color-brand-subtle-pressed)] aria-disabled:border aria-disabled:border-[var(--color-button-disabled-border)] aria-disabled:bg-[var(--color-button-disabled-background)] aria-disabled:text-[var(--color-button-disabled-text)]"
       },
       size: {
         sm: "h-[var(--spacing-36)] text-button-sm",
@@ -72,11 +77,9 @@ const containerVariants = cva(
 // Tailwind's opacity modifier (`bg-x/30`) can't blend a custom color that's
 // itself a CSS-variable reference — it silently emits no rule at all rather
 // than erroring (same trap as the shadow arbitrary-value bug), so these use
-// dedicated pre-blended rgba tokens from divider.json instead. Figma specs a
-// distinct gray divider for the Disabled state too, but that's covered here
-// by the container's blanket `aria-disabled:opacity-60` dim (same
-// simplification Button.tsx uses — not every sub-element gets its own
-// disabled-specific color, most just get dimmed).
+// dedicated pre-blended rgba tokens from divider.json instead. The container
+// binds the shared disabled surface/text/border roles directly;
+// its separator switches to the existing disabled divider token independently.
 const dividerVariants = cva("h-full w-px shrink-0", {
   variants: {
     variant: {
@@ -89,27 +92,33 @@ const dividerVariants = cva("h-full w-px shrink-0", {
   defaultVariants: { variant: "primary" }
 });
 
-const mainVariants = cva("inline-flex flex-1 items-center justify-center gap-[var(--spacing-8)] whitespace-nowrap outline-none disabled:cursor-not-allowed", {
-  variants: {
-    size: {
-      sm: "pl-[var(--spacing-12)] pr-[var(--spacing-8)]",
-      md: "pl-[var(--spacing-16)] pr-[var(--spacing-10)]",
-      lg: "pl-[var(--spacing-20)] pr-[var(--spacing-12)]"
-    }
-  },
-  defaultVariants: { size: "lg" }
-});
+const mainVariants = cva(
+  "inline-flex flex-1 items-center justify-center gap-[var(--spacing-8)] whitespace-nowrap outline-none disabled:cursor-not-allowed",
+  {
+    variants: {
+      size: {
+        sm: "pl-[var(--spacing-12)] pr-[var(--spacing-8)]",
+        md: "pl-[var(--spacing-16)] pr-[var(--spacing-10)]",
+        lg: "pl-[var(--spacing-20)] pr-[var(--spacing-12)]"
+      }
+    },
+    defaultVariants: { size: "lg" }
+  }
+);
 
-const dropdownVariants = cva("inline-flex shrink-0 items-center justify-center outline-none disabled:cursor-not-allowed", {
-  variants: {
-    size: {
-      sm: "size-[var(--spacing-36)]",
-      md: "size-[var(--spacing-40)]",
-      lg: "size-[var(--spacing-48)]"
-    }
-  },
-  defaultVariants: { size: "lg" }
-});
+const dropdownVariants = cva(
+  "inline-flex shrink-0 items-center justify-center outline-none disabled:cursor-not-allowed",
+  {
+    variants: {
+      size: {
+        sm: "size-[var(--spacing-36)]",
+        md: "size-[var(--spacing-40)]",
+        lg: "size-[var(--spacing-48)]"
+      }
+    },
+    defaultVariants: { size: "lg" }
+  }
+);
 
 const dropdownIconSizeBySize = {
   sm: "size-4",
@@ -133,8 +142,14 @@ export interface SplitButtonProps extends VariantProps<typeof containerVariants>
   dropdownLabel?: string;
   disabled?: boolean;
   isLoading?: boolean;
-  mainButtonProps?: Omit<ButtonHTMLAttributes<HTMLButtonElement>, "disabled" | "onClick" | "children">;
-  dropdownButtonProps?: Omit<ButtonHTMLAttributes<HTMLButtonElement>, "disabled" | "onClick" | "aria-label">;
+  mainButtonProps?: Omit<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    "disabled" | "onClick" | "children"
+  >;
+  dropdownButtonProps?: Omit<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    "disabled" | "onClick" | "aria-label"
+  >;
 }
 
 export const SplitButton = forwardRef<HTMLDivElement, SplitButtonProps>(
@@ -159,7 +174,9 @@ export const SplitButton = forwardRef<HTMLDivElement, SplitButtonProps>(
   ) => {
     if (process.env.NODE_ENV !== "production" && dropdownLabel === "More options") {
       // eslint-disable-next-line no-console
-      console.warn('SplitButton: pass a specific `dropdownLabel` — "More options" is a placeholder, not a real accessible name.');
+      console.warn(
+        'SplitButton: pass a specific `dropdownLabel` — "More options" is a placeholder, not a real accessible name.'
+      );
     }
 
     const isMainDisabled = Boolean(disabled || isLoading);
@@ -181,7 +198,10 @@ export const SplitButton = forwardRef<HTMLDivElement, SplitButtonProps>(
         >
           {isLoading ? (
             <>
-              <span className="size-[1em] animate-spin rounded-full border-2 border-current border-t-transparent" aria-hidden />
+              <span
+                className="size-[1em] animate-spin rounded-full border-2 border-current border-t-transparent"
+                aria-hidden
+              />
               <span className="sr-only">{children}</span>
             </>
           ) : (
@@ -191,7 +211,13 @@ export const SplitButton = forwardRef<HTMLDivElement, SplitButtonProps>(
             </>
           )}
         </button>
-        <span className={dividerVariants({ variant })} aria-hidden />
+        <span
+          className={cn(
+            dividerVariants({ variant }),
+            disabled && "[background-color:var(--divider-button-disabled)]"
+          )}
+          aria-hidden
+        />
         <button
           type="button"
           {...dropdownButtonProps}
