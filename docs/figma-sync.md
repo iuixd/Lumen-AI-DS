@@ -903,6 +903,16 @@ Therefore:
 
 ---
 
+## Latest published role delta (2026-07-20)
+
+The `Lumen/Theme` collection now includes `text/brand`, `icon/brand`,
+`stroke/brand`, and `btn/disabled/{bg,border,text}`. Code publishes all six
+roles. The disabled roles are bound across the React, Web Components, and
+Angular Button, AIButton, and SplitButton implementations. The three brand
+roles currently have no bound component instance in the Figma file; they
+remain exported and unconsumed until a component-specific binding establishes
+their intended scope.
+
 # 25. Variable synchronization
 
 The Variable-specific policy (when to read Variables, what to compare

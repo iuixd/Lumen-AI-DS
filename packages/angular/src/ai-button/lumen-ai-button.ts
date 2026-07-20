@@ -99,7 +99,6 @@ export type LumenAIButtonSize = "xs" | "sm" | "md" | "lg";
 
     button[aria-disabled="true"] {
       pointer-events: none;
-      opacity: 0.6;
     }
 
     :host([size="xs"]) button {
@@ -173,8 +172,8 @@ export type LumenAIButtonSize = "xs" | "sm" | "md" | "lg";
     }
     :host([variant="primary"]) button[aria-disabled="true"],
     :host(:not([variant])) button[aria-disabled="true"] {
-      background-color: var(--color-neutral-50);
-      color: var(--color-neutral-400);
+      background-color: var(--color-button-disabled-background);
+      color: var(--color-button-disabled-text);
     }
 
     :host([variant="secondary"]) button {
@@ -190,9 +189,9 @@ export type LumenAIButtonSize = "xs" | "sm" | "md" | "lg";
       background-color: var(--color-brand-subtle-pressed);
     }
     :host([variant="secondary"]) button[aria-disabled="true"] {
-      border-color: var(--color-neutral-200);
-      background-color: var(--color-neutral-50);
-      color: var(--color-neutral-400);
+      border-color: var(--color-button-disabled-border);
+      background-color: var(--color-button-disabled-background);
+      color: var(--color-button-disabled-text);
     }
 
     :host([variant="tertiary"]) button {
@@ -207,7 +206,7 @@ export type LumenAIButtonSize = "xs" | "sm" | "md" | "lg";
     }
     :host([variant="tertiary"]) button[aria-disabled="true"] {
       background-color: transparent;
-      color: var(--color-neutral-400);
+      color: var(--color-button-disabled-text);
     }
 
     :host([variant="outline"]) button {
@@ -224,9 +223,9 @@ export type LumenAIButtonSize = "xs" | "sm" | "md" | "lg";
       background-color: var(--color-brand-subtle-pressed);
     }
     :host([variant="outline"]) button[aria-disabled="true"] {
-      border-color: var(--color-neutral-200);
+      border-color: var(--color-button-disabled-border);
       background-color: transparent;
-      color: var(--color-neutral-400);
+      color: var(--color-button-disabled-text);
     }
 
     .label.sr-only {
@@ -298,7 +297,9 @@ export class LumenAIButtonComponent implements OnChanges {
   ngOnChanges(): void {
     if (this.iconOnly && !this.hostAriaLabel && !this.hostAriaLabelledby) {
       // eslint-disable-next-line no-console
-      console.warn("lumen-ai-button: iconOnly buttons must have an accessible name — pass aria-label.");
+      console.warn(
+        "lumen-ai-button: iconOnly buttons must have an accessible name — pass aria-label."
+      );
     }
   }
 

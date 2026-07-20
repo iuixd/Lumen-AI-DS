@@ -268,3 +268,36 @@ export const Disabled: Story = {
     </div>
   )
 };
+
+export const DisabledThemes: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div className="grid gap-4 md:grid-cols-2">
+      {(["light", "dark"] as const).map((theme) => (
+        <section
+          key={theme}
+          data-theme={theme}
+          className="rounded-lg bg-[var(--color-background-default)] p-4"
+        >
+          <p className="mb-3 text-label-md capitalize text-[var(--color-text-body)]">
+            {theme} theme
+          </p>
+          <div className="flex flex-wrap items-center gap-3">
+            <Button disabled variant="primary">
+              Primary
+            </Button>
+            <Button disabled variant="secondary">
+              Secondary
+            </Button>
+            <Button disabled variant="outline">
+              Outline
+            </Button>
+            <Button disabled variant="tertiary">
+              Tertiary
+            </Button>
+          </div>
+        </section>
+      ))}
+    </div>
+  )
+};

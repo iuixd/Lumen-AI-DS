@@ -51,7 +51,8 @@ import {
  * bound to the same variable as its hover fill in Figma, reproduced here as
  * specced), matching the Web Components package's own identical fix.
  */
-export type LumenButtonVariant = "primary" | "raised" | "secondary" | "tertiary" | "link" | "outline" | "accent";
+export type LumenButtonVariant =
+  "primary" | "raised" | "secondary" | "tertiary" | "link" | "outline" | "accent";
 export type LumenButtonSize = "xs" | "sm" | "md" | "lg";
 export type LumenButtonStatus = "success" | "warning" | "error";
 
@@ -118,7 +119,6 @@ export type LumenButtonStatus = "success" | "warning" | "error";
 
     button[aria-disabled="true"] {
       pointer-events: none;
-      opacity: 0.6;
     }
 
     :host([size="xs"]) button {
@@ -195,8 +195,8 @@ export type LumenButtonStatus = "success" | "warning" | "error";
     }
     :host([variant="primary"]) button[aria-disabled="true"] {
       border-color: transparent;
-      background-color: var(--color-neutral-50);
-      color: var(--color-neutral-400);
+      background-color: var(--color-button-disabled-background);
+      color: var(--color-button-disabled-text);
     }
     :host([variant="primary"][icon-only]) button {
       border-color: var(--color-brand-border);
@@ -227,8 +227,8 @@ export type LumenButtonStatus = "success" | "warning" | "error";
     }
     :host([variant="raised"]) button[aria-disabled="true"] {
       border-color: transparent;
-      background-color: var(--color-neutral-50);
-      color: var(--color-neutral-400);
+      background-color: var(--color-button-disabled-background);
+      color: var(--color-button-disabled-text);
       box-shadow: var(--shadow-button-disabled);
     }
 
@@ -248,9 +248,9 @@ export type LumenButtonStatus = "success" | "warning" | "error";
     }
     :host([variant="secondary"]) button[aria-disabled="true"] {
       border-width: 1px;
-      border-color: var(--color-neutral-200);
-      background-color: var(--color-neutral-50);
-      color: var(--color-neutral-400);
+      border-color: var(--color-button-disabled-border);
+      background-color: var(--color-button-disabled-background);
+      color: var(--color-button-disabled-text);
     }
 
     :host([variant="outline"]) button {
@@ -269,9 +269,9 @@ export type LumenButtonStatus = "success" | "warning" | "error";
     }
     :host([variant="outline"]) button[aria-disabled="true"] {
       border-width: 1px;
-      border-color: var(--color-neutral-200);
-      background-color: var(--color-neutral-50);
-      color: var(--color-neutral-400);
+      border-color: var(--color-button-disabled-border);
+      background-color: var(--color-button-disabled-background);
+      color: var(--color-button-disabled-text);
     }
 
     :host([variant="tertiary"]) button {
@@ -286,7 +286,7 @@ export type LumenButtonStatus = "success" | "warning" | "error";
     }
     :host([variant="tertiary"]) button[aria-disabled="true"] {
       background-color: transparent;
-      color: var(--color-neutral-400);
+      color: var(--color-button-disabled-text);
     }
 
     :host([variant="link"]) button {
@@ -301,7 +301,7 @@ export type LumenButtonStatus = "success" | "warning" | "error";
       text-decoration: underline;
     }
     :host([variant="link"]) button[aria-disabled="true"] {
-      color: var(--color-neutral-400);
+      color: var(--color-button-disabled-text);
     }
 
     /* Sourced from the canonical "AppShell" page (Lumen-AI-Design-System, node
@@ -324,8 +324,8 @@ export type LumenButtonStatus = "success" | "warning" | "error";
       border-color: var(--color-neutral-600);
     }
     :host([variant="accent"]) button[aria-disabled="true"] {
-      background-color: var(--color-neutral-50);
-      color: var(--color-neutral-400);
+      background-color: var(--color-button-disabled-background);
+      color: var(--color-button-disabled-text);
     }
 
     :host([status="success"]) button:not([aria-disabled="true"]) {
@@ -450,7 +450,9 @@ export class LumenButtonComponent implements OnChanges {
   ngOnChanges(): void {
     if (this.iconOnly && !this.hostAriaLabel && !this.hostAriaLabelledby) {
       // eslint-disable-next-line no-console
-      console.warn("lumen-button: icon-only buttons must have an accessible name — pass aria-label.");
+      console.warn(
+        "lumen-button: icon-only buttons must have an accessible name — pass aria-label."
+      );
     }
   }
 

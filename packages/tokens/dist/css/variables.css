@@ -188,6 +188,9 @@
   --color-app-shell-dark-warning: #F5B46E;
   --color-app-shell-dark-warning-bg: rgba(201, 122, 46, 0.15);
   --color-app-shell-dark-badge-bg: rgba(180, 142, 224, 0.16);
+  --color-app-shell-dark-button-disabled-bg: #20272D;
+  --color-app-shell-dark-button-disabled-border: #2C343B;
+  --color-app-shell-dark-brand-stroke: #594D54;
 
   /* spacing (layout scale, Figma-sourced) */
   --spacing-layout-xs: 8px;
@@ -450,12 +453,18 @@
   --color-text-link-subtle: #2563EB;
   --color-text-disabled: #9F9F9F;
   --color-text-secondary: #626B6E;
+  --color-text-brand: #4C0018;
   --color-border-default: #DFDFDF;
   --color-border-strong: #9F9F9F;
   --color-border-focus: #BE003C;
   --color-border-subtle: #EDF0F1;
   --color-border-table: #DBE1E2;
   --color-border-input: #C8D1D4;
+  --color-border-brand: #F2CCD8;
+  --color-icon-brand: #4C0018;
+  --color-button-disabled-background: #EDF0F1;
+  --color-button-disabled-border: #DBE1E2;
+  --color-button-disabled-text: #A4B3B7;
   --color-brand-default: #BE003C;
   --color-brand-hover: #720024;
   --color-brand-pressed: #310010;
@@ -531,12 +540,18 @@
   --color-text-link-subtle: #2563EB;
   --color-text-disabled: #5E5E5E;
   --color-text-secondary: #EDF0F1;
+  --color-text-brand: #E599B1;
   --color-border-default: #4C4C4C;
   --color-border-strong: #7F7F7F;
   --color-border-focus: #D8668A;
   --color-border-subtle: #626B6E;
   --color-border-table: #838F92;
   --color-border-input: #A4B3B7;
+  --color-border-brand: #594D54;
+  --color-icon-brand: #E599B1;
+  --color-button-disabled-background: #20272D;
+  --color-button-disabled-border: #2C343B;
+  --color-button-disabled-text: #A4B3B7;
   --color-brand-default: #D8668A;
   --color-brand-hover: #F2CCD8;
   --color-brand-pressed: #F9E6EC;

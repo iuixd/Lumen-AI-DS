@@ -187,7 +187,10 @@ export const colorPrimitives = {
   "app-shell.dark.success-bg": "rgba(11, 138, 62, 0.15)",
   "app-shell.dark.warning": "#F5B46E",
   "app-shell.dark.warning-bg": "rgba(201, 122, 46, 0.15)",
-  "app-shell.dark.badge-bg": "rgba(180, 142, 224, 0.16)"
+  "app-shell.dark.badge-bg": "rgba(180, 142, 224, 0.16)",
+  "app-shell.dark.button-disabled-bg": "#20272D",
+  "app-shell.dark.button-disabled-border": "#2C343B",
+  "app-shell.dark.brand-stroke": "#594D54"
 } as const;
 export const semanticColor = {
   "_comment": "Semantic tokens reference primitives by dot-path. Consumed by scripts/build.mjs to emit CSS variables that swap by [data-theme]. The Figma source (Lumen-AI-Design-System) defines only one mode per variable collection — there is no Figma-authored dark theme. The 'dark' block below is a manual, documented mapping onto the same primitive ramps, carried over from the previous system. light.brand.hover/pressed are sourced from the actual Primary-button Hover/Active instance fills on the 'Buttons' page (node 475:7210, formerly 466:4365) — trust those over the page's '04 Design Tokens' documentation table, which has a stale/mismatched hover value (a copy-paste artifact, same pattern seen on the Colors page). light.brand.pressed was updated again when that page's own instances were updated: the real Active fill is primary.900 (#310010), one step darker than the primary.800 previously read — see primitives/color.json's note on primary.900. light.brand.border/subtle-pressed are new tokens sourced from that same refresh (button border color at rest, and outlined/text-button active-state fill). dark.brand.border/subtle-pressed have no Figma source (same caveat as the rest of the dark block) — mirrored onto the ramp by position rather than invented outright: border sits one step lighter than dark's subtle, same relative distance light.border sits darker than light.subtle. status.{success,warning,error}-text/-border are sourced from the Button component-set's own Success/Error/Warning State instances (node 475:7210) — exact bound-variable fallback values matched existing primitives exactly (surface = the existing -subtle step, text = the family's 700 step, border = the family's 200 step), so no new primitives were needed. Their dark values have no Figma source (Figma specs no dark mode for these states) and were derived with the same ramp-mirroring rule already used for status.success/-subtle: dark index = 8 minus the light index on each family's 9-step (50-800) ramp. brand.border-strong is sourced from the Split Button's Outline type (node 555:300) default-state border color (`--button/border/secondary/default`, #E599B1 = primary.200) — a step darker than the existing brand.border (primary.100). brand.solid-active (added 2026-07-16) is sourced from a direct re-verification of the core Button component-set's `Type=Secondary, State=Active` and `Type=Outline, State=Active` instances (node 475:7210, nodes 538:1262/806:5989) — both bind to `--button/surface/secondary/active` (#4C0018 = primary.800) with white text and no border, confirming the `[Unreleased]` speculation this token now replaces (\"Secondary's Active/Pressed fill may have changed to a solid primary.800 background with white text\"). Distinct from brand.pressed (primary.900, Primary/Raised's own solid-fill active state) — Figma specs a one-step-lighter tier specifically for the bordered/outlined types' active state, not a reuse of Primary's. dark.brand.solid-active has no Figma source (same caveat as the rest of the dark block); placed at primary.700, one step past dark.brand.border-strong (primary.600), to stay dark enough for the same unconditional white text Primary/Raised already use in dark mode (dark.brand.default is only primary.300) while remaining a distinct, deeper tier. dark.brand.border-strong has no Figma source and was placed one step lighter than dark.brand.border (primary.700), the same relative-distance mirroring already documented above for brand.border/subtle-pressed. light.segment.* (added for the new SegmentedControl primitive, sourced from the Buttons page's 'AI ButtonGroup Component Library' section, node 958:5058 'Segmented Control Group' via get_design_context on 2026-07-16) are aliases onto existing primitives with zero new hex values: surface=#EDF0F1, surface-selected=white, border-selected=#C8D1D4, text=#626B6E, and text-selected=#4C0018 matched lumen-gray.100/neutral.white/lumen-gray.300/lumen-gray.700/primary.800 exactly. dark.segment.* has no Figma source (same caveat as the rest of the dark block) and was derived with the same 8-minus-light-index mirroring rule used for status.*, applied to lumen-gray's own 9-step (50-800) ramp; surface-selected mirrors background.default's own established white-to-neutral.800 pairing. light.border.subtle and light.text.secondary (added for the appshell-desktop-closed-light reference screen, Lumen-AI-Design-System node 1197:1652, via get_variable_defs on 2026-07-20) are new tiers distinct from the existing border.default/text.muted: `stroke/subtle` (#EDF0F1) and `text/secondary` (#626B6E) both appeared alongside `stroke/default`/`text/muted` as separate bound variables in the same frame, not substitutes for them. Both alias lumen-gray (a different family from border.default's neutral) with zero new hex values: border.subtle=lumen-gray.100, text.secondary=lumen-gray.700 — the same two steps already confirmed for light.segment.surface/text above. dark.border.subtle/text.secondary have no Figma source (same caveat as the rest of the dark block) and use the same 8-minus-light-index mirroring already applied to light.segment.* on lumen-gray's own ramp: border.subtle mirrors to lumen-gray.700, text.secondary mirrors to lumen-gray.100. light.background.nav-active (same source/session) is `bg/nav-active` (#EDF0F1) from the NavigationRail's active-item state — also lumen-gray.100, but kept as its own token rather than reused as border.subtle since the two express different purposes (a fill vs. a border) that happen to share a value; dark.background.nav-active mirrors to lumen-gray.700, same rule. light.text.link-subtle, light.background.badge, light.background.prompt, and light.border.table (added 2026-07-20, sourced from the canonical 'AppShell' page, node 1007:3700, Breakpoint=Desktop/Theme=Light instance 1127:4196, via get_variable_defs — the authoritative AppShell composition; the previously-sourced 1197:1652 turned out to be one example instance living inside this same canvas, not the canonical source) are new: `text/link` (#2563EB) is a genuine naming collision with the existing text.link token (which means brand crimson, primary.500, and is consumed by the standalone `TextLink` component) — not the same color, so it is NOT reused or overwritten; instead it's added as the distinct `text.link-subtle` token (aliasing the new `sky.500` primitive — see primitives/color.json, only one step evidenced) for the muted inline-navigational-link look breadcrumbs/footer links use in this AppShell context. `background.badge` (#EBF1FF) aliases the existing cobalt.50 exactly. `background.prompt` (#424849) aliases the existing lumen-gray.800 exactly. `border.table` (#DBE1E2) aliases the existing lumen-gray.200 exactly — despite the Figma variable's name, it's used here as the AI response bubble's border, not a literal table. `status/danger` (#DA1E28) was also found in this same source but needed no new token — it's an exact value match for the already-existing status.error (red.500), just an alternate name Figma uses in this context; not added as a duplicate. dark.text.link-subtle/background.badge/background.prompt/border.table have no Figma source (same caveat as the rest of the dark block); text.link-subtle has no ramp to mirror (sky is a single-step primitive) so the light value is reused unchanged pending real dark evidence; background.badge/background.prompt/border.table use the same 8-minus-light-index mirroring already established for their source families (cobalt.50→cobalt.700 has no established precedent in this file, so background.badge dark uses cobalt.700 as the mirrored step; lumen-gray.800→lumen-gray.0 doesn't exist, so background.prompt dark reuses lumen-gray.700 as the nearest available darker-ramp-end mirror; lumen-gray.200→lumen-gray.600 follows the same rule as border.subtle/nav-active above). light.border.input (same source/session) is `stroke/input` (#C8D1D4) — needed for the new `AIPanel`'s text input (and, not yet built, the Header's SearchBar) — aliases lumen-gray.300 exactly; dark.border.input mirrors to lumen-gray.500 by the same rule.",
@@ -209,7 +212,8 @@ export const semanticColor = {
       "link": "primary.500",
       "link-subtle": "sky.500",
       "disabled": "neutral.300",
-      "secondary": "lumen-gray.700"
+      "secondary": "lumen-gray.700",
+      "brand": "primary.800"
     },
     "border": {
       "default": "neutral.100",
@@ -217,7 +221,16 @@ export const semanticColor = {
       "focus": "primary.500",
       "subtle": "lumen-gray.100",
       "table": "lumen-gray.200",
-      "input": "lumen-gray.300"
+      "input": "lumen-gray.300",
+      "brand": "primary.100"
+    },
+    "icon": {
+      "brand": "primary.800"
+    },
+    "button": {
+      "disabled-background": "lumen-gray.100",
+      "disabled-border": "lumen-gray.200",
+      "disabled-text": "lumen-gray.500"
     },
     "brand": {
       "default": "primary.500",
@@ -303,7 +316,8 @@ export const semanticColor = {
       "link": "primary.300",
       "link-subtle": "sky.500",
       "disabled": "neutral.500",
-      "secondary": "lumen-gray.100"
+      "secondary": "lumen-gray.100",
+      "brand": "primary.200"
     },
     "border": {
       "default": "neutral.600",
@@ -311,7 +325,16 @@ export const semanticColor = {
       "focus": "primary.300",
       "subtle": "lumen-gray.700",
       "table": "lumen-gray.600",
-      "input": "lumen-gray.500"
+      "input": "lumen-gray.500",
+      "brand": "app-shell.dark.brand-stroke"
+    },
+    "icon": {
+      "brand": "primary.200"
+    },
+    "button": {
+      "disabled-background": "app-shell.dark.button-disabled-bg",
+      "disabled-border": "app-shell.dark.button-disabled-border",
+      "disabled-text": "lumen-gray.500"
     },
     "brand": {
       "default": "primary.300",
