@@ -2501,9 +2501,10 @@ spacing.{4,16,20}
   (`bg/status-success` #E5F9EC) is close to but not an exact match for the
   existing `status.success-subtle` token (green.50, #E6F7E6) — observed,
   not acted on pending direct re-verification.
-- React only — no `@lumen/web-components`/`@lumen/angular` equivalent yet;
-  deferred to match this repo's established React-first-then-parity-PR
-  pattern.
+- Cross-framework parity: `@lumen/web-components`'s `<lumen-kpi-card>` and
+  `@lumen/angular`'s `LumenKPICardComponent` ship the same contract
+  (2026-07-20) — no Storybook coverage for those two yet, see each
+  package's README.
 
 ## Reference implementation (React)
 
@@ -2613,8 +2614,12 @@ spacing.{2,20,24,32,56}
   instead of an unbacked 30px — the same "round to the nearest existing
   token" treatment already applied to `SplitButton`'s `sm` dropdown
   segment.
-- React only — deferred Web Components/Angular parity, same pattern noted
-  throughout this sync.
+- Cross-framework parity: `@lumen/web-components`'s `<lumen-theme-toggle>`
+  fires a bubbling, composed `lumen-change` `CustomEvent` (a native
+  `change` on the internal `<input>` can't cross the shadow boundary);
+  `@lumen/angular`'s `LumenThemeToggleComponent` exposes a `checkedChange`
+  `EventEmitter` for `[(checked)]` two-way binding — both complete as of
+  2026-07-20, no Storybook coverage for either yet.
 
 ## Reference implementation (React)
 
@@ -2847,8 +2852,13 @@ spacing.{6,10,16,24}
 - The link list (Privacy/Terms/Security in the sourced instance) is
   generalized as a `links` prop since those are page-specific, not a fixed
   Lumen contract.
-- React only — no cross-framework equivalent expected; layout-level like
-  `PageHeader`/`AppShell`'s `rail` variant.
+- Cross-framework parity: `@lumen/web-components`'s `<lumen-footer>`
+  (2026-07-20) projects the link row through a default `<slot>` styled via
+  `::slotted(a)`; `@lumen/angular`'s `LumenFooterComponent` projects the
+  same content via `<ng-content>` but leaves it unstyled by default — no
+  non-deprecated `::slotted` equivalent exists under Angular's emulated
+  view encapsulation, so the consumer applies its own link styling. No
+  Storybook coverage for either yet.
 
 ## Reference implementation (React)
 

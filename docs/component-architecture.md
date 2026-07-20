@@ -1051,24 +1051,33 @@ Storybook coverage for all three Web Components/Angular rows above remains
 "not covered" (same open decision noted in each package's README).
 
 As of 2026-07-20, sourced from the "appshell-desktop-closed-light"
-reference screen (node `1197:1652`), the following are React-only —
-Web Components/Angular parity deferred (primitives, matching the
-established React-first-then-parity-PR pattern) or not expected
-(layout/pattern-level, `@lumen/patterns` is React-only per `CLAUDE.md`):
+reference screen (node `1197:1652`), `KPICard`, `Theme Toggle`, and
+`Footer` ship as three-row (React/Web Components/Angular) mappings, same
+pattern as Button. `Page Header` remains React-only — page/composite-level,
+no Web Components/Angular equivalent expected:
 
 ```text
-Figma: KPICard                Node: 1197:1652 (1102:6521-23)
-React: KPICard                        packages/ui/src/primitives/KPICard.tsx
+Figma: KPICard                 Node: 1197:1652 (1102:6521-23)
+React: KPICard                         packages/ui/src/primitives/KPICard.tsx
+Web Components: lumen-kpi-card         packages/web-components/src/kpi-card/lumen-kpi-card.ts
+Angular: LumenKPICardComponent         packages/angular/src/kpi-card/lumen-kpi-card.ts
 
-Figma: Theme Toggle           Node: 1197:1652 (Header instance)
-React: ThemeToggle                    packages/ui/src/primitives/ThemeToggle.tsx
+Figma: Theme Toggle             Node: 1197:1652 (Header instance)
+React: ThemeToggle                     packages/ui/src/primitives/ThemeToggle.tsx
+Web Components: lumen-theme-toggle     packages/web-components/src/theme-toggle/lumen-theme-toggle.ts
+Angular: LumenThemeToggleComponent     packages/angular/src/theme-toggle/lumen-theme-toggle.ts
 
-Figma: Page Header            Node: 1197:1652 (1102:6519)
-React: PageHeader                     packages/ui/src/composite/PageHeader.tsx
+Figma: Footer                   Node: 1197:1652 (1102:6529)
+React: Footer                          packages/ui/src/layout/Footer.tsx
+Web Components: lumen-footer           packages/web-components/src/footer/lumen-footer.ts
+Angular: LumenFooterComponent          packages/angular/src/footer/lumen-footer.ts
 
-Figma: Footer                 Node: 1197:1652 (1102:6529)
-React: Footer                         packages/ui/src/layout/Footer.tsx
+Figma: Page Header               Node: 1197:1652 (1102:6519)
+React: PageHeader                      packages/ui/src/composite/PageHeader.tsx
 ```
+
+Storybook coverage for the Web Components/Angular rows above remains "not
+covered" (same open decision noted in each package's README).
 
 `AppShell` gained an additive `variant="rail"` (the sourced 64px collapsed
 NavigationRail) alongside the unchanged default `"sidebar"`; `Avatar`

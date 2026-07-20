@@ -12,3 +12,8 @@ export { LumenSegmentedControlOptionComponent } from "./segmented-control/lumen-
 
 export { LumenAIButtonComponent } from "./ai-button/lumen-ai-button";
 export type { LumenAIButtonVariant, LumenAIButtonSize } from "./ai-button/lumen-ai-button";
+
+export { LumenThemeToggleComponent } from "./theme-toggle/lumen-theme-toggle";
+export { LumenKPICardComponent } from "./kpi-card/lumen-kpi-card";
+export type { LumenKPICardDeltaTone } from "./kpi-card/lumen-kpi-card";
+export { LumenFooterComponent } from "./footer/lumen-footer";
