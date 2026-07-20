@@ -56,6 +56,15 @@ Use the following headings for every release:
 
 ### Changed
 
+- Made the repository Quick Start self-contained for first-time installation.
+  - Source: user-reported onboarding failure while following the repository Quick Start; no Figma node is involved
+  - Previous: the Quick Start began with `corepack pnpm install --frozen-lockfile` and assumed the repository had already been cloned and selected as the current directory; running the subsequent shorthand `corepack pnpm lint` command from a product project without a `lint` script caused pnpm to attempt an unavailable `lint` executable
+  - Current: the Quick Start now begins with `git clone https://github.com/iuixd/Lumen-AI-DS.git` and `cd Lumen-AI-DS`, and repository quality scripts use the explicit `corepack pnpm run <script>` form
+  - Affects: `README.md` and the GitHub repository onboarding experience
+  - Migration: none; documentation only
+  - Validation: confirmed every documented quality script exists in the root `package.json`; reviewed the Markdown structure manually
+  - Changeset: none (documentation-only change)
+
 - Reworked the repository README as an audience-oriented onboarding and navigation page.
   - Source: repository documentation and deployed Storybook; no Figma node is involved
   - Previous: contributor-focused package and command reference with no prominent deployed Storybook link, audience paths, maturity status, prerequisites, architecture overview, or support guidance
