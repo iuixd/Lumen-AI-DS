@@ -165,7 +165,29 @@ export const colorPrimitives = {
   "forest.600": "#005E2E",
   "forest.700": "#004723",
   "forest.800": "#003118",
-  "sky.500": "#2563EB"
+  "sky.500": "#2563EB",
+  "app-shell.light.text-primary": "#1E2021",
+  "app-shell.light.text-heading": "#2B2F2F",
+  "app-shell.light.status-success-bg": "#E5F9EC",
+  "app-shell.light.status-warning-bg": "#FFF4E1",
+  "app-shell.light.badge-text": "#7038B8",
+  "app-shell.light.button-secondary-border": "#E7E2DC",
+  "app-shell.dark.background": "#17101A",
+  "app-shell.dark.surface": "#231C24",
+  "app-shell.dark.border": "#3D3039",
+  "app-shell.dark.text-primary": "#F5EFF3",
+  "app-shell.dark.text-heading": "#F9F3F7",
+  "app-shell.dark.text-body": "#B2A4AC",
+  "app-shell.dark.text-secondary": "#B8ACB3",
+  "app-shell.dark.text-placeholder": "#A8939F",
+  "app-shell.dark.text-muted": "#7A6674",
+  "app-shell.dark.link": "#B48EE0",
+  "app-shell.dark.success": "#78E6A0",
+  "app-shell.dark.success-muted": "#0B8A3E",
+  "app-shell.dark.success-bg": "rgba(11, 138, 62, 0.15)",
+  "app-shell.dark.warning": "#F5B46E",
+  "app-shell.dark.warning-bg": "rgba(201, 122, 46, 0.15)",
+  "app-shell.dark.badge-bg": "rgba(180, 142, 224, 0.16)"
 } as const;
 export const semanticColor = {
   "_comment": "Semantic tokens reference primitives by dot-path. Consumed by scripts/build.mjs to emit CSS variables that swap by [data-theme]. The Figma source (Lumen-AI-Design-System) defines only one mode per variable collection — there is no Figma-authored dark theme. The 'dark' block below is a manual, documented mapping onto the same primitive ramps, carried over from the previous system. light.brand.hover/pressed are sourced from the actual Primary-button Hover/Active instance fills on the 'Buttons' page (node 475:7210, formerly 466:4365) — trust those over the page's '04 Design Tokens' documentation table, which has a stale/mismatched hover value (a copy-paste artifact, same pattern seen on the Colors page). light.brand.pressed was updated again when that page's own instances were updated: the real Active fill is primary.900 (#310010), one step darker than the primary.800 previously read — see primitives/color.json's note on primary.900. light.brand.border/subtle-pressed are new tokens sourced from that same refresh (button border color at rest, and outlined/text-button active-state fill). dark.brand.border/subtle-pressed have no Figma source (same caveat as the rest of the dark block) — mirrored onto the ramp by position rather than invented outright: border sits one step lighter than dark's subtle, same relative distance light.border sits darker than light.subtle. status.{success,warning,error}-text/-border are sourced from the Button component-set's own Success/Error/Warning State instances (node 475:7210) — exact bound-variable fallback values matched existing primitives exactly (surface = the existing -subtle step, text = the family's 700 step, border = the family's 200 step), so no new primitives were needed. Their dark values have no Figma source (Figma specs no dark mode for these states) and were derived with the same ramp-mirroring rule already used for status.success/-subtle: dark index = 8 minus the light index on each family's 9-step (50-800) ramp. brand.border-strong is sourced from the Split Button's Outline type (node 555:300) default-state border color (`--button/border/secondary/default`, #E599B1 = primary.200) — a step darker than the existing brand.border (primary.100). brand.solid-active (added 2026-07-16) is sourced from a direct re-verification of the core Button component-set's `Type=Secondary, State=Active` and `Type=Outline, State=Active` instances (node 475:7210, nodes 538:1262/806:5989) — both bind to `--button/surface/secondary/active` (#4C0018 = primary.800) with white text and no border, confirming the `[Unreleased]` speculation this token now replaces (\"Secondary's Active/Pressed fill may have changed to a solid primary.800 background with white text\"). Distinct from brand.pressed (primary.900, Primary/Raised's own solid-fill active state) — Figma specs a one-step-lighter tier specifically for the bordered/outlined types' active state, not a reuse of Primary's. dark.brand.solid-active has no Figma source (same caveat as the rest of the dark block); placed at primary.700, one step past dark.brand.border-strong (primary.600), to stay dark enough for the same unconditional white text Primary/Raised already use in dark mode (dark.brand.default is only primary.300) while remaining a distinct, deeper tier. dark.brand.border-strong has no Figma source and was placed one step lighter than dark.brand.border (primary.700), the same relative-distance mirroring already documented above for brand.border/subtle-pressed. light.segment.* (added for the new SegmentedControl primitive, sourced from the Buttons page's 'AI ButtonGroup Component Library' section, node 958:5058 'Segmented Control Group' via get_design_context on 2026-07-16) are aliases onto existing primitives with zero new hex values: surface=#EDF0F1, surface-selected=white, border-selected=#C8D1D4, text=#626B6E, and text-selected=#4C0018 matched lumen-gray.100/neutral.white/lumen-gray.300/lumen-gray.700/primary.800 exactly. dark.segment.* has no Figma source (same caveat as the rest of the dark block) and was derived with the same 8-minus-light-index mirroring rule used for status.*, applied to lumen-gray's own 9-step (50-800) ramp; surface-selected mirrors background.default's own established white-to-neutral.800 pairing. light.border.subtle and light.text.secondary (added for the appshell-desktop-closed-light reference screen, Lumen-AI-Design-System node 1197:1652, via get_variable_defs on 2026-07-20) are new tiers distinct from the existing border.default/text.muted: `stroke/subtle` (#EDF0F1) and `text/secondary` (#626B6E) both appeared alongside `stroke/default`/`text/muted` as separate bound variables in the same frame, not substitutes for them. Both alias lumen-gray (a different family from border.default's neutral) with zero new hex values: border.subtle=lumen-gray.100, text.secondary=lumen-gray.700 — the same two steps already confirmed for light.segment.surface/text above. dark.border.subtle/text.secondary have no Figma source (same caveat as the rest of the dark block) and use the same 8-minus-light-index mirroring already applied to light.segment.* on lumen-gray's own ramp: border.subtle mirrors to lumen-gray.700, text.secondary mirrors to lumen-gray.100. light.background.nav-active (same source/session) is `bg/nav-active` (#EDF0F1) from the NavigationRail's active-item state — also lumen-gray.100, but kept as its own token rather than reused as border.subtle since the two express different purposes (a fill vs. a border) that happen to share a value; dark.background.nav-active mirrors to lumen-gray.700, same rule. light.text.link-subtle, light.background.badge, light.background.prompt, and light.border.table (added 2026-07-20, sourced from the canonical 'AppShell' page, node 1007:3700, Breakpoint=Desktop/Theme=Light instance 1127:4196, via get_variable_defs — the authoritative AppShell composition; the previously-sourced 1197:1652 turned out to be one example instance living inside this same canvas, not the canonical source) are new: `text/link` (#2563EB) is a genuine naming collision with the existing text.link token (which means brand crimson, primary.500, and is consumed by the standalone `TextLink` component) — not the same color, so it is NOT reused or overwritten; instead it's added as the distinct `text.link-subtle` token (aliasing the new `sky.500` primitive — see primitives/color.json, only one step evidenced) for the muted inline-navigational-link look breadcrumbs/footer links use in this AppShell context. `background.badge` (#EBF1FF) aliases the existing cobalt.50 exactly. `background.prompt` (#424849) aliases the existing lumen-gray.800 exactly. `border.table` (#DBE1E2) aliases the existing lumen-gray.200 exactly — despite the Figma variable's name, it's used here as the AI response bubble's border, not a literal table. `status/danger` (#DA1E28) was also found in this same source but needed no new token — it's an exact value match for the already-existing status.error (red.500), just an alternate name Figma uses in this context; not added as a duplicate. dark.text.link-subtle/background.badge/background.prompt/border.table have no Figma source (same caveat as the rest of the dark block); text.link-subtle has no ramp to mirror (sky is a single-step primitive) so the light value is reused unchanged pending real dark evidence; background.badge/background.prompt/border.table use the same 8-minus-light-index mirroring already established for their source families (cobalt.50→cobalt.700 has no established precedent in this file, so background.badge dark uses cobalt.700 as the mirrored step; lumen-gray.800→lumen-gray.0 doesn't exist, so background.prompt dark reuses lumen-gray.700 as the nearest available darker-ramp-end mirror; lumen-gray.200→lumen-gray.600 follows the same rule as border.subtle/nav-active above). light.border.input (same source/session) is `stroke/input` (#C8D1D4) — needed for the new `AIPanel`'s text input (and, not yet built, the Header's SearchBar) — aliases lumen-gray.300 exactly; dark.border.input mirrors to lumen-gray.500 by the same rule.",
@@ -229,6 +251,38 @@ export const semanticColor = {
       "border-selected": "lumen-gray.300",
       "text": "lumen-gray.700",
       "text-selected": "primary.800"
+    },
+    "app-shell": {
+      "background": "lumen-gray.50",
+      "surface": "neutral.white",
+      "nav-active": "lumen-gray.100",
+      "text-primary": "app-shell.light.text-primary",
+      "text-heading": "app-shell.light.text-heading",
+      "text-body": "lumen-gray.800",
+      "text-secondary": "lumen-gray.700",
+      "text-placeholder": "neutral.400",
+      "text-muted": "neutral.500",
+      "text-link": "sky.500",
+      "text-on-brand": "neutral.white",
+      "border-default": "neutral.100",
+      "border-subtle": "lumen-gray.100",
+      "border-input": "lumen-gray.300",
+      "border-table": "lumen-gray.200",
+      "brand-primary": "primary.500",
+      "status-success": "green.500",
+      "status-success-bg": "app-shell.light.status-success-bg",
+      "status-warning": "orange.500",
+      "status-warning-bg": "app-shell.light.status-warning-bg",
+      "status-danger": "red.500",
+      "badge-bg": "cobalt.50",
+      "badge-text": "app-shell.light.badge-text",
+      "prompt-bg": "lumen-gray.800",
+      "toggle-bg": "neutral.white",
+      "button-secondary-bg": "neutral.white",
+      "button-secondary-border": "app-shell.light.button-secondary-border",
+      "button-secondary-text": "app-shell.light.text-heading",
+      "button-accent-bg": "app-shell.light.text-heading",
+      "button-accent-text": "neutral.white"
     }
   },
   "dark": {
@@ -291,6 +345,38 @@ export const semanticColor = {
       "border-selected": "lumen-gray.500",
       "text": "lumen-gray.100",
       "text-selected": "primary.50"
+    },
+    "app-shell": {
+      "background": "app-shell.dark.background",
+      "surface": "app-shell.dark.surface",
+      "nav-active": "app-shell.dark.surface",
+      "text-primary": "app-shell.dark.text-primary",
+      "text-heading": "app-shell.dark.text-heading",
+      "text-body": "app-shell.dark.text-body",
+      "text-secondary": "app-shell.dark.text-secondary",
+      "text-placeholder": "app-shell.dark.text-placeholder",
+      "text-muted": "app-shell.dark.text-muted",
+      "text-link": "app-shell.dark.link",
+      "text-on-brand": "neutral.white",
+      "border-default": "app-shell.dark.border",
+      "border-subtle": "app-shell.dark.border",
+      "border-input": "app-shell.dark.border",
+      "border-table": "app-shell.dark.border",
+      "brand-primary": "primary.500",
+      "status-success": "app-shell.dark.success",
+      "status-success-bg": "app-shell.dark.success-bg",
+      "status-warning": "app-shell.dark.warning",
+      "status-warning-bg": "app-shell.dark.warning-bg",
+      "status-danger": "red.500",
+      "badge-bg": "app-shell.dark.badge-bg",
+      "badge-text": "neutral.black",
+      "prompt-bg": "neutral.black",
+      "toggle-bg": "neutral.black",
+      "button-secondary-bg": "app-shell.dark.background",
+      "button-secondary-border": "app-shell.dark.border",
+      "button-secondary-text": "app-shell.dark.text-primary",
+      "button-accent-bg": "app-shell.dark.link",
+      "button-accent-text": "neutral.black"
     }
   }
 } as const;
@@ -298,6 +384,25 @@ export const typography = {
   "_comment": "Sourced from Figma 'Lumen-AI-Design-System' file, page 'Design Tokens' > '02 Typography' (fileKey GJBYRm6ySR7XIECFcHMgy2, node 428:13769). Font family: Inter (UI text), Roboto Mono (code). H1-H6/Body/Label/Overline/Caption/Code map directly onto this scale's tiers: display-*=H1-H3, headline-*=H4-H6, title-* sits between H6 and Body at medium weight (Figma has no distinct 'title' tier), label-*/body-*/overline/caption/code-* are exact matches. button-* is a separate scale read directly off the Button component's own text spans on the 'Buttons' page (node 466:4365) — it's close to label-* but not pixel-identical on line-height, and button-lg (16px) has no equivalent at all in label-* (label tops out at 14px), which is why reusing label-lg for both md and lg previously made those two sizes render identically.",
   "fontFamily": {
     "sans": {
+      "value": [
+        "Inter",
+        "-apple-system",
+        "BlinkMacSystemFont",
+        "Segoe UI",
+        "sans-serif"
+      ]
+    },
+    "interface": {
+      "value": [
+        "Instrument Sans",
+        "Inter",
+        "-apple-system",
+        "BlinkMacSystemFont",
+        "Segoe UI",
+        "sans-serif"
+      ]
+    },
+    "brand": {
       "value": [
         "Inter",
         "-apple-system",
@@ -459,6 +564,171 @@ export const typography = {
       "lineHeight": 24,
       "weight": 600,
       "usage": "Button label text, size=lg"
+    },
+    "app-admin": {
+      "fontSize": 10,
+      "lineHeight": 14,
+      "weight": 600,
+      "letterSpacing": 0.8,
+      "usage": "AppShell section label"
+    },
+    "app-meta": {
+      "fontSize": 11,
+      "lineHeight": 14,
+      "weight": 400,
+      "usage": "AppShell workspace plan and compact metadata"
+    },
+    "app-caption": {
+      "fontSize": 11,
+      "lineHeight": 16,
+      "weight": 400,
+      "usage": "AppShell footer and status captions"
+    },
+    "app-caption-medium": {
+      "fontSize": 11,
+      "lineHeight": 16,
+      "weight": 500,
+      "usage": "AppShell badges"
+    },
+    "app-label": {
+      "fontSize": 12,
+      "lineHeight": 16,
+      "weight": 500,
+      "usage": "AppShell KPI labels"
+    },
+    "app-label-semibold": {
+      "fontSize": 12,
+      "lineHeight": 16,
+      "weight": 600,
+      "usage": "AppShell mobile trend labels"
+    },
+    "app-breadcrumb": {
+      "fontSize": 12,
+      "lineHeight": 16,
+      "weight": 400,
+      "usage": "AppShell breadcrumbs"
+    },
+    "app-button-sm": {
+      "fontSize": 12,
+      "lineHeight": 16,
+      "weight": 500,
+      "letterSpacing": 0.12,
+      "usage": "AppShell assistant action button"
+    },
+    "app-button": {
+      "fontSize": 14,
+      "lineHeight": 20,
+      "weight": 500,
+      "letterSpacing": 0.14,
+      "usage": "AppShell page action button"
+    },
+    "app-nav": {
+      "fontSize": 13,
+      "lineHeight": 20,
+      "weight": 500,
+      "usage": "AppShell navigation and table text"
+    },
+    "app-workspace": {
+      "fontSize": 13,
+      "lineHeight": 18,
+      "weight": 600,
+      "usage": "AppShell workspace name"
+    },
+    "app-body": {
+      "fontSize": 13,
+      "lineHeight": 20,
+      "weight": 400,
+      "usage": "AppShell compact body copy"
+    },
+    "app-mobile-body": {
+      "fontSize": 13,
+      "lineHeight": 18,
+      "weight": 400,
+      "usage": "AppShell mobile description"
+    },
+    "app-table-heading": {
+      "fontSize": 14,
+      "lineHeight": 20,
+      "weight": 600,
+      "usage": "AppShell table heading"
+    },
+    "app-table-name": {
+      "fontSize": 14,
+      "lineHeight": 20,
+      "weight": 600,
+      "usage": "AppShell mobile account name"
+    },
+    "app-tablet-body": {
+      "fontSize": 15,
+      "lineHeight": 22,
+      "weight": 400,
+      "usage": "AppShell tablet description"
+    },
+    "app-brand": {
+      "fontSize": 16,
+      "lineHeight": 24,
+      "weight": 600,
+      "usage": "AppShell desktop/tablet brand"
+    },
+    "app-logo": {
+      "fontSize": 16,
+      "lineHeight": 20,
+      "weight": 700,
+      "usage": "AppShell desktop brand mark"
+    },
+    "app-logo-compact": {
+      "fontSize": 13,
+      "lineHeight": 16,
+      "weight": 700,
+      "usage": "AppShell workspace and mobile brand mark"
+    },
+    "app-logo-rail": {
+      "fontSize": 15,
+      "lineHeight": 18,
+      "weight": 700,
+      "usage": "AppShell navigation rail workspace mark"
+    },
+    "app-status-bar": {
+      "fontSize": 14,
+      "lineHeight": 20,
+      "weight": 600,
+      "usage": "AppShell mobile status-bar time"
+    },
+    "app-bottom-nav": {
+      "fontSize": 10,
+      "lineHeight": 12,
+      "weight": 500,
+      "usage": "AppShell mobile bottom navigation"
+    },
+    "app-mobile-brand": {
+      "fontSize": 15,
+      "lineHeight": 20,
+      "weight": 600,
+      "usage": "AppShell mobile brand"
+    },
+    "app-mobile-title": {
+      "fontSize": 22,
+      "lineHeight": 28,
+      "weight": 600,
+      "usage": "AppShell mobile page title"
+    },
+    "app-mobile-value": {
+      "fontSize": 24,
+      "lineHeight": 30,
+      "weight": 600,
+      "usage": "AppShell mobile KPI value"
+    },
+    "app-tablet-title": {
+      "fontSize": 28,
+      "lineHeight": 34,
+      "weight": 600,
+      "usage": "AppShell tablet page title"
+    },
+    "app-kpi-value": {
+      "fontSize": 32,
+      "lineHeight": 40,
+      "weight": 600,
+      "usage": "AppShell desktop/tablet KPI value"
     }
   }
 } as const;
@@ -497,11 +767,17 @@ export const spacing = {
     "6": {
       "value": 6
     },
+    "7": {
+      "value": 7
+    },
     "8": {
       "value": 8
     },
     "10": {
       "value": 10
+    },
+    "11": {
+      "value": 11
     },
     "12": {
       "value": 12
@@ -509,8 +785,14 @@ export const spacing = {
     "14": {
       "value": 14
     },
+    "15": {
+      "value": 15
+    },
     "16": {
       "value": 16
+    },
+    "17": {
+      "value": 17
     },
     "18": {
       "value": 18
@@ -521,11 +803,20 @@ export const spacing = {
     "24": {
       "value": 24
     },
+    "25": {
+      "value": 25
+    },
     "28": {
       "value": 28
     },
+    "30": {
+      "value": 30
+    },
     "32": {
       "value": 32
+    },
+    "34": {
+      "value": 34
     },
     "36": {
       "value": 36
@@ -536,14 +827,29 @@ export const spacing = {
     "40": {
       "value": 40
     },
+    "44": {
+      "value": 44
+    },
     "48": {
       "value": 48
+    },
+    "52": {
+      "value": 52
+    },
+    "54": {
+      "value": 54
     },
     "56": {
       "value": 56
     },
     "64": {
       "value": 64
+    },
+    "72": {
+      "value": 72
+    },
+    "74": {
+      "value": 74
     },
     "80": {
       "value": 80
@@ -556,6 +862,27 @@ export const spacing = {
     },
     "128": {
       "value": 128
+    },
+    "140": {
+      "value": 140
+    },
+    "224": {
+      "value": 224
+    },
+    "240": {
+      "value": 240
+    },
+    "304": {
+      "value": 304
+    },
+    "360": {
+      "value": 360
+    },
+    "390": {
+      "value": 390
+    },
+    "400": {
+      "value": 400
     }
   }
 } as const;
@@ -575,6 +902,9 @@ export const radius = {
   },
   "lg": {
     "value": 8
+  },
+  "app-search": {
+    "value": 10
   },
   "xl": {
     "value": 12
@@ -626,6 +956,18 @@ export const divider = {
     "disabled": {
       "value": "rgba(127, 127, 127, 0.3)"
     }
+  }
+} as const;
+export const breakpoint = {
+  "_comment": "Approved responsive thresholds for the AppShell variants sourced at 390px mobile, 768px tablet, and 1440px desktop. Figma supplies canonical variant widths but not transition thresholds; the 2026-07-20 audit explicitly approved mobile <768px, tablet 768-1023px, and desktop >=1024px.",
+  "mobile": {
+    "value": 0
+  },
+  "tablet": {
+    "value": 768
+  },
+  "desktop": {
+    "value": 1024
   }
 } as const;
 

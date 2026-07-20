@@ -53,6 +53,7 @@ Use the following headings for every release:
   - Affects: `packages/angular/**` (new package), `docs/roadmap.md`, `docs/component-architecture.md`, `README.md`, `CLAUDE.md`
   - Migration: none — new package, no existing public API changed
   - Validation: lint, typecheck, and test passed repo-wide (71 tests: 39 `@lumen/ui` + 3 `@lumen/patterns` + 14 `@lumen/web-components` + 15 `@lumen/angular`); tokens build and production Storybook build unaffected
+
 ### Changed
 
 - Reworked the repository README as an audience-oriented onboarding and navigation page.
@@ -99,8 +100,11 @@ Use the following headings for every release:
   - Migration: none
   - Validation: lint and production Storybook build passed; visually verified with a headless-Chromium (Playwright) session driven against the production build in both themes — confirmed via computed styles (`background-color: rgb(239, 239, 239)` light hover, `rgba(192, 202, 245, 0.12)` dark hover, both exact matches for the CSS added) and screenshots of idle/hover/clicked states; also confirmed (with clipboard permissions granted) that Storybook's native "Copy" → "Copied" success state is unaffected by this change in either theme
   - Changeset: none (`@lumen/storybook` is private and no published package API changed)
+
 ### Deprecated
+
 ### Removed
+
 ### Fixed
 
 - Fixed the Lumen logo URL in the published Storybook manager.
@@ -120,7 +124,9 @@ Use the following headings for every release:
   - Migration: none — documentation-only; no component source changed, since the docs were wrong, not the code
   - Validation: repository-wide search for the old variant names, `fullWidth`, and `leadingIcon`/`trailingIcon` confirms no remaining references outside this changelog's own history
   - Changeset: none (documentation-only change)
+
 ### Migration
+
 ### Validation
 ```
 
@@ -231,7 +237,7 @@ Example:
   - Changeset: `.changeset/ai-buttongroup-toggle-split.md` (`@lumen/ui` minor), `.changeset/segmented-control-wc-angular-parity.md` (shared with the `SegmentedControl` Web Components/Angular parity changeset above)
 
 - Added a `capability` prop to `AIButton` and a new "AI Components/AI Button Component Library" Storybook documentation page.
-  - Source: user-directed architecture recommendation (treat AI Button as a first-class documentation surface, à la Carbon/Spectrum), scoped down from a larger initial proposal after a planning pass — see that pass's conclusions below. Capability categories and action descriptions are sourced verbatim from the Figma "AI Communication Component Library" Capability Catalog section (Lumen-AI-Design-System, node `860:9109`); per-capability icon choices are explicitly *not* Figma-sourced (that frame uses the default `lm-aisymbol` glyph on every instance, no per-action icon override is specified there) — flagged as an editorial addition, same honesty standard already applied to `destructive`'s "no distinct color, behavioral only" note.
+  - Source: user-directed architecture recommendation (treat AI Button as a first-class documentation surface, à la Carbon/Spectrum), scoped down from a larger initial proposal after a planning pass — see that pass's conclusions below. Capability categories and action descriptions are sourced verbatim from the Figma "AI Communication Component Library" Capability Catalog section (Lumen-AI-Design-System, node `860:9109`); per-capability icon choices are explicitly _not_ Figma-sourced (that frame uses the default `lm-aisymbol` glyph on every instance, no per-action icon override is specified there) — flagged as an editorial addition, same honesty standard already applied to `destructive`'s "no distinct color, behavioral only" note.
   - Previous: `AIButton` had no `capability` prop; its existing `CapabilityCatalog` Storybook story (`Primitives/AIButton`) hardcoded its category → action-label data as an inline array inside the story's own `render()`, not as a shared, reusable data source; there was no dedicated AI Button documentation page beyond per-control autodocs.
   - Current: new `packages/ui/src/primitives/ai-capabilities.ts` exports `aiCapabilities` (24 entries, 4 Figma categories × 6 actions), `AICapability`, `AICapabilityId`, and `getAICapability`. `AIButton`'s new `capability?: AICapabilityId | (string & {})` prop resolves a default label/icon from that catalog — explicit `icon`/`children` still take precedence when passed — and stamps `data-capability`/`data-ai-analytics-event` on the rendered button (mirroring the existing `destructive` → `data-destructive` hook-in idiom already in this file) so a consuming app can wire its own action and tracking; Lumen has no analytics SDK and doesn't attempt to add one here. An icon-only button with a resolved `capability` and no explicit `aria-label` now defaults its accessible name to the capability's label. An unrecognized `capability` id logs a dev-mode warning and falls back to default rendering rather than throwing. The existing `CapabilityCatalog` story was refactored to render from `aiCapabilities` instead of its old hardcoded array, and a new `ByCapability` story demonstrates the prop directly. The `AIButton` Storybook category was renamed `Primitives/AIButton` → `AI Components/AI Button` (a new `AI Components` top-level sidebar category, added to `preview.tsx`'s `storySort.order` after `Primitives`). The new `AIButtonComponentLibrary.mdx` page (`AI Components/AI Button Component Library`) reproduces the Figma library's layout — Hero, Component Variants, Sizes, States, Capability Catalog, Best Practices, Accessibility, Design Tokens, Do & Don't, Code Examples — built entirely from `<Canvas of={...}>` embeds of the real `AIButton.stories.tsx` exports (no screenshots), following the same `@storybook/blocks` `Meta`/`Canvas` pattern every other MDX page in this repo already uses, and the standalone-`<Meta title="...">` precedent from `packages/storybook/src/Introduction.mdx` (rather than `<Meta of={...}>`, so it gets its own sidebar entry independent of `AIButton.stories.tsx`'s own Docs tab). `packages/storybook/.storybook/main.ts`'s `stories` glob gained `"../../ui/src/**/*.mdx"` (previously only `.stories.@(ts|tsx)` was globbed for `packages/ui`) to pick it up.
   - Scoped out during planning, tracked as explicit follow-ups rather than built here: (1) `capability` parity for `@lumen/web-components`/`@lumen/angular` — deferred to match this repo's established React-first-then-parity-PR pattern; the Code Examples section shows their current real APIs with an explicit "not yet implemented" note rather than fabricating one. (2) Split Button AI — a real, unbuilt dropdown-toggle composite component (confirmed nowhere in any of the three frameworks); the docs page notes it as not-yet-implemented rather than building it. (3) Renaming the shipped `lumen-` custom-element prefix to `lm-` — explicitly declined; `<lumen-ai-button>`/`<lumen-button>` are unchanged, already-shipped, breaking-change-risk tag names.
@@ -263,7 +269,7 @@ Example:
     surface/text override (variant-agnostic) with a status-colored border
     only on the Secondary variant (the only bordered variant Figma actually
     specced a status instance for). Added semantic tokens `status.{success,
-    warning,error}-text` and `-border` (surfaces reuse the existing
+warning,error}-text` and `-border` (surfaces reuse the existing
     `-subtle` tokens); their dark-mode values use the same index-mirroring
     rule already documented for `status.success`/`-subtle`.
   - Affects: `packages/tokens/src/semantic/color.json`, `packages/ui/src/primitives/Button.tsx`, `Button.test.tsx`, `Button.stories.tsx`, `docs/component-specifications.md` §5, `docs/component-architecture.md` §7.3
@@ -420,6 +426,15 @@ Example:
 
 ### Changed
 
+- Completed the approved AppShell parity pass across every Figma breakpoint and theme composition.
+  - Source: canonical AppShell node `1007:3700`; desktop light/dark `1127:4196`/`1127:4197`, tablet light/dark `1175:2521`/`1175:2522`, and mobile light/dark `1175:2588`/`1175:2589`, inspected in Dev Mode on 2026-07-20.
+  - Previous: the token layer had no AppShell-specific semantic group, no published responsive breakpoints, no Instrument Sans interface stack, and several missing exact dimensions/type styles; the Storybook story represented only a desktop-light approximation. `AppShell` had no tablet/mobile structure or assistant slot, `ThemeToggle` rounded 54px to 56px, dark values were inferred, and the AI/audit glyphs were substitutes.
+  - Current: `@lumen/tokens` now publishes exact light/dark AppShell semantic roles, Instrument Sans/brand family aliases, AppShell typography compositions, exact sourced dimensions, radius, and the approved mobile `<768px`, tablet `768–1023px`, desktop `≥1024px` breakpoints. `AppShell` exposes breakpoint-specific header/footer/navigation slots plus the desktop assistant region while retaining the existing sidebar/rail variant contract. The co-located Storybook file now contains all six approved compositions with exact content hierarchy and theme behavior. `ThemeToggle`, `PageHeader`, `KPICard`, `Footer`, `AIPanel`, and Button's `accent` treatment bind to the synchronized semantic tokens. Exact Figma exports for `lm-ai-outline` and `lm-audit-log` were added through the standard icon generation pipeline. Existing `Avatar`, `Badge`, `Button`, `Icon`, `PageHeader`, `KPICard`, `Footer`, and `AIPanel` components cover the nested design; no duplicate AppShell-only equivalents were created.
+  - Affects: `packages/tokens/src/{primitives/color,semantic/color,spacing,radius,typography,breakpoint}.json`, `packages/tokens/scripts/build.mjs`, generated `packages/tokens/dist/*`; `packages/ui/src/layout/AppShell.{tsx,stories.tsx,test.tsx}`, `packages/ui/src/{composite/{AIPanel,PageHeader},primitives/{Button,KPICard,ThemeToggle},layout/Footer}.tsx`, Button test, generated icon sources/barrels, and `packages/storybook/.storybook/tailwind.css` (loads the token-selected Instrument Sans/Inter preview families).
+  - Migration: existing `AppShell` consumers continue to work; the new responsive slots are additive. Consumers relying on the earlier same-release `NavItem[]` shape must still apply the documented `nav={[{ items }]}` migration. The default shell now follows the approved responsive layout and semantic theme values, so intentionally customized visual overrides should be reviewed.
+  - Validation: the repository-wide build, lint, typecheck, and test commands pass (325 tests: 27 create-app, 139 UI, 78 Web Components, 75 Angular, and 6 patterns), followed by a successful production Storybook build (2,125 modules transformed). Static validation confirms 497 generated CSS custom-property definitions, 97 complete token references across the changed components with zero missing definitions, the generated 768px/1024px breakpoints, responsive `min-w-0`/overflow containment, all six AppShell story registrations, and light/dark semantic output. Screenshot comparison could not run because the required in-app browser reported no registered browser backend in this session; this limitation is recorded explicitly and must be cleared before claiming screenshot-based visual sign-off.
+  - Changeset: `.changeset/appshell-audit-followup.md` (`@lumen/tokens` minor, `@lumen/ui` minor; retains the same-scope Web Components/Angular bumps for the already-recorded accent parity work).
+
 - **Breaking:** Rebuilt `AppShell`'s `sidebar` variant to match the canonical Figma `SideNav/Expanded` component — the prior implementation predated this repo's Figma-sync discipline and matched no sourced evidence (see the AIPanel/accent entry above for the audit that found this).
   - Source: canonical "AppShell" page (Lumen-AI-Design-System, node `1007:3700`), `SideNav/Expanded` component `1079:2427`, re-verified against the `Breakpoint=Desktop/Theme=Light` composition `1127:4196`.
   - Previous: `nav: NavItem[]` — a flat, unlabeled list; no workspace header, badges, section grouping, or collapse control; active items used a brand-pink fill.
@@ -529,7 +544,7 @@ Example:
 - Corrected `Button`/`AIButton`/`SplitButton` corner radius and `SegmentedControl`'s per-size padding/type, reported by the user against a Figma screenshot of the "AI ButtonGroup Component Library" section; also brought the two new Storybook compositions (Toggle Group, Split Button AI) up to Figma's own presentation and interaction fidelity.
   - Source: fresh `get_design_context` calls on 2026-07-16 against live (not cached) instances: Button Primary xs/sm/lg Default (`480:9063`/`479:8703`/`476:7509`), Button Secondary md Default (`538:62`), SplitButton Primary lg Default (`555:202`) and the Split Button AI examples (`969:5761`), and AIButton's own "AI Draft" instance (`769:9290`); `SegmentedControl`'s "Size Rows" example (`958:5090`, `sm`/`md`/`lg` "Concise"/"Detailed" instances); the Toggle Group workspace-summary caption (`969:5317`, "status-text").
   - Previous: `Button`/`AIButton`/`SplitButton` used `rounded-md` (`--radius-md`, 6px). `SegmentedControl` reused its `md` size's padding (`Spacing/16`) and type (`button-md`) for `sm`/`lg` as well, flagged as an unverified simplification. The Toggle Group story had no workspace-summary caption. The Split Button AI story showed only one (Primary) example with a click-to-toggle-only menu.
-  - Current: every checked instance across every Button/SplitButton/AIButton type and size now binds `--radius/segment` (8px) instead of `--radius/md` — all three now use `rounded-lg`, which already maps to the existing `radius.lg` primitive (8px); no new token. `SegmentedControl` now uses real per-size values: `sm` = `Spacing/12` padding + `button-sm` type (12px/20px), `md` unchanged (`Spacing/16` + `button-md`, 14px/22px), `lg` = `Spacing/20` + `button-lg` (16px/24px) — all three already-existing type-scale tiers, propagated through context (React), a reflected `size` attribute pushed onto children (Web Components), and a parent-read getter plus an `OnPush`-safe `ngOnChanges` refresh (Angular). The `ChoiceChip` `ToggleGroup` story gained the workspace-summary caption ("N of 6 capabilities enabled for this workspace"), using the existing `lumen-gray.800` primitive directly since it's illustrative story text, not a component prop. The `SplitButton` `AI` story now shows all three Figma examples (Primary "AI Draft", Secondary "AI Summarize", Outline "Generating...") side by side, and its dropdown menu (`AiCapabilityMenu`, a story-local helper, not new package API) now implements the full WAI-ARIA APG Menu Button pattern — ArrowDown/ArrowUp/Home/End/Enter/Escape, roving focus shared between keyboard and hover, and click-outside-to-close — replacing the earlier click-to-toggle-only demo. The Outline example is deliberately *not* wired to `isLoading`: that prop replaces content with a spinner, but Figma's own rendering shows the AI icon plus the visible label "Generating..." with no spinner, so `isLoading` would have been a pixel mismatch — "Generating..." is passed as ordinary label content instead.
+  - Current: every checked instance across every Button/SplitButton/AIButton type and size now binds `--radius/segment` (8px) instead of `--radius/md` — all three now use `rounded-lg`, which already maps to the existing `radius.lg` primitive (8px); no new token. `SegmentedControl` now uses real per-size values: `sm` = `Spacing/12` padding + `button-sm` type (12px/20px), `md` unchanged (`Spacing/16` + `button-md`, 14px/22px), `lg` = `Spacing/20` + `button-lg` (16px/24px) — all three already-existing type-scale tiers, propagated through context (React), a reflected `size` attribute pushed onto children (Web Components), and a parent-read getter plus an `OnPush`-safe `ngOnChanges` refresh (Angular). The `ChoiceChip` `ToggleGroup` story gained the workspace-summary caption ("N of 6 capabilities enabled for this workspace"), using the existing `lumen-gray.800` primitive directly since it's illustrative story text, not a component prop. The `SplitButton` `AI` story now shows all three Figma examples (Primary "AI Draft", Secondary "AI Summarize", Outline "Generating...") side by side, and its dropdown menu (`AiCapabilityMenu`, a story-local helper, not new package API) now implements the full WAI-ARIA APG Menu Button pattern — ArrowDown/ArrowUp/Home/End/Enter/Escape, roving focus shared between keyboard and hover, and click-outside-to-close — replacing the earlier click-to-toggle-only demo. The Outline example is deliberately _not_ wired to `isLoading`: that prop replaces content with a spinner, but Figma's own rendering shows the AI icon plus the visible label "Generating..." with no spinner, so `isLoading` would have been a pixel mismatch — "Generating..." is passed as ordinary label content instead.
   - Affects: `packages/ui/src/primitives/{Button.tsx,AIButton.tsx,SegmentedControl.tsx,SegmentedControl.test.tsx,SegmentedControl.stories.tsx,ChoiceChip.stories.tsx}`, `packages/ui/src/composite/{SplitButton.tsx,SplitButton.stories.tsx}`; `packages/web-components/src/{button,ai-button,split-button}/lumen-*.ts`, `packages/web-components/src/segmented-control/{lumen-segmented-control.ts,lumen-segmented-control-option.ts,lumen-segmented-control.test.ts}`; `packages/angular/src/{button,ai-button,split-button}/lumen-*.ts`, `packages/angular/src/segmented-control/{lumen-segmented-control.ts,lumen-segmented-control-option.ts,lumen-segmented-control.test.ts}`
   - Migration: none — all visual/example corrections; no prop, event, or slot API changed
   - Validation: `eslint .` passed repo-wide; `tsc --noEmit` passed for `@lumen/ui`, `@lumen/web-components`, `@lumen/angular`, `@lumen/patterns`, `@lumen/storybook`; `pnpm --filter @lumen/tokens build` passed; 231 tests passed across the workspace (100 `@lumen/ui`, up from 99 — 1 new `SegmentedControl` per-size test; 65 `@lumen/web-components`, up from 64; 63 `@lumen/angular`, up from 62; 3 `@lumen/patterns` unaffected); production Storybook build passed with the expanded `AI` and `ToggleGroup` stories confirmed in the built output. Live browser/visual verification was again not performed (no browser automation available in this session).
@@ -538,7 +553,7 @@ Example:
 - Corrected `Button`'s `secondary` variant and added the previously-missing `outline` variant, across all three framework packages, reported by the user against a Storybook screenshot.
   - Source: Buttons page, node `475:7210` — `get_design_context` on 2026-07-16 against `Type=Secondary`/`Type=Outline` at every documented State (Default/Hover/Active/Disabled), Size=md: node `538:62` (Secondary Default), `538:302` (Hover), `538:1262` (Active), `538:842` (Disabled), and `806:5997`/`806:5993`/`806:5989`/`806:5980` (the same four states for Outline). This directly confirms and closes an item already flagged as an unresolved Figma-to-code difference earlier in this same `[Unreleased]` section ("The core `Button` component-set... now has a 6th type, 'Outline'... Secondary's Active/Pressed fill may have changed to a solid `primary.800` background with white text").
   - Previous: `secondary` rendered `bg-transparent` at rest, only filling (`brand.subtle`) on hover, and used the lighter `brand.border` token for its rest-state border; its `active` state used `brand.subtle-pressed` (a light fill, same text color as rest). `outline` did not exist as a `Button` variant at all (only `AIButton` and `SplitButton` had one).
-  - Current: `secondary` and `outline` share identical border (`brand.border-strong`) and text (`brand.default`) colors at every state — Figma's *only* difference between them is fill: `secondary` is filled (`brand.subtle`) at rest and hover; `outline` is transparent at rest and only fills (`brand.subtle`) on hover. Both now share an identical `active` state: a solid dark fill with white text and no border, via a new `brand.solid-active` semantic token (`primary.800`, `#4C0018` — confirmed identical on both variants' Active instances, resolving the changelog's own earlier speculation about this exactly). `outline`'s hover border is bound to the same Figma variable as its hover fill (`--button/surface/secondary/surface`) — reproduced literally (`hover:border-[var(--color-brand-subtle)]`, matching its own `hover:bg-*`) even though it reads as a likely Figma authoring artifact, since the visual result (an invisible border blending into the fill) is unambiguous either way. `status` (success/warning/error) was not re-verified against `outline` in this pass — Figma's own State matrix only confirmed Success/Error/Warning instances for Primary and Secondary — so `outline` doesn't get the status-colored-border compound variant `secondary` has; flagged as a known limitation, not silently extended.
+  - Current: `secondary` and `outline` share identical border (`brand.border-strong`) and text (`brand.default`) colors at every state — Figma's _only_ difference between them is fill: `secondary` is filled (`brand.subtle`) at rest and hover; `outline` is transparent at rest and only fills (`brand.subtle`) on hover. Both now share an identical `active` state: a solid dark fill with white text and no border, via a new `brand.solid-active` semantic token (`primary.800`, `#4C0018` — confirmed identical on both variants' Active instances, resolving the changelog's own earlier speculation about this exactly). `outline`'s hover border is bound to the same Figma variable as its hover fill (`--button/surface/secondary/surface`) — reproduced literally (`hover:border-[var(--color-brand-subtle)]`, matching its own `hover:bg-*`) even though it reads as a likely Figma authoring artifact, since the visual result (an invisible border blending into the fill) is unambiguous either way. `status` (success/warning/error) was not re-verified against `outline` in this pass — Figma's own State matrix only confirmed Success/Error/Warning instances for Primary and Secondary — so `outline` doesn't get the status-colored-border compound variant `secondary` has; flagged as a known limitation, not silently extended.
   - Affects: `packages/tokens/src/semantic/color.json` (new `brand.solid-active`), `packages/ui/src/primitives/Button.tsx`, `Button.stories.tsx`, `Button.test.tsx`, `packages/web-components/src/button/lumen-button.ts`, `lumen-button.test.ts`, `packages/web-components/README.md`, `packages/angular/src/button/lumen-button.ts`, `lumen-button.test.ts`, `packages/angular/README.md`, `docs/component-specifications.md` §5
   - Migration: none — `secondary`'s corrected appearance is a visual fix, not an API change; `outline` is a new, additive variant value in all three packages
   - Validation: `eslint .` passed repo-wide; `tsc --noEmit` passed for `@lumen/ui`, `@lumen/web-components`, `@lumen/angular`; `pnpm --filter @lumen/tokens build` passed with `--color-brand-solid-active` confirmed in the generated CSS (`#4C0018` light / `#720024` dark); 203 tests passed across the workspace (90 `@lumen/ui`, up from 86 — 4 new Button regression/Outline tests; 56 `@lumen/web-components`, up from 55; 54 `@lumen/angular`, up from 53; 3 `@lumen/patterns` unaffected); production Storybook build passed
@@ -547,7 +562,7 @@ Example:
 - Replaced `AIButton`'s default leading icon with the Figma-approved `lm-aisymbol` glyph, across all three framework packages.
   - Source: Buttons page, node `760:1965` ("AI Communication Component Library") — `get_design_context` on 2026-07-15 showed the Secondary Icon Only AI sub-section's icon instances (nodes `843:7818`–`843:7824`, all four sizes) explicitly swapped to a component named `lm-aisymbol`, not the generic sparkle glyph the 2026-07-14 `AIButton` sync had approximated.
   - Previous: `packages/ui/src/primitives/AIButton.tsx` defaulted to the generated `SparklesIcon` (a Lucide-style 4-point sparkle); `@lumen/web-components`'s `<lumen-ai-button>` and `@lumen/angular`'s `LumenAIButtonComponent` each hardcoded an inline stroke-drawn diamond/sparkle path as their default icon slot — three different, Figma-inaccurate glyphs across the three packages.
-  - Current: all three default to the same `lm-aisymbol` glyph (a two-sparkle mark, fill-based `currentColor` path). React imports the existing generated `LmAisymbolIcon` (already present in `packages/ui/src/icons/generated`, previously unused by `AIButton`); Web Components and Angular inline the equivalent `<path fill="currentColor" d="…">`, matching React's SVG exactly since neither package has an icon-import pipeline. Capability-specific icon overrides (e.g. the wand icon for "Rewrite", languages icon for "Translate" in the Capability Catalog story) are unchanged — only the *default* AI-symbol glyph was in scope.
+  - Current: all three default to the same `lm-aisymbol` glyph (a two-sparkle mark, fill-based `currentColor` path). React imports the existing generated `LmAisymbolIcon` (already present in `packages/ui/src/icons/generated`, previously unused by `AIButton`); Web Components and Angular inline the equivalent `<path fill="currentColor" d="…">`, matching React's SVG exactly since neither package has an icon-import pipeline. Capability-specific icon overrides (e.g. the wand icon for "Rewrite", languages icon for "Translate" in the Capability Catalog story) are unchanged — only the _default_ AI-symbol glyph was in scope.
   - Affects: `packages/ui/src/primitives/AIButton.tsx`, `AIButton.stories.tsx`, `AIButton.test.tsx`; `packages/web-components/src/ai-button/lumen-ai-button.ts`, `lumen-ai-button.test.ts`; `packages/angular/src/ai-button/lumen-ai-button.ts`, `lumen-ai-button.test.ts`; `docs/component-specifications.md` §46
   - Migration: none — `icon` remains an optional override prop/input/slot in all three packages; only the unoverridden default glyph's appearance changes
   - Validation: `eslint .` passed repo-wide; `tsc --noEmit` passed for all three packages; 184 tests passed (76 `@lumen/ui` incl. the renamed AIButton default-icon test, 55 `@lumen/web-components` incl. AIButton, 53 `@lumen/angular` incl. AIButton); `pnpm --filter @lumen/tokens build` passed; production Storybook build passed (`AIButton.stories` and `Icon.stories` chunks built clean, capability-icon chunks like `WandSparklesIcon` unaffected)
@@ -614,87 +629,87 @@ The baseline includes:
 
 Added the following documented spacing tokens:
 
-| Token | Value |
-|---|---:|
-| `Spacing/0` | 0 |
-| `Spacing/2` | 2px |
-| `Spacing/4` | 4px |
-| `Spacing/6` | 6px |
-| `Spacing/8` | 8px |
-| `Spacing/10` | 10px |
-| `Spacing/12` | 12px |
-| `Spacing/16` | 16px |
-| `Spacing/20` | 20px |
-| `Spacing/24` | 24px |
-| `Spacing/28` | 28px |
-| `Spacing/32` | 32px |
-| `Spacing/40` | 40px |
-| `Spacing/48` | 48px |
-| `Spacing/56` | 56px |
-| `Spacing/64` | 64px |
-| `Spacing/80` | 80px |
-| `Spacing/96` | 96px |
+| Token         | Value |
+| ------------- | ----: |
+| `Spacing/0`   |     0 |
+| `Spacing/2`   |   2px |
+| `Spacing/4`   |   4px |
+| `Spacing/6`   |   6px |
+| `Spacing/8`   |   8px |
+| `Spacing/10`  |  10px |
+| `Spacing/12`  |  12px |
+| `Spacing/16`  |  16px |
+| `Spacing/20`  |  20px |
+| `Spacing/24`  |  24px |
+| `Spacing/28`  |  28px |
+| `Spacing/32`  |  32px |
+| `Spacing/40`  |  40px |
+| `Spacing/48`  |  48px |
+| `Spacing/56`  |  56px |
+| `Spacing/64`  |  64px |
+| `Spacing/80`  |  80px |
+| `Spacing/96`  |  96px |
 | `Spacing/128` | 128px |
 
 #### Radius tokens
 
 Added the following documented radius tokens:
 
-| Token | Value |
-|---|---:|
-| `Radius/None` | 0px |
-| `Radius/Xs` | 2px |
-| `Radius/Sm` | 4px |
-| `Radius/Md` | 6px |
-| `Radius/Lg` | 8px |
-| `Radius/Xl` | 12px |
-| `Radius/2xl` | 16px |
-| `Radius/3xl` | 24px |
+| Token         |         Value |
+| ------------- | ------------: |
+| `Radius/None` |           0px |
+| `Radius/Xs`   |           2px |
+| `Radius/Sm`   |           4px |
+| `Radius/Md`   |           6px |
+| `Radius/Lg`   |           8px |
+| `Radius/Xl`   |          12px |
+| `Radius/2xl`  |          16px |
+| `Radius/3xl`  |          24px |
 | `Radius/Full` | Pill / 9999px |
 
 #### Typography tokens
 
 Added the documented heading scale:
 
-| Token | Font size | Line height |
-|---|---:|---:|
-| `Typography/Heading/H1` | 60px | 72px |
-| `Typography/Heading/H2` | 50px | 60px |
-| `Typography/Heading/H3` | 40px | 50px |
-| `Typography/Heading/H4` | 32px | 42px |
-| `Typography/Heading/H5` | 24px | 32px |
-| `Typography/Heading/H6` | 20px | 28px |
+| Token                   | Font size | Line height |
+| ----------------------- | --------: | ----------: |
+| `Typography/Heading/H1` |      60px |        72px |
+| `Typography/Heading/H2` |      50px |        60px |
+| `Typography/Heading/H3` |      40px |        50px |
+| `Typography/Heading/H4` |      32px |        42px |
+| `Typography/Heading/H5` |      24px |        32px |
+| `Typography/Heading/H6` |      20px |        28px |
 
 Added the documented body scale:
 
-| Token | Font size | Line height |
-|---|---:|---:|
-| `Typography/Body/Lg` | 20px | 32px |
-| `Typography/Body/Md` | 16px | 26px |
-| `Typography/Body/Sm` | 14px | 22px |
-| `Typography/Body/Xs` | 12px | 20px |
+| Token                | Font size | Line height |
+| -------------------- | --------: | ----------: |
+| `Typography/Body/Lg` |      20px |        32px |
+| `Typography/Body/Md` |      16px |        26px |
+| `Typography/Body/Sm` |      14px |        22px |
+| `Typography/Body/Xs` |      12px |        20px |
 
 Added the documented label scale:
 
-| Token | Font size | Line height |
-|---|---:|---:|
-| `Typography/Label/Lg` | 14px | 20px |
-| `Typography/Label/Md` | 12px | 18px |
-| `Typography/Label/Sm` | 11px | 16px |
+| Token                 | Font size | Line height |
+| --------------------- | --------: | ----------: |
+| `Typography/Label/Lg` |      14px |        20px |
+| `Typography/Label/Md` |      12px |        18px |
+| `Typography/Label/Sm` |      11px |        16px |
 
 Added the documented utility scale:
 
-| Token | Font size | Line height |
-|---|---:|---:|
-| `Typography/Utility/Overline` | 11px | 16px |
-| `Typography/Utility/Caption` | 11px | 18px |
+| Token                         | Font size | Line height |
+| ----------------------------- | --------: | ----------: |
+| `Typography/Utility/Overline` |      11px |        16px |
+| `Typography/Utility/Caption`  |      11px |        18px |
 
 Added the documented code scale:
 
-| Token | Font size | Line height |
-|---|---:|---:|
-| `Typography/Code/Md` | 14px | 22px |
-| `Typography/Code/Sm` | 12px | 20px |
+| Token                | Font size | Line height |
+| -------------------- | --------: | ----------: |
+| `Typography/Code/Md` |      14px |        22px |
+| `Typography/Code/Sm` |      12px |        20px |
 
 #### Color architecture
 

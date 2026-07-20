@@ -157,7 +157,9 @@ describe("Button", () => {
         </Button>
       );
       const className = screen.getByRole("button", { name: "Save changes" }).className;
-      expect(className).toMatch(new RegExp(`\\bborder-\\[var\\(--color-status-${status}-border\\)\\]`));
+      expect(className).toMatch(
+        new RegExp(`\\bborder-\\[var\\(--color-status-${status}-border\\)\\]`)
+      );
     }
   );
 
@@ -197,11 +199,11 @@ describe("Button", () => {
     expect(className).toMatch(/\bactive:text-neutral-white\b/);
   });
 
-  it("renders the accent variant with a near-black background and white text", () => {
+  it("renders the accent variant with theme-aware AppShell tokens", () => {
     render(<Button variant="accent">New project</Button>);
     const className = screen.getByRole("button", { name: "New project" }).className;
-    expect(className).toMatch(/\bbg-neutral-800\b/);
-    expect(className).toMatch(/\btext-neutral-white\b/);
+    expect(className).toContain("bg-[var(--color-app-shell-button-accent-bg)]");
+    expect(className).toContain("text-[var(--color-app-shell-button-accent-text)]");
   });
 
   it("lets disabled styling win over a status tint when both are set", () => {

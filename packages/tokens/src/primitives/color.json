@@ -205,5 +205,34 @@
   "sky": {
     "_comment": "Added 2026-07-20, sourced from the canonical 'AppShell' page (node 1007:3700, Breakpoint=Desktop/Theme=Light instance 1127:4196) via get_variable_defs: the `text/link` variable (#2563EB) used for breadcrumb and footer inline links in that context. Only this one step is evidenced — no full 50-800 ramp was found for this family, unlike every other family in this file. Do not assume or invent the missing steps.",
     "500": { "value": "#2563EB" }
+  },
+  "app-shell": {
+    "_comment": "Exact AppShell-only primitives sourced from Lumen-AI-Design-System node 1007:3700 and its six Breakpoint/Theme instances (1127:4196, 1127:4197, 1175:2521, 1175:2522, 1175:2588, 1175:2589). These values intentionally remain distinct where they are only near-matches for an existing ramp step; AppShell parity must not round them.",
+    "light": {
+      "text-primary": { "value": "#1E2021" },
+      "text-heading": { "value": "#2B2F2F" },
+      "status-success-bg": { "value": "#E5F9EC" },
+      "status-warning-bg": { "value": "#FFF4E1" },
+      "badge-text": { "value": "#7038B8" },
+      "button-secondary-border": { "value": "#E7E2DC" }
+    },
+    "dark": {
+      "background": { "value": "#17101A" },
+      "surface": { "value": "#231C24" },
+      "border": { "value": "#3D3039" },
+      "text-primary": { "value": "#F5EFF3" },
+      "text-heading": { "value": "#F9F3F7" },
+      "text-body": { "value": "#B2A4AC" },
+      "text-secondary": { "value": "#B8ACB3" },
+      "text-placeholder": { "value": "#A8939F" },
+      "text-muted": { "value": "#7A6674" },
+      "link": { "value": "#B48EE0" },
+      "success": { "value": "#78E6A0" },
+      "success-muted": { "value": "#0B8A3E" },
+      "success-bg": { "value": "rgba(11, 138, 62, 0.15)" },
+      "warning": { "value": "#F5B46E" },
+      "warning-bg": { "value": "rgba(201, 122, 46, 0.15)" },
+      "badge-bg": { "value": "rgba(180, 142, 224, 0.16)" }
+    }
   }
 }

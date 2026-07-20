@@ -1,20 +1,15 @@
 import type { ReactNode } from "react";
 import { cn } from "../lib/cn";
-import { CircleArrowLeftIcon } from "../icons/generated";
+import { CircleArrowLeftIcon, CircleArrowRightIcon } from "../icons/generated";
 
 export interface NavItem {
   label: string;
   href: string;
   active?: boolean;
   icon?: ReactNode;
-  /** Sourced from `SideNav/Expanded`'s Inbox item — an unread-count pill. `sidebar` variant only; ignored by `rail`. */
   badge?: string | number;
 }
 
-/**
- * A group of nav items, optionally under a header label (Figma's "ADMIN"
- * grouping). Use one section with no `label` for a flat, ungrouped list.
- */
 export interface NavSection {
   label?: string;
   items: NavItem[];
@@ -23,196 +18,283 @@ export interface NavSection {
 export interface WorkspaceInfo {
   name: string;
   plan?: string;
-  /** Defaults to a brand-colored square with `name`'s first letter, matching Figma's default treatment — the same initials-fallback idiom `Avatar` already uses. */
   logo?: ReactNode;
 }
 
 export interface AppShellProps {
-  /**
-   * Breaking as of 2026-07-20: was `NavItem[]`, now `NavSection[]` — the
-   * canonical Figma `SideNav/Expanded` groups items under an "ADMIN"
-   * header, which a flat array can't express. Migrate `nav={items}` to
-   * `nav={[{ items }]}` to keep prior ungrouped behavior unchanged.
-   */
   nav: NavSection[];
   children: ReactNode;
+  /** Desktop header (52px in the canonical AppShell). */
   header?: ReactNode;
-  /** `rail` variant only — the top icon-only WorkspaceLogo square. For `sidebar`, use `workspace` instead. */
-  logo?: ReactNode;
-  /**
-   * "sidebar" (default) is sourced from the canonical Figma "AppShell" page
-   * (Lumen-AI-Design-System, node 1007:3700, `SideNav/Expanded` component
-   * `1079:2427`, re-verified against the Breakpoint=Desktop/Theme=Light
-   * composition `1127:4196`) — a 224px expanded sidebar: WorkspaceSwitcher,
-   * grouped nav items with unread-count badges and a neutral (not brand)
-   * active fill, and a "Collapse" control at the bottom. Rebuilt 2026-07-20
-   * from a prior generic flat-list implementation that didn't match any
-   * sourced Figma evidence.
-   * "rail" is sourced from the same page's `NavigationRail` component
-   * (`1079:2686`, re-verified against the "appshell-desktop-closed-light"
-   * example instance, node 1197:1652) — a 64px icon-only collapsed rail,
-   * with `header` rendered full-width above the rail+content row instead
-   * of scoped beside the sidebar. Only the closed/collapsed rail was
-   * sourced — no open/close transition instance was available. `item.label`
-   * becomes the rail item's accessible name (`aria-label`) and tooltip
-   * (`title`) instead of visible text; `item.badge` and section `label`s
-   * are not shown in this variant (`NavigationRail` has neither).
-   */
-  variant?: "sidebar" | "rail";
-  /** Rendered full-width below the main content row. Additive and optional
-   * in both variants — omitting it changes nothing for existing consumers.
-   * Sourced from the same reference screen's `Footer` instance (`1102:6529`);
-   * pair with the new `Footer` component. */
+  /** Tablet-only header (72px in the canonical AppShell). */
+  tabletHeader?: ReactNode;
+  /** Mobile-only application header, rendered below `mobileStatusBar`. */
+  mobileHeader?: ReactNode;
+  /** Optional mobile system/status-bar fixture used by native-shell previews. */
+  mobileStatusBar?: ReactNode;
+  /** Desktop footer. */
   footer?: ReactNode;
-  /** `sidebar` variant only — renders the `WorkspaceSwitcher` header above nav. */
+  /** Tablet-only footer. */
+  tabletFooter?: ReactNode;
+  /** Mobile-only bottom navigation. */
+  mobileNavigation?: ReactNode;
+  /** Desktop-only right-side assistant panel. */
+  assistant?: ReactNode;
+  /** Desktop rail logo override. */
+  logo?: ReactNode;
+  /** Desktop navigation mode. Tablet always uses the canonical rail; mobile uses bottom navigation. */
+  variant?: "sidebar" | "rail";
   workspace?: WorkspaceInfo;
-  /**
-   * `sidebar` variant only. When provided, renders Figma's "Collapse"
-   * control at the bottom of the nav. `AppShell` doesn't manage
-   * collapsed/expanded state itself (no open/close transition was sourced
-   * — see `variant` above) — call this to drive your own state, e.g.
-   * switching to `variant="rail"`.
-   */
   onCollapse?: () => void;
+  onExpand?: () => void;
+  className?: string;
 }
 
 const navItemBase =
-  "flex items-center gap-[var(--spacing-10)] rounded-lg px-[var(--spacing-12)] py-[var(--spacing-8)] text-label-lg font-medium transition-colors";
+  "flex w-full items-center gap-[var(--spacing-10)] rounded-lg px-[var(--spacing-12)] py-[var(--spacing-8)] font-interface text-app-nav transition-colors";
 
-function WorkspaceLogo({ name, logo }: WorkspaceInfo) {
-  if (logo) return logo;
+function WorkspaceMark({
+  workspace,
+  size = "compact"
+}: {
+  workspace?: WorkspaceInfo;
+  size?: "compact" | "rail";
+}) {
+  if (workspace?.logo) return workspace.logo;
+  const initial = workspace?.name.charAt(0).toUpperCase() ?? "L";
   return (
-    <div className="flex size-[var(--spacing-28)] shrink-0 items-center justify-center rounded-md bg-[var(--color-brand-default)] text-body-sm font-bold text-neutral-white">
-      {name.charAt(0).toUpperCase()}
+    <div
+      className={cn(
+        "flex shrink-0 items-center justify-center bg-[var(--color-app-shell-brand-primary)] font-brand text-[var(--color-app-shell-text-on-brand)]",
+        size === "rail"
+          ? "size-[var(--spacing-36)] rounded-lg text-app-logo-rail"
+          : "size-[var(--spacing-28)] rounded-md text-app-logo-compact"
+      )}
+    >
+      {initial}
     </div>
   );
 }
 
-/** The standard product shell: fixed sidebar + main content area. Matches the
- * navigation pattern used in the Lumen AI Design System showcase site. Every
- * enterprise screen should be built inside this shell rather than a bespoke
- * layout. */
+function Sidebar({
+  nav,
+  workspace,
+  onCollapse
+}: Pick<AppShellProps, "nav" | "workspace" | "onCollapse">) {
+  return (
+    <aside className="hidden w-[var(--spacing-224)] shrink-0 flex-col gap-[var(--spacing-2)] overflow-hidden border-x border-[var(--color-app-shell-border-default)] bg-[var(--color-app-shell-surface)] px-[var(--spacing-12)] pb-[var(--spacing-12)] desktop:flex">
+      {workspace && (
+        <>
+          <div className="flex w-full items-center gap-[var(--spacing-10)] py-[var(--spacing-12)]">
+            <WorkspaceMark workspace={workspace} />
+            <div className="min-w-0 font-interface">
+              <p className="truncate text-app-workspace text-[var(--color-app-shell-text-heading)]">
+                {workspace.name}
+              </p>
+              {workspace.plan && (
+                <p className="truncate text-app-meta text-[var(--color-app-shell-text-placeholder)]">
+                  {workspace.plan}
+                </p>
+              )}
+            </div>
+          </div>
+          <div className="h-px w-full bg-[var(--color-app-shell-border-default)]" />
+        </>
+      )}
+      {nav.map((section, index) => (
+        <nav
+          key={section.label ?? index}
+          aria-label={section.label ?? (index === 0 ? "Primary" : undefined)}
+          className="flex flex-col gap-[var(--spacing-2)]"
+        >
+          {section.label && (
+            <p className="px-[var(--spacing-12)] pb-[var(--spacing-4)] pt-[var(--spacing-16)] font-interface text-app-admin uppercase [letter-spacing:var(--text-app-admin-letter-spacing)] text-[var(--color-app-shell-text-placeholder)]">
+              {section.label}
+            </p>
+          )}
+          {section.items.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              aria-current={item.active ? "page" : undefined}
+              className={cn(
+                navItemBase,
+                item.active
+                  ? "bg-[var(--color-app-shell-nav-active)] text-[var(--color-app-shell-text-heading)]"
+                  : "text-[var(--color-app-shell-text-secondary)] hover:bg-[var(--color-app-shell-nav-active)] hover:text-[var(--color-app-shell-text-heading)]"
+              )}
+            >
+              <span
+                className="flex size-[var(--spacing-20)] shrink-0 items-center justify-center"
+                aria-hidden
+              >
+                {item.icon}
+              </span>
+              <span className="min-w-0 flex-1 truncate text-left">{item.label}</span>
+              {item.badge !== undefined && (
+                <span className="rounded-full bg-[var(--color-app-shell-text-secondary)] px-[var(--spacing-6)] py-px font-brand text-app-caption-medium text-[var(--color-app-shell-text-on-brand)]">
+                  {item.badge}
+                </span>
+              )}
+            </a>
+          ))}
+        </nav>
+      ))}
+      <div className="min-h-0 flex-1" />
+      <div className="h-px w-full bg-[var(--color-app-shell-border-default)]" />
+      {onCollapse && (
+        <button
+          type="button"
+          onClick={onCollapse}
+          className={cn(
+            navItemBase,
+            "text-[var(--color-app-shell-text-secondary)] hover:bg-[var(--color-app-shell-nav-active)]"
+          )}
+        >
+          <CircleArrowLeftIcon className="size-[var(--spacing-20)] shrink-0" aria-hidden />
+          Collapse
+        </button>
+      )}
+    </aside>
+  );
+}
+
+function NavigationRail({
+  nav,
+  workspace,
+  logo,
+  onExpand,
+  desktopVisible
+}: Pick<AppShellProps, "nav" | "workspace" | "logo" | "onExpand"> & { desktopVisible: boolean }) {
+  const items = nav.flatMap((section) => section.items);
+  return (
+    <aside
+      className={cn(
+        "hidden w-[var(--spacing-64)] shrink-0 flex-col items-center gap-[var(--spacing-4)] overflow-hidden border-x border-[var(--color-app-shell-border-default)] bg-[var(--color-app-shell-surface)] px-[var(--spacing-8)] pb-[var(--spacing-12)] tablet:flex",
+        !desktopVisible && "desktop:hidden"
+      )}
+    >
+      <div className="flex justify-center py-[var(--spacing-12)]">
+        {logo ?? <WorkspaceMark workspace={workspace} size="rail" />}
+      </div>
+      <div className="h-px w-full bg-[var(--color-app-shell-border-default)]" />
+      <nav
+        aria-label="Primary"
+        className="flex w-full flex-col items-center gap-[var(--spacing-4)]"
+      >
+        {items.map((item, index) => (
+          <a
+            key={item.href}
+            href={item.href}
+            aria-label={item.label}
+            title={item.label}
+            aria-current={item.active ? "page" : undefined}
+            className={cn(
+              "flex size-[var(--spacing-40)] items-center justify-center rounded-lg text-[var(--color-app-shell-text-placeholder)] transition-colors hover:bg-[var(--color-app-shell-nav-active)] hover:text-[var(--color-app-shell-text-secondary)]",
+              item.active &&
+                "bg-[var(--color-app-shell-nav-active)] text-[var(--color-app-shell-text-heading)]",
+              index > 0 &&
+                nav.some((section) => section.items[0] === item && section.label) &&
+                "mt-[var(--spacing-8)]"
+            )}
+          >
+            <span className="flex size-[var(--spacing-20)] items-center justify-center" aria-hidden>
+              {item.icon}
+            </span>
+          </a>
+        ))}
+      </nav>
+      <div className="min-h-0 flex-1" />
+      <div className="h-px w-full bg-[var(--color-app-shell-border-default)]" />
+      {onExpand && (
+        <button
+          type="button"
+          onClick={onExpand}
+          aria-label="Expand navigation"
+          className="flex size-[var(--spacing-40)] items-center justify-center rounded-lg text-[var(--color-app-shell-text-secondary)] hover:bg-[var(--color-app-shell-nav-active)]"
+        >
+          <CircleArrowRightIcon className="size-[var(--spacing-20)]" aria-hidden />
+        </button>
+      )}
+    </aside>
+  );
+}
+
+/**
+ * Responsive Lumen application shell sourced from Figma node 1007:3700.
+ * Mobile (<768px), Tablet (768-1023px), and Desktop (>=1024px) layouts
+ * correspond to the six approved Breakpoint/Theme variants.
+ */
 export function AppShell({
   nav,
   children,
   header,
-  logo,
+  tabletHeader,
+  mobileHeader,
+  mobileStatusBar,
   footer,
+  tabletFooter,
+  mobileNavigation,
+  assistant,
+  logo,
   variant = "sidebar",
   workspace,
-  onCollapse
+  onCollapse,
+  onExpand,
+  className
 }: AppShellProps) {
-  if (variant === "rail") {
-    const flatItems = nav.flatMap((section) => section.items);
-    return (
-      <div className="flex min-h-screen flex-col bg-[var(--color-background-subtle)]">
-        {header && (
-          <header className="flex h-[var(--spacing-56)] shrink-0 items-center gap-[var(--spacing-16)] border-b border-[var(--color-border-default)] bg-[var(--color-background-default)] px-[var(--spacing-16)]">
-            {header}
-          </header>
-        )}
-        <div className="flex flex-1 items-stretch">
-          <aside className="flex w-[var(--spacing-64)] shrink-0 flex-col items-center gap-[var(--spacing-4)] border-r border-[var(--color-border-default)] bg-[var(--color-background-default)] py-[var(--spacing-12)]">
-            {logo}
-            <nav className="flex flex-col items-center gap-[var(--spacing-4)]">
-              {flatItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  aria-current={item.active ? "page" : undefined}
-                  aria-label={item.label}
-                  title={item.label}
-                  className={cn(
-                    "flex size-[var(--spacing-40)] items-center justify-center rounded-lg transition-colors",
-                    item.active
-                      ? "bg-[var(--color-background-nav-active)] text-[var(--color-brand-default)]"
-                      : "text-[var(--color-text-body)] hover:bg-[var(--color-background-nav-active)]"
-                  )}
-                >
-                  {item.icon}
-                </a>
-              ))}
-            </nav>
-          </aside>
-          <main className="min-w-0 flex-1 overflow-y-auto">{children}</main>
-        </div>
-        {footer}
-      </div>
-    );
-  }
-
   return (
-    <div className="flex min-h-screen bg-[var(--color-background-subtle)]">
-      <aside className="flex w-[224px] shrink-0 flex-col gap-[var(--spacing-2)] border-r border-[var(--color-border-default)] bg-[var(--color-background-default)] p-[var(--spacing-12)]">
-        {workspace && (
-          <>
-            <div className="flex items-center gap-[var(--spacing-10)] py-[var(--spacing-12)]">
-              <WorkspaceLogo {...workspace} />
-              <div className="flex min-w-0 flex-col">
-                <p className="truncate text-label-lg text-[var(--color-text-title)]">{workspace.name}</p>
-                {workspace.plan && (
-                  <p className="truncate text-label-sm text-[var(--color-text-muted)]">{workspace.plan}</p>
-                )}
-              </div>
-            </div>
-            <div className="h-px w-full bg-[var(--color-border-default)]" />
-          </>
+    <div
+      className={cn(
+        "flex min-h-screen w-full flex-col overflow-hidden bg-[var(--color-app-shell-background)] font-interface text-[var(--color-app-shell-text-body)]",
+        className
+      )}
+    >
+      {mobileStatusBar && <div className="shrink-0 tablet:hidden">{mobileStatusBar}</div>}
+      {mobileHeader && <header className="shrink-0 tablet:hidden">{mobileHeader}</header>}
+      {header && (
+        <header className="hidden h-[var(--spacing-52)] shrink-0 items-center border-b border-[var(--color-app-shell-border-default)] bg-[var(--color-app-shell-surface)] desktop:flex">
+          {header}
+        </header>
+      )}
+
+      <div className="flex min-h-0 flex-1 items-stretch">
+        {variant === "sidebar" && (
+          <Sidebar nav={nav} workspace={workspace} onCollapse={onCollapse} />
         )}
-        {logo}
-        {nav.map((section, i) => (
-          <nav key={section.label ?? i} className="flex flex-col gap-[var(--spacing-2)]">
-            {section.label && (
-              <p className="px-[var(--spacing-12)] pb-[var(--spacing-4)] pt-[var(--spacing-16)] text-label-sm uppercase tracking-wide text-[var(--color-text-muted)]">
-                {section.label}
-              </p>
-            )}
-            {section.items.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                aria-current={item.active ? "page" : undefined}
-                className={cn(
-                  navItemBase,
-                  item.active
-                    ? "bg-[var(--color-border-subtle)] text-[var(--color-text-title)]"
-                    : "text-[var(--color-text-secondary)] hover:bg-[var(--color-border-subtle)]"
-                )}
-              >
-                {item.icon}
-                <span className="flex-1 truncate text-left">{item.label}</span>
-                {item.badge !== undefined && (
-                  <span className="rounded-full bg-[var(--color-text-secondary)] px-[var(--spacing-6)] py-px text-label-sm text-neutral-white">
-                    {item.badge}
-                  </span>
-                )}
-              </a>
-            ))}
-          </nav>
-        ))}
-        <div className="flex-1" />
-        {onCollapse && (
-          <>
-            <div className="h-px w-full bg-[var(--color-border-default)]" />
-            <button
-              type="button"
-              onClick={onCollapse}
-              className={cn(navItemBase, "text-[var(--color-text-secondary)] hover:bg-[var(--color-border-subtle)]")}
-            >
-              <CircleArrowLeftIcon className="size-5 shrink-0" aria-hidden />
-              Collapse
-            </button>
-          </>
+        <NavigationRail
+          nav={nav}
+          workspace={workspace}
+          logo={logo}
+          onExpand={onExpand}
+          desktopVisible={variant === "rail"}
+        />
+
+        <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
+          {tabletHeader && (
+            <header className="hidden h-[var(--spacing-72)] shrink-0 items-center border-b border-[var(--color-app-shell-border-default)] bg-[var(--color-app-shell-surface)] tablet:flex desktop:hidden">
+              {tabletHeader}
+            </header>
+          )}
+          <main className="min-h-0 flex-1 overflow-y-auto">{children}</main>
+          {tabletFooter && (
+            <div className="hidden shrink-0 tablet:block desktop:hidden">{tabletFooter}</div>
+          )}
+        </div>
+
+        {assistant && (
+          <aside className="hidden w-[var(--spacing-304)] shrink-0 desktop:block">
+            {assistant}
+          </aside>
         )}
-      </aside>
-      <div className="flex flex-1 flex-col">
-        {header && (
-          <header className="border-b border-[var(--color-border-default)] bg-[var(--color-background-default)] px-8 py-4">
-            {header}
-          </header>
-        )}
-        <main className="flex-1 p-8">{children}</main>
-        {footer}
       </div>
+
+      {footer && <div className="hidden shrink-0 desktop:block">{footer}</div>}
+      {mobileNavigation && (
+        <nav aria-label="Mobile" className="shrink-0 tablet:hidden">
+          {mobileNavigation}
+        </nav>
+      )}
     </div>
   );
 }

@@ -2,32 +2,330 @@
   "_comment": "Sourced from Figma 'Lumen-AI-Design-System' file, page 'Design Tokens' > '02 Typography' (fileKey GJBYRm6ySR7XIECFcHMgy2, node 428:13769). Font family: Inter (UI text), Roboto Mono (code). H1-H6/Body/Label/Overline/Caption/Code map directly onto this scale's tiers: display-*=H1-H3, headline-*=H4-H6, title-* sits between H6 and Body at medium weight (Figma has no distinct 'title' tier), label-*/body-*/overline/caption/code-* are exact matches. button-* is a separate scale read directly off the Button component's own text spans on the 'Buttons' page (node 466:4365) — it's close to label-* but not pixel-identical on line-height, and button-lg (16px) has no equivalent at all in label-* (label tops out at 14px), which is why reusing label-lg for both md and lg previously made those two sizes render identically.",
   "fontFamily": {
     "sans": { "value": ["Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"] },
+    "interface": {
+      "value": [
+        "Instrument Sans",
+        "Inter",
+        "-apple-system",
+        "BlinkMacSystemFont",
+        "Segoe UI",
+        "sans-serif"
+      ]
+    },
+    "brand": {
+      "value": ["Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"]
+    },
     "mono": { "value": ["Roboto Mono", "SFMono-Regular", "Menlo", "monospace"] }
   },
   "scale": {
-    "display-lg":  { "fontSize": 60, "lineHeight": 72, "weight": 600, "usage": "Page hero, marketing headlines (Figma H1)" },
-    "display-md":  { "fontSize": 50, "lineHeight": 60, "weight": 600, "usage": "Section hero, key messages (Figma H2)" },
-    "display-sm":  { "fontSize": 40, "lineHeight": 50, "weight": 600, "usage": "Sub-hero, feature highlights (Figma H3)" },
-    "headline-lg": { "fontSize": 32, "lineHeight": 42, "weight": 600, "usage": "Page titles, major sections (Figma H4)" },
-    "headline-md": { "fontSize": 24, "lineHeight": 32, "weight": 600, "usage": "Section titles, card titles (Figma H5)" },
-    "headline-sm": { "fontSize": 20, "lineHeight": 28, "weight": 600, "usage": "Subsection titles (Figma H6)" },
-    "title-lg":    { "fontSize": 20, "lineHeight": 28, "weight": 500, "usage": "Important content titles" },
-    "title-md":    { "fontSize": 16, "lineHeight": 26, "weight": 500, "usage": "Card titles, form titles" },
-    "title-sm":    { "fontSize": 14, "lineHeight": 22, "weight": 500, "usage": "Table titles, small captions" },
-    "label-lg":    { "fontSize": 14, "lineHeight": 20, "weight": 600, "usage": "Form labels, button text (Figma Label lg)" },
-    "label-md":    { "fontSize": 12, "lineHeight": 18, "weight": 600, "usage": "Helper labels (Figma Label md)" },
-    "label-sm":    { "fontSize": 11, "lineHeight": 16, "weight": 600, "usage": "Meta text, badges (Figma Label sm)" },
-    "body-lg":     { "fontSize": 20, "lineHeight": 32, "weight": 400, "usage": "Primary paragraph text (Figma Body lg)" },
-    "body-md":     { "fontSize": 16, "lineHeight": 26, "weight": 400, "usage": "Secondary paragraph text (Figma Body md)" },
-    "body-sm":     { "fontSize": 16, "lineHeight": 24, "weight": 400, "usage": "Fine print, captions (Figma Body sm)" },
-    "body-xs":     { "fontSize": 12, "lineHeight": 20, "weight": 400, "usage": "Smallest body text (Figma Body xs)" },
-    "overline":    { "fontSize": 11, "lineHeight": 16, "weight": 600, "usage": "Section category eyebrow text — pair with `uppercase tracking-wide` (Figma Overline)" },
-    "caption":     { "fontSize": 11, "lineHeight": 18, "weight": 400, "usage": "Image/table captions (Figma Caption)" },
-    "code-md":     { "fontSize": 14, "lineHeight": 22, "weight": 400, "usage": "Inline/block code — pair with `font-mono` (Figma Code md)" },
-    "code-sm":     { "fontSize": 12, "lineHeight": 20, "weight": 400, "usage": "Small inline code — pair with `font-mono` (Figma Code sm)" },
-    "button-xs":   { "fontSize": 11, "lineHeight": 18, "weight": 600, "usage": "Button label text, size=xs" },
-    "button-sm":   { "fontSize": 12, "lineHeight": 20, "weight": 600, "usage": "Button label text, size=sm" },
-    "button-md":   { "fontSize": 14, "lineHeight": 22, "weight": 600, "usage": "Button label text, size=md" },
-    "button-lg":   { "fontSize": 16, "lineHeight": 24, "weight": 600, "usage": "Button label text, size=lg" }
+    "display-lg": {
+      "fontSize": 60,
+      "lineHeight": 72,
+      "weight": 600,
+      "usage": "Page hero, marketing headlines (Figma H1)"
+    },
+    "display-md": {
+      "fontSize": 50,
+      "lineHeight": 60,
+      "weight": 600,
+      "usage": "Section hero, key messages (Figma H2)"
+    },
+    "display-sm": {
+      "fontSize": 40,
+      "lineHeight": 50,
+      "weight": 600,
+      "usage": "Sub-hero, feature highlights (Figma H3)"
+    },
+    "headline-lg": {
+      "fontSize": 32,
+      "lineHeight": 42,
+      "weight": 600,
+      "usage": "Page titles, major sections (Figma H4)"
+    },
+    "headline-md": {
+      "fontSize": 24,
+      "lineHeight": 32,
+      "weight": 600,
+      "usage": "Section titles, card titles (Figma H5)"
+    },
+    "headline-sm": {
+      "fontSize": 20,
+      "lineHeight": 28,
+      "weight": 600,
+      "usage": "Subsection titles (Figma H6)"
+    },
+    "title-lg": {
+      "fontSize": 20,
+      "lineHeight": 28,
+      "weight": 500,
+      "usage": "Important content titles"
+    },
+    "title-md": {
+      "fontSize": 16,
+      "lineHeight": 26,
+      "weight": 500,
+      "usage": "Card titles, form titles"
+    },
+    "title-sm": {
+      "fontSize": 14,
+      "lineHeight": 22,
+      "weight": 500,
+      "usage": "Table titles, small captions"
+    },
+    "label-lg": {
+      "fontSize": 14,
+      "lineHeight": 20,
+      "weight": 600,
+      "usage": "Form labels, button text (Figma Label lg)"
+    },
+    "label-md": {
+      "fontSize": 12,
+      "lineHeight": 18,
+      "weight": 600,
+      "usage": "Helper labels (Figma Label md)"
+    },
+    "label-sm": {
+      "fontSize": 11,
+      "lineHeight": 16,
+      "weight": 600,
+      "usage": "Meta text, badges (Figma Label sm)"
+    },
+    "body-lg": {
+      "fontSize": 20,
+      "lineHeight": 32,
+      "weight": 400,
+      "usage": "Primary paragraph text (Figma Body lg)"
+    },
+    "body-md": {
+      "fontSize": 16,
+      "lineHeight": 26,
+      "weight": 400,
+      "usage": "Secondary paragraph text (Figma Body md)"
+    },
+    "body-sm": {
+      "fontSize": 16,
+      "lineHeight": 24,
+      "weight": 400,
+      "usage": "Fine print, captions (Figma Body sm)"
+    },
+    "body-xs": {
+      "fontSize": 12,
+      "lineHeight": 20,
+      "weight": 400,
+      "usage": "Smallest body text (Figma Body xs)"
+    },
+    "overline": {
+      "fontSize": 11,
+      "lineHeight": 16,
+      "weight": 600,
+      "usage": "Section category eyebrow text — pair with `uppercase tracking-wide` (Figma Overline)"
+    },
+    "caption": {
+      "fontSize": 11,
+      "lineHeight": 18,
+      "weight": 400,
+      "usage": "Image/table captions (Figma Caption)"
+    },
+    "code-md": {
+      "fontSize": 14,
+      "lineHeight": 22,
+      "weight": 400,
+      "usage": "Inline/block code — pair with `font-mono` (Figma Code md)"
+    },
+    "code-sm": {
+      "fontSize": 12,
+      "lineHeight": 20,
+      "weight": 400,
+      "usage": "Small inline code — pair with `font-mono` (Figma Code sm)"
+    },
+    "button-xs": {
+      "fontSize": 11,
+      "lineHeight": 18,
+      "weight": 600,
+      "usage": "Button label text, size=xs"
+    },
+    "button-sm": {
+      "fontSize": 12,
+      "lineHeight": 20,
+      "weight": 600,
+      "usage": "Button label text, size=sm"
+    },
+    "button-md": {
+      "fontSize": 14,
+      "lineHeight": 22,
+      "weight": 600,
+      "usage": "Button label text, size=md"
+    },
+    "button-lg": {
+      "fontSize": 16,
+      "lineHeight": 24,
+      "weight": 600,
+      "usage": "Button label text, size=lg"
+    },
+    "app-admin": {
+      "fontSize": 10,
+      "lineHeight": 14,
+      "weight": 600,
+      "letterSpacing": 0.8,
+      "usage": "AppShell section label"
+    },
+    "app-meta": {
+      "fontSize": 11,
+      "lineHeight": 14,
+      "weight": 400,
+      "usage": "AppShell workspace plan and compact metadata"
+    },
+    "app-caption": {
+      "fontSize": 11,
+      "lineHeight": 16,
+      "weight": 400,
+      "usage": "AppShell footer and status captions"
+    },
+    "app-caption-medium": {
+      "fontSize": 11,
+      "lineHeight": 16,
+      "weight": 500,
+      "usage": "AppShell badges"
+    },
+    "app-label": {
+      "fontSize": 12,
+      "lineHeight": 16,
+      "weight": 500,
+      "usage": "AppShell KPI labels"
+    },
+    "app-label-semibold": {
+      "fontSize": 12,
+      "lineHeight": 16,
+      "weight": 600,
+      "usage": "AppShell mobile trend labels"
+    },
+    "app-breadcrumb": {
+      "fontSize": 12,
+      "lineHeight": 16,
+      "weight": 400,
+      "usage": "AppShell breadcrumbs"
+    },
+    "app-button-sm": {
+      "fontSize": 12,
+      "lineHeight": 16,
+      "weight": 500,
+      "letterSpacing": 0.12,
+      "usage": "AppShell assistant action button"
+    },
+    "app-button": {
+      "fontSize": 14,
+      "lineHeight": 20,
+      "weight": 500,
+      "letterSpacing": 0.14,
+      "usage": "AppShell page action button"
+    },
+    "app-nav": {
+      "fontSize": 13,
+      "lineHeight": 20,
+      "weight": 500,
+      "usage": "AppShell navigation and table text"
+    },
+    "app-workspace": {
+      "fontSize": 13,
+      "lineHeight": 18,
+      "weight": 600,
+      "usage": "AppShell workspace name"
+    },
+    "app-body": {
+      "fontSize": 13,
+      "lineHeight": 20,
+      "weight": 400,
+      "usage": "AppShell compact body copy"
+    },
+    "app-mobile-body": {
+      "fontSize": 13,
+      "lineHeight": 18,
+      "weight": 400,
+      "usage": "AppShell mobile description"
+    },
+    "app-table-heading": {
+      "fontSize": 14,
+      "lineHeight": 20,
+      "weight": 600,
+      "usage": "AppShell table heading"
+    },
+    "app-table-name": {
+      "fontSize": 14,
+      "lineHeight": 20,
+      "weight": 600,
+      "usage": "AppShell mobile account name"
+    },
+    "app-tablet-body": {
+      "fontSize": 15,
+      "lineHeight": 22,
+      "weight": 400,
+      "usage": "AppShell tablet description"
+    },
+    "app-brand": {
+      "fontSize": 16,
+      "lineHeight": 24,
+      "weight": 600,
+      "usage": "AppShell desktop/tablet brand"
+    },
+    "app-logo": {
+      "fontSize": 16,
+      "lineHeight": 20,
+      "weight": 700,
+      "usage": "AppShell desktop brand mark"
+    },
+    "app-logo-compact": {
+      "fontSize": 13,
+      "lineHeight": 16,
+      "weight": 700,
+      "usage": "AppShell workspace and mobile brand mark"
+    },
+    "app-logo-rail": {
+      "fontSize": 15,
+      "lineHeight": 18,
+      "weight": 700,
+      "usage": "AppShell navigation rail workspace mark"
+    },
+    "app-status-bar": {
+      "fontSize": 14,
+      "lineHeight": 20,
+      "weight": 600,
+      "usage": "AppShell mobile status-bar time"
+    },
+    "app-bottom-nav": {
+      "fontSize": 10,
+      "lineHeight": 12,
+      "weight": 500,
+      "usage": "AppShell mobile bottom navigation"
+    },
+    "app-mobile-brand": {
+      "fontSize": 15,
+      "lineHeight": 20,
+      "weight": 600,
+      "usage": "AppShell mobile brand"
+    },
+    "app-mobile-title": {
+      "fontSize": 22,
+      "lineHeight": 28,
+      "weight": 600,
+      "usage": "AppShell mobile page title"
+    },
+    "app-mobile-value": {
+      "fontSize": 24,
+      "lineHeight": 30,
+      "weight": 600,
+      "usage": "AppShell mobile KPI value"
+    },
+    "app-tablet-title": {
+      "fontSize": 28,
+      "lineHeight": 34,
+      "weight": 600,
+      "usage": "AppShell tablet page title"
+    },
+    "app-kpi-value": {
+      "fontSize": 32,
+      "lineHeight": 40,
+      "weight": 600,
+      "usage": "AppShell desktop/tablet KPI value"
+    }
   }
 }

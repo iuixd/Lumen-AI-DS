@@ -22,8 +22,8 @@ describe("AppShell", () => {
         <p>Content</p>
       </AppShell>
     );
-    expect(screen.getByRole("link", { name: /Home/ })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /Members/ })).toBeInTheDocument();
+    expect(screen.getAllByRole("link", { name: /Home/ })).toHaveLength(2);
+    expect(screen.getAllByRole("link", { name: /Members/ })).toHaveLength(2);
     expect(screen.getByText("Content")).toBeInTheDocument();
   });
 
@@ -33,8 +33,12 @@ describe("AppShell", () => {
         <p>Content</p>
       </AppShell>
     );
-    expect(screen.getByRole("link", { name: /Home/ })).toHaveAttribute("aria-current", "page");
-    expect(screen.getByRole("link", { name: /Members/ })).not.toHaveAttribute("aria-current");
+    screen
+      .getAllByRole("link", { name: /Home/ })
+      .forEach((link) => expect(link).toHaveAttribute("aria-current", "page"));
+    screen
+      .getAllByRole("link", { name: /Members/ })
+      .forEach((link) => expect(link).not.toHaveAttribute("aria-current"));
   });
 
   it("renders a badge on nav items that have one", () => {
@@ -43,7 +47,9 @@ describe("AppShell", () => {
         <p>Content</p>
       </AppShell>
     );
-    expect(screen.getByRole("link", { name: /Inbox/ })).toHaveTextContent("5");
+    expect(
+      screen.getAllByRole("link", { name: /Inbox/ }).some((link) => link.textContent?.includes("5"))
+    ).toBe(true);
   });
 
   it("renders a section header for labeled sections only", () => {
@@ -63,7 +69,7 @@ describe("AppShell", () => {
     );
     expect(screen.getByText("Northwind Corp")).toBeInTheDocument();
     expect(screen.getByText("Enterprise")).toBeInTheDocument();
-    expect(screen.getByText("N")).toBeInTheDocument();
+    expect(screen.getAllByText("N")).toHaveLength(2);
   });
 
   it("renders a Collapse control only when onCollapse is provided, and calls it on click", async () => {
@@ -107,7 +113,12 @@ describe("AppShell", () => {
     expect(screen.getByText("Footer content")).toBeInTheDocument();
 
     rerender(
-      <AppShell nav={nav} variant="rail" header={<p>Header content</p>} footer={<p>Footer content</p>}>
+      <AppShell
+        nav={nav}
+        variant="rail"
+        header={<p>Header content</p>}
+        footer={<p>Footer content</p>}
+      >
         <p>Content</p>
       </AppShell>
     );
@@ -123,5 +134,42 @@ describe("AppShell", () => {
     );
     expect(container.querySelector("header")).not.toBeInTheDocument();
     expect(container.querySelector("footer")).not.toBeInTheDocument();
+  });
+
+  it("renders each breakpoint-specific shell slot with canonical visibility classes", () => {
+    const { container } = render(
+      <AppShell
+        nav={nav}
+        header={<span>Desktop header</span>}
+        tabletHeader={<span>Tablet header</span>}
+        mobileStatusBar={<span>Mobile status</span>}
+        mobileHeader={<span>Mobile header</span>}
+        footer={<span>Desktop footer</span>}
+        tabletFooter={<span>Tablet footer</span>}
+        mobileNavigation={<span>Mobile navigation</span>}
+        assistant={<span>Assistant</span>}
+      >
+        <p>Content</p>
+      </AppShell>
+    );
+
+    expect(screen.getByText("Desktop header").parentElement).toHaveClass("desktop:flex");
+    expect(screen.getByText("Tablet header").parentElement).toHaveClass(
+      "tablet:flex",
+      "desktop:hidden"
+    );
+    expect(screen.getByText("Mobile status").parentElement).toHaveClass("tablet:hidden");
+    expect(screen.getByText("Mobile header").parentElement).toHaveClass("tablet:hidden");
+    expect(screen.getByText("Desktop footer").parentElement).toHaveClass("desktop:block");
+    expect(screen.getByText("Tablet footer").parentElement).toHaveClass(
+      "tablet:block",
+      "desktop:hidden"
+    );
+    expect(screen.getByRole("navigation", { name: "Mobile" })).toHaveClass("tablet:hidden");
+    expect(screen.getByText("Assistant").parentElement).toHaveClass("desktop:block");
+    expect(container.firstElementChild).toHaveClass(
+      "bg-[var(--color-app-shell-background)]",
+      "text-[var(--color-app-shell-text-body)]"
+    );
   });
 });

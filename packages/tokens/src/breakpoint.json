@@ -1,0 +1,6 @@
+{
+  "_comment": "Approved responsive thresholds for the AppShell variants sourced at 390px mobile, 768px tablet, and 1440px desktop. Figma supplies canonical variant widths but not transition thresholds; the 2026-07-20 audit explicitly approved mobile <768px, tablet 768-1023px, and desktop >=1024px.",
+  "mobile": { "value": 0 },
+  "tablet": { "value": 768 },
+  "desktop": { "value": 1024 }
+}

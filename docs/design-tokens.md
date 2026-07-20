@@ -277,45 +277,45 @@ Typography/Font Family/Mono
 
 ## Heading scale
 
-| Token | Font size | Line height |
-|---|---:|---:|
-| `Typography/Heading/H1` | 60px | 72px |
-| `Typography/Heading/H2` | 50px | 60px |
-| `Typography/Heading/H3` | 40px | 50px |
-| `Typography/Heading/H4` | 32px | 42px |
-| `Typography/Heading/H5` | 24px | 32px |
-| `Typography/Heading/H6` | 20px | 28px |
+| Token                   | Font size | Line height |
+| ----------------------- | --------: | ----------: |
+| `Typography/Heading/H1` |      60px |        72px |
+| `Typography/Heading/H2` |      50px |        60px |
+| `Typography/Heading/H3` |      40px |        50px |
+| `Typography/Heading/H4` |      32px |        42px |
+| `Typography/Heading/H5` |      24px |        32px |
+| `Typography/Heading/H6` |      20px |        28px |
 
 ## Body scale
 
-| Token | Font size | Line height |
-|---|---:|---:|
-| `Typography/Body/Lg` | 20px | 32px |
-| `Typography/Body/Md` | 16px | 26px |
-| `Typography/Body/Sm` | 14px | 22px |
-| `Typography/Body/Xs` | 12px | 20px |
+| Token                | Font size | Line height |
+| -------------------- | --------: | ----------: |
+| `Typography/Body/Lg` |      20px |        32px |
+| `Typography/Body/Md` |      16px |        26px |
+| `Typography/Body/Sm` |      14px |        22px |
+| `Typography/Body/Xs` |      12px |        20px |
 
 ## Label scale
 
-| Token | Font size | Line height |
-|---|---:|---:|
-| `Typography/Label/Lg` | 14px | 20px |
-| `Typography/Label/Md` | 12px | 18px |
-| `Typography/Label/Sm` | 11px | 16px |
+| Token                 | Font size | Line height |
+| --------------------- | --------: | ----------: |
+| `Typography/Label/Lg` |      14px |        20px |
+| `Typography/Label/Md` |      12px |        18px |
+| `Typography/Label/Sm` |      11px |        16px |
 
 ## Utility scale
 
-| Token | Font size | Line height | Usage |
-|---|---:|---:|---|
-| `Typography/Utility/Overline` | 11px | 16px | Section labels and categories |
-| `Typography/Utility/Caption` | 11px | 18px | Supporting metadata |
+| Token                         | Font size | Line height | Usage                         |
+| ----------------------------- | --------: | ----------: | ----------------------------- |
+| `Typography/Utility/Overline` |      11px |        16px | Section labels and categories |
+| `Typography/Utility/Caption`  |      11px |        18px | Supporting metadata           |
 
 ## Code scale
 
-| Token | Font size | Line height |
-|---|---:|---:|
-| `Typography/Code/Md` | 14px | 22px |
-| `Typography/Code/Sm` | 12px | 20px |
+| Token                | Font size | Line height |
+| -------------------- | --------: | ----------: |
+| `Typography/Code/Md` |      14px |        22px |
+| `Typography/Code/Sm` |      12px |        20px |
 
 ## Typography composition
 
@@ -377,26 +377,26 @@ Do not use scale tokens as a substitute for semantic component sizing.
 
 Lumen spacing is built on an 8-point grid with 2px and 4px substeps for compact UI requirements.
 
-| Figma token | Value |
-|---|---:|
-| `Spacing/0` | 0 |
-| `Spacing/2` | 2px |
-| `Spacing/4` | 4px |
-| `Spacing/6` | 6px |
-| `Spacing/8` | 8px |
-| `Spacing/10` | 10px |
-| `Spacing/12` | 12px |
-| `Spacing/16` | 16px |
-| `Spacing/20` | 20px |
-| `Spacing/24` | 24px |
-| `Spacing/28` | 28px |
-| `Spacing/32` | 32px |
-| `Spacing/40` | 40px |
-| `Spacing/48` | 48px |
-| `Spacing/56` | 56px |
-| `Spacing/64` | 64px |
-| `Spacing/80` | 80px |
-| `Spacing/96` | 96px |
+| Figma token   | Value |
+| ------------- | ----: |
+| `Spacing/0`   |     0 |
+| `Spacing/2`   |   2px |
+| `Spacing/4`   |   4px |
+| `Spacing/6`   |   6px |
+| `Spacing/8`   |   8px |
+| `Spacing/10`  |  10px |
+| `Spacing/12`  |  12px |
+| `Spacing/16`  |  16px |
+| `Spacing/20`  |  20px |
+| `Spacing/24`  |  24px |
+| `Spacing/28`  |  28px |
+| `Spacing/32`  |  32px |
+| `Spacing/40`  |  40px |
+| `Spacing/48`  |  48px |
+| `Spacing/56`  |  56px |
+| `Spacing/64`  |  64px |
+| `Spacing/80`  |  80px |
+| `Spacing/96`  |  96px |
 | `Spacing/128` | 128px |
 
 ## Spacing usage
@@ -418,17 +418,17 @@ Lumen spacing is built on an 8-point grid with 2px and 4px substeps for compact 
 
 # 5. Radius tokens
 
-| Figma token | Value | Typical usage |
-|---|---:|---|
-| `Radius/None` | 0px | Tables, edge-to-edge surfaces |
-| `Radius/Xs` | 2px | Small indicators and compact elements |
-| `Radius/Sm` | 4px | Inputs and compact controls |
-| `Radius/Md` | 6px | Standard controls |
-| `Radius/Lg` | 8px | Buttons, cards, menus |
-| `Radius/Xl` | 12px | Large cards and panels |
-| `Radius/2xl` | 16px | Dialogs and feature surfaces |
-| `Radius/3xl` | 24px | Prominent containers |
-| `Radius/Full` | Pill / 9999px | Pills, avatars, tags |
+| Figma token   |         Value | Typical usage                         |
+| ------------- | ------------: | ------------------------------------- |
+| `Radius/None` |           0px | Tables, edge-to-edge surfaces         |
+| `Radius/Xs`   |           2px | Small indicators and compact elements |
+| `Radius/Sm`   |           4px | Inputs and compact controls           |
+| `Radius/Md`   |           6px | Standard controls                     |
+| `Radius/Lg`   |           8px | Buttons, cards, menus                 |
+| `Radius/Xl`   |          12px | Large cards and panels                |
+| `Radius/2xl`  |          16px | Dialogs and feature surfaces          |
+| `Radius/3xl`  |          24px | Prominent containers                  |
+| `Radius/Full` | Pill / 9999px | Pills, avatars, tags                  |
 
 ## Radius rules
 
@@ -508,12 +508,15 @@ Z-Index/Tooltip
 ## Breakpoints
 
 ```text
-Breakpoint/Sm
-Breakpoint/Md
-Breakpoint/Lg
-Breakpoint/Xl
-Breakpoint/2xl
+Breakpoint/Mobile = 0px
+Breakpoint/Tablet = 768px
+Breakpoint/Desktop = 1024px
 ```
+
+These three responsive ranges are sourced from the canonical AppShell variant
+set (node `1007:3700`): mobile `<768px`, tablet `768–1023px`, and desktop
+`≥1024px`. They are published as CSS custom properties, TypeScript values, and
+the Tailwind `tablet`/`desktop` screens from `packages/tokens/src/breakpoint.json`.
 
 ## Control sizing
 
@@ -669,10 +672,10 @@ packages/tokens/
 
 ```tsx
 // Correct
-className="bg-[var(--lumen-button-primary-background-default)]"
+className = "bg-[var(--lumen-button-primary-background-default)]";
 
 // Incorrect
-className="bg-[#0c77da]"
+className = "bg-[#0c77da]";
 ```
 
 ---
@@ -772,10 +775,15 @@ Every change must be captured in `changelog.md` using:
 
 ```markdown
 ## Added
+
 ## Changed
+
 ## Deprecated
+
 ## Removed
+
 ## Fixed
+
 ## Migration
 ```
 
@@ -1012,7 +1020,7 @@ Value alone is not sufficient.
 Before implementation, Claude Code should present:
 
 | Current Variable | Value | Classification | Recommended action | Proposed canonical name |
-|---|---|---|---|---|
+| ---------------- | ----- | -------------- | ------------------ | ----------------------- |
 
 Also include:
 

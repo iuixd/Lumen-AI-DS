@@ -6,21 +6,10 @@ export interface ThemeToggleProps extends Omit<InputHTMLAttributes<HTMLInputElem
 
 /**
  * ThemeToggle
- * Sourced from the Figma "appshell-desktop-closed-light" reference screen
- * (Lumen-AI-Design-System, node 1197:1652, Header instance
- * `I1102:6515;1124:1193`): a pill in the app header that switches Light/Dark
- * theme, showing static Sun (left) / Moon (right) glyphs on a
- * `--color-background-subtle` track. Figma specs the track at 54px wide —
- * shipped at `--spacing-56` instead so the sliding-thumb travel distance
- * (track − padding − thumb) lands on a real token (`--spacing-32`) rather
- * than an unbacked 30px, the same "round to the nearest existing token"
- * treatment already applied to `SplitButton`'s sm dropdown segment.
- * Only the Light-theme instance was sourced — no Dark-theme or
- * mid-interaction instance was available, so this reproduces the
- * conventional sliding-thumb toggle (native checkbox + `role="switch"`,
- * same accessible-toggle approach as `Switch`) rather than inventing a
- * Figma-specific animation. Report any mismatch once a Dark-theme instance
- * is available.
+ * Sourced from the canonical AppShell desktop/tablet light and dark variants
+ * (node 1007:3700). The exact 54px track, 20px thumb, 2px inset, and 30px
+ * checked travel are published tokens. The native checkbox and `role="switch"`
+ * preserve the established accessible-toggle behavior.
  */
 export const ThemeToggle = forwardRef<HTMLInputElement, ThemeToggleProps>(
   ({ className, id, "aria-label": ariaLabel, ...props }, ref) => {
@@ -29,7 +18,7 @@ export const ThemeToggle = forwardRef<HTMLInputElement, ThemeToggleProps>(
       <label
         htmlFor={inputId}
         className={cn(
-          "relative inline-flex h-[var(--spacing-24)] w-[var(--spacing-56)] shrink-0 cursor-pointer items-center justify-between rounded-full bg-[var(--color-background-subtle)] px-[var(--spacing-2)]",
+          "relative inline-flex h-[var(--spacing-24)] w-[var(--spacing-54)] shrink-0 cursor-pointer items-center justify-between rounded-full bg-[var(--color-app-shell-background)] px-[var(--spacing-2)]",
           "has-[:focus-visible]:outline-none has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-offset-4 has-[:focus-visible]:ring-[var(--color-border-focus)]",
           className
         )}
@@ -45,10 +34,16 @@ export const ThemeToggle = forwardRef<HTMLInputElement, ThemeToggleProps>(
         />
         <span
           aria-hidden
-          className="pointer-events-none absolute left-[var(--spacing-2)] size-[var(--spacing-20)] rounded-full bg-[var(--color-background-default)] shadow-sm transition-transform peer-checked:translate-x-[var(--spacing-32)]"
+          className="pointer-events-none absolute left-[var(--spacing-2)] size-[var(--spacing-20)] rounded-full bg-[var(--color-app-shell-surface)] shadow-sm transition-transform peer-checked:translate-x-[var(--spacing-30)]"
         />
-        <SunIcon aria-hidden className="relative z-10 size-[var(--spacing-20)] text-[var(--color-text-title)]" />
-        <MoonIcon aria-hidden className="relative z-10 size-[var(--spacing-20)] text-[var(--color-text-muted)]" />
+        <SunIcon
+          aria-hidden
+          className="relative z-10 size-[var(--spacing-20)] text-[var(--color-app-shell-text-heading)]"
+        />
+        <MoonIcon
+          aria-hidden
+          className="relative z-10 size-[var(--spacing-20)] text-[var(--color-app-shell-text-placeholder)]"
+        />
       </label>
     );
   }

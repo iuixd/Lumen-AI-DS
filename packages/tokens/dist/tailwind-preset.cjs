@@ -170,6 +170,28 @@ module.exports = {
   "forest-700": "var(--color-forest-700)",
   "forest-800": "var(--color-forest-800)",
   "sky-500": "var(--color-sky-500)",
+  "app-shell-light-text-primary": "var(--color-app-shell-light-text-primary)",
+  "app-shell-light-text-heading": "var(--color-app-shell-light-text-heading)",
+  "app-shell-light-status-success-bg": "var(--color-app-shell-light-status-success-bg)",
+  "app-shell-light-status-warning-bg": "var(--color-app-shell-light-status-warning-bg)",
+  "app-shell-light-badge-text": "var(--color-app-shell-light-badge-text)",
+  "app-shell-light-button-secondary-border": "var(--color-app-shell-light-button-secondary-border)",
+  "app-shell-dark-background": "var(--color-app-shell-dark-background)",
+  "app-shell-dark-surface": "var(--color-app-shell-dark-surface)",
+  "app-shell-dark-border": "var(--color-app-shell-dark-border)",
+  "app-shell-dark-text-primary": "var(--color-app-shell-dark-text-primary)",
+  "app-shell-dark-text-heading": "var(--color-app-shell-dark-text-heading)",
+  "app-shell-dark-text-body": "var(--color-app-shell-dark-text-body)",
+  "app-shell-dark-text-secondary": "var(--color-app-shell-dark-text-secondary)",
+  "app-shell-dark-text-placeholder": "var(--color-app-shell-dark-text-placeholder)",
+  "app-shell-dark-text-muted": "var(--color-app-shell-dark-text-muted)",
+  "app-shell-dark-link": "var(--color-app-shell-dark-link)",
+  "app-shell-dark-success": "var(--color-app-shell-dark-success)",
+  "app-shell-dark-success-muted": "var(--color-app-shell-dark-success-muted)",
+  "app-shell-dark-success-bg": "var(--color-app-shell-dark-success-bg)",
+  "app-shell-dark-warning": "var(--color-app-shell-dark-warning)",
+  "app-shell-dark-warning-bg": "var(--color-app-shell-dark-warning-bg)",
+  "app-shell-dark-badge-bg": "var(--color-app-shell-dark-badge-bg)",
   "background-default": "var(--color-background-default)",
   "background-subtle": "var(--color-background-subtle)",
   "background-raised": "var(--color-background-raised)",
@@ -217,13 +239,57 @@ module.exports = {
   "segment-surface-selected": "var(--color-segment-surface-selected)",
   "segment-border-selected": "var(--color-segment-border-selected)",
   "segment-text": "var(--color-segment-text)",
-  "segment-text-selected": "var(--color-segment-text-selected)"
+  "segment-text-selected": "var(--color-segment-text-selected)",
+  "app-shell-background": "var(--color-app-shell-background)",
+  "app-shell-surface": "var(--color-app-shell-surface)",
+  "app-shell-nav-active": "var(--color-app-shell-nav-active)",
+  "app-shell-text-primary": "var(--color-app-shell-text-primary)",
+  "app-shell-text-heading": "var(--color-app-shell-text-heading)",
+  "app-shell-text-body": "var(--color-app-shell-text-body)",
+  "app-shell-text-secondary": "var(--color-app-shell-text-secondary)",
+  "app-shell-text-placeholder": "var(--color-app-shell-text-placeholder)",
+  "app-shell-text-muted": "var(--color-app-shell-text-muted)",
+  "app-shell-text-link": "var(--color-app-shell-text-link)",
+  "app-shell-text-on-brand": "var(--color-app-shell-text-on-brand)",
+  "app-shell-border-default": "var(--color-app-shell-border-default)",
+  "app-shell-border-subtle": "var(--color-app-shell-border-subtle)",
+  "app-shell-border-input": "var(--color-app-shell-border-input)",
+  "app-shell-border-table": "var(--color-app-shell-border-table)",
+  "app-shell-brand-primary": "var(--color-app-shell-brand-primary)",
+  "app-shell-status-success": "var(--color-app-shell-status-success)",
+  "app-shell-status-success-bg": "var(--color-app-shell-status-success-bg)",
+  "app-shell-status-warning": "var(--color-app-shell-status-warning)",
+  "app-shell-status-warning-bg": "var(--color-app-shell-status-warning-bg)",
+  "app-shell-status-danger": "var(--color-app-shell-status-danger)",
+  "app-shell-badge-bg": "var(--color-app-shell-badge-bg)",
+  "app-shell-badge-text": "var(--color-app-shell-badge-text)",
+  "app-shell-prompt-bg": "var(--color-app-shell-prompt-bg)",
+  "app-shell-toggle-bg": "var(--color-app-shell-toggle-bg)",
+  "app-shell-button-secondary-bg": "var(--color-app-shell-button-secondary-bg)",
+  "app-shell-button-secondary-border": "var(--color-app-shell-button-secondary-border)",
+  "app-shell-button-secondary-text": "var(--color-app-shell-button-secondary-text)",
+  "app-shell-button-accent-bg": "var(--color-app-shell-button-accent-bg)",
+  "app-shell-button-accent-text": "var(--color-app-shell-button-accent-text)"
 },
       spacing: {
+  "15": "var(--spacing-15)",
+  "17": "var(--spacing-17)",
   "18": "var(--spacing-18)",
+  "25": "var(--spacing-25)",
+  "30": "var(--spacing-30)",
+  "34": "var(--spacing-34)",
   "38": "var(--spacing-38)",
+  "54": "var(--spacing-54)",
+  "74": "var(--spacing-74)",
   "120": "var(--spacing-120)",
   "128": "var(--spacing-128)",
+  "140": "var(--spacing-140)",
+  "224": "var(--spacing-224)",
+  "240": "var(--spacing-240)",
+  "304": "var(--spacing-304)",
+  "360": "var(--spacing-360)",
+  "390": "var(--spacing-390)",
+  "400": "var(--spacing-400)",
   "layout-xs": "var(--spacing-layout-xs)",
   "layout-sm": "var(--spacing-layout-sm)",
   "layout-md": "var(--spacing-layout-md)",
@@ -236,6 +302,7 @@ module.exports = {
   "sm": "var(--radius-sm)",
   "md": "var(--radius-md)",
   "lg": "var(--radius-lg)",
+  "app-search": "var(--radius-app-search)",
   "xl": "var(--radius-xl)",
   "2xl": "var(--radius-2xl)",
   "3xl": "var(--radius-3xl)",
@@ -409,11 +476,206 @@ module.exports = {
       "lineHeight": "var(--text-button-lg-line-height)",
       "fontWeight": "var(--text-button-lg-weight)"
     }
+  ],
+  "app-admin": [
+    "var(--text-app-admin-size)",
+    {
+      "lineHeight": "var(--text-app-admin-line-height)",
+      "fontWeight": "var(--text-app-admin-weight)"
+    }
+  ],
+  "app-meta": [
+    "var(--text-app-meta-size)",
+    {
+      "lineHeight": "var(--text-app-meta-line-height)",
+      "fontWeight": "var(--text-app-meta-weight)"
+    }
+  ],
+  "app-caption": [
+    "var(--text-app-caption-size)",
+    {
+      "lineHeight": "var(--text-app-caption-line-height)",
+      "fontWeight": "var(--text-app-caption-weight)"
+    }
+  ],
+  "app-caption-medium": [
+    "var(--text-app-caption-medium-size)",
+    {
+      "lineHeight": "var(--text-app-caption-medium-line-height)",
+      "fontWeight": "var(--text-app-caption-medium-weight)"
+    }
+  ],
+  "app-label": [
+    "var(--text-app-label-size)",
+    {
+      "lineHeight": "var(--text-app-label-line-height)",
+      "fontWeight": "var(--text-app-label-weight)"
+    }
+  ],
+  "app-label-semibold": [
+    "var(--text-app-label-semibold-size)",
+    {
+      "lineHeight": "var(--text-app-label-semibold-line-height)",
+      "fontWeight": "var(--text-app-label-semibold-weight)"
+    }
+  ],
+  "app-breadcrumb": [
+    "var(--text-app-breadcrumb-size)",
+    {
+      "lineHeight": "var(--text-app-breadcrumb-line-height)",
+      "fontWeight": "var(--text-app-breadcrumb-weight)"
+    }
+  ],
+  "app-button-sm": [
+    "var(--text-app-button-sm-size)",
+    {
+      "lineHeight": "var(--text-app-button-sm-line-height)",
+      "fontWeight": "var(--text-app-button-sm-weight)"
+    }
+  ],
+  "app-button": [
+    "var(--text-app-button-size)",
+    {
+      "lineHeight": "var(--text-app-button-line-height)",
+      "fontWeight": "var(--text-app-button-weight)"
+    }
+  ],
+  "app-nav": [
+    "var(--text-app-nav-size)",
+    {
+      "lineHeight": "var(--text-app-nav-line-height)",
+      "fontWeight": "var(--text-app-nav-weight)"
+    }
+  ],
+  "app-workspace": [
+    "var(--text-app-workspace-size)",
+    {
+      "lineHeight": "var(--text-app-workspace-line-height)",
+      "fontWeight": "var(--text-app-workspace-weight)"
+    }
+  ],
+  "app-body": [
+    "var(--text-app-body-size)",
+    {
+      "lineHeight": "var(--text-app-body-line-height)",
+      "fontWeight": "var(--text-app-body-weight)"
+    }
+  ],
+  "app-mobile-body": [
+    "var(--text-app-mobile-body-size)",
+    {
+      "lineHeight": "var(--text-app-mobile-body-line-height)",
+      "fontWeight": "var(--text-app-mobile-body-weight)"
+    }
+  ],
+  "app-table-heading": [
+    "var(--text-app-table-heading-size)",
+    {
+      "lineHeight": "var(--text-app-table-heading-line-height)",
+      "fontWeight": "var(--text-app-table-heading-weight)"
+    }
+  ],
+  "app-table-name": [
+    "var(--text-app-table-name-size)",
+    {
+      "lineHeight": "var(--text-app-table-name-line-height)",
+      "fontWeight": "var(--text-app-table-name-weight)"
+    }
+  ],
+  "app-tablet-body": [
+    "var(--text-app-tablet-body-size)",
+    {
+      "lineHeight": "var(--text-app-tablet-body-line-height)",
+      "fontWeight": "var(--text-app-tablet-body-weight)"
+    }
+  ],
+  "app-brand": [
+    "var(--text-app-brand-size)",
+    {
+      "lineHeight": "var(--text-app-brand-line-height)",
+      "fontWeight": "var(--text-app-brand-weight)"
+    }
+  ],
+  "app-logo": [
+    "var(--text-app-logo-size)",
+    {
+      "lineHeight": "var(--text-app-logo-line-height)",
+      "fontWeight": "var(--text-app-logo-weight)"
+    }
+  ],
+  "app-logo-compact": [
+    "var(--text-app-logo-compact-size)",
+    {
+      "lineHeight": "var(--text-app-logo-compact-line-height)",
+      "fontWeight": "var(--text-app-logo-compact-weight)"
+    }
+  ],
+  "app-logo-rail": [
+    "var(--text-app-logo-rail-size)",
+    {
+      "lineHeight": "var(--text-app-logo-rail-line-height)",
+      "fontWeight": "var(--text-app-logo-rail-weight)"
+    }
+  ],
+  "app-status-bar": [
+    "var(--text-app-status-bar-size)",
+    {
+      "lineHeight": "var(--text-app-status-bar-line-height)",
+      "fontWeight": "var(--text-app-status-bar-weight)"
+    }
+  ],
+  "app-bottom-nav": [
+    "var(--text-app-bottom-nav-size)",
+    {
+      "lineHeight": "var(--text-app-bottom-nav-line-height)",
+      "fontWeight": "var(--text-app-bottom-nav-weight)"
+    }
+  ],
+  "app-mobile-brand": [
+    "var(--text-app-mobile-brand-size)",
+    {
+      "lineHeight": "var(--text-app-mobile-brand-line-height)",
+      "fontWeight": "var(--text-app-mobile-brand-weight)"
+    }
+  ],
+  "app-mobile-title": [
+    "var(--text-app-mobile-title-size)",
+    {
+      "lineHeight": "var(--text-app-mobile-title-line-height)",
+      "fontWeight": "var(--text-app-mobile-title-weight)"
+    }
+  ],
+  "app-mobile-value": [
+    "var(--text-app-mobile-value-size)",
+    {
+      "lineHeight": "var(--text-app-mobile-value-line-height)",
+      "fontWeight": "var(--text-app-mobile-value-weight)"
+    }
+  ],
+  "app-tablet-title": [
+    "var(--text-app-tablet-title-size)",
+    {
+      "lineHeight": "var(--text-app-tablet-title-line-height)",
+      "fontWeight": "var(--text-app-tablet-title-weight)"
+    }
+  ],
+  "app-kpi-value": [
+    "var(--text-app-kpi-value-size)",
+    {
+      "lineHeight": "var(--text-app-kpi-value-line-height)",
+      "fontWeight": "var(--text-app-kpi-value-weight)"
+    }
   ]
 },
       fontFamily: {
-        sans: ["var(--font-sans)"],
-        mono: ["var(--font-mono)"]
+        "sans": ["var(--font-sans)"],
+        "interface": ["var(--font-interface)"],
+        "brand": ["var(--font-brand)"],
+        "mono": ["var(--font-mono)"]
+      },
+      screens: {
+        tablet: "768px",
+        desktop: "1024px"
       }
     }
   }

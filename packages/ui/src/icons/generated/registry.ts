@@ -1005,7 +1005,9 @@ import { ListTreeIcon } from "./ListTreeIcon";
 import { ListVideoIcon } from "./ListVideoIcon";
 import { ListXIcon } from "./ListXIcon";
 import { ListIcon } from "./ListIcon";
+import { LmAiOutlineIcon } from "./LmAiOutlineIcon";
 import { LmAisymbolIcon } from "./LmAisymbolIcon";
+import { LmAuditLogIcon } from "./LmAuditLogIcon";
 import { LmCharactersSymbolIcon } from "./LmCharactersSymbolIcon";
 import { LmCloseIcon } from "./LmCloseIcon";
 import { LmCreateProjectIcon } from "./LmCreateProjectIcon";
@@ -2930,7 +2932,9 @@ export const iconRegistry: Record<string, IconComponent> = {
   "list-video": ListVideoIcon,
   "list-x": ListXIcon,
   "list": ListIcon,
+  "lm-ai-outline": LmAiOutlineIcon,
   "lm-aisymbol": LmAisymbolIcon,
+  "lm-audit-log": LmAuditLogIcon,
   "lm-characters-symbol": LmCharactersSymbolIcon,
   "lm-close": LmCloseIcon,
   "lm-create-project": LmCreateProjectIcon,

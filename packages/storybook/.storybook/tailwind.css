@@ -5,6 +5,10 @@
 /* Storybook-chrome-only typeface for the Docs page code blocks
    (.docblock-source) — matches the "Tokyo Night" reference screenshot. */
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap");
+/* Product-preview families used by the canonical AppShell: Instrument Sans
+   for interface copy and Inter for the Lumen mark. Family selection remains
+   token-owned (`--font-interface`/`--font-brand`); this only supplies glyphs. */
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Inter:wght@600;700&display=swap");
 @import "@lumen/tokens/css";
 
 @tailwind base;

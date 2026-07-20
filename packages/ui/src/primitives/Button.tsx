@@ -94,18 +94,11 @@ export const buttonVariants = cva(
         link: "min-w-0 border-0 bg-transparent p-[var(--spacing-4)] text-[var(--color-brand-default)] hover:underline active:underline aria-disabled:text-neutral-400",
         // Sourced from the canonical "AppShell" page (Lumen-AI-Design-System, node
         // 1007:3700, Breakpoint=Desktop/Theme=Light instance 1127:4196) via
-        // get_variable_defs: `btn/accent/bg` (#2B2F2F, rounds to the existing
-        // neutral.800 — a ~5-per-channel difference, the same "round to nearest
-        // existing token" treatment already applied elsewhere in this file) and
-        // `btn/accent/text` (white). Used for the PageHeader "New project" button
-        // and the AIPanel's send button — a deliberately different, non-brand
-        // accent treatment for this dashboard context, not a redefinition of
-        // `primary`. Only the Default state was sourced; no hover/active/focus
-        // instance was available, so hover/active below are a reasonable
-        // lighten-on-interaction placeholder (neutral.800 has no darker step to
-        // go to), not Figma-confirmed — revisit once an instance exists.
+        // get_variable_defs: exact theme-aware `btn/accent/bg` and
+        // `btn/accent/text` roles. Used for the PageHeader "New project" button
+        // and AIPanel send button; no unsourced hover/active treatment is added.
         accent:
-          "bg-neutral-800 text-neutral-white hover:bg-neutral-700 active:bg-neutral-600 focus-visible:border-neutral-600 aria-disabled:bg-neutral-50 aria-disabled:text-neutral-400"
+          "bg-[var(--color-app-shell-button-accent-bg)] text-[var(--color-app-shell-button-accent-text)] focus-visible:border-[var(--color-app-shell-button-accent-bg)]"
       },
       size: {
         xs: "h-[var(--spacing-32)] min-w-[var(--spacing-64)] px-[var(--spacing-10)] py-[var(--spacing-5)] text-button-xs",
@@ -147,7 +140,8 @@ export const buttonVariants = cva(
       {
         variant: "primary",
         iconOnly: true,
-        class: "border-[var(--color-brand-border)] hover:border-[var(--color-brand-default)] active:border-[var(--color-brand-default)] aria-disabled:border-transparent"
+        class:
+          "border-[var(--color-brand-border)] hover:border-[var(--color-brand-default)] active:border-[var(--color-brand-default)] aria-disabled:border-transparent"
       },
       // Only Secondary (the sole bordered variant Figma actually specced a
       // Success/Error/Warning instance for) gets a status-tinted border —
@@ -166,8 +160,7 @@ export const buttonVariants = cva(
 );
 
 export interface ButtonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+  extends ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
   /** Renders a leading icon slot. Ignored when `iconOnly` is set — use `children` for the icon instead. */
   iconStart?: React.ReactNode;
   /** Renders a trailing icon slot. Ignored when `iconOnly` is set. */
@@ -204,7 +197,12 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const isDisabled = Boolean(disabled || isLoading);
 
-    if (process.env.NODE_ENV !== "production" && iconOnly && !props["aria-label"] && !props["aria-labelledby"]) {
+    if (
+      process.env.NODE_ENV !== "production" &&
+      iconOnly &&
+      !props["aria-label"] &&
+      !props["aria-labelledby"]
+    ) {
       // eslint-disable-next-line no-console
       console.warn("Button: iconOnly buttons must have an accessible name — pass aria-label.");
     }
@@ -232,7 +230,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         onClick={handleClick}
       >
         {isLoading ? (
-          <span className="size-[1em] animate-spin rounded-full border-2 border-current border-t-transparent" aria-hidden />
+          <span
+            className="size-[1em] animate-spin rounded-full border-2 border-current border-t-transparent"
+            aria-hidden
+          />
         ) : (
           iconStart
         )}

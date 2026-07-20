@@ -1,6 +1,6 @@
 import { useState, type FormEvent, type ReactNode } from "react";
 import { cn } from "../lib/cn";
-import { LmAisymbolIcon } from "../icons/generated";
+import { LmAiOutlineIcon } from "../icons/generated";
 
 export interface AIPanelMessage {
   role: "user" | "assistant";
@@ -31,12 +31,17 @@ export interface AIPanelProps {
  * assistant-response bubbles with optional secondary-button actions
  * beneath), and a text input + send button. Not previously implemented in
  * any framework package — entirely new to the system, not a variant of an
- * existing component. The header icon uses the existing `LmAisymbolIcon`
- * (already this repo's default AI glyph, e.g. `AIButton`'s icon) rather
- * than Figma's `lm-ai-outline`, which has no corresponding entry in this
- * repo's icon set.
+ * existing component. The header uses the exact `lm-ai-outline` asset from
+ * the approved composition.
  */
-export function AIPanel({ title = "Assistant", messages, inputPlaceholder, onSend, onNewThread, className }: AIPanelProps) {
+export function AIPanel({
+  title = "Assistant",
+  messages,
+  inputPlaceholder,
+  onSend,
+  onNewThread,
+  className
+}: AIPanelProps) {
   const [value, setValue] = useState("");
 
   const handleSubmit = (e: FormEvent) => {
@@ -50,25 +55,28 @@ export function AIPanel({ title = "Assistant", messages, inputPlaceholder, onSen
   return (
     <div
       className={cn(
-        "flex h-full w-[304px] shrink-0 flex-col border-l border-r border-[var(--color-border-default)] bg-[var(--color-background-default)]",
+        "flex h-full w-[var(--spacing-304)] shrink-0 flex-col border-l border-r border-[var(--color-app-shell-border-default)] bg-[var(--color-app-shell-surface)] font-interface",
         className
       )}
     >
       <div className="flex items-center gap-[var(--spacing-8)] px-[var(--spacing-16)] py-[var(--spacing-14)]">
-        <LmAisymbolIcon className="size-5 shrink-0 text-[var(--color-text-title)]" aria-hidden />
-        <p className="text-title-sm text-[var(--color-text-title)]">{title}</p>
+        <LmAiOutlineIcon
+          className="size-5 shrink-0 text-[var(--color-app-shell-text-primary)]"
+          aria-hidden
+        />
+        <p className="text-app-table-heading text-[var(--color-app-shell-text-primary)]">{title}</p>
         <div className="min-w-px flex-1" />
         {onNewThread && (
           <button
             type="button"
             onClick={onNewThread}
-            className="rounded-md bg-[var(--color-background-badge)] px-[var(--spacing-8)] py-[var(--spacing-4)] text-label-md text-[var(--color-text-link-subtle)]"
+            className="rounded-md bg-[var(--color-app-shell-badge-bg)] px-[var(--spacing-8)] py-[var(--spacing-4)] text-app-label text-[var(--color-app-shell-text-link)]"
           >
             + Thread
           </button>
         )}
       </div>
-      <div className="h-px w-full bg-[var(--color-border-default)]" />
+      <div className="h-px w-full bg-[var(--color-app-shell-border-default)]" />
       <div
         role="log"
         aria-label="Conversation"
@@ -78,21 +86,26 @@ export function AIPanel({ title = "Assistant", messages, inputPlaceholder, onSen
         {messages.map((message, i) =>
           message.role === "user" ? (
             <div key={i} className="flex flex-col items-end">
-              <div className="rounded-bl-xl rounded-br-xl rounded-tl-xl rounded-tr-sm bg-[var(--color-background-prompt)] px-[var(--spacing-12)] py-[var(--spacing-8)] text-body-sm text-neutral-white">
+              <div className="max-w-[var(--spacing-240)] rounded-bl-xl rounded-br-xl rounded-tl-xl rounded-tr-sm bg-[var(--color-app-shell-prompt-bg)] px-[var(--spacing-12)] py-[var(--spacing-8)] text-app-body text-[var(--color-app-shell-text-on-brand)]">
                 {message.content}
               </div>
             </div>
           ) : (
             <div key={i} className="flex flex-col gap-[var(--spacing-8)] items-start">
-              <div className="rounded-bl-xl rounded-br-xl rounded-tl-sm rounded-tr-xl border border-[var(--color-border-table)] bg-[var(--color-background-subtle)] px-[var(--spacing-12)] py-[var(--spacing-8)] text-body-sm text-[var(--color-text-title)]">
+              <div className="max-w-[var(--spacing-240)] rounded-bl-xl rounded-br-xl rounded-tl-sm rounded-tr-xl border border-[var(--color-app-shell-border-table)] bg-[var(--color-app-shell-background)] px-[var(--spacing-12)] py-[var(--spacing-8)] text-app-body text-[var(--color-app-shell-text-heading)]">
                 {message.content}
               </div>
-              {message.actions && <div className="flex items-center gap-[var(--spacing-8)]">{message.actions}</div>}
+              {message.actions && (
+                <div className="flex items-center gap-[var(--spacing-8)]">{message.actions}</div>
+              )}
             </div>
           )
         )}
       </div>
-      <form onSubmit={handleSubmit} className="flex items-center gap-[var(--spacing-8)] p-[var(--spacing-12)]">
+      <form
+        onSubmit={handleSubmit}
+        className="flex items-center gap-[var(--spacing-8)] p-[var(--spacing-12)]"
+      >
         <label className="sr-only" htmlFor="ai-panel-input">
           Message
         </label>
@@ -102,12 +115,12 @@ export function AIPanel({ title = "Assistant", messages, inputPlaceholder, onSen
           value={value}
           onChange={(e) => setValue(e.target.value)}
           placeholder={inputPlaceholder}
-          className="flex-1 rounded-lg border border-[var(--color-border-input)] bg-[var(--color-background-subtle)] px-[var(--spacing-12)] py-[var(--spacing-8)] text-body-sm text-[var(--color-text-secondary)] placeholder:text-[var(--color-text-secondary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)]"
+          className="min-w-0 flex-1 rounded-lg border border-[var(--color-app-shell-border-input)] bg-[var(--color-app-shell-background)] px-[var(--spacing-12)] py-[var(--spacing-8)] text-app-body text-[var(--color-app-shell-text-secondary)] placeholder:text-[var(--color-app-shell-text-secondary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)]"
         />
         <button
           type="submit"
           aria-label="Send message"
-          className="flex size-[var(--spacing-32)] shrink-0 items-center justify-center rounded-lg bg-neutral-800 text-neutral-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--color-border-focus)]"
+          className="flex size-[var(--spacing-32)] shrink-0 items-center justify-center rounded-lg bg-[var(--color-app-shell-button-accent-bg)] text-[var(--color-app-shell-button-accent-text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--color-border-focus)]"
         >
           <span aria-hidden>↑</span>
         </button>
