@@ -34,6 +34,7 @@ export * from "./composite/EmptyState";
 export * from "./composite/Toast";
 export * from "./composite/SplitButton";
 export * from "./composite/PageHeader";
+export * from "./composite/AIPanel";
 
 // Layout
 export * from "./layout/Container";

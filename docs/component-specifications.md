@@ -374,6 +374,7 @@ Secondary
 Tertiary
 Outline
 Link
+Accent
 ```
 
 ### Primary
@@ -408,6 +409,18 @@ attention.
 ### Link
 
 Use when the interaction visually resembles a text action. Use a semantic link element when the action navigates.
+
+### Accent
+
+Added 2026-07-20, sourced from the canonical Figma "AppShell" page
+(Lumen-AI-Design-System, node `1007:3700`, `Breakpoint=Desktop/Theme=Light`
+instance `1127:4196`) via `get_variable_defs`: `btn/accent/bg` (#2B2F2F,
+rounds to the existing `neutral.800`) and `btn/accent/text` (white) — a
+deliberate, non-brand near-black treatment confirmed as intentional (not
+stale Figma authoring) for dashboard/AppShell contexts, e.g. `PageHeader`'s
+primary action and `AIPanel`'s send button. Only the Default state was
+sourced; hover/active/focus are a reasonable placeholder (there is no
+darker neutral step to fall back to), not independently Figma-confirmed.
 
 ## Modifiers
 
@@ -503,7 +516,7 @@ exists on the Figma component or the shipped implementation; removed.
 Property contract (framework-neutral — every framework package exposes these, named and typed identically in spirit):
 
 ```text
-variant   enum: primary | raised | secondary | tertiary | outline | link
+variant   enum: primary | raised | secondary | tertiary | outline | link | accent
 size      enum: xs | sm | md | lg
 status    enum: success | warning | error (optional — no value means no status tint)
 iconOnly  boolean
@@ -519,7 +532,7 @@ Reference implementation — React (`@lumen/ui`, `packages/ui/src/primitives/But
 ```ts
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "raised" | "secondary" | "tertiary" | "outline" | "link";
+  variant?: "primary" | "raised" | "secondary" | "tertiary" | "outline" | "link" | "accent";
   size?: "xs" | "sm" | "md" | "lg";
   status?: "success" | "warning" | "error";
   iconStart?: React.ReactNode;
@@ -2891,3 +2904,158 @@ when not provided.
 ## Change history
 
 - 2026-07-20: added, sourced from node `1197:1652`.
+
+# 51. AI Panel
+
+## Status
+
+Baseline specification, added 2026-07-20.
+
+## Figma source
+
+- Node: `1007:3700` (canonical "AppShell" page), `AIPanel` component
+  `1079:3141`, re-verified against the `Breakpoint=Desktop/Theme=Light`
+  composition `1127:4196`, instance `1119:3351`
+- Last synchronized: 2026-07-20
+
+## Purpose
+
+A persistent right-side assistant chat panel within an application shell —
+header, a scrollable conversation, and a message input.
+
+## When to use
+
+- Alongside `AppShell`'s content area, for AI-assisted workflows where the
+  assistant should stay visible while the user works the primary content.
+
+## When not to use
+
+- A one-off AI response inline in page content — use `AIResponse`/
+  `AIConfidence` (§31–32) instead.
+- A modal or transient AI interaction — this is a persistent panel, not an
+  overlay.
+
+## Anatomy
+
+```text
+AI Panel
+├── Header
+│   ├── Icon
+│   ├── Title ("Assistant")
+│   └── "+Thread" control (optional)
+├── Conversation
+│   ├── User prompt bubble (right-aligned)
+│   └── Assistant response bubble (left-aligned)
+│       └── Action buttons (optional, e.g. "Review draft")
+└── Input row
+    ├── Text input
+    └── Send button
+```
+
+## Variants
+
+None.
+
+## Sizes
+
+None — fixed 304px width, matching the sourced instance.
+
+## States
+
+Conversation content is caller-supplied (`messages` prop); the panel itself
+has no state beyond the text input's own value.
+
+## Properties
+
+Property contract (framework-neutral):
+
+```text
+title            string, optional, default "Assistant"
+messages         array of { role: "user" | "assistant", content, actions? }, required
+inputPlaceholder string, optional
+onSend           (value: string) => void, optional — called with the trimmed input value on submit
+onNewThread      () => void, optional — shows the "+Thread" control when provided
+```
+
+## Behavior
+
+- Submitting the input (Enter or the send button) calls `onSend` with the
+  trimmed value and clears the input; empty/whitespace-only submissions are
+  ignored.
+- The panel does not manage conversation state itself — the caller owns
+  `messages` and appends to it in response to `onSend`.
+
+## Accessibility
+
+- The message list is exposed as `role="log"` with `aria-label="Conversation"`
+  and `aria-live="polite"` so new messages are announced without being
+  overly disruptive — not independently verified with a screen reader this
+  pass; manual review recommended before marking Stable (`docs/
+  accessibility.md` §20/§21 requires manual screen-reader testing for
+  critical interactions).
+- The input has a visually-hidden `<label>` ("Message") rather than relying
+  on the placeholder as a label, per `docs/accessibility.md` §9.
+- The send button has `aria-label="Send message"` (icon-only).
+
+## Content guidance
+
+- Keep assistant responses concise; long responses should still read
+  naturally inside a 304px-wide bubble.
+- Action button labels should be specific verbs ("Review draft"), not
+  generic ("OK").
+
+## Tokens
+
+```text
+color.background.default / color.background.subtle
+color.background.prompt      (new — user prompt bubble fill)
+color.background.badge       (new — "+Thread" control fill)
+color.text.link-subtle       (new — "+Thread" control text)
+color.border.default / color.border.table (new — response bubble border)
+color.border.input           (new — text input border)
+color.border.focus
+```
+
+## Known limitations
+
+- The header icon uses the existing `LmAisymbolIcon` rather than Figma's
+  `lm-ai-outline`, which has no corresponding entry in this repo's icon set.
+- React only — no `@lumen/web-components`/`@lumen/angular` equivalent;
+  not expected, this is a composite/layout-level piece like `PageHeader`,
+  not a primitive.
+- Screen-reader behavior for the live region is not independently verified.
+
+## Reference implementation (React)
+
+```ts
+export interface AIPanelMessage {
+  role: "user" | "assistant";
+  content: React.ReactNode;
+  actions?: React.ReactNode;
+}
+
+export interface AIPanelProps {
+  title?: string;
+  messages: AIPanelMessage[];
+  inputPlaceholder?: string;
+  onSend?: (value: string) => void;
+  onNewThread?: () => void;
+  className?: string;
+}
+```
+
+Source: `packages/ui/src/composite/AIPanel.tsx`.
+
+## Storybook
+
+`Composite/AIPanel` — Playground, Interactive, Empty.
+
+## Testing
+
+Unit tests cover title/message rendering, assistant-message actions, the
+conditional "+Thread" control, submit-and-clear behavior, empty-submission
+rejection, and the labeled live region.
+
+## Change history
+
+- 2026-07-20: added, sourced from node `1007:3700`.

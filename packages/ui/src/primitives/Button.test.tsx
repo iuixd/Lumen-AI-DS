@@ -197,6 +197,13 @@ describe("Button", () => {
     expect(className).toMatch(/\bactive:text-neutral-white\b/);
   });
 
+  it("renders the accent variant with a near-black background and white text", () => {
+    render(<Button variant="accent">New project</Button>);
+    const className = screen.getByRole("button", { name: "New project" }).className;
+    expect(className).toMatch(/\bbg-neutral-800\b/);
+    expect(className).toMatch(/\btext-neutral-white\b/);
+  });
+
   it("lets disabled styling win over a status tint when both are set", () => {
     render(
       <Button status="success" disabled>

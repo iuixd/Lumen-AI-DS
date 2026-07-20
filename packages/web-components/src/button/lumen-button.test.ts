@@ -109,6 +109,11 @@ describe("lumen-button", () => {
     expect(el.getAttribute("variant")).toBe("outline");
   });
 
+  it("reflects variant=accent as a host attribute", async () => {
+    const el = await renderButton('<lumen-button variant="accent">New project</lumen-button>');
+    expect(el.getAttribute("variant")).toBe("accent");
+  });
+
   it("defaults to variant=primary and size=md", async () => {
     const el = await renderButton("<lumen-button>Save changes</lumen-button>");
     expect(el.getAttribute("variant")).toBe("primary");

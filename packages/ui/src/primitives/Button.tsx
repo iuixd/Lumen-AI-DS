@@ -91,7 +91,21 @@ export const buttonVariants = cva(
           "border-[var(--color-brand-border-strong)] bg-transparent text-[var(--color-brand-default)] hover:border-[var(--color-brand-subtle)] hover:bg-[var(--color-brand-subtle)] active:border-transparent active:bg-[var(--color-brand-solid-active)] active:text-neutral-white aria-disabled:border aria-disabled:border-neutral-200 aria-disabled:bg-neutral-50 aria-disabled:text-neutral-400",
         tertiary:
           "bg-transparent text-[var(--color-brand-default)] hover:bg-[var(--color-brand-subtle)] active:bg-[var(--color-brand-subtle-pressed)] aria-disabled:bg-transparent aria-disabled:text-neutral-400",
-        link: "min-w-0 border-0 bg-transparent p-[var(--spacing-4)] text-[var(--color-brand-default)] hover:underline active:underline aria-disabled:text-neutral-400"
+        link: "min-w-0 border-0 bg-transparent p-[var(--spacing-4)] text-[var(--color-brand-default)] hover:underline active:underline aria-disabled:text-neutral-400",
+        // Sourced from the canonical "AppShell" page (Lumen-AI-Design-System, node
+        // 1007:3700, Breakpoint=Desktop/Theme=Light instance 1127:4196) via
+        // get_variable_defs: `btn/accent/bg` (#2B2F2F, rounds to the existing
+        // neutral.800 — a ~5-per-channel difference, the same "round to nearest
+        // existing token" treatment already applied elsewhere in this file) and
+        // `btn/accent/text` (white). Used for the PageHeader "New project" button
+        // and the AIPanel's send button — a deliberately different, non-brand
+        // accent treatment for this dashboard context, not a redefinition of
+        // `primary`. Only the Default state was sourced; no hover/active/focus
+        // instance was available, so hover/active below are a reasonable
+        // lighten-on-interaction placeholder (neutral.800 has no darker step to
+        // go to), not Figma-confirmed — revisit once an instance exists.
+        accent:
+          "bg-neutral-800 text-neutral-white hover:bg-neutral-700 active:bg-neutral-600 focus-visible:border-neutral-600 aria-disabled:bg-neutral-50 aria-disabled:text-neutral-400"
       },
       size: {
         xs: "h-[var(--spacing-32)] min-w-[var(--spacing-64)] px-[var(--spacing-10)] py-[var(--spacing-5)] text-button-xs",

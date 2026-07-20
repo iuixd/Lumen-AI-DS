@@ -25,6 +25,11 @@ export interface PageHeaderProps {
  * use `label-md` (12px/18, weight 600 — Figma specs 12px/16, weight 400),
  * and description uses `body-xs` (12px/20 — Figma specs 13px/20). Both
  * roundings are documented, minor, and intentional, not unverified guesses.
+ * Breadcrumb link color corrected 2026-07-20 against the canonical
+ * "AppShell" page (node 1007:3700, instance `1119:3341`) — non-current
+ * crumbs use `text.link-subtle` (blue), not `text.secondary` (gray) as the
+ * example instance this was first sourced from suggested; only the current
+ * (non-link) crumb stays `text.body`.
  */
 export function PageHeader({ breadcrumbs, title, description, actions, className }: PageHeaderProps) {
   return (
@@ -35,7 +40,7 @@ export function PageHeader({ breadcrumbs, title, description, actions, className
       )}
     >
       {breadcrumbs && breadcrumbs.length > 0 && (
-        <nav aria-label="Breadcrumb" className="flex items-center gap-[var(--spacing-6)] text-label-md text-[var(--color-text-secondary)]">
+        <nav aria-label="Breadcrumb" className="flex items-center gap-[var(--spacing-6)] text-label-md">
           {breadcrumbs.map((crumb, i) => (
             <span key={crumb.label} className="flex items-center gap-[var(--spacing-6)]">
               {i > 0 && (
@@ -44,13 +49,15 @@ export function PageHeader({ breadcrumbs, title, description, actions, className
                 </span>
               )}
               {crumb.href && i < breadcrumbs.length - 1 ? (
-                <a href={crumb.href} className="hover:text-[var(--color-text-body)]">
+                <a href={crumb.href} className="text-[var(--color-text-link-subtle)] hover:underline">
                   {crumb.label}
                 </a>
               ) : (
                 <span
                   aria-current={i === breadcrumbs.length - 1 ? "page" : undefined}
-                  className={i === breadcrumbs.length - 1 ? "text-[var(--color-text-body)]" : undefined}
+                  className={
+                    i === breadcrumbs.length - 1 ? "text-[var(--color-text-body)]" : "text-[var(--color-text-secondary)]"
+                  }
                 >
                   {crumb.label}
                 </span>
