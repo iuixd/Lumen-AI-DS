@@ -56,11 +56,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           disabled={disabled}
           size={nativeSize}
           className={cn(
-            "box-border w-full rounded-lg border bg-[var(--color-input-primary-bg)] py-[var(--spacing-7)] text-[var(--color-text-title)] placeholder:text-[var(--color-input-primary-placeholder-text)]",
-            "border-[var(--color-input-primary-border)] hover:border-[1.5px] hover:border-[var(--color-input-primary-hover-border)] focus-visible:border-[2.5px] focus-visible:border-[var(--color-input-primary-focused-border)] focus-visible:outline-none",
-            visualSize === "sm" && "h-[var(--spacing-36)] px-[var(--spacing-10)] text-input-sm",
-            visualSize === "md" && "h-[var(--spacing-44)] px-[var(--spacing-14)] text-input-md",
-            visualSize === "lg" && "h-[var(--spacing-60)] px-[var(--spacing-18)] text-input-md",
+            "box-border w-full rounded-lg border-solid bg-[var(--color-input-primary-bg)] py-[var(--spacing-7)] text-[var(--color-text-title)] placeholder:text-[var(--color-input-primary-placeholder-text)]",
+            "border-[var(--color-input-primary-border)] hover:border-[var(--color-input-primary-hover-border)] focus-visible:[border-width:var(--input-field-border-width-focused)] focus-visible:border-[var(--color-input-primary-focused-border)] focus-visible:outline-none",
+            visualSize === "sm" &&
+              "h-[var(--spacing-36)] px-[var(--spacing-10)] text-input-sm [border-width:var(--input-field-border-width-sm)]",
+            visualSize === "md" &&
+              "h-[var(--spacing-44)] px-[var(--spacing-14)] text-input-md [border-width:var(--input-field-border-width-md)]",
+            visualSize === "lg" &&
+              "h-[var(--spacing-60)] px-[var(--spacing-18)] text-input-lg [border-width:var(--input-field-border-width-lg)]",
             isSearch &&
               "bg-[var(--color-input-search-bg)] border-[var(--color-input-search-border)] hover:border-[var(--color-input-search-hover-border)] focus-visible:border-[var(--color-input-search-focused-border)]",
             icon && visualSize === "sm" && "pl-[var(--spacing-32)]",

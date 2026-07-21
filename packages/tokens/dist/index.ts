@@ -171,6 +171,7 @@ export const colorPrimitives = {
   "button.dark.disabled-on-action": "#7B777C",
   "button.dark.secondary-hover-bg": "#2D1A26",
   "button.dark.link-hover-bg": "#002121",
+  "input.light.disabled-border": "#D9DEE0",
   "app-shell.light.text-primary": "#1E2021",
   "app-shell.light.text-heading": "#2B2F2F",
   "app-shell.light.status-success-bg": "#E5F9EC",
@@ -244,7 +245,10 @@ export const semanticColor = {
       "search-bg": "lumen-gray.50",
       "search-border": "lumen-gray.300",
       "search-hover-border": "lumen-gray.700",
-      "search-focused-border": "primary.100"
+      "search-focused-border": "primary.100",
+      "radio-checkbox-selected": "neutral.black",
+      "radio-checkbox-selected-text": "neutral.white",
+      "radio-checkbox-disabled-border": "input.light.disabled-border"
     },
     "button": {
       "disabled-background": "lumen-gray.100",
@@ -396,7 +400,10 @@ export const semanticColor = {
       "search-bg": "lumen-gray.800",
       "search-border": "lumen-gray.500",
       "search-hover-border": "lumen-gray.100",
-      "search-focused-border": "primary.700"
+      "search-focused-border": "primary.700",
+      "radio-checkbox-selected": "neutral.white",
+      "radio-checkbox-selected-text": "neutral.black",
+      "radio-checkbox-disabled-border": "app-shell.dark.button-disabled-border"
     },
     "button": {
       "disabled-background": "app-shell.dark.button-disabled-bg",
@@ -646,6 +653,12 @@ export const typography = {
       "lineHeight": 18,
       "weight": 400,
       "usage": "Input placeholder and value text, sizes md and lg (Figma Body/Medium)"
+    },
+    "input-lg": {
+      "fontSize": 16,
+      "lineHeight": 26,
+      "weight": 600,
+      "usage": "Input placeholder and value text, size lg (Figma Body/Medium Bold)"
     },
     "input-sm": {
       "fontSize": 14,
@@ -1115,9 +1128,148 @@ export const breakpoint = {
     "value": 1024
   }
 } as const;
+export const input = {
+  "_comment": "Component geometry tokens sourced from the Input, Radio, and Checkbox collections on the AppShell page of Lumen-AI-Design-System (nodes 1262:1181, 1278:2153, and 1278:2207). Values are emitted as --input-* CSS custom properties; fractional values are preserved because they are the exact scaled vector geometry in Figma.",
+  "field-border-width": {
+    "sm": {
+      "value": 1
+    },
+    "md": {
+      "value": 1.5
+    },
+    "lg": {
+      "value": 2
+    },
+    "focused": {
+      "value": 2.5
+    }
+  },
+  "control-size": {
+    "sm": {
+      "value": 24
+    },
+    "md": {
+      "value": 28
+    },
+    "lg": {
+      "value": 32
+    }
+  },
+  "indicator-size": {
+    "sm": {
+      "value": 16
+    },
+    "md": {
+      "value": 18.667
+    },
+    "lg": {
+      "value": 21.333
+    }
+  },
+  "selection-border-width": {
+    "sm": {
+      "value": 1.143
+    },
+    "md": {
+      "value": 1.5
+    },
+    "lg": {
+      "value": 2
+    }
+  },
+  "radio-dot-size": {
+    "sm": {
+      "value": 8
+    },
+    "md": {
+      "value": 9.333
+    },
+    "lg": {
+      "value": 10.667
+    }
+  },
+  "checkbox-radius": {
+    "sm": {
+      "value": 2.286
+    },
+    "md": {
+      "value": 2.657
+    },
+    "lg": {
+      "value": 3.037
+    }
+  },
+  "focus-width": {
+    "sm": {
+      "value": 2.5
+    },
+    "md": {
+      "value": 2.5
+    },
+    "lg": {
+      "value": 2.857
+    }
+  },
+  "focus-radius": {
+    "sm": {
+      "value": 6.12
+    },
+    "md": {
+      "value": 6.48
+    },
+    "lg": {
+      "value": 7.406
+    }
+  },
+  "check-width": {
+    "sm": {
+      "value": 8
+    },
+    "md": {
+      "value": 10
+    },
+    "lg": {
+      "value": 11.429
+    }
+  },
+  "check-height": {
+    "sm": {
+      "value": 5.333
+    },
+    "md": {
+      "value": 6.667
+    },
+    "lg": {
+      "value": 7.619
+    }
+  },
+  "indeterminate-width": {
+    "sm": {
+      "value": 8
+    },
+    "md": {
+      "value": 10
+    },
+    "lg": {
+      "value": 11.429
+    }
+  },
+  "indeterminate-height": {
+    "sm": {
+      "value": 1.75
+    },
+    "md": {
+      "value": 2
+    },
+    "lg": {
+      "value": 2.5
+    }
+  }
+} as const;
 
 export type ColorPrimitive = keyof typeof colorPrimitives;
 export type SpacingLayoutKey = keyof typeof spacing.layout;
 export type SpacingKey = keyof typeof spacing.space;
 export type RadiusKey = Exclude<keyof typeof radius, "_comment">;
 export type TypographyStyle = keyof typeof typography.scale;
+export type InputTokenGroup = Exclude<keyof typeof input, "_comment">;

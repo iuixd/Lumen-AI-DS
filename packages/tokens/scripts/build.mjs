@@ -22,6 +22,7 @@ const radius = JSON.parse(readFileSync(path.join(srcDir, "radius.json"), "utf8")
 const shadow = JSON.parse(readFileSync(path.join(srcDir, "shadow.json"), "utf8"));
 const divider = JSON.parse(readFileSync(path.join(srcDir, "divider.json"), "utf8"));
 const breakpoint = JSON.parse(readFileSync(path.join(srcDir, "breakpoint.json"), "utf8"));
+const input = JSON.parse(readFileSync(path.join(srcDir, "input.json"), "utf8"));
 
 function kebab(str) {
   return String(str).replace(/[._]/g, "-");
@@ -34,6 +35,19 @@ function flattenPrimitiveColors(obj, prefix = []) {
       out[[...prefix, key].join(".")] = val.value;
     } else if (val && typeof val === "object") {
       Object.assign(out, flattenPrimitiveColors(val, [...prefix, key]));
+    }
+  }
+  return out;
+}
+
+function flattenValueTokens(obj, prefix = []) {
+  const out = {};
+  for (const [key, val] of Object.entries(obj)) {
+    if (key.startsWith("_")) continue;
+    if (val && typeof val === "object" && "value" in val) {
+      out[[...prefix, key].join("-")] = val.value;
+    } else if (val && typeof val === "object") {
+      Object.assign(out, flattenValueTokens(val, [...prefix, key]));
     }
   }
   return out;
@@ -95,6 +109,10 @@ css += "\n  /* responsive breakpoints */\n";
 for (const [key, val] of Object.entries(breakpoint)) {
   if (key.startsWith("_")) continue;
   css += `  --breakpoint-${kebab(key)}: ${val.value}px;\n`;
+}
+css += "\n  /* input, radio, and checkbox component geometry */\n";
+for (const [key, value] of Object.entries(flattenValueTokens(input))) {
+  css += `  --input-${kebab(key)}: ${value}px;\n`;
 }
 
 // :root carries the light theme as the default — every consuming app gets
@@ -241,12 +259,14 @@ export const radius = ${JSON.stringify(radius, null, 2)} as const;
 export const shadow = ${JSON.stringify(shadow, null, 2)} as const;
 export const divider = ${JSON.stringify(divider, null, 2)} as const;
 export const breakpoint = ${JSON.stringify(breakpoint, null, 2)} as const;
+export const input = ${JSON.stringify(input, null, 2)} as const;
 
 export type ColorPrimitive = keyof typeof colorPrimitives;
 export type SpacingLayoutKey = keyof typeof spacing.layout;
 export type SpacingKey = keyof typeof spacing.space;
 export type RadiusKey = Exclude<keyof typeof radius, "_comment">;
 export type TypographyStyle = keyof typeof typography.scale;
+export type InputTokenGroup = Exclude<keyof typeof input, "_comment">;
 `;
 writeFileSync(path.join(distDir, "index.ts"), indexTs);
 

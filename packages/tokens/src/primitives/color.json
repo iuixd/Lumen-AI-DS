@@ -218,6 +218,12 @@
       "link-hover-bg": { "value": "#002121" }
     }
   },
+  "input": {
+    "_comment": "Exact component-only colors from the AppShell Input, Radio, and Checkbox collections. Added only where no existing primitive is an exact match.",
+    "light": {
+      "disabled-border": { "value": "#D9DEE0" }
+    }
+  },
   "app-shell": {
     "_comment": "Exact AppShell-only primitives sourced from Lumen-AI-Design-System node 1007:3700 and its six Breakpoint/Theme instances (1127:4196, 1127:4197, 1175:2521, 1175:2522, 1175:2588, 1175:2589). These values intentionally remain distinct where they are only near-matches for an existing ramp step; AppShell parity must not round them.",
     "_latestSource": "button-disabled-bg, button-disabled-border, and brand-stroke were added from the Lumen/Theme Variables collection on 2026-07-20 (variables 1222:607, 1222:608, and the Nightshade/700 alias used by 1214:547).",

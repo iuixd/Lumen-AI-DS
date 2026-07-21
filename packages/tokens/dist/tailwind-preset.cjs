@@ -175,6 +175,7 @@ module.exports = {
   "button-dark-disabled-on-action": "var(--color-button-dark-disabled-on-action)",
   "button-dark-secondary-hover-bg": "var(--color-button-dark-secondary-hover-bg)",
   "button-dark-link-hover-bg": "var(--color-button-dark-link-hover-bg)",
+  "input-light-disabled-border": "var(--color-input-light-disabled-border)",
   "app-shell-light-text-primary": "var(--color-app-shell-light-text-primary)",
   "app-shell-light-text-heading": "var(--color-app-shell-light-text-heading)",
   "app-shell-light-status-success-bg": "var(--color-app-shell-light-status-success-bg)",
@@ -236,6 +237,9 @@ module.exports = {
   "input-search-border": "var(--color-input-search-border)",
   "input-search-hover-border": "var(--color-input-search-hover-border)",
   "input-search-focused-border": "var(--color-input-search-focused-border)",
+  "input-radio-checkbox-selected": "var(--color-input-radio-checkbox-selected)",
+  "input-radio-checkbox-selected-text": "var(--color-input-radio-checkbox-selected-text)",
+  "input-radio-checkbox-disabled-border": "var(--color-input-radio-checkbox-disabled-border)",
   "button-disabled-background": "var(--color-button-disabled-background)",
   "button-disabled-border": "var(--color-button-disabled-border)",
   "button-disabled-text": "var(--color-button-disabled-text)",
@@ -486,6 +490,13 @@ module.exports = {
     {
       "lineHeight": "var(--text-input-md-line-height)",
       "fontWeight": "var(--text-input-md-weight)"
+    }
+  ],
+  "input-lg": [
+    "var(--text-input-lg-size)",
+    {
+      "lineHeight": "var(--text-input-lg-line-height)",
+      "fontWeight": "var(--text-input-lg-weight)"
     }
   ],
   "input-sm": [

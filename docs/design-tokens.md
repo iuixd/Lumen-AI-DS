@@ -91,18 +91,23 @@ input/primary/focused-border
 input/primary/error-border
 input/search/bg
 input/search/icon
+input/radio-checkbox/selected
+input/radio-checkbox/selected-text
+input/radio-checkbox/disabled-border
 ```
 
 Component tokens should alias semantic or primitive tokens rather than duplicate raw values.
 
-The Input collection at Figma node `1262:1181` maps these component roles to
-existing primitives in `packages/tokens/src/semantic/color.json`. Its `sm`,
-`md`, and `lg` geometry uses the shared spacing/radius scale, while
-`input-sm`, `input-md`, and `input-shortcut` preserve the component's exact
-14/16, 16/18, and 11/16 typography instead of reusing body styles with
-different line heights. Figma currently publishes only the light mode;
-the dark aliases follow Lumen's documented ramp-mirroring rule and remain
-provisional until a dark Input collection is published.
+The Input, Radio, and Checkbox collections at Figma nodes `1262:1181`,
+`1278:2153`, and `1278:2207` map these component roles in
+`packages/tokens/src/semantic/color.json`. Exact component geometry lives in
+`packages/tokens/src/input.json` and emits `--input-*` variables for field
+border widths, control/indicator sizes, Radio dots, Checkbox radii and glyph
+dimensions, and focus geometry. `input-sm`, `input-md`, `input-lg`, and
+`input-shortcut` preserve exact component typography instead of reusing body
+styles with different line heights or weights. Figma currently publishes only
+the light mode; dark aliases remain provisional until dark control collections
+are published.
 
 ---
 

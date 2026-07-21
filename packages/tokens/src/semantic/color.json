@@ -45,7 +45,10 @@
       "search-bg": "lumen-gray.50",
       "search-border": "lumen-gray.300",
       "search-hover-border": "lumen-gray.700",
-      "search-focused-border": "primary.100"
+      "search-focused-border": "primary.100",
+      "radio-checkbox-selected": "neutral.black",
+      "radio-checkbox-selected-text": "neutral.white",
+      "radio-checkbox-disabled-border": "input.light.disabled-border"
     },
     "button": {
       "disabled-background": "lumen-gray.100",
@@ -197,7 +200,10 @@
       "search-bg": "lumen-gray.800",
       "search-border": "lumen-gray.500",
       "search-hover-border": "lumen-gray.100",
-      "search-focused-border": "primary.700"
+      "search-focused-border": "primary.700",
+      "radio-checkbox-selected": "neutral.white",
+      "radio-checkbox-selected-text": "neutral.black",
+      "radio-checkbox-disabled-border": "app-shell.dark.button-disabled-border"
     },
     "button": {
       "disabled-background": "app-shell.dark.button-disabled-bg",

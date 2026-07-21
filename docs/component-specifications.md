@@ -774,6 +774,19 @@ Disabled
 Invalid
 ```
 
+## Sizes
+
+```text
+Sm — 24px target, 16px indicator
+Md — 28px target, 18.667px indicator
+Lg — 32px target, 21.333px indicator
+```
+
+Figma source: node `1278:2207`. `invalid` maps Error, `indeterminate` sets the
+native DOM property and renders the Figma-sourced indeterminate glyph, and
+Disabled remains the native `disabled` behavior. Checked and Indeterminate use
+the theme-aware `input.radio-checkbox.*` roles.
+
 ## Requirements
 
 - Label must be clickable.
@@ -795,6 +808,13 @@ Radio Group allows one selection from a mutually exclusive set.
 - Arrow keys move selection.
 - A visible group label is required.
 - Do not use a Radio Group for multi-select behavior.
+
+Individual `Radio` controls use Figma node `1278:2153`: `sm`, `md`, and `lg`
+provide 24px, 28px, and 32px targets around exact 16px, 18.667px, and 21.333px
+indicators. Default, Hover, Focused, Selected, Disabled, and Error appearances
+bind to the shared `input.primary.*` and `input.radio-checkbox.*` roles. Error
+is visual on the control; semantic validation belongs on the containing
+radiogroup/fieldset because `aria-invalid` is not supported on role `radio`.
 
 ---
 

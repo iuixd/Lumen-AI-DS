@@ -6,10 +6,12 @@ describe("Input", () => {
   it.each([
     ["sm", "h-[var(--spacing-36)]", "text-input-sm"],
     ["md", "h-[var(--spacing-44)]", "text-input-md"],
-    ["lg", "h-[var(--spacing-60)]", "text-input-md"]
-  ] as const)("binds the %s Figma size tokens", (size, height, typography) => {
+    ["lg", "h-[var(--spacing-60)]", "text-input-lg"]
+  ] as const)("binds the updated %s Figma size tokens", (size, height, typography) => {
     render(<Input aria-label={size} size={size} />);
-    expect(screen.getByRole("textbox", { name: size })).toHaveClass(height, typography);
+    const input = screen.getByRole("textbox", { name: size });
+    expect(input).toHaveClass(height, typography);
+    expect(input.className).toContain(`--input-field-border-width-${size}`);
   });
 
   it("preserves the native numeric size attribute", () => {

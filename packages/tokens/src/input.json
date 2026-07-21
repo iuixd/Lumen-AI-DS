@@ -1,0 +1,64 @@
+{
+  "_comment": "Component geometry tokens sourced from the Input, Radio, and Checkbox collections on the AppShell page of Lumen-AI-Design-System (nodes 1262:1181, 1278:2153, and 1278:2207). Values are emitted as --input-* CSS custom properties; fractional values are preserved because they are the exact scaled vector geometry in Figma.",
+  "field-border-width": {
+    "sm": { "value": 1 },
+    "md": { "value": 1.5 },
+    "lg": { "value": 2 },
+    "focused": { "value": 2.5 }
+  },
+  "control-size": {
+    "sm": { "value": 24 },
+    "md": { "value": 28 },
+    "lg": { "value": 32 }
+  },
+  "indicator-size": {
+    "sm": { "value": 16 },
+    "md": { "value": 18.667 },
+    "lg": { "value": 21.333 }
+  },
+  "selection-border-width": {
+    "sm": { "value": 1.143 },
+    "md": { "value": 1.5 },
+    "lg": { "value": 2 }
+  },
+  "radio-dot-size": {
+    "sm": { "value": 8 },
+    "md": { "value": 9.333 },
+    "lg": { "value": 10.667 }
+  },
+  "checkbox-radius": {
+    "sm": { "value": 2.286 },
+    "md": { "value": 2.657 },
+    "lg": { "value": 3.037 }
+  },
+  "focus-width": {
+    "sm": { "value": 2.5 },
+    "md": { "value": 2.5 },
+    "lg": { "value": 2.857 }
+  },
+  "focus-radius": {
+    "sm": { "value": 6.12 },
+    "md": { "value": 6.48 },
+    "lg": { "value": 7.406 }
+  },
+  "check-width": {
+    "sm": { "value": 8 },
+    "md": { "value": 10 },
+    "lg": { "value": 11.429 }
+  },
+  "check-height": {
+    "sm": { "value": 5.333 },
+    "md": { "value": 6.667 },
+    "lg": { "value": 7.619 }
+  },
+  "indeterminate-width": {
+    "sm": { "value": 8 },
+    "md": { "value": 10 },
+    "lg": { "value": 11.429 }
+  },
+  "indeterminate-height": {
+    "sm": { "value": 1.75 },
+    "md": { "value": 2 },
+    "lg": { "value": 2.5 }
+  }
+}

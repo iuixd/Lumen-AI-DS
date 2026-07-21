@@ -171,6 +171,7 @@
   --color-button-dark-disabled-on-action: #7B777C;
   --color-button-dark-secondary-hover-bg: #2D1A26;
   --color-button-dark-link-hover-bg: #002121;
+  --color-input-light-disabled-border: #D9DEE0;
   --color-app-shell-light-text-primary: #1E2021;
   --color-app-shell-light-text-heading: #2B2F2F;
   --color-app-shell-light-status-success-bg: #E5F9EC;
@@ -332,6 +333,9 @@
   --text-input-md-size: 16px;
   --text-input-md-line-height: 18px;
   --text-input-md-weight: 400;
+  --text-input-lg-size: 16px;
+  --text-input-lg-line-height: 26px;
+  --text-input-lg-weight: 600;
   --text-input-sm-size: 14px;
   --text-input-sm-line-height: 16px;
   --text-input-sm-weight: 400;
@@ -452,6 +456,45 @@
   --breakpoint-tablet: 768px;
   --breakpoint-desktop: 1024px;
 
+  /* input, radio, and checkbox component geometry */
+  --input-field-border-width-sm: 1px;
+  --input-field-border-width-md: 1.5px;
+  --input-field-border-width-lg: 2px;
+  --input-field-border-width-focused: 2.5px;
+  --input-control-size-sm: 24px;
+  --input-control-size-md: 28px;
+  --input-control-size-lg: 32px;
+  --input-indicator-size-sm: 16px;
+  --input-indicator-size-md: 18.667px;
+  --input-indicator-size-lg: 21.333px;
+  --input-selection-border-width-sm: 1.143px;
+  --input-selection-border-width-md: 1.5px;
+  --input-selection-border-width-lg: 2px;
+  --input-radio-dot-size-sm: 8px;
+  --input-radio-dot-size-md: 9.333px;
+  --input-radio-dot-size-lg: 10.667px;
+  --input-checkbox-radius-sm: 2.286px;
+  --input-checkbox-radius-md: 2.657px;
+  --input-checkbox-radius-lg: 3.037px;
+  --input-focus-width-sm: 2.5px;
+  --input-focus-width-md: 2.5px;
+  --input-focus-width-lg: 2.857px;
+  --input-focus-radius-sm: 6.12px;
+  --input-focus-radius-md: 6.48px;
+  --input-focus-radius-lg: 7.406px;
+  --input-check-width-sm: 8px;
+  --input-check-width-md: 10px;
+  --input-check-width-lg: 11.429px;
+  --input-check-height-sm: 5.333px;
+  --input-check-height-md: 6.667px;
+  --input-check-height-lg: 7.619px;
+  --input-indeterminate-width-sm: 8px;
+  --input-indeterminate-width-md: 10px;
+  --input-indeterminate-width-lg: 11.429px;
+  --input-indeterminate-height-sm: 1.75px;
+  --input-indeterminate-height-md: 2px;
+  --input-indeterminate-height-lg: 2.5px;
+
   /* semantic: light (default) */
   --color-background-default: #FFFFFF;
   --color-background-subtle: #EFEFEF;
@@ -489,6 +532,9 @@
   --color-input-search-border: #C8D1D4;
   --color-input-search-hover-border: #626B6E;
   --color-input-search-focused-border: #F2CCD8;
+  --color-input-radio-checkbox-selected: #000000;
+  --color-input-radio-checkbox-selected-text: #FFFFFF;
+  --color-input-radio-checkbox-disabled-border: #D9DEE0;
   --color-button-disabled-background: #EDF0F1;
   --color-button-disabled-border: #DBE1E2;
   --color-button-disabled-text: #A4B3B7;
@@ -622,6 +668,9 @@
   --color-input-search-border: #A4B3B7;
   --color-input-search-hover-border: #EDF0F1;
   --color-input-search-focused-border: #720024;
+  --color-input-radio-checkbox-selected: #FFFFFF;
+  --color-input-radio-checkbox-selected-text: #000000;
+  --color-input-radio-checkbox-disabled-border: #2C343B;
   --color-button-disabled-background: #20272D;
   --color-button-disabled-border: #2C343B;
   --color-button-disabled-text: #A4B3B7;

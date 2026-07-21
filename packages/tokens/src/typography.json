@@ -120,6 +120,12 @@
       "weight": 400,
       "usage": "Input placeholder and value text, sizes md and lg (Figma Body/Medium)"
     },
+    "input-lg": {
+      "fontSize": 16,
+      "lineHeight": 26,
+      "weight": 600,
+      "usage": "Input placeholder and value text, size lg (Figma Body/Medium Bold)"
+    },
     "input-sm": {
       "fontSize": 14,
       "lineHeight": 16,
