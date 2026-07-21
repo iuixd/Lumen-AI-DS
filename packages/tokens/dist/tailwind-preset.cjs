@@ -224,6 +224,18 @@ module.exports = {
   "border-input": "var(--color-border-input)",
   "border-brand": "var(--color-border-brand)",
   "icon-brand": "var(--color-icon-brand)",
+  "icon-default": "var(--color-icon-default)",
+  "input-primary-placeholder-text": "var(--color-input-primary-placeholder-text)",
+  "input-primary-bg": "var(--color-input-primary-bg)",
+  "input-primary-border": "var(--color-input-primary-border)",
+  "input-primary-hover-border": "var(--color-input-primary-hover-border)",
+  "input-primary-focused-border": "var(--color-input-primary-focused-border)",
+  "input-primary-error-border": "var(--color-input-primary-error-border)",
+  "input-search-icon": "var(--color-input-search-icon)",
+  "input-search-bg": "var(--color-input-search-bg)",
+  "input-search-border": "var(--color-input-search-border)",
+  "input-search-hover-border": "var(--color-input-search-hover-border)",
+  "input-search-focused-border": "var(--color-input-search-focused-border)",
   "button-disabled-background": "var(--color-button-disabled-background)",
   "button-disabled-border": "var(--color-button-disabled-border)",
   "button-disabled-text": "var(--color-button-disabled-text)",
@@ -467,6 +479,27 @@ module.exports = {
     {
       "lineHeight": "var(--text-body-xs-line-height)",
       "fontWeight": "var(--text-body-xs-weight)"
+    }
+  ],
+  "input-md": [
+    "var(--text-input-md-size)",
+    {
+      "lineHeight": "var(--text-input-md-line-height)",
+      "fontWeight": "var(--text-input-md-weight)"
+    }
+  ],
+  "input-sm": [
+    "var(--text-input-sm-size)",
+    {
+      "lineHeight": "var(--text-input-sm-line-height)",
+      "fontWeight": "var(--text-input-sm-weight)"
+    }
+  ],
+  "input-shortcut": [
+    "var(--text-input-shortcut-size)",
+    {
+      "lineHeight": "var(--text-input-shortcut-line-height)",
+      "fontWeight": "var(--text-input-shortcut-weight)"
     }
   ],
   "overline": [

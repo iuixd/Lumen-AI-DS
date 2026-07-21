@@ -84,9 +84,25 @@ button/primary/radius
 button/focus-ring
 button/disabled/bg
 button/disabled/on-action
+input/primary/bg
+input/primary/border
+input/primary/hover-border
+input/primary/focused-border
+input/primary/error-border
+input/search/bg
+input/search/icon
 ```
 
 Component tokens should alias semantic or primitive tokens rather than duplicate raw values.
+
+The Input collection at Figma node `1262:1181` maps these component roles to
+existing primitives in `packages/tokens/src/semantic/color.json`. Its `sm`,
+`md`, and `lg` geometry uses the shared spacing/radius scale, while
+`input-sm`, `input-md`, and `input-shortcut` preserve the component's exact
+14/16, 16/18, and 11/16 typography instead of reusing body styles with
+different line heights. Figma currently publishes only the light mode;
+the dark aliases follow Lumen's documented ramp-mirroring rule and remain
+provisional until a dark Input collection is published.
 
 ---
 

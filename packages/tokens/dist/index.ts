@@ -230,7 +230,21 @@ export const semanticColor = {
       "brand": "primary.100"
     },
     "icon": {
-      "brand": "primary.800"
+      "brand": "primary.800",
+      "default": "neutral.800"
+    },
+    "input": {
+      "primary-placeholder-text": "neutral.400",
+      "primary-bg": "neutral.white",
+      "primary-border": "lumen-gray.300",
+      "primary-hover-border": "lumen-gray.700",
+      "primary-focused-border": "primary.100",
+      "primary-error-border": "red.500",
+      "search-icon": "neutral.800",
+      "search-bg": "lumen-gray.50",
+      "search-border": "lumen-gray.300",
+      "search-hover-border": "lumen-gray.700",
+      "search-focused-border": "primary.100"
     },
     "button": {
       "disabled-background": "lumen-gray.100",
@@ -368,7 +382,21 @@ export const semanticColor = {
       "brand": "app-shell.dark.brand-stroke"
     },
     "icon": {
-      "brand": "primary.200"
+      "brand": "primary.200",
+      "default": "neutral.white"
+    },
+    "input": {
+      "primary-placeholder-text": "neutral.400",
+      "primary-bg": "neutral.800",
+      "primary-border": "lumen-gray.500",
+      "primary-hover-border": "lumen-gray.100",
+      "primary-focused-border": "primary.700",
+      "primary-error-border": "red.300",
+      "search-icon": "neutral.white",
+      "search-bg": "lumen-gray.800",
+      "search-border": "lumen-gray.500",
+      "search-hover-border": "lumen-gray.100",
+      "search-focused-border": "primary.700"
     },
     "button": {
       "disabled-background": "app-shell.dark.button-disabled-bg",
@@ -612,6 +640,24 @@ export const typography = {
       "lineHeight": 20,
       "weight": 400,
       "usage": "Smallest body text (Figma Body xs)"
+    },
+    "input-md": {
+      "fontSize": 16,
+      "lineHeight": 18,
+      "weight": 400,
+      "usage": "Input placeholder and value text, sizes md and lg (Figma Body/Medium)"
+    },
+    "input-sm": {
+      "fontSize": 14,
+      "lineHeight": 16,
+      "weight": 400,
+      "usage": "Input placeholder and value text, size sm (Figma Body/Small)"
+    },
+    "input-shortcut": {
+      "fontSize": 11,
+      "lineHeight": 16,
+      "weight": 500,
+      "usage": "Input search keyboard-shortcut badge"
     },
     "overline": {
       "fontSize": 11,
@@ -937,6 +983,9 @@ export const spacing = {
     },
     "56": {
       "value": 56
+    },
+    "60": {
+      "value": 60
     },
     "64": {
       "value": 64

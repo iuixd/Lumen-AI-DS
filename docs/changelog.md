@@ -56,6 +56,16 @@ Use the following headings for every release:
 
 ### Changed
 
+- Synchronized the React Input and its component tokens with the final Figma Input variant collection.
+  - Affected token group/component: `color.input`, `color.icon.default`, `spacing.60`, `typography.input-{sm,md,shortcut}`, and React `Input`
+  - Figma source: Lumen-AI-Design-System node `1262:1181`, verified with `get_design_context`, `get_metadata`, and `get_variable_defs`
+  - Previous: Input used generic background/border/text tokens, one 40px geometry, a 6px radius, a generic focus ring, and exposed only invalid/disabled stories; no search anatomy or component-scoped Input roles were represented.
+  - Current: `sm`/`md`/`lg` map to 36/44/60px controls with exact 10/14/18px inline padding, 8px radius, 14/16 and 16/18 Input typography, Default/Hover/Focused/Error borders, and an additive search presentation with a 14px leading glyph and optional shortcut badge. Light roles exactly alias the published Figma values; dark aliases follow the repository's documented ramp-mirroring rule and remain provisional because Figma publishes no dark Input mode. Numeric native HTML `size` remains supported.
+  - Affects: `packages/tokens/src/{semantic/color,spacing,typography}.json`, generated token output, `packages/ui/src/primitives/Input.{tsx,stories.tsx,test.tsx}`, `docs/{changelog,component-specifications,design-tokens,figma-sync}.md`
+  - Migration: none — existing props and native attributes remain valid; the default visual height changes from 40px to the Figma `md` height of 44px
+  - Validation: token build passed with all light/dark CSS variables and typed exports confirmed; repository-wide typecheck and lint passed; 291 tests passed (126 React, including 6 Input tests; 68 Web Components; 64 Angular; 27 create-app; 6 patterns); production Storybook built successfully (2,125 modules), and its static index contains Input Docs, Playground, Invalid, Disabled, Search, and Variant Collection entries. Browser-backed visual review could not run because the in-app browser service reported no available session; deployed Storybook verification is pending deployment.
+  - Changeset: `.changeset/input-design-tokens.md` (`@lumen/tokens` minor, `@lumen/ui` minor)
+
 - Replaced every standard Button implementation and Storybook collection with the final light/dark variant collection.
   - Affected token group/component: `color.button` semantic roles and Button in React, Web Components, Angular, Storybook, AppShell, and AIPanel
   - Figma source: Lumen-AI-Design-System node `1027:3733` (`Button` collection frame `1174:1349`), verified with `get_design_context`, `get_metadata`, and per-instance `get_variable_defs`

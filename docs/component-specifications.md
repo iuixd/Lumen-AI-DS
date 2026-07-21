@@ -670,7 +670,6 @@ Text Input collects a single line of user-entered text.
 ```text
 Default
 Search
-Password
 ```
 
 ## Sizes
@@ -687,11 +686,7 @@ Lg
 Default
 Hover
 Focus
-Filled
-Disabled
-Read Only
 Invalid
-Success
 ```
 
 ## Anatomy
@@ -713,6 +708,18 @@ Input
 - Password visibility toggle requires an accessible name.
 - Search input may use a clear action and submit behavior.
 - Read-only and disabled must remain visually distinct.
+
+## Figma and code mapping
+
+- Source: Lumen AI Design System node `1262:1181`.
+- `size="sm" | "md" | "lg"` maps to 36px, 44px, and 60px control heights.
+- `variant="search"` adds the 14px search icon, search surface roles, and an
+  optional keyboard-shortcut badge; `leadingIcon` may replace the default glyph.
+- `invalid` maps the Error state and sets `aria-invalid`.
+- Numeric `size` values continue to pass through to the native HTML input
+  attribute; string values select Lumen visual geometry.
+- Disabled and read-only remain native HTML behaviors. They are supported by
+  the component API but are not part of this Figma collection's four-state matrix.
 
 ---
 

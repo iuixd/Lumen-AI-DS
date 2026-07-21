@@ -114,6 +114,24 @@
       "weight": 400,
       "usage": "Smallest body text (Figma Body xs)"
     },
+    "input-md": {
+      "fontSize": 16,
+      "lineHeight": 18,
+      "weight": 400,
+      "usage": "Input placeholder and value text, sizes md and lg (Figma Body/Medium)"
+    },
+    "input-sm": {
+      "fontSize": 14,
+      "lineHeight": 16,
+      "weight": 400,
+      "usage": "Input placeholder and value text, size sm (Figma Body/Small)"
+    },
+    "input-shortcut": {
+      "fontSize": 11,
+      "lineHeight": 16,
+      "weight": 500,
+      "usage": "Input search keyboard-shortcut badge"
+    },
     "overline": {
       "fontSize": 11,
       "lineHeight": 16,
