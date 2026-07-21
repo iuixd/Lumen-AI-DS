@@ -233,6 +233,7 @@ function MobileHeader() {
 function StatusBadge({ tone, children }: { tone: "success" | "warning"; children: ReactNode }) {
   return (
     <Badge
+      showDot={false}
       className={
         tone === "success"
           ? "bg-[var(--color-app-shell-status-success-bg)] px-[var(--spacing-8)] py-[var(--spacing-2)] text-app-caption-medium text-[var(--color-app-shell-status-success)]"

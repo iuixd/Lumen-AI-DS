@@ -56,6 +56,16 @@ Use the following headings for every release:
 
 ### Changed
 
+- Synchronized React Badge and its component tokens with the published Badge variant collection.
+  - Affected token group/component: `color.badge`, primitive `badge.default-bg`, `radius.pill`, `typography.badge-{sm,md,lg}`, and React `Badge`
+  - Figma source: Lumen-AI-Design-System node `1079:893`, verified with `get_design_context` and `get_variable_defs`; the Figma description says nine statuses but the live component set contains 10 concrete statuses because Gray is also present, so all 10 rendered variants are implemented
+  - Previous: Badge exposed one compact size and six generic `tone` variants, used generic semantic/status colors and semibold label typography, and had no leading-dot API or component-scoped Badge tokens
+  - Current: canonical `status` variants are `default | gray | success | warning | error | deep-purple | purple | light-blue | yellow | pink`; `size="sm" | "md" | "lg"` binds exact padding, 6/7/8px dots, and 11/16, 12/18, 14/20 medium typography; `showDot` is optional and defaults to the Figma value `true`. Exact light colors alias published Badge variables; dark colors are documented provisional ramp mirrors. The former `tone` prop remains as a compatibility alias, with legacy Brand/Info rendering preserved outside the Figma collection.
+  - Affects: `packages/tokens/src/{primitives/color,semantic/color,typography,radius}.json`, generated token output, `packages/ui/src/primitives/Badge.*`, Badge story consumers in `packages/ui/src/{composite,layout}`, `.changeset/badge-design-tokens.md`, and `docs/{changelog,component-specifications,design-tokens,figma-sync}.md`
+  - Migration: additive for component consumers; prefer `status` over deprecated `tone`. Existing `tone` calls remain valid. Badge now follows Figma's default leading-dot behavior; pass `showDot={false}` where a dot is not desired.
+  - Validation: token generation and drift checks passed, with every expected light Badge value plus the pill radius and all three typography tiers present in generated output; repository-wide typecheck and lint passed; all 320 tests passed (React/UI 155, including 16 Badge tests; Web Components 68; Angular 64; create-app 27; patterns 6); the production Storybook build passed (2,125 modules), and its static index contains the Badge docs, playground, complete light/dark variant collection, and no-dot story. Browser-backed visual comparison was unavailable because no in-app browser session was present; source-level geometry, color-role, typography, theme, and component bindings were rechecked against the Figma extraction. PR checks, deployment, and published Storybook verification remain pending.
+  - Changeset: `.changeset/badge-design-tokens.md` (`@lumen/tokens` minor, `@lumen/ui` minor)
+
 - Corrected the React Checkbox checked-state glyph to use the shared design-system `CheckIcon`.
   - Affected token group/component: React `Checkbox`; existing `input.check.*` geometry and `input.radio-checkbox.selected-text` color roles remain unchanged
   - Figma source: Lumen-AI-Design-System Checkbox node `1278:2207`; correction requested from the published `Primitives/Checkbox` variant collection

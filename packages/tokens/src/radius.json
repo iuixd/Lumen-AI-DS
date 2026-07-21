@@ -1,11 +1,12 @@
 {
-  "_comment": "Sourced from Figma 'Lumen-AI-Design-System' file, page 'Design Tokens' > '05 Radius' (fileKey GJBYRm6ySR7XIECFcHMgy2, node 511:78).",
+  "_comment": "Sourced from Figma 'Lumen-AI-Design-System' file, page 'Design Tokens' > '05 Radius' (fileKey GJBYRm6ySR7XIECFcHMgy2, node 511:78). pill=100 was added from the Badge component collection at node 1079:893, where it is bound as radius/pill.",
   "none": { "value": 0 },
   "xs": { "value": 2 },
   "sm": { "value": 4 },
   "md": { "value": 6 },
   "lg": { "value": 8 },
   "app-search": { "value": 10 },
+  "pill": { "value": 100 },
   "xl": { "value": 12 },
   "2xl": { "value": 16 },
   "3xl": { "value": 24 },

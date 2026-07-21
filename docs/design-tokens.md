@@ -109,6 +109,15 @@ styles with different line heights or weights. Figma currently publishes only
 the light mode; dark aliases remain provisional until dark control collections
 are published.
 
+The Badge collection at Figma node `1079:893` maps its exact light variables to
+the `badge.*` group in `packages/tokens/src/semantic/color.json`. The only new
+raw color is `badge.default-bg` (`#191919`); every other Badge color aliases an
+existing ramp step. `badge-sm`, `badge-md`, and `badge-lg` preserve the exact
+Instrument Sans medium typography, `radius.pill` preserves Figma's 100px pill
+radius, and existing `spacing.*` tokens provide the gap, padding, and dot sizes.
+Dark Badge roles are provisional ramp mirrors because Figma publishes no dark
+Badge mode.
+
 ---
 
 ## Naming convention

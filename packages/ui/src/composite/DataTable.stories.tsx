@@ -16,7 +16,7 @@ const rows: Invoice[] = [
   { id: "INV-1003", customer: "Initech", amount: "$820.00", status: "draft" }
 ];
 
-const toneByStatus = { paid: "success", overdue: "error", draft: "neutral" } as const;
+const badgeStatusByInvoice = { paid: "success", overdue: "error", draft: "gray" } as const;
 
 const columns: Column<Invoice>[] = [
   { key: "id", header: "Invoice", render: (row) => row.id },
@@ -25,7 +25,7 @@ const columns: Column<Invoice>[] = [
   {
     key: "status",
     header: "Status",
-    render: (row) => <Badge tone={toneByStatus[row.status]}>{row.status}</Badge>
+    render: (row) => <Badge status={badgeStatusByInvoice[row.status]}>{row.status}</Badge>
   }
 ];
 
@@ -37,7 +37,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Maps to Figma \"Table Row\". The row-hover/click affordance, header styling, and dense layout here are the enterprise default — don't hand-roll a new <table> per screen."
+          'Maps to Figma "Table Row". The row-hover/click affordance, header styling, and dense layout here are the enterprise default — don\'t hand-roll a new <table> per screen.'
       }
     },
     controls: { disable: true }
@@ -52,7 +52,12 @@ export const Playground: Story = {};
 
 export const RowClickable: Story = {
   render: () => (
-    <DataTable columns={columns} data={rows} rowKey={(row) => row.id} onRowClick={(row) => alert(`Open ${row.id}`)} />
+    <DataTable
+      columns={columns}
+      data={rows}
+      rowKey={(row) => row.id}
+      onRowClick={(row) => alert(`Open ${row.id}`)}
+    />
   )
 };
 
@@ -62,7 +67,12 @@ export const Empty: Story = {
       columns={columns}
       data={[]}
       rowKey={(row) => row.id}
-      emptyState={<EmptyState title="No invoices yet" description="Invoices will show up here once they're created." />}
+      emptyState={
+        <EmptyState
+          title="No invoices yet"
+          description="Invoices will show up here once they're created."
+        />
+      }
     />
   )
 };

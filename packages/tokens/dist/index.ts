@@ -12,6 +12,7 @@ export const colorPrimitives = {
   "neutral.transparent": "#00000000",
   "neutral.white": "#FFFFFF",
   "neutral.black": "#000000",
+  "badge.default-bg": "#191919",
   "primary.50": "#F9E6EC",
   "primary.100": "#F2CCD8",
   "primary.200": "#E599B1",
@@ -250,6 +251,28 @@ export const semanticColor = {
       "radio-checkbox-selected-text": "neutral.white",
       "radio-checkbox-disabled-border": "input.light.disabled-border"
     },
+    "badge": {
+      "default-bg": "badge.default-bg",
+      "default-text": "neutral.white",
+      "gray-bg": "neutral.50",
+      "gray-text": "badge.default-bg",
+      "success-bg": "green.100",
+      "success-text": "green.500",
+      "warning-bg": "orange.100",
+      "warning-text": "orange.500",
+      "error-bg": "red.50",
+      "error-text": "red.500",
+      "deep-purple-bg": "deep-purple.100",
+      "deep-purple-text": "deep-purple.500",
+      "purple-bg": "purple.50",
+      "purple-text": "purple.500",
+      "light-blue-bg": "light-blue.50",
+      "light-blue-text": "light-blue.500",
+      "yellow-bg": "yellow.100",
+      "yellow-text": "yellow.700",
+      "pink-bg": "pink.50",
+      "pink-text": "pink.500"
+    },
     "button": {
       "disabled-background": "lumen-gray.100",
       "disabled-border": "lumen-gray.200",
@@ -404,6 +427,28 @@ export const semanticColor = {
       "radio-checkbox-selected": "neutral.white",
       "radio-checkbox-selected-text": "neutral.black",
       "radio-checkbox-disabled-border": "app-shell.dark.button-disabled-border"
+    },
+    "badge": {
+      "default-bg": "neutral.white",
+      "default-text": "badge.default-bg",
+      "gray-bg": "neutral.800",
+      "gray-text": "neutral.white",
+      "success-bg": "green.700",
+      "success-text": "green.300",
+      "warning-bg": "orange.700",
+      "warning-text": "orange.300",
+      "error-bg": "red.800",
+      "error-text": "red.300",
+      "deep-purple-bg": "deep-purple.700",
+      "deep-purple-text": "deep-purple.300",
+      "purple-bg": "purple.800",
+      "purple-text": "purple.300",
+      "light-blue-bg": "light-blue.800",
+      "light-blue-text": "light-blue.300",
+      "yellow-bg": "yellow.700",
+      "yellow-text": "yellow.100",
+      "pink-bg": "pink.800",
+      "pink-text": "pink.300"
     },
     "button": {
       "disabled-background": "app-shell.dark.button-disabled-bg",
@@ -622,7 +667,25 @@ export const typography = {
       "fontSize": 11,
       "lineHeight": 16,
       "weight": 600,
-      "usage": "Meta text, badges (Figma Label sm)"
+      "usage": "Meta text (Figma Label sm semibold)"
+    },
+    "badge-sm": {
+      "fontSize": 11,
+      "lineHeight": 16,
+      "weight": 500,
+      "usage": "Badge label text, size=sm (Figma node 1079:893)"
+    },
+    "badge-md": {
+      "fontSize": 12,
+      "lineHeight": 18,
+      "weight": 500,
+      "usage": "Badge label text, size=md (Figma node 1079:893)"
+    },
+    "badge-lg": {
+      "fontSize": 14,
+      "lineHeight": 20,
+      "weight": 500,
+      "usage": "Badge label text, size=lg (Figma node 1079:893)"
     },
     "body-lg": {
       "fontSize": 20,
@@ -1045,7 +1108,7 @@ export const spacing = {
   }
 } as const;
 export const radius = {
-  "_comment": "Sourced from Figma 'Lumen-AI-Design-System' file, page 'Design Tokens' > '05 Radius' (fileKey GJBYRm6ySR7XIECFcHMgy2, node 511:78).",
+  "_comment": "Sourced from Figma 'Lumen-AI-Design-System' file, page 'Design Tokens' > '05 Radius' (fileKey GJBYRm6ySR7XIECFcHMgy2, node 511:78). pill=100 was added from the Badge component collection at node 1079:893, where it is bound as radius/pill.",
   "none": {
     "value": 0
   },
@@ -1063,6 +1126,9 @@ export const radius = {
   },
   "app-search": {
     "value": 10
+  },
+  "pill": {
+    "value": 100
   },
   "xl": {
     "value": 12

@@ -16,6 +16,7 @@ module.exports = {
   "neutral-transparent": "var(--color-neutral-transparent)",
   "neutral-white": "var(--color-neutral-white)",
   "neutral-black": "var(--color-neutral-black)",
+  "badge-default-bg": "var(--color-badge-default-bg)",
   "primary-50": "var(--color-primary-50)",
   "primary-100": "var(--color-primary-100)",
   "primary-200": "var(--color-primary-200)",
@@ -240,6 +241,25 @@ module.exports = {
   "input-radio-checkbox-selected": "var(--color-input-radio-checkbox-selected)",
   "input-radio-checkbox-selected-text": "var(--color-input-radio-checkbox-selected-text)",
   "input-radio-checkbox-disabled-border": "var(--color-input-radio-checkbox-disabled-border)",
+  "badge-default-text": "var(--color-badge-default-text)",
+  "badge-gray-bg": "var(--color-badge-gray-bg)",
+  "badge-gray-text": "var(--color-badge-gray-text)",
+  "badge-success-bg": "var(--color-badge-success-bg)",
+  "badge-success-text": "var(--color-badge-success-text)",
+  "badge-warning-bg": "var(--color-badge-warning-bg)",
+  "badge-warning-text": "var(--color-badge-warning-text)",
+  "badge-error-bg": "var(--color-badge-error-bg)",
+  "badge-error-text": "var(--color-badge-error-text)",
+  "badge-deep-purple-bg": "var(--color-badge-deep-purple-bg)",
+  "badge-deep-purple-text": "var(--color-badge-deep-purple-text)",
+  "badge-purple-bg": "var(--color-badge-purple-bg)",
+  "badge-purple-text": "var(--color-badge-purple-text)",
+  "badge-light-blue-bg": "var(--color-badge-light-blue-bg)",
+  "badge-light-blue-text": "var(--color-badge-light-blue-text)",
+  "badge-yellow-bg": "var(--color-badge-yellow-bg)",
+  "badge-yellow-text": "var(--color-badge-yellow-text)",
+  "badge-pink-bg": "var(--color-badge-pink-bg)",
+  "badge-pink-text": "var(--color-badge-pink-text)",
   "button-disabled-background": "var(--color-button-disabled-background)",
   "button-disabled-border": "var(--color-button-disabled-border)",
   "button-disabled-text": "var(--color-button-disabled-text)",
@@ -367,6 +387,7 @@ module.exports = {
   "md": "var(--radius-md)",
   "lg": "var(--radius-lg)",
   "app-search": "var(--radius-app-search)",
+  "pill": "var(--radius-pill)",
   "xl": "var(--radius-xl)",
   "2xl": "var(--radius-2xl)",
   "3xl": "var(--radius-3xl)",
@@ -455,6 +476,27 @@ module.exports = {
     {
       "lineHeight": "var(--text-label-sm-line-height)",
       "fontWeight": "var(--text-label-sm-weight)"
+    }
+  ],
+  "badge-sm": [
+    "var(--text-badge-sm-size)",
+    {
+      "lineHeight": "var(--text-badge-sm-line-height)",
+      "fontWeight": "var(--text-badge-sm-weight)"
+    }
+  ],
+  "badge-md": [
+    "var(--text-badge-md-size)",
+    {
+      "lineHeight": "var(--text-badge-md-line-height)",
+      "fontWeight": "var(--text-badge-md-weight)"
+    }
+  ],
+  "badge-lg": [
+    "var(--text-badge-lg-size)",
+    {
+      "lineHeight": "var(--text-badge-lg-line-height)",
+      "fontWeight": "var(--text-badge-lg-weight)"
     }
   ],
   "body-lg": [

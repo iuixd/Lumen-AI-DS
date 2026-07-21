@@ -14,6 +14,10 @@
     "700": { "value": "#393939" },
     "800": { "value": "#262626" }
   },
+  "badge": {
+    "_comment": "Exact Badge-only primitive sourced from Lumen-AI-Design-System node 1079:893. No existing documented color-ramp step matches #191919.",
+    "default-bg": { "value": "#191919" }
+  },
   "primary": {
     "_comment": "This is also the brand ramp — primary.500 (#BE003C) is the Lumen brand color, shown separately as 'Brand Color' in the source file. The 9-step 50-800 ramp is from the Colors page; primary.900 (#310010) isn't part of that documented ramp — it's read directly off the Buttons page's own Primary/Raised/Icon-only 'Active' instance fills (node 475:7210), a step darker than 800, so it's kept here rather than invented as an extrapolation.",
     "50": { "value": "#F9E6EC" },

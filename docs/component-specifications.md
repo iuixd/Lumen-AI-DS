@@ -854,28 +854,41 @@ Badge communicates compact status, classification, or metadata.
 ## Variants
 
 ```text
-Neutral
-Brand
-Info
+Default
+Gray
 Success
 Warning
-Danger
-AI
+Error
+Deep Purple
+Purple
+Light Blue
+Yellow
+Pink
 ```
 
 ## Sizes
 
 ```text
-Sm
-Md
+Sm — 11/16 medium label, 8px inline and 2px block padding, 6px dot
+Md — 12/18 medium label, 10px inline and 4px block padding, 7px dot
+Lg — 14/20 medium label, 12px inline and 6px block padding, 8px dot
 ```
+
+Figma source: node `1079:893`. All statuses bind component-scoped
+`badge.{status}.{bg,text}` roles. Figma publishes only the light variables;
+dark aliases use the repository's provisional ramp-mirroring convention.
+`showDot` controls the decorative leading status dot and defaults to `true`.
+`status` is the canonical variant prop. The former `tone` API remains as a
+compatibility alias; `neutral` maps to `gray`, while legacy `brand` and `info`
+remain available for existing consumers but are not part of the current Figma
+collection.
 
 ## Requirements
 
 - Do not use Badge as an interactive control unless explicitly implemented as one.
 - Status must not rely solely on color.
 - Keep labels concise.
-- Use icon support only when it improves comprehension.
+- Use the status dot as reinforcement only; the label must carry the meaning.
 
 ---
 

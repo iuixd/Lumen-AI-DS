@@ -88,7 +88,25 @@
       "fontSize": 11,
       "lineHeight": 16,
       "weight": 600,
-      "usage": "Meta text, badges (Figma Label sm)"
+      "usage": "Meta text (Figma Label sm semibold)"
+    },
+    "badge-sm": {
+      "fontSize": 11,
+      "lineHeight": 16,
+      "weight": 500,
+      "usage": "Badge label text, size=sm (Figma node 1079:893)"
+    },
+    "badge-md": {
+      "fontSize": 12,
+      "lineHeight": 18,
+      "weight": 500,
+      "usage": "Badge label text, size=md (Figma node 1079:893)"
+    },
+    "badge-lg": {
+      "fontSize": 14,
+      "lineHeight": 20,
+      "weight": 500,
+      "usage": "Badge label text, size=lg (Figma node 1079:893)"
     },
     "body-lg": {
       "fontSize": 20,
