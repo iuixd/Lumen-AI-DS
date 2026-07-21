@@ -785,7 +785,8 @@ Lg — 32px target, 21.333px indicator
 Figma source: node `1278:2207`. `invalid` maps Error, `indeterminate` sets the
 native DOM property and renders the Figma-sourced indeterminate glyph, and
 Disabled remains the native `disabled` behavior. Checked renders the shared
-design-system `CheckIcon`; Checked and Indeterminate use the theme-aware
+design-system `CheckIcon` with the Figma-exported size-specific bold stroke
+weight; Checked and Indeterminate use the theme-aware
 `input.radio-checkbox.*` roles.
 
 ## Requirements

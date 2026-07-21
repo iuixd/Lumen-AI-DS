@@ -1223,24 +1223,35 @@ export const input = {
   },
   "check-width": {
     "sm": {
-      "value": 8
+      "value": 10.5
     },
     "md": {
-      "value": 10
+      "value": 13.125
     },
     "lg": {
-      "value": 11.429
+      "value": 15
     }
   },
   "check-height": {
     "sm": {
-      "value": 5.333
+      "value": 7.83333
     },
     "md": {
-      "value": 6.667
+      "value": 9.79167
     },
     "lg": {
-      "value": 7.619
+      "value": 11.1905
+    }
+  },
+  "check-stroke-width": {
+    "sm": {
+      "value": 2.5
+    },
+    "md": {
+      "value": 3.125
+    },
+    "lg": {
+      "value": 3.57143
     }
   },
   "indeterminate-width": {

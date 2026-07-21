@@ -102,14 +102,15 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           ) : (
             <CheckIcon
               aria-hidden="true"
+              preserveAspectRatio="none"
               className={cn(
-                "pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-[var(--color-input-radio-checkbox-selected-text)] opacity-0 peer-checked:opacity-100",
+                "pointer-events-none absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2 text-[var(--color-input-radio-checkbox-selected-text)] opacity-0 peer-checked:opacity-100 [&_path]:[vector-effect:non-scaling-stroke]",
                 visualSize === "sm" &&
-                  "h-[var(--input-check-height-sm)] w-[var(--input-check-width-sm)]",
+                  "h-[var(--input-check-height-sm)] w-[var(--input-check-width-sm)] [&_path]:[stroke-width:var(--input-check-stroke-width-sm)]",
                 visualSize === "md" &&
-                  "h-[var(--input-check-height-md)] w-[var(--input-check-width-md)]",
+                  "h-[var(--input-check-height-md)] w-[var(--input-check-width-md)] [&_path]:[stroke-width:var(--input-check-stroke-width-md)]",
                 visualSize === "lg" &&
-                  "h-[var(--input-check-height-lg)] w-[var(--input-check-width-lg)]"
+                  "h-[var(--input-check-height-lg)] w-[var(--input-check-width-lg)] [&_path]:[stroke-width:var(--input-check-stroke-width-lg)]"
               )}
             />
           )}

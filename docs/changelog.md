@@ -59,11 +59,11 @@ Use the following headings for every release:
 - Corrected the React Checkbox checked-state glyph to use the shared design-system `CheckIcon`.
   - Affected token group/component: React `Checkbox`; existing `input.check.*` geometry and `input.radio-checkbox.selected-text` color roles remain unchanged
   - Figma source: Lumen-AI-Design-System Checkbox node `1278:2207`; correction requested from the published `Primitives/Checkbox` variant collection
-  - Previous: Checked rendered a standalone Figma-exported SVG through a CSS mask, bypassing the generated icon system
-  - Current: Checked renders `CheckIcon` from `packages/ui/src/icons/generated` with the existing size and selected-text tokens; Indeterminate continues to use its distinct Figma-exported mask asset
-  - Affects: `packages/ui/src/primitives/Checkbox.tsx`, `packages/ui/src/primitives/Checkbox.test.tsx`, removal of `packages/ui/src/assets/input-checkbox-check.svg`, `.changeset/input-design-tokens.md`, `docs/{changelog,component-specifications,figma-sync}.md`
+  - Previous: Checked rendered a standalone Figma-exported SVG through a CSS mask, bypassing the generated icon system; the first `CheckIcon` correction retained the smaller/thinner stock 24px icon proportions, so the published design's bold tick weight was not reproduced
+  - Current: Checked renders `CheckIcon` from `packages/ui/src/icons/generated` with exact size-specific Figma vector bounds (10.5×7.833px, 13.125×9.792px, 15×11.191px) and non-scaling rounded strokes (2.5px, 3.125px, 3.571px), while retaining the selected-text color token. Indeterminate continues to use its distinct Figma-exported mask asset
+  - Affects: `packages/tokens/src/input.json`, generated token output, `packages/ui/src/primitives/Checkbox.tsx`, `packages/ui/src/primitives/Checkbox.test.tsx`, removal of `packages/ui/src/assets/input-checkbox-check.svg`, `.changeset/input-design-tokens.md`, `docs/{changelog,component-specifications,design-tokens,figma-sync}.md`
   - Migration: none — the Checkbox API and state behavior are unchanged
-  - Validation: all 139 React/UI tests passed (including the new CheckIcon/Indeterminate distinction), `@lumen/ui` typecheck and repository lint passed, and the production Storybook build passed (2,125 modules) with `CheckIcon` emitted in the Checkbox story dependency graph
+  - Validation: token regeneration passed; all 139 React/UI tests passed; `@lumen/ui` typecheck and repository lint passed; the production Storybook build passed (2,125 modules), with all three stroke tokens and the non-scaling path rule present in the generated CSS/Checkbox story bundle
   - Changeset: `.changeset/input-design-tokens.md` (`@lumen/ui` minor, shared with the unreleased Input-family synchronization)
 
 - Synchronized React Input, Radio, and Checkbox and their component tokens with the updated AppShell control collections.

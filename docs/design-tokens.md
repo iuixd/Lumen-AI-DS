@@ -103,7 +103,7 @@ The Input, Radio, and Checkbox collections at Figma nodes `1262:1181`,
 `packages/tokens/src/semantic/color.json`. Exact component geometry lives in
 `packages/tokens/src/input.json` and emits `--input-*` variables for field
 border widths, control/indicator sizes, Radio dots, Checkbox radii and glyph
-dimensions, and focus geometry. `input-sm`, `input-md`, `input-lg`, and
+dimensions/stroke weights, and focus geometry. `input-sm`, `input-md`, `input-lg`, and
 `input-shortcut` preserve exact component typography instead of reusing body
 styles with different line heights or weights. Figma currently publishes only
 the light mode; dark aliases remain provisional until dark control collections

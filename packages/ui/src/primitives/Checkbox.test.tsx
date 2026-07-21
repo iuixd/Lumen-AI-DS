@@ -22,7 +22,10 @@ describe("Checkbox", () => {
     const checkIcon = container.querySelector("svg");
     expect(checkIcon).toBeInTheDocument();
     expect(checkIcon).toHaveAttribute("viewBox", "0 0 24 24");
+    expect(checkIcon).toHaveAttribute("preserveAspectRatio", "none");
     expect(checkIcon).toHaveClass("peer-checked:opacity-100");
+    expect(checkIcon?.className.baseVal).toContain("--input-check-stroke-width-md");
+    expect(checkIcon?.className.baseVal).toContain("vector-effect:non-scaling-stroke");
     expect(checkIcon?.querySelector("path")).toHaveAttribute("d", "M20 6 9 17l-5-5");
   });
 
