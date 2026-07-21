@@ -1322,24 +1322,24 @@ export const input = {
   },
   "indeterminate-width": {
     "sm": {
-      "value": 8
+      "value": 10.4998
     },
     "md": {
-      "value": 10
+      "value": 12.6252
     },
     "lg": {
-      "value": 11.429
+      "value": 14.2871
     }
   },
   "indeterminate-height": {
     "sm": {
-      "value": 1.75
+      "value": 2.5
     },
     "md": {
-      "value": 2
+      "value": 3.125
     },
     "lg": {
-      "value": 2.5
+      "value": 3.57187
     }
   }
 } as const;

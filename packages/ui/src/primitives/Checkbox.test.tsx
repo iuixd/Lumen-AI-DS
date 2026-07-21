@@ -17,17 +17,20 @@ describe("Checkbox", () => {
     expect(checkbox).toBeChecked();
   });
 
-  it("renders the design-system CheckIcon for the checked state", () => {
-    const { container } = render(<Checkbox name="selected" label="Selected" defaultChecked />);
-    const checkIcon = container.querySelector("svg");
-    expect(checkIcon).toBeInTheDocument();
-    expect(checkIcon).toHaveAttribute("viewBox", "0 0 24 24");
-    expect(checkIcon).toHaveAttribute("preserveAspectRatio", "none");
-    expect(checkIcon).toHaveClass("peer-checked:opacity-100");
-    expect(checkIcon?.className.baseVal).toContain("--input-check-stroke-width-md");
-    expect(checkIcon?.className.baseVal).toContain("vector-effect:non-scaling-stroke");
-    expect(checkIcon?.querySelector("path")).toHaveAttribute("d", "M20 6 9 17l-5-5");
-  });
+  it.each(["sm", "md", "lg"] as const)(
+    "renders the exact Figma checked asset and %s geometry",
+    (size) => {
+      const { container } = render(
+        <Checkbox name={`selected-${size}`} label="Selected" size={size} defaultChecked />
+      );
+      const checkIcon = container.querySelector('[data-checkbox-icon="checked"]');
+      expect(checkIcon).toHaveClass("peer-checked:opacity-100");
+      expect(checkIcon?.className).toContain(`--input-check-width-${size}`);
+      expect(checkIcon?.className).toContain(`--input-check-height-${size}`);
+      expect(checkIcon?.getAttribute("style")).toContain(`input-checkbox-check-${size}.svg`);
+      expect(container.querySelector("svg")).not.toBeInTheDocument();
+    }
+  );
 
   it.each(["sm", "md", "lg"] as const)("binds the %s Figma geometry", (size) => {
     render(<Checkbox name={size} label={size} size={size} />);
@@ -36,13 +39,21 @@ describe("Checkbox", () => {
     expect(checkbox.nextElementSibling?.className).toContain(`--input-indicator-size-${size}`);
   });
 
-  it("sets the native indeterminate property and renders the Figma glyph", () => {
-    const { container } = render(<Checkbox name="mixed" label="Mixed" indeterminate />);
-    const checkbox = screen.getByLabelText("Mixed") as HTMLInputElement;
-    expect(checkbox.indeterminate).toBe(true);
-    expect(checkbox.nextElementSibling?.nextElementSibling).toHaveClass("opacity-100");
-    expect(container.querySelector("svg")).not.toBeInTheDocument();
-  });
+  it.each(["sm", "md", "lg"] as const)(
+    "sets the native indeterminate property and renders the exact Figma %s asset",
+    (size) => {
+      const { container } = render(
+        <Checkbox name={`mixed-${size}`} label="Mixed" size={size} indeterminate />
+      );
+      const checkbox = screen.getByLabelText("Mixed") as HTMLInputElement;
+      const icon = container.querySelector('[data-checkbox-icon="indeterminate"]');
+      expect(checkbox.indeterminate).toBe(true);
+      expect(icon).toHaveClass("opacity-100");
+      expect(icon?.className).toContain(`--input-indeterminate-width-${size}`);
+      expect(icon?.className).toContain(`--input-indeterminate-height-${size}`);
+      expect(icon?.getAttribute("style")).toContain(`input-checkbox-indeterminate-${size}.svg`);
+    }
+  );
 
   it("maps invalid and disabled states semantically", () => {
     render(<Checkbox name="status" label="Invalid" invalid disabled />);

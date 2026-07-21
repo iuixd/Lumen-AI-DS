@@ -56,6 +56,16 @@ Use the following headings for every release:
 
 ### Changed
 
+- Replaced the React Checkbox Checked and Indeterminate glyphs with the exact size-specific Figma exports.
+  - Affected token group/component: `input.indeterminate-{width,height}.*` and React `Checkbox`; existing semantic color roles and public props remain unchanged
+  - Figma source: Lumen-AI-Design-System Checkbox node `1278:2207`, verified with `get_design_context`, `get_variable_defs`, and all six exported SVG assets
+  - Previous: Checked stretched the generic 24px `CheckIcon` into Figma-sized boxes and overrode its stroke width, which changed the published tick proportions. Indeterminate reused one malformed angled asset at approximate line dimensions rather than the three horizontal size-specific vectors.
+  - Current: Checked uses the exact 10.5×7.833px, 13.125×9.792px, and 15×11.191px exported vectors. Indeterminate uses the exact 10.500×2.5px, 12.625×3.125px, and 14.287×3.572px exported vector bounds. All six assets retain Figma's path data, rounded caps/joins, and bold size-specific strokes, and render as masks using `input.radio-checkbox.selected-text` in both themes. The existing `VariantCollection` already covers both icon states at all three sizes in light and dark, so no new story variant is required.
+  - Affects: `packages/tokens/src/input.json`, generated token output, `packages/ui/src/assets/input-checkbox-{check,indeterminate}-{sm,md,lg}.svg`, removal of the obsolete `input-checkbox-indeterminate.svg`, `packages/ui/src/primitives/Checkbox.{tsx,test.tsx}`, `.changeset/checkbox-figma-state-icons.md`, and `docs/{changelog,component-specifications,design-tokens,figma-sync}.md`
+  - Migration: none — Checkbox props, native semantics, state behavior, and semantic color bindings are unchanged
+  - Validation: token regeneration and drift checks passed; all six committed SVG signatures (viewBox, path, stroke, cap, and join) exactly match their live Figma exports and all six encoded paths are present in the production Checkbox story bundle; repository-wide typecheck and lint passed; all 324 tests passed (React/UI 159, including 13 Checkbox tests; Web Components 68; Angular 64; create-app 27; patterns 6); the production Storybook build passed (2,125 modules), its static index contains all six Checkbox stories, and generated CSS contains all six corrected Indeterminate dimensions. Browser-backed visual comparison was unavailable because no in-app browser session was present. PR checks, deployment, and published Storybook verification remain pending.
+  - Changeset: `.changeset/checkbox-figma-state-icons.md` (`@lumen/tokens` patch, `@lumen/ui` patch)
+
 - Synchronized React Badge and its component tokens with the published Badge variant collection.
   - Affected token group/component: `color.badge`, primitive `badge.default-bg`, `radius.pill`, `typography.badge-{sm,md,lg}`, and React `Badge`
   - Figma source: Lumen-AI-Design-System node `1079:893`, verified with `get_design_context` and `get_variable_defs`; the Figma description says nine statuses but the live component set contains 10 concrete statuses because Gray is also present, so all 10 rendered variants are implemented

@@ -502,12 +502,12 @@
   --input-check-stroke-width-sm: 2.5px;
   --input-check-stroke-width-md: 3.125px;
   --input-check-stroke-width-lg: 3.57143px;
-  --input-indeterminate-width-sm: 8px;
-  --input-indeterminate-width-md: 10px;
-  --input-indeterminate-width-lg: 11.429px;
-  --input-indeterminate-height-sm: 1.75px;
-  --input-indeterminate-height-md: 2px;
-  --input-indeterminate-height-lg: 2.5px;
+  --input-indeterminate-width-sm: 10.4998px;
+  --input-indeterminate-width-md: 12.6252px;
+  --input-indeterminate-width-lg: 14.2871px;
+  --input-indeterminate-height-sm: 2.5px;
+  --input-indeterminate-height-md: 3.125px;
+  --input-indeterminate-height-lg: 3.57187px;
 
   /* semantic: light (default) */
   --color-background-default: #FFFFFF;

@@ -57,13 +57,13 @@
     "lg": { "value": 3.57143 }
   },
   "indeterminate-width": {
-    "sm": { "value": 8 },
-    "md": { "value": 10 },
-    "lg": { "value": 11.429 }
+    "sm": { "value": 10.4998 },
+    "md": { "value": 12.6252 },
+    "lg": { "value": 14.2871 }
   },
   "indeterminate-height": {
-    "sm": { "value": 1.75 },
-    "md": { "value": 2 },
-    "lg": { "value": 2.5 }
+    "sm": { "value": 2.5 },
+    "md": { "value": 3.125 },
+    "lg": { "value": 3.57187 }
   }
 }

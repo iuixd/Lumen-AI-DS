@@ -1,11 +1,19 @@
 import { forwardRef, useEffect, useRef, type InputHTMLAttributes } from "react";
-import { CheckIcon } from "../icons/generated";
 import { cn } from "../lib/cn";
 
-const indeterminateAsset = new URL("../assets/input-checkbox-indeterminate.svg", import.meta.url)
-  .href;
-
 export type CheckboxSize = "sm" | "md" | "lg";
+
+const checkedAssets: Record<CheckboxSize, string> = {
+  sm: new URL("../assets/input-checkbox-check-sm.svg", import.meta.url).href,
+  md: new URL("../assets/input-checkbox-check-md.svg", import.meta.url).href,
+  lg: new URL("../assets/input-checkbox-check-lg.svg", import.meta.url).href
+};
+
+const indeterminateAssets: Record<CheckboxSize, string> = {
+  sm: new URL("../assets/input-checkbox-indeterminate-sm.svg", import.meta.url).href,
+  md: new URL("../assets/input-checkbox-indeterminate-md.svg", import.meta.url).href,
+  lg: new URL("../assets/input-checkbox-indeterminate-lg.svg", import.meta.url).href
+};
 
 export interface CheckboxProps extends Omit<
   InputHTMLAttributes<HTMLInputElement>,
@@ -82,38 +90,40 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
                 "border-[var(--color-input-primary-error-border)] peer-hover:border-[var(--color-input-primary-error-border)]"
             )}
           />
-          {indeterminate ? (
-            <span
-              aria-hidden="true"
-              className={cn(
-                "pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--color-input-radio-checkbox-selected-text)] opacity-100 [mask-position:center] [mask-repeat:no-repeat] [mask-size:100%_100%]",
+          <span
+            aria-hidden="true"
+            data-checkbox-icon={indeterminate ? "indeterminate" : "checked"}
+            className={cn(
+              "pointer-events-none absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2 bg-[var(--color-input-radio-checkbox-selected-text)] [mask-position:center] [mask-repeat:no-repeat] [mask-size:100%_100%]",
+              indeterminate ? "opacity-100" : "opacity-0 peer-checked:opacity-100",
+              !indeterminate &&
                 visualSize === "sm" &&
-                  "h-[var(--input-indeterminate-height-sm)] w-[var(--input-indeterminate-width-sm)]",
+                "h-[var(--input-check-height-sm)] w-[var(--input-check-width-sm)]",
+              !indeterminate &&
                 visualSize === "md" &&
-                  "h-[var(--input-indeterminate-height-md)] w-[var(--input-indeterminate-width-md)]",
+                "h-[var(--input-check-height-md)] w-[var(--input-check-width-md)]",
+              !indeterminate &&
                 visualSize === "lg" &&
-                  "h-[var(--input-indeterminate-height-lg)] w-[var(--input-indeterminate-width-lg)]"
-              )}
-              style={{
-                maskImage: `url(${indeterminateAsset})`,
-                WebkitMaskImage: `url(${indeterminateAsset})`
-              }}
-            />
-          ) : (
-            <CheckIcon
-              aria-hidden="true"
-              preserveAspectRatio="none"
-              className={cn(
-                "pointer-events-none absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2 text-[var(--color-input-radio-checkbox-selected-text)] opacity-0 peer-checked:opacity-100 [&_path]:[vector-effect:non-scaling-stroke]",
+                "h-[var(--input-check-height-lg)] w-[var(--input-check-width-lg)]",
+              indeterminate &&
                 visualSize === "sm" &&
-                  "h-[var(--input-check-height-sm)] w-[var(--input-check-width-sm)] [&_path]:[stroke-width:var(--input-check-stroke-width-sm)]",
+                "h-[var(--input-indeterminate-height-sm)] w-[var(--input-indeterminate-width-sm)]",
+              indeterminate &&
                 visualSize === "md" &&
-                  "h-[var(--input-check-height-md)] w-[var(--input-check-width-md)] [&_path]:[stroke-width:var(--input-check-stroke-width-md)]",
+                "h-[var(--input-indeterminate-height-md)] w-[var(--input-indeterminate-width-md)]",
+              indeterminate &&
                 visualSize === "lg" &&
-                  "h-[var(--input-check-height-lg)] w-[var(--input-check-width-lg)] [&_path]:[stroke-width:var(--input-check-stroke-width-lg)]"
-              )}
-            />
-          )}
+                "h-[var(--input-indeterminate-height-lg)] w-[var(--input-indeterminate-width-lg)]"
+            )}
+            style={{
+              maskImage: `url(${
+                indeterminate ? indeterminateAssets[visualSize] : checkedAssets[visualSize]
+              })`,
+              WebkitMaskImage: `url(${
+                indeterminate ? indeterminateAssets[visualSize] : checkedAssets[visualSize]
+              })`
+            }}
+          />
           <span
             aria-hidden="true"
             className={cn(
