@@ -52,7 +52,7 @@ Icon content uses Angular's native content-projection selectors, not React's
 ### `LumenButtonComponent` (`<lumen-button>`)
 
 Final Figma node `1027:3733` contract: `variant` is `primary | accent |
-secondary | outline | ghost | link | destructive` (default `primary`) and
+secondary | outline | ghost | destructive` (default `primary`) and
 `disabled` is boolean (default `false`). Leading and trailing icons use the
 `[iconStart]` and `[iconEnd]` projection selectors. The standard Button has
 one fixed 34px size and no size, status, pill, icon-only, or loading inputs.

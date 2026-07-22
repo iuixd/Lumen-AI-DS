@@ -1,6 +1,10 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { LumenButton } from "./lumen-button";
 
+if (!customElements.get("lumen-button")) {
+  customElements.define("lumen-button", LumenButton);
+}
+
 async function renderButton(markup: string): Promise<LumenButton> {
   document.body.innerHTML = markup;
   const element = document.querySelector("lumen-button") as LumenButton;
@@ -21,18 +25,13 @@ describe("lumen-button", () => {
     expect(element.getAttribute("variant")).toBe("primary");
   });
 
-  it.each(["primary", "accent", "secondary", "outline", "ghost", "link", "destructive"])(
+  it.each(["primary", "accent", "secondary", "outline", "ghost", "destructive"])(
     "reflects variant=%s for styling",
     async (variant) => {
       const element = await renderButton(`<lumen-button variant="${variant}">Save</lumen-button>`);
       expect(element.getAttribute("variant")).toBe(variant);
     }
   );
-
-  it("ships the compact tokenized link geometry", () => {
-    expect(LumenButton.styles.cssText).toContain(':host([variant="link"]) button');
-    expect(LumenButton.styles.cssText).toContain("padding: var(--spacing-2) var(--spacing-8)");
-  });
 
   it("exposes leading and trailing icon slots", async () => {
     const element = await renderButton("<lumen-button>Save</lumen-button>");

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, booleanAttribute } from "@an
 
 /** Final standard Button collection, sourced from Figma node 1027:3733. */
 export type LumenButtonVariant =
-  "primary" | "accent" | "secondary" | "outline" | "ghost" | "link" | "destructive";
+  "primary" | "accent" | "secondary" | "outline" | "ghost" | "destructive";
 
 @Component({
   selector: "lumen-button",
@@ -110,16 +110,6 @@ export type LumenButtonVariant =
     }
     :host([variant="ghost"]) button:hover:not([aria-disabled="true"]) {
       background: var(--color-button-ghost-hover-bg);
-    }
-    :host([variant="link"]) button {
-      height: auto;
-      padding: var(--spacing-2) var(--spacing-8);
-      background: var(--color-button-link-bg);
-      color: var(--color-button-link-on-action);
-    }
-    :host([variant="link"]) button:hover:not([aria-disabled="true"]) {
-      background: var(--color-button-link-hover-bg);
-      color: var(--color-button-link-hover-on-action);
     }
     :host([variant="destructive"]) button {
       background: var(--color-button-destructive-bg);
