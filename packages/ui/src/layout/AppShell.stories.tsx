@@ -5,6 +5,7 @@ import { Icon } from "../primitives/Icon";
 import { Avatar } from "../primitives/Avatar";
 import { Badge } from "../primitives/Badge";
 import { Button } from "../primitives/Button";
+import { Input } from "../primitives/Input";
 import { KPICard } from "../primitives/KPICard";
 import { ThemeToggle } from "../primitives/ThemeToggle";
 import { AIPanel } from "../composite/AIPanel";
@@ -116,13 +117,9 @@ function Brand({ mobile = false, tablet = false }: { mobile?: boolean; tablet?: 
 
 function SearchBar() {
   return (
-    <label className="flex h-[var(--spacing-36)] w-[var(--spacing-400)] items-center rounded-lg border-[length:var(--input-border-width-md)] border-[var(--color-app-shell-border-input)] bg-[var(--color-app-shell-background)] px-[var(--spacing-14)]">
-      <span className="sr-only">Type your question</span>
-      <input
-        className="min-w-0 flex-1 bg-transparent font-interface text-app-body text-[var(--color-app-shell-text-placeholder)] outline-none placeholder:text-[var(--color-app-shell-text-placeholder)]"
-        placeholder="Type your question..."
-      />
-    </label>
+    <div className="w-[var(--spacing-400)]">
+      <Input size="sm" aria-label="Type your question" placeholder="Type your question..." />
+    </div>
   );
 }
 

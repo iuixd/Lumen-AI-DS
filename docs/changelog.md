@@ -196,6 +196,16 @@ Use the following headings for every release:
   - Validation: token generation passed; repo-wide lint passed; TypeScript checks passed for React, Web Components, Angular, and Storybook; full package tests passed (161 React, 69 Web Components, 65 Angular); production Storybook built successfully with the AppShell and Theme Toggle stories. All six current Figma variable sets were re-extracted and generated CSS was checked against their exact light/dark values. Figma design context, variable definitions, exact SVG exports, and static built-story verification passed. Browser screenshot comparison could not run because this session had no registered in-app browser backend, so no browser-backed visual signoff is claimed.
   - Changeset: `.changeset/appshell-theme-toggle-parity.md` (`@lumen/tokens` minor; `@lumen/ui`, `@lumen/web-components`, and `@lumen/angular` patch).
 
+- Corrected AppShell control composition so its search and assistant composer reuse the published primitives.
+  - Affected component: React `AppShell` Storybook composition and `AIPanel`; no token or public-prop changes.
+  - Figma source: canonical AppShell page `1007:3700`, with AI Panel component `1079:3141` and desktop light/dark compositions `1127:4196`/`1127:4197`. A fresh `get_design_context` request on 2026-07-22 was blocked by the connector's “nothing selected” response, so this correction is limited to component reuse and preserves the already-synchronized geometry and glyph intent.
+  - Previous: the desktop header search used a native, hand-styled `<input>` in `AppShell.stories.tsx`; `AIPanel` independently recreated its message input and icon-only send action with native, hand-styled `<input>`/`<button>` elements.
+  - Current: the header search composes the standard `Input size="sm"`; the AI Panel composer uses the same standard `Input` and an accessible icon-only `Button variant="accent"` with the existing `ArrowUpIcon`. The existing props, form submission, Enter behavior, trimming, clear-after-send behavior, and `aria-label="Send message"` are unchanged.
+  - Affects: `packages/ui/src/layout/AppShell.stories.tsx`, `packages/ui/src/composite/AIPanel.{tsx,test.tsx}`, `docs/{changelog.md,component-specifications.md,figma-sync.md}`, and `.changeset/appshell-theme-toggle-parity.md`.
+  - Migration: none — the change removes duplicate internal markup without altering any public API.
+  - Validation: all 163 React/UI tests passed (including the new AIPanel composition regression); `@lumen/ui` typecheck, repo-wide lint, targeted formatting, and `git diff --check` passed; production Storybook built successfully with 2,125 modules and emitted the updated `Input`, `Button`, `AIPanel`, and `AppShell` bundles. Browser-backed visual verification could not run because no in-app browser backend was registered in this session.
+  - Changeset: `.changeset/appshell-theme-toggle-parity.md` (existing `@lumen/ui` patch entry expanded for this follow-up correction).
+
 - Fixed the Lumen logo URL in the published Storybook manager.
   - Source: production Storybook at `/Lumen-DS/`; no Figma node is involved
   - Previous: the logo and brand link used domain-root URLs, causing GitHub Pages to request `/lumen-ds-logo.svg` outside the repository deployment path

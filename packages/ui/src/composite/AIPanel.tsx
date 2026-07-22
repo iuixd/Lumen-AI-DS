@@ -1,6 +1,8 @@
 import { useState, type FormEvent, type ReactNode } from "react";
 import { cn } from "../lib/cn";
-import { LmAiOutlineIcon } from "../icons/generated";
+import { ArrowUpIcon, LmAiOutlineIcon } from "../icons/generated";
+import { Button } from "../primitives/Button";
+import { Input } from "../primitives/Input";
 
 export interface AIPanelMessage {
   role: "user" | "assistant";
@@ -103,26 +105,27 @@ export function AIPanel({
       </div>
       <form
         onSubmit={handleSubmit}
-        className="flex items-center gap-[var(--spacing-8)] p-[var(--spacing-12)]"
+        className="flex items-center gap-[var(--spacing-8)] p-[var(--spacing-12)] [&>span]:min-w-0 [&>span]:flex-1"
       >
         <label className="sr-only" htmlFor="ai-panel-input">
           Message
         </label>
-        <input
+        <Input
           id="ai-panel-input"
           type="text"
+          size="sm"
           value={value}
           onChange={(e) => setValue(e.target.value)}
           placeholder={inputPlaceholder}
-          className="min-w-0 flex-1 rounded-lg border border-[var(--color-app-shell-border-input)] bg-[var(--color-app-shell-background)] px-[var(--spacing-12)] py-[var(--spacing-8)] text-app-body text-[var(--color-app-shell-text-secondary)] placeholder:text-[var(--color-app-shell-text-secondary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)]"
         />
-        <button
+        <Button
           type="submit"
+          variant="accent"
           aria-label="Send message"
-          className="flex size-[var(--spacing-32)] shrink-0 items-center justify-center rounded-lg bg-[var(--color-app-shell-button-accent-bg)] text-[var(--color-app-shell-button-accent-on-action)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--color-border-focus)]"
+          className="size-[var(--spacing-32)] shrink-0 px-0 py-0"
         >
-          <span aria-hidden>↑</span>
-        </button>
+          <ArrowUpIcon className="size-[var(--spacing-14)]" aria-hidden />
+        </Button>
       </form>
     </div>
   );

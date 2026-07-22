@@ -2878,8 +2878,8 @@ AI Panel
 │   └── Assistant response bubble (left-aligned)
 │       └── Action buttons (optional, e.g. "Review draft")
 └── Input row
-    ├── Text input
-    └── Send button
+    ├── Standard Input (`size="sm"`)
+    └── Standard accent Button (icon-only send action)
 ```
 
 ## Variants
@@ -2916,6 +2916,9 @@ onNewThread      () => void, optional — shows the "+Thread" control when provi
   `messages` and appends to it in response to `onSend`.
 - Use the final standard `Button variant="secondary"` for actions below an
   assistant response (Button node `1027:3733`).
+- Compose the input row from the standard `Input size="sm"` and an icon-only
+  `Button variant="accent"`; do not recreate either primitive with native,
+  hand-styled elements.
 
 ## Accessibility
 
@@ -2951,8 +2954,6 @@ color.app-shell.button-secondary-bg / -border / -text
 
 ## Known limitations
 
-- The header icon uses the existing `LmAisymbolIcon` rather than Figma's
-  `lm-ai-outline`, which has no corresponding entry in this repo's icon set.
 - React only — no `@lumen/web-components`/`@lumen/angular` equivalent;
   not expected, this is a composite/layout-level piece like `PageHeader`,
   not a primitive.
@@ -2994,3 +2995,6 @@ rejection, and the labeled live region.
 - 2026-07-20: added, sourced from node `1007:3700`.
 - 2026-07-20: standardized inline response actions on the final secondary
   Button from node `1027:3733`.
+- 2026-07-22: replaced the hand-styled message input and send control with
+  the standard `Input` and icon-only accent `Button`; the AppShell header
+  search fixture now also composes the standard `Input`.
