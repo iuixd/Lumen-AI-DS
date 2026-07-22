@@ -216,6 +216,16 @@ Use the following headings for every release:
   - Validation: token generation and repeat-build drift checks passed with exact light `rgba(237, 240, 241, 0.5)` and dark `rgba(79, 73, 80, 0.5)` output; all 163 React/UI tests passed; `@lumen/ui` typecheck, repo-wide lint, formatting, and `git diff --check` passed; production Storybook built successfully with 2,125 modules and emitted the updated AppShell bundle. Browser-backed hover inspection remains unavailable because no in-app browser backend is registered in this session.
   - Changeset: `.changeset/appshell-theme-toggle-parity.md` (existing `@lumen/tokens` minor and `@lumen/ui` patch entry expanded).
 
+- Corrected the AppShell dark header-search and AI Panel query-input styling after their migration to the shared `Input` component.
+  - Affected component: React `AppShell` composition and its shared `Input` descendants; no token values or public APIs changed.
+  - Figma source: desktop dark AppShell `1127:4197` from canonical page `1007:3700`, freshly verified with `get_design_context` on 2026-07-22. Header input instance `I1119:3337;1079:1884`; AI Panel input instance `I1166:4827;1337:2450`.
+  - Previous: both fields inherited generic Input dark roles (`#262626` background, `#A4B3B7` border, `#7F7F7F` placeholder). The header also rendered the default `sm` anatomy, omitting Figma's search icon and `⌘K` shortcut and using the wrong padding, border weight, and typography.
+  - Current: AppShell scopes shared primary/search Input roles to its exact mode tokens. Dark fields render `#0E0B0E` background, `#3D3039` border, and `#A8939F` placeholder/icon. The header uses `variant="search"`, `md` 16/18 typography, 14px padding, 1.5px border, search icon, and shortcut while remaining 400×36px; the AI Panel retains the exact `sm` 14/16, 10px, 1px, 36px configuration. Both remain the standard `Input` component.
+  - Affects: `packages/ui/src/layout/AppShell.{tsx,stories.tsx,test.tsx}`, `docs/{changelog.md,component-specifications.md,design-tokens.md,figma-sync.md}`, and `.changeset/appshell-theme-toggle-parity.md`.
+  - Migration: none — internal composition and scoped CSS-variable correction only.
+  - Validation: all 163 React/UI tests passed; `@lumen/ui` typecheck, repo-wide lint, formatting, and `git diff --check` passed; production Storybook built successfully with 2,125 modules. Static inspection of the emitted AppShell bundle confirms `variant="search"`, `size="md"`, the 36px height override, and all AppShell-scoped primary/search background, border, placeholder, icon, hover, and focus bindings. The Figma extraction itself supplied the source screenshot and exact values; separate browser-backed inspection remains unavailable because no in-app browser backend is registered.
+  - Changeset: `.changeset/appshell-theme-toggle-parity.md` (existing `@lumen/ui` patch entry expanded).
+
 - Fixed the Lumen logo URL in the published Storybook manager.
   - Source: production Storybook at `/Lumen-DS/`; no Figma node is involved
   - Previous: the logo and brand link used domain-root URLs, causing GitHub Pages to request `/lumen-ds-logo.svg` outside the repository deployment path

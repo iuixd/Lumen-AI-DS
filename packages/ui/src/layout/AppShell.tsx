@@ -252,6 +252,9 @@ export function AppShell({
         "[--color-button-primary-bg:var(--color-app-shell-button-primary-bg)] [--color-button-primary-on-action:var(--color-app-shell-button-primary-on-action)]",
         "[--color-button-secondary-bg:var(--color-app-shell-button-secondary-bg)] [--color-button-secondary-border:var(--color-app-shell-button-secondary-border)] [--color-button-secondary-on-action:var(--color-app-shell-button-secondary-on-action)]",
         "[--color-button-accent-bg:var(--color-app-shell-button-accent-bg)] [--color-button-accent-on-action:var(--color-app-shell-button-accent-on-action)]",
+        "[--color-input-primary-bg:var(--color-app-shell-background)] [--color-input-primary-border:var(--color-app-shell-border-input)] [--color-input-primary-hover-border:var(--color-app-shell-border-input)] [--color-input-primary-placeholder-text:var(--color-app-shell-text-placeholder)]",
+        "[--color-input-search-bg:var(--color-app-shell-background)] [--color-input-search-border:var(--color-app-shell-border-input)] [--color-input-search-hover-border:var(--color-app-shell-border-input)] [--color-input-search-icon:var(--color-app-shell-text-placeholder)]",
+        "[--color-input-primary-focused-border:var(--color-border-focus)] [--color-input-search-focused-border:var(--color-border-focus)]",
         className
       )}
     >

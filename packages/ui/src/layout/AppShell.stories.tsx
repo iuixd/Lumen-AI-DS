@@ -118,7 +118,13 @@ function Brand({ mobile = false, tablet = false }: { mobile?: boolean; tablet?: 
 function SearchBar() {
   return (
     <div className="w-[var(--spacing-400)]">
-      <Input size="sm" aria-label="Type your question" placeholder="Type your question..." />
+      <Input
+        size="md"
+        variant="search"
+        aria-label="Type your question"
+        placeholder="Type your question..."
+        className="h-[var(--spacing-36)]"
+      />
     </div>
   );
 }

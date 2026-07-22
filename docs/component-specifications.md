@@ -2998,3 +2998,5 @@ rejection, and the labeled live region.
 - 2026-07-22: replaced the hand-styled message input and send control with
   the standard `Input` and icon-only accent `Button`; the AppShell header
   search fixture now also composes the standard `Input`.
+- 2026-07-22: scoped the shared Input roles through AppShell so the AI query
+  field retains the exact dark background, border, and placeholder colors.

@@ -131,6 +131,14 @@ component-scoped `button.*` and `badge.*` roles that AppShell remaps at its
 root. This prevents generic dark-mode aliases from overriding the published
 AppShell modes.
 
+AppShell also scopes the shared `Input` component's primary and search roles
+to its published `background`, `border-input`, and `text-placeholder` values.
+In the dark mode this resolves both header search and AI Panel query fields to
+`#0E0B0E`, `#3D3039`, and `#A8939F` respectively, while focus continues to use
+the global semantic focus border. Geometry remains owned by `Input`: the
+header uses the search anatomy with `md` typography/border/padding constrained
+to 36px height, while the AI Panel uses the standard `sm` configuration.
+
 The Figma `btn/nav/*` roles map to `app-shell.nav-{bg,on-action,active,
 selected-on-action}`; the user-directed `app-shell.nav-hover` interaction role
 uses the corresponding light/dark `nav-active` color at 50% alpha, without
