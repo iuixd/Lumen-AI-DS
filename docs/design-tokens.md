@@ -676,7 +676,7 @@ Button/Disabled/On Action
 ## Published theme-aware button roles
 
 The final standard Button collection at node `1027:3733` publishes semantic
-roles for `primary`, `accent`, `secondary`, `outline`, `ghost`, `link`, and
+roles for `primary`, `accent`, `secondary`, `outline`, `ghost`, and
 `destructive`. Each variant exposes its evidenced default and hover surface,
 content, and border roles through `--color-button-{variant}-*` variables.
 Shared interaction roles are:

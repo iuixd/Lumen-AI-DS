@@ -13,15 +13,6 @@ describe("Button", () => {
     );
   });
 
-  it("uses the compact Figma geometry for the link variant", () => {
-    render(<Button variant="link">View details</Button>);
-    expect(screen.getByRole("button")).toHaveClass(
-      "[--button-height:auto]",
-      "[--button-padding-x:var(--spacing-8)]",
-      "[--button-padding-y:var(--spacing-2)]"
-    );
-  });
-
   it("calls onClick when enabled", async () => {
     const onClick = vi.fn();
     render(<Button onClick={onClick}>Save changes</Button>);
@@ -43,7 +34,7 @@ describe("Button", () => {
     expect(onClick).not.toHaveBeenCalled();
   });
 
-  it.each(["primary", "accent", "secondary", "outline", "ghost", "link", "destructive"] as const)(
+  it.each(["primary", "accent", "secondary", "outline", "ghost", "destructive"] as const)(
     "uses the final %s semantic tokens",
     (variant) => {
       render(<Button variant={variant}>{variant}</Button>);

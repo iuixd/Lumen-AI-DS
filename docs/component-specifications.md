@@ -404,11 +404,6 @@ Use for a transparent, brand-colored bordered action.
 
 Use for a lower-emphasis action without a visible boundary at rest.
 
-### Link
-
-Use for the lowest-emphasis blue/teal text action. Use a semantic link element
-when the action navigates.
-
 ### Accent
 
 Use for an emphasized action whose application-context treatment is distinct
@@ -422,11 +417,9 @@ require confirmation.
 
 ## Sizes
 
-Primary, Accent, Secondary, Outline, Ghost, and Destructive use the standard
-34px height, 14px inline padding, and 7px block padding. Link hugs its content
-with 8px inline padding and 2px block padding. All variants use an 8px content
-gap, 8px radius, 14px icons, and Instrument Sans Medium 14/20 with 0.14px
-letter spacing; bordered variants use a 1px border.
+All variants use the standard 34px height, 14px inline padding, and 7px block
+padding, an 8px content gap, 8px radius, 14px icons, and Instrument Sans
+Medium 14/20 with 0.14px letter spacing; bordered variants use a 1px border.
 
 ## States
 
@@ -459,7 +452,7 @@ Trailing icon
 Property contract (framework-neutral — every framework package exposes these, named and typed identically in spirit):
 
 ```text
-variant   enum: primary | accent | secondary | outline | ghost | link | destructive
+variant   enum: primary | accent | secondary | outline | ghost | destructive
 disabled  boolean
 iconStart renderable content (icon)
 iconEnd   renderable content (icon)
@@ -469,7 +462,7 @@ Reference implementation — React (`@lumen/ui`, `packages/ui/src/primitives/But
 
 ```ts
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "accent" | "secondary" | "outline" | "ghost" | "link" | "destructive";
+  variant?: "primary" | "accent" | "secondary" | "outline" | "ghost" | "destructive";
   iconStart?: React.ReactNode;
   iconEnd?: React.ReactNode;
 }

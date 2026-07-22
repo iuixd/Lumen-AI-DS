@@ -23,7 +23,6 @@ export const buttonVariants = cva(
           "border-[var(--color-button-outline-border)] bg-[var(--color-button-outline-bg)] text-[var(--color-button-outline-on-action)] hover:border-[var(--color-button-outline-hover-border)] hover:bg-[var(--color-button-outline-hover-bg)] hover:text-[var(--color-button-outline-hover-on-action)] focus-visible:border-[var(--color-button-outline-focus-border)]",
         ghost:
           "bg-[var(--color-button-ghost-bg)] text-[var(--color-button-ghost-on-action)] hover:bg-[var(--color-button-ghost-hover-bg)]",
-        link: "[--button-height:auto] [--button-padding-x:var(--spacing-8)] [--button-padding-y:var(--spacing-2)] bg-[var(--color-button-link-bg)] text-[var(--color-button-link-on-action)] hover:bg-[var(--color-button-link-hover-bg)] hover:text-[var(--color-button-link-hover-on-action)]",
         destructive:
           "bg-[var(--color-button-destructive-bg)] text-[var(--color-button-destructive-on-action)] hover:bg-[var(--color-button-destructive-hover-bg)]"
       }

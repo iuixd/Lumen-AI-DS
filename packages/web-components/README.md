@@ -51,10 +51,10 @@ inherit through the shadow DOM boundary, so no extra wiring is needed.
 
 ### `<lumen-button>`
 
-| Property (attribute) | Type                                                                        | Default   | Notes                                         |
-| -------------------- | --------------------------------------------------------------------------- | --------- | --------------------------------------------- |
-| `variant`            | `primary \| accent \| secondary \| outline \| ghost \| link \| destructive` | `primary` | Final collection from Figma node `1027:3733`. |
-| `disabled`           | boolean                                                                     | `false`   |                                               |
+| Property (attribute) | Type                                                                | Default   | Notes                                                          |
+| -------------------- | ------------------------------------------------------------------- | --------- | -------------------------------------------------------------- |
+| `variant`            | `primary \| accent \| secondary \| outline \| ghost \| destructive` | `primary` | Standard Button collection; use semantic links for navigation. |
+| `disabled`           | boolean                                                             | `false`   |                                                                |
 
 `disabled` sets `aria-disabled` and prevents the click from reaching
 listeners, matching `@lumen/ui`'s `Button` — native `disabled` is

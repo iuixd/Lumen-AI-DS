@@ -2,15 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { CheckIcon } from "../icons/generated";
 import { Button, type ButtonProps } from "./Button";
 
-const variants = [
-  "primary",
-  "accent",
-  "secondary",
-  "outline",
-  "ghost",
-  "link",
-  "destructive"
-] as const;
+const variants = ["primary", "accent", "secondary", "outline", "ghost", "destructive"] as const;
 
 const hoverClasses: Record<(typeof variants)[number], string> = {
   primary:
@@ -22,7 +14,6 @@ const hoverClasses: Record<(typeof variants)[number], string> = {
   outline:
     "border-[var(--color-button-outline-hover-border)] bg-[var(--color-button-outline-hover-bg)] text-[var(--color-button-outline-hover-on-action)]",
   ghost: "bg-[var(--color-button-ghost-hover-bg)]",
-  link: "bg-[var(--color-button-link-hover-bg)] text-[var(--color-button-link-hover-on-action)]",
   destructive: "bg-[var(--color-button-destructive-hover-bg)]"
 };
 
@@ -34,7 +25,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "The final standard Button collection from Figma node 1027:3733. Primary, Accent, Secondary, Outline, Ghost, and Destructive use the 34px geometry; Link uses its compact 8px inline and 2px block padding. All seven variants use the published light and dark Default, Hover, Focused, and Disabled roles. Use Storybook's theme toggle to inspect either token mode."
+          "The standard Button collection includes Primary, Accent, Secondary, Outline, Ghost, and Destructive. All six variants use the 34px geometry and support light and dark Default, Hover, Focused, and Disabled roles. Link actions use the standalone TextLink component instead of a Button variant. Use Storybook's theme toggle to inspect either token mode."
       }
     }
   },
@@ -88,7 +79,7 @@ export const FinalVariantCollection: Story = {
           <h2 className="mb-5 font-interface text-heading-sm capitalize text-[var(--color-text-heading)]">
             {theme}
           </h2>
-          <div className="grid min-w-[900px] grid-cols-[80px_repeat(7,minmax(110px,1fr))] items-center gap-x-4 gap-y-4">
+          <div className="grid min-w-[800px] grid-cols-[80px_repeat(6,minmax(110px,1fr))] items-center gap-x-4 gap-y-4">
             <span />
             {variants.map((variant) => (
               <span

@@ -313,7 +313,7 @@ All public components must be fully typed.
 
 ```tsx
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "accent" | "secondary" | "outline" | "ghost" | "link" | "destructive";
+  variant?: "primary" | "accent" | "secondary" | "outline" | "ghost" | "destructive";
   iconStart?: React.ReactNode;
   iconEnd?: React.ReactNode;
 }
