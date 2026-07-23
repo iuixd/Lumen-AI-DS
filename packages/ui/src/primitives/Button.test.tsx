@@ -65,11 +65,10 @@ describe("Button", () => {
     }
   );
 
-  it("binds the Figma Ghost hover foreground and surface roles", () => {
+  it("binds the Figma Ghost hover surface role", () => {
     render(<Button variant="ghost">Ghost</Button>);
     expect(screen.getByRole("button")).toHaveClass(
-      "hover:bg-[var(--color-button-ghost-hover-bg)]",
-      "hover:text-[var(--color-button-ghost-hover-on-action)]"
+      "hover:bg-[var(--color-button-ghost-hover-bg)]"
     );
   });
 

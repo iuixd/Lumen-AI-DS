@@ -64,10 +64,9 @@ describe("LumenButtonComponent", () => {
     expect(fixture.nativeElement.querySelector("lumen-button").getAttribute("size")).toBe(size);
   });
 
-  it("binds the Figma Ghost hover foreground and surface roles", () => {
+  it("binds the Figma Ghost hover surface role", () => {
     const styles = (LumenButtonComponent as unknown as { ɵcmp: { styles: string[] } }).ɵcmp.styles;
     expect(styles.join("\n")).toContain("var(--color-button-ghost-hover-bg)");
-    expect(styles.join("\n")).toContain("var(--color-button-ghost-hover-on-action)");
   });
 
   it("allows activation when enabled", () => {

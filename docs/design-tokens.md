@@ -691,8 +691,7 @@ The final standard Button collection at node `1027:3733` publishes semantic
 roles for `primary`, `accent`, `secondary`, `outline`, `ghost`, and
 `destructive`. Each variant exposes its evidenced default and hover surface,
 content, and border roles through `--color-button-{variant}-*` variables.
-Ghost also exposes `--color-button-ghost-hover-on-action`; the foreground
-changes with its hover surface in both themes.
+Ghost retains its default foreground while its hover surface changes.
 Shared interaction roles are:
 
 | Role                    | CSS custom property                 | Light     | Dark      |

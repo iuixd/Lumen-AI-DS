@@ -136,7 +136,6 @@ export class LumenButton extends LitElement {
     }
     :host([variant="ghost"]) button:hover:not([aria-disabled="true"]) {
       background: var(--color-button-ghost-hover-bg);
-      color: var(--color-button-ghost-hover-on-action);
     }
     :host([variant="destructive"]) button {
       background: var(--color-button-destructive-bg);

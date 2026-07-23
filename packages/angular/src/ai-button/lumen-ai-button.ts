@@ -201,7 +201,6 @@ export type LumenAIButtonSize = "sm" | "md" | "lg" | "xl";
     }
     :host([variant="ghost"]) button:hover:not([aria-disabled="true"]) {
       background-color: var(--color-button-ghost-hover-bg);
-      color: var(--color-button-ghost-hover-on-action);
     }
     :host([variant="ghost"][size="md"]) button {
       height: var(--spacing-36);

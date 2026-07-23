@@ -218,7 +218,10 @@
     },
     "dark": {
       "accent-on-action": { "value": "#FFF5F8" },
-      "disabled-on-action": { "value": "#A7A4A7" }
+      "disabled-on-action": { "value": "#A7A4A7" },
+      "secondary-hover-bg": { "value": "#A8939F" },
+      "secondary-hover-on-action": { "value": "#17101A" },
+      "ghost-hover-bg": { "value": "#2D1A26" }
     }
   },
   "input": {

@@ -1,6 +1,10 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { LumenButton } from "./lumen-button";
 
+if (!customElements.get("lumen-button")) {
+  customElements.define("lumen-button", LumenButton);
+}
+
 async function renderButton(markup: string): Promise<LumenButton> {
   document.body.innerHTML = markup;
   const element = document.querySelector("lumen-button") as LumenButton;
@@ -36,9 +40,8 @@ describe("lumen-button", () => {
     expect(LumenButton.styles.cssText).toContain(`:host([size="${size}"])`);
   });
 
-  it("binds the Figma Ghost hover foreground and surface roles", () => {
+  it("binds the Figma Ghost hover surface role", () => {
     expect(LumenButton.styles.cssText).toContain("var(--color-button-ghost-hover-bg)");
-    expect(LumenButton.styles.cssText).toContain("var(--color-button-ghost-hover-on-action)");
   });
 
   it("exposes leading and trailing icon slots", async () => {

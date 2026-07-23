@@ -171,6 +171,9 @@
   --color-button-light-accent-on-action: #FFF5F8;
   --color-button-dark-accent-on-action: #FFF5F8;
   --color-button-dark-disabled-on-action: #A7A4A7;
+  --color-button-dark-secondary-hover-bg: #A8939F;
+  --color-button-dark-secondary-hover-on-action: #17101A;
+  --color-button-dark-ghost-hover-bg: #2D1A26;
   --color-input-light-disabled-border: #D9DEE0;
   --color-app-shell-light-text-primary: #1E2021;
   --color-app-shell-light-text-heading: #2B2F2F;
@@ -648,7 +651,7 @@
   --color-button-secondary-on-action: #2B2F2F;
   --color-button-secondary-border: #E7E2DC;
   --color-button-secondary-hover-bg: #DBE1E2;
-  --color-button-secondary-hover-on-action: #2B2F2F;
+  --color-button-secondary-hover-on-action: #1E2021;
   --color-button-secondary-hover-border: #A4B3B7;
   --color-button-outline-bg: #00000000;
   --color-button-outline-on-action: #BE003C;
@@ -660,7 +663,6 @@
   --color-button-ghost-bg: #00000000;
   --color-button-ghost-on-action: #2B2F2F;
   --color-button-ghost-hover-bg: #DBE1E2;
-  --color-button-ghost-hover-on-action: #424849;
   --color-button-destructive-bg: #DA1E28;
   --color-button-destructive-on-action: #FFFFFF;
   --color-button-destructive-hover-bg: #AE1820;
@@ -826,15 +828,14 @@
   --color-button-secondary-hover-border: #3D3039;
   --color-button-outline-bg: #00000000;
   --color-button-outline-on-action: #E599B1;
-  --color-button-outline-border: #720024;
+  --color-button-outline-border: #E599B1;
   --color-button-outline-hover-bg: #F9E6EC;
   --color-button-outline-hover-on-action: #980030;
   --color-button-outline-hover-border: #E599B1;
-  --color-button-outline-focus-border: #310010;
+  --color-button-outline-focus-border: #E599B1;
   --color-button-ghost-bg: #00000000;
   --color-button-ghost-on-action: #F5EFF3;
-  --color-button-ghost-hover-bg: #A8939F;
-  --color-button-ghost-hover-on-action: #17101A;
+  --color-button-ghost-hover-bg: #2D1A26;
   --color-button-destructive-bg: #DA1E28;
   --color-button-destructive-on-action: #FFFFFF;
   --color-button-destructive-hover-bg: #E14B53;

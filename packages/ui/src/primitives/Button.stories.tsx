@@ -14,7 +14,7 @@ const hoverClasses: Record<(typeof variants)[number], string> = {
     "border-[var(--color-button-secondary-hover-border)] bg-[var(--color-button-secondary-hover-bg)] text-[var(--color-button-secondary-hover-on-action)]",
   outline:
     "border-[var(--color-button-outline-hover-border)] bg-[var(--color-button-outline-hover-bg)] text-[var(--color-button-outline-hover-on-action)]",
-  ghost: "bg-[var(--color-button-ghost-hover-bg)] text-[var(--color-button-ghost-hover-on-action)]",
+  ghost: "bg-[var(--color-button-ghost-hover-bg)]",
   destructive: "bg-[var(--color-button-destructive-hover-bg)]"
 };
 
@@ -26,7 +26,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "The final standard Button variants come from Figma node 1027:3733: Primary, Accent, Secondary, Outline, Ghost, and Destructive. The sm, md, lg, and xl size geometry comes from node 1034:4459. The four sizes are 30px, 34px, 38px, and 42px high, with md remaining the default. Use Storybook's theme toggle to inspect either token mode."
+          "The final standard Button variants come from Figma node 1027:3733: Primary, Accent, Secondary, Outline, Ghost, and Destructive. Link actions use the standalone TextLink component. The sm, md, lg, and xl size geometry comes from node 1034:4459: 30px, 34px, 38px, and 42px high, with md as the default. Use Storybook's theme toggle to inspect either token mode."
       }
     }
   },
@@ -82,7 +82,7 @@ export const FinalVariantCollection: Story = {
           <h2 className="mb-5 font-interface text-heading-sm capitalize text-[var(--color-text-heading)]">
             {theme}
           </h2>
-          <div className="grid min-w-[900px] grid-cols-[80px_repeat(7,minmax(110px,1fr))] items-center gap-x-4 gap-y-4">
+          <div className="grid min-w-[800px] grid-cols-[80px_repeat(6,minmax(110px,1fr))] items-center gap-x-4 gap-y-4">
             <span />
             {variants.map((variant) => (
               <span

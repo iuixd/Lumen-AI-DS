@@ -24,7 +24,7 @@ const aiButtonVariants = cva(
         secondary:
           "border-[var(--color-button-secondary-border)] bg-[var(--color-button-secondary-bg)] text-[var(--color-button-secondary-on-action)] hover:border-[var(--color-button-secondary-hover-border)] hover:bg-[var(--color-button-secondary-hover-bg)] hover:text-[var(--color-button-secondary-hover-on-action)]",
         ghost:
-          "bg-[var(--color-button-ghost-bg)] text-[var(--color-app-shell-text-primary)] hover:bg-[var(--color-button-ghost-hover-bg)] hover:text-[var(--color-button-ghost-hover-on-action)]",
+          "bg-[var(--color-button-ghost-bg)] text-[var(--color-app-shell-text-primary)] hover:bg-[var(--color-button-ghost-hover-bg)]",
         outline:
           "border-[var(--color-button-outline-border)] bg-[var(--color-button-outline-bg)] text-[var(--color-button-outline-on-action)] hover:border-[var(--color-button-outline-hover-border)] hover:bg-[var(--color-button-outline-hover-bg)] hover:text-[var(--color-button-outline-hover-on-action)] focus-visible:border-[var(--color-button-outline-focus-border)]",
         destructive:

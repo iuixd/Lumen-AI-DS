@@ -53,7 +53,7 @@ inherit through the shadow DOM boundary, so no extra wiring is needed.
 
 | Property (attribute) | Type                                                                | Default   | Notes                                                   |
 | -------------------- | ------------------------------------------------------------------- | --------- | ------------------------------------------------------- |
-| `variant`            | `primary \| accent \| secondary \| outline \| ghost \| destructive` | `primary` | Final collection from Figma node `1027:3733`.           |
+| `variant`            | `primary \| accent \| secondary \| outline \| ghost \| destructive` | `primary` | Final Figma collection; use semantic links for navigation. |
 | `size`               | `sm \| md \| lg \| xl`                                              | `md`      | 30px, 34px, 38px, and 42px from Figma node `1034:4459`. |
 | `disabled`           | boolean                                                             | `false`   |                                                         |
 
