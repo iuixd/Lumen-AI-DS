@@ -1,7 +1,7 @@
 {
   "name": "@lumen/patterns",
-  "version": "0.1.0",
-  "description": "Composed, enterprise-SaaS patterns built entirely from @lumen/ui \u2014 reference implementations, not a component library. Copy and adapt; do not hand-roll a new version of these screens.",
+  "version": "0.2.0",
+  "description": "Composed, enterprise-SaaS patterns built entirely from @lumen/ui — reference implementations, not a component library. Copy and adapt; do not hand-roll a new version of these screens.",
   "license": "Apache-2.0",
   "type": "module",
   "main": "./src/index.ts",

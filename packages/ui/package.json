@@ -1,6 +1,6 @@
 {
   "name": "@lumen/ui",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Lumen UI — React + TypeScript + Tailwind component library built on @lumen/tokens. Primitives, composite components, and layout primitives for enterprise SaaS products.",
   "license": "Apache-2.0",
   "type": "module",

@@ -1,6 +1,6 @@
 {
   "name": "@lumen/storybook",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "Interactive showcase for @lumen/ui and @lumen/patterns — live component rendering, variant controls, and auto-generated usage code for product teams building on Lumen.",
   "license": "Apache-2.0",

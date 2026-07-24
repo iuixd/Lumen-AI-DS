@@ -1,12 +1,15 @@
 {
   "name": "@lumen/tokens",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Lumen design tokens — single source of truth for color, typography, spacing, radius, and elevation. Generated from the Lumen AI Design System Figma library.",
   "license": "Apache-2.0",
   "type": "module",
   "main": "./dist/index.ts",
   "types": "./dist/index.ts",
-  "files": ["dist", "src"],
+  "files": [
+    "dist",
+    "src"
+  ],
   "exports": {
     ".": "./dist/index.ts",
     "./css": "./dist/css/variables.css",

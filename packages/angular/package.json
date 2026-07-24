@@ -1,6 +1,6 @@
 {
   "name": "@lumen/angular",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Lumen Angular — standalone Angular components implementing the same component specifications as @lumen/ui and @lumen/web-components. Proof-of-concept package; currently ships Button only. See docs/roadmap.md Phase 13.",
   "license": "Apache-2.0",
   "type": "module",
