@@ -8,9 +8,9 @@ import { type ButtonProps, buttonVariants } from "./button"
 
 /**
  * Adapted from shadcn/ui's Pagination (new-york style) — internal to
- * @lumen/ui, source for the public `ShadcnPagination` export (Lumen's own
- * `Pagination` name collides — see docs/shadcn-integration.md §7.1).
- * Changes:
+ * @lumen/ui, source for the public `Pagination` export (promoted from
+ * `ShadcnPagination` after Lumen's original `Pagination` primitive was
+ * retired in its favor — see docs/shadcn-integration.md §7.8). Changes:
  * - imports resolve via this repo's existing relative-import convention
  * - lucide-react's `ChevronLeft`/`ChevronRight`/`MoreHorizontal` replaced
  *   with Lumen's own `ChevronLeftIcon`/`ChevronRightIcon`/`EllipsisIcon`

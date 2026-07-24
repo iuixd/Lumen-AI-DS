@@ -7,10 +7,11 @@ import { cn } from "../../lib/cn"
 
 /**
  * Adapted from shadcn/ui's Avatar (new-york style) — internal to
- * @lumen/ui, source for the public `ShadcnAvatar` export (Lumen's own
- * `Avatar` name collides — see docs/shadcn-integration.md §7.1). Only the
- * import path changed; `bg-muted` already resolves through the bridge,
- * and there's no icon, animation, or dark-mode-specific styling to adapt.
+ * @lumen/ui, source for the public `Avatar` export (promoted from
+ * `ShadcnAvatar` after Lumen's original `Avatar` primitive was retired —
+ * see docs/shadcn-integration.md §7.8). Only the import path changed;
+ * `bg-muted` already resolves through the bridge, and there's no icon,
+ * animation, or dark-mode-specific styling to adapt.
  */
 const Avatar = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Root>,

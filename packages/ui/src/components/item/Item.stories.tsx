@@ -9,7 +9,7 @@ import {
   ItemSeparator,
   ItemTitle
 } from "./Item";
-import { Button } from "../../primitives/Button";
+import { Button } from "../button/Button";
 import { SettingsIcon } from "../../icons/generated/SettingsIcon";
 
 const meta = {

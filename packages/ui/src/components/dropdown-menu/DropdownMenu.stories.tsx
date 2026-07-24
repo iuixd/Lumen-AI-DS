@@ -12,7 +12,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger
 } from "./DropdownMenu";
-import { Button } from "../../primitives/Button";
+import { Button } from "../button/Button";
 
 const meta = {
   title: "Composite/DropdownMenu",

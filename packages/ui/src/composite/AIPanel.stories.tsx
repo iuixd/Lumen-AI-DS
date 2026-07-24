@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { Button } from "../primitives/Button";
+import { Button } from "../components/button/Button";
 import { AIPanel, type AIPanelMessage } from "./AIPanel";
 
 const messages: AIPanelMessage[] = [

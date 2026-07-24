@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Container, Stack, Card, CardHeader, CardTitle, Tabs, TabList, Tab, TabPanel } from "@lumen/ui";
+import { Container, Stack, Card, CardHeader, CardTitle, CardContent, Tabs, TabsList, TabsTrigger, TabsContent } from "@lumen/ui";
 
 export interface SettingsSection {
   id: string;
@@ -16,22 +16,22 @@ export function SettingsPage({ title, sections }: { title: string; sections: Set
       <Stack gap={24}>
         <h1 className="text-headline-sm text-[var(--color-text-title)]">{title}</h1>
         <Tabs defaultValue={sections[0]?.id}>
-          <TabList>
+          <TabsList>
             {sections.map((s) => (
-              <Tab key={s.id} value={s.id}>
+              <TabsTrigger key={s.id} value={s.id}>
                 {s.label}
-              </Tab>
+              </TabsTrigger>
             ))}
-          </TabList>
+          </TabsList>
           {sections.map((s) => (
-            <TabPanel key={s.id} value={s.id}>
+            <TabsContent key={s.id} value={s.id}>
               <Card className="mt-6">
                 <CardHeader>
                   <CardTitle>{s.label}</CardTitle>
                 </CardHeader>
-                {s.content}
+                <CardContent>{s.content}</CardContent>
               </Card>
-            </TabPanel>
+            </TabsContent>
           ))}
         </Tabs>
       </Stack>

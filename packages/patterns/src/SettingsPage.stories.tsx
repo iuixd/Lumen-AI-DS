@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { SettingsPage, type SettingsSection } from "./SettingsPage";
-import { FormField, Input, Switch, Stack } from "@lumen/ui";
+import { FormField, Input, Switch, Label, Stack } from "@lumen/ui";
 
 const sections: SettingsSection[] = [
   {
@@ -22,8 +22,14 @@ const sections: SettingsSection[] = [
     label: "Notifications",
     content: (
       <Stack gap={12}>
-        <Switch name="email-notifs" label="Email notifications" defaultChecked />
-        <Switch name="push-notifs" label="Push notifications" />
+        <div className="flex items-center gap-2">
+          <Switch id="email-notifs" name="email-notifs" defaultChecked />
+          <Label htmlFor="email-notifs">Email notifications</Label>
+        </div>
+        <div className="flex items-center gap-2">
+          <Switch id="push-notifs" name="push-notifs" />
+          <Label htmlFor="push-notifs">Push notifications</Label>
+        </div>
       </Stack>
     )
   },

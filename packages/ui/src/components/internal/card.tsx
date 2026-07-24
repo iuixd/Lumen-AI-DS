@@ -4,15 +4,17 @@ import { cn } from "../../lib/cn"
 
 /**
  * Adapted from shadcn/ui's Card (new-york style) — internal to @lumen/ui,
- * source for the public `ShadcnCard` export (Lumen's own `Card` name
- * collides — see docs/shadcn-integration.md §7.1). Changes:
+ * source for the public `Card` export (promoted from `ShadcnCard` after
+ * Lumen's original `Card` primitive was retired in its favor — see
+ * docs/shadcn-integration.md §7.8). Changes:
  * - imports resolve via this repo's existing relative-import convention
- * - `rounded-xl` replaced with `rounded-lg`, matching Lumen's own existing
+ * - `rounded-xl` replaced with `rounded-lg`, matching Lumen's original
  *   `Card`/`Modal` raised-surface radius exactly
  * - bare `shadow` replaced with the bridged `--shadow-elevation-sm` — the
  *   general-purpose resting-surface elevation tier (distinct from
  *   `--shadow-menu-default`, reserved for floating overlays/menus)
  * - `text-sm` replaced with Lumen's `body-sm` type scale
+ * Re-fixed a second time 2026-07-24 (as a registryDependency of `chart`).
  */
 const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ className, ...props }, ref) => (
   <div ref={ref} className={cn("rounded-lg border bg-card text-card-foreground shadow-[var(--shadow-elevation-sm)]", className)} {...props} />

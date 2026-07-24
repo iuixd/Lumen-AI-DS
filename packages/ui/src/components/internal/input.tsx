@@ -4,12 +4,13 @@ import { cn } from "../../lib/cn"
 
 /**
  * Adapted from shadcn/ui's Input (new-york style) — internal to
- * @lumen/ui, source for the public `ShadcnInput` export (Lumen's own
- * `Input` name collides — see docs/shadcn-integration.md §7.1). Changes:
+ * @lumen/ui, source for the public `Input` export (promoted from
+ * `ShadcnInput` after Lumen's original `Input` primitive was retired in
+ * its favor — see docs/shadcn-integration.md §7.8). Changes:
  * - imports resolve via this repo's existing relative-import convention
  * - `text-base ... md:text-sm`/`file:text-sm` replaced with Lumen's
- *   `input-md` type scale, matching Lumen's own `Input.tsx` convention
- * - `shadow-sm` dropped — no shadow precedent on Lumen's own Input
+ *   `input-md` type scale, matching the original `Input.tsx`'s convention
+ * - `shadow-sm` dropped — no shadow precedent on the original Input
  */
 const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(({ className, type, ...props }, ref) => {
   return (

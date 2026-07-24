@@ -7,9 +7,9 @@ import { Separator } from "./separator"
 
 /**
  * Adapted from shadcn/ui's ButtonGroup (new-york style) — internal to
- * @lumen/ui, source for the public `ShadcnButtonGroup` export (Lumen's
- * own `ButtonGroup` name collides — see docs/shadcn-integration.md §7.1).
- * Changes:
+ * @lumen/ui, source for the public `ButtonGroup` export (promoted from
+ * `ShadcnButtonGroup` after Lumen's original `ButtonGroup` primitive was
+ * retired — see docs/shadcn-integration.md §7.8). Changes:
  * - imports resolve via this repo's existing relative-import convention
  * - `text-sm` replaced with Lumen's `label-md` type scale
  * - `shadow-xs` dropped — no shadow precedent on Lumen's own

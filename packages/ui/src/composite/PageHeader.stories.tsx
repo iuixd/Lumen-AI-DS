@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { PageHeader } from "./PageHeader";
-import { Button } from "../primitives/Button";
+import { Button } from "../components/button/Button";
 import { PlusIcon } from "../icons/generated";
 
 const meta = {
@@ -24,7 +24,8 @@ const meta = {
       <>
         <Button variant="secondary">Share</Button>
         <Button variant="secondary">Export</Button>
-        <Button variant="primary" iconStart={<PlusIcon className="size-4" aria-hidden />}>
+        <Button>
+          <PlusIcon className="size-4" aria-hidden />
           New project
         </Button>
       </>

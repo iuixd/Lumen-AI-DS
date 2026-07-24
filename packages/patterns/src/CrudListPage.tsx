@@ -5,10 +5,15 @@ import {
   Card,
   CardHeader,
   CardTitle,
+  CardContent,
   Button,
   Input,
   DataTable,
   Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationPrevious,
+  PaginationNext,
   EmptyState,
   Badge,
   type Column
@@ -63,14 +68,16 @@ export function CrudListPage<T>({
           <CardHeader>
             <CardTitle>Filters</CardTitle>
           </CardHeader>
-          <Input
-            placeholder="Search..."
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
-              onSearch?.(e.target.value);
-            }}
-          />
+          <CardContent>
+            <Input
+              placeholder="Search..."
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                onSearch?.(e.target.value);
+              }}
+            />
+          </CardContent>
         </Card>
 
         <DataTable
@@ -86,7 +93,39 @@ export function CrudListPage<T>({
           }
         />
 
-        {data.length > 0 && <Pagination page={page} pageCount={pageCount} onPageChange={onPageChange} />}
+        {data.length > 0 && (
+          <Pagination>
+            <PaginationContent className="w-full justify-between">
+              <PaginationItem>
+                <PaginationPrevious
+                  href="#"
+                  aria-disabled={page <= 1}
+                  tabIndex={page <= 1 ? -1 : undefined}
+                  className={page <= 1 ? "pointer-events-none opacity-50" : undefined}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (page > 1) onPageChange(page - 1);
+                  }}
+                />
+              </PaginationItem>
+              <li className="text-label-lg text-[var(--color-text-muted)]">
+                Page {page} of {pageCount}
+              </li>
+              <PaginationItem>
+                <PaginationNext
+                  href="#"
+                  aria-disabled={page >= pageCount}
+                  tabIndex={page >= pageCount ? -1 : undefined}
+                  className={page >= pageCount ? "pointer-events-none opacity-50" : undefined}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (page < pageCount) onPageChange(page + 1);
+                  }}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        )}
       </Stack>
     </Container>
   );

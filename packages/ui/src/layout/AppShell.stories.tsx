@@ -2,10 +2,11 @@ import { useState, type ReactNode } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { AppShell, type NavSection } from "./AppShell";
 import { Icon } from "../primitives/Icon";
-import { Avatar } from "../primitives/Avatar";
+import { Avatar, AvatarFallback } from "../components/avatar/Avatar";
 import { Badge } from "../primitives/Badge";
-import { Button } from "../primitives/Button";
-import { Input } from "../primitives/Input";
+import { Button } from "../components/button/Button";
+import { TextLink } from "../primitives/TextLink";
+import { Input } from "../components/input/Input";
 import { KPICard } from "../primitives/KPICard";
 import { ThemeToggle } from "../primitives/ThemeToggle";
 import { AIPanel } from "../composite/AIPanel";
@@ -119,8 +120,7 @@ function SearchBar() {
   return (
     <div className="w-[var(--spacing-400)]">
       <Input
-        size="md"
-        variant="search"
+        type="search"
         aria-label="Type your question"
         placeholder="Type your question..."
         className="h-[var(--spacing-36)]"
@@ -160,23 +160,23 @@ function AppHeader({
           checked={dark}
           onChange={(event) => onThemeChange(event.currentTarget.checked)}
         />
-        <button
-          type="button"
+        <Button
+          variant="ghost"
+          size="icon"
           aria-label="Notifications"
-          className="flex size-[var(--spacing-32)] items-center justify-center rounded-md text-[var(--color-app-shell-icon-default)]"
+          className="size-[var(--spacing-32)] rounded-md text-[var(--color-app-shell-icon-default)]"
         >
           <BellIcon className="size-[var(--spacing-18)]" aria-hidden />
-        </button>
+        </Button>
         <Avatar
-          name="Jane Doe"
-          tone="neutral"
-          size="md"
           className={
             tablet
-              ? "bg-[var(--color-app-shell-avatar-tablet-bg)] text-app-label-semibold text-[var(--color-app-shell-text-on-brand)]"
-              : "bg-[var(--color-app-shell-avatar-bg)] text-app-label-semibold text-[var(--color-app-shell-text-on-brand)]"
+              ? "size-8 bg-[var(--color-app-shell-avatar-tablet-bg)] text-app-label-semibold text-[var(--color-app-shell-text-on-brand)]"
+              : "size-8 bg-[var(--color-app-shell-avatar-bg)] text-app-label-semibold text-[var(--color-app-shell-text-on-brand)]"
           }
-        />
+        >
+          <AvatarFallback className="bg-transparent text-inherit">JD</AvatarFallback>
+        </Avatar>
       </div>
     </div>
   );
@@ -205,13 +205,14 @@ function MobileHeader({
   return (
     <div className="flex h-[var(--spacing-52)] items-center justify-between border-b border-[var(--color-app-shell-border-default)] bg-[var(--color-app-shell-surface)] px-[var(--spacing-16)]">
       <div className="flex items-center gap-[var(--spacing-12)]">
-        <button
-          type="button"
+        <Button
+          variant="ghost"
+          size="icon"
           aria-label="Open navigation"
-          className="flex size-[var(--spacing-32)] items-center justify-center text-[var(--color-app-shell-icon-default)]"
+          className="size-[var(--spacing-32)] text-[var(--color-app-shell-icon-default)]"
         >
           <MenuIcon className="size-[var(--spacing-20)]" aria-hidden />
-        </button>
+        </Button>
         <Brand mobile />
       </div>
       <div className="flex items-center gap-[var(--spacing-8)]">
@@ -220,19 +221,17 @@ function MobileHeader({
           checked={dark}
           onChange={(event) => onThemeChange(event.currentTarget.checked)}
         />
-        <button
-          type="button"
+        <Button
+          variant="ghost"
+          size="icon"
           aria-label="Notifications"
-          className="flex size-[var(--spacing-32)] items-center justify-center text-[var(--color-app-shell-icon-default)]"
+          className="size-[var(--spacing-32)] text-[var(--color-app-shell-icon-default)]"
         >
           <BellIcon className="size-[var(--spacing-18)]" aria-hidden />
-        </button>
-        <Avatar
-          name="Jane Doe"
-          tone="neutral"
-          size="md"
-          className="bg-[var(--color-app-shell-avatar-bg)] text-[var(--color-app-shell-text-on-brand)]"
-        />
+        </Button>
+        <Avatar className="size-8 bg-[var(--color-app-shell-avatar-bg)] text-app-label-semibold text-[var(--color-app-shell-text-on-brand)]">
+          <AvatarFallback className="bg-transparent text-inherit">JD</AvatarFallback>
+        </Avatar>
       </div>
     </div>
   );
@@ -257,7 +256,8 @@ function DesktopContent() {
           <>
             <Button variant="secondary">Share</Button>
             <Button variant="secondary">Export</Button>
-            <Button variant="primary" iconStart={<PlusIcon aria-hidden />}>
+            <Button>
+              <PlusIcon aria-hidden />
               New project
             </Button>
           </>
@@ -296,13 +296,13 @@ function TabletContent() {
     <div className="hidden h-full flex-col gap-[var(--spacing-24)] p-[var(--spacing-32)] tablet:flex desktop:hidden">
       <div className="flex flex-col gap-[var(--spacing-16)] pb-[var(--spacing-20)]">
         <div className="flex gap-[var(--spacing-6)] text-app-breadcrumb text-[var(--color-app-shell-text-tertiary)]">
-          <a href="#workspace" className="text-[var(--color-app-shell-text-link)]">
+          <TextLink href="#workspace" className="text-[var(--color-app-shell-text-link)]">
             Workspace
-          </a>
+          </TextLink>
           <span>›</span>
-          <a href="#projects" className="text-[var(--color-app-shell-text-link)]">
+          <TextLink href="#projects" className="text-[var(--color-app-shell-text-link)]">
             Projects
-          </a>
+          </TextLink>
           <span>›</span>
           <span className="text-[var(--color-app-shell-text-body)]">Renewal pipeline</span>
         </div>
@@ -312,7 +312,8 @@ function TabletContent() {
         <div className="flex gap-[var(--spacing-12)]">
           <Button variant="secondary">Share</Button>
           <Button variant="secondary">Export</Button>
-          <Button variant="primary" iconStart={<PlusIcon aria-hidden />}>
+          <Button>
+            <PlusIcon aria-hidden />
             New project
           </Button>
         </div>
@@ -396,12 +397,13 @@ function MobileContent() {
             <Button variant="secondary">Share</Button>
             <Button variant="secondary">Export</Button>
           </div>
-          <button
+          <Button
+            size="icon"
             aria-label="New project"
-            className="flex size-[var(--spacing-40)] items-center justify-center rounded-full bg-[var(--color-app-shell-brand-primary)] text-[var(--color-app-shell-text-on-brand)]"
+            className="size-[var(--spacing-40)] rounded-full bg-[var(--color-app-shell-brand-primary)] text-[var(--color-app-shell-text-on-brand)] hover:bg-[var(--color-app-shell-brand-primary)]"
           >
             <PlusIcon className="size-[var(--spacing-16)]" />
-          </button>
+          </Button>
         </div>
       </div>
       <div className="flex flex-col gap-[var(--spacing-12)] px-[var(--spacing-16)]">

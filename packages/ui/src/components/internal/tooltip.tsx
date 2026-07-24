@@ -7,15 +7,16 @@ import { cn } from "../../lib/cn"
 
 /**
  * Adapted from shadcn/ui's Tooltip (new-york style) — internal to
- * @lumen/ui, source for the public `ShadcnTooltip` export (Lumen's own
- * `Tooltip` name collides — see docs/shadcn-integration.md §7.1). Changes:
+ * @lumen/ui, source for the public `Tooltip` export (promoted from
+ * `ShadcnTooltip` after Lumen's original `Tooltip` primitive was retired —
+ * see docs/shadcn-integration.md §7.8). Changes:
  * - imports resolve via this repo's existing relative-import convention
  * - `text-xs` replaced with Lumen's `label-md` type scale
  * - `bg-primary`/`text-primary-foreground` (shadcn's default brand-colored
  *   tooltip) replaced with `--color-background-inverse`/`--color-text-inverse`
- *   — matching Lumen's own hand-built `Tooltip.tsx`, which already uses
- *   this same dark-neutral-inverse look (`bg-neutral-800`/`text-neutral-white`)
- *   rather than a brand-colored one, sourced through the real semantic
+ *   — matching the look of Lumen's original hand-built `Tooltip.tsx`
+ *   (`bg-neutral-800`/`text-neutral-white`, a dark-neutral-inverse style
+ *   rather than a brand-colored one), sourced through the real semantic
  *   tokens instead of raw neutral color literals
  * - dropped the `animate-in`/`fade-in-0`/`zoom-in-95`/`slide-in-from-*`
  *   classes — same deferred-motion decision as everywhere else in this

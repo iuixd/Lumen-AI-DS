@@ -10,7 +10,7 @@ import {
   DialogTitle,
   DialogTrigger
 } from "./Dialog";
-import { Button } from "../../primitives/Button";
+import { Button } from "../button/Button";
 
 const meta = {
   title: "Composite/Dialog",

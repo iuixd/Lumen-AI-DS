@@ -9,7 +9,7 @@ import {
   DrawerTitle,
   DrawerTrigger
 } from "./Drawer";
-import { Button } from "../../primitives/Button";
+import { Button } from "../button/Button";
 
 const meta = {
   title: "Composite/Drawer",

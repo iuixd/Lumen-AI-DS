@@ -47,15 +47,12 @@ describe("AIPanel", () => {
     expect(input).toHaveValue("");
   });
 
-  it("composes the standard Input and icon-only accent Button in the message row", () => {
+  it("composes the standard Input and icon-only Button in the message row", () => {
     render(<AIPanel messages={[]} />);
 
-    expect(screen.getByLabelText("Message")).toHaveClass(
-      "bg-[var(--color-input-primary-bg)]",
-      "h-[var(--spacing-36)]"
-    );
+    expect(screen.getByLabelText("Message")).toHaveClass("h-9", "min-w-0", "flex-1");
     expect(screen.getByRole("button", { name: "Send message" })).toHaveClass(
-      "bg-[var(--color-button-accent-bg)]",
+      "bg-[var(--color-button-primary-bg)]",
       "size-[var(--spacing-32)]"
     );
   });

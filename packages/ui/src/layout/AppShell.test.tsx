@@ -171,15 +171,17 @@ describe("AppShell", () => {
     expect(container.firstElementChild).toHaveClass(
       "bg-[var(--color-app-shell-background)]",
       "text-[var(--color-app-shell-text-body)]",
-      "[--color-button-primary-bg:var(--color-app-shell-button-primary-bg)]",
-      "[--color-button-secondary-bg:var(--color-app-shell-button-secondary-bg)]",
-      "[--color-button-accent-bg:var(--color-app-shell-button-accent-bg)]",
       "[--color-input-primary-bg:var(--color-app-shell-background)]",
       "[--color-input-primary-border:var(--color-app-shell-border-input)]",
       "[--color-input-primary-placeholder-text:var(--color-app-shell-text-placeholder)]",
       "[--color-input-search-bg:var(--color-app-shell-background)]",
       "[--color-input-search-border:var(--color-app-shell-border-input)]",
       "[--color-input-search-icon:var(--color-app-shell-text-placeholder)]"
+    );
+    expect(container.firstElementChild).not.toHaveClass(
+      "[--color-button-primary-bg:var(--color-app-shell-button-primary-bg)]",
+      "[--color-button-secondary-bg:var(--color-app-shell-button-secondary-bg)]",
+      "[--color-button-accent-bg:var(--color-app-shell-button-accent-bg)]"
     );
   });
 
