@@ -5,8 +5,9 @@ import { cn } from "../../lib/cn"
 
 /**
  * Adapted from shadcn/ui's Switch (new-york style) — internal to
- * @lumen/ui, source for the public `ShadcnSwitch` export (Lumen's own
- * `Switch` name collides — see docs/shadcn-integration.md §7.1). Changes:
+ * @lumen/ui, source for the public `Switch` export (promoted from
+ * `ShadcnSwitch` after Lumen's original `Switch` primitive was retired —
+ * see docs/shadcn-integration.md §7.8). Changes:
  * - imports resolve via this repo's existing relative-import convention
  * - `shadow-sm`/`shadow-lg` dropped — no shadow precedent on Lumen's own
  *   `Switch.tsx`

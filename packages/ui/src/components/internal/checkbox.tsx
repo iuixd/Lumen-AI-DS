@@ -8,8 +8,9 @@ import { cn } from "../../lib/cn"
 
 /**
  * Adapted from shadcn/ui's Checkbox (new-york style) — internal to
- * @lumen/ui, source for the public `ShadcnCheckbox` export (Lumen's own
- * `Checkbox` name collides — see docs/shadcn-integration.md §7.1). Changes:
+ * @lumen/ui, source for the public `Checkbox` export (promoted from
+ * `ShadcnCheckbox` after Lumen's original `Checkbox` primitive was retired —
+ * see docs/shadcn-integration.md §7.8). Changes:
  * - imports resolve via this repo's existing relative-import convention
  * - lucide-react's `Check` replaced with Lumen's own generated `CheckIcon`
  * - bare `shadow` dropped — no shadow precedent on Lumen's own `Checkbox.tsx`

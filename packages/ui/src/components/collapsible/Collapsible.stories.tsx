@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./Collapsible";
-import { Button } from "../../primitives/Button";
+import { Button } from "../button/Button";
 
 const meta = {
   title: "Primitives/Collapsible",

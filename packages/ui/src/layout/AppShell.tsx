@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { cn } from "../lib/cn";
+import { Button } from "../components/button/Button";
 import { CircleArrowLeftIcon, CircleArrowRightIcon } from "../icons/generated";
 
 export interface NavItem {
@@ -142,6 +143,12 @@ function Sidebar({
       ))}
       <div className="min-h-0 flex-1" />
       <div className="h-px w-full bg-[var(--color-app-shell-border-default)]" />
+      {/* Not the shared Button component: this is a full-width nav-list row
+          sharing navItemBase with the <a> items above it, not a standalone
+          action — converting it alone would leave it visually inconsistent
+          with its list siblings, which are real navigation links (not
+          Button/TextLink candidates either, since they carry icon+badge+
+          active-state slots no generic link component represents). */}
       {onCollapse && (
         <button
           type="button"
@@ -209,14 +216,15 @@ function NavigationRail({
       <div className="min-h-0 flex-1" />
       <div className="h-px w-full bg-[var(--color-app-shell-border-default)]" />
       {onExpand && (
-        <button
-          type="button"
+        <Button
+          variant="ghost"
+          size="icon"
           onClick={onExpand}
           aria-label="Expand navigation"
-          className="flex size-[var(--spacing-40)] items-center justify-center rounded-lg text-[var(--color-app-shell-text-secondary)] hover:bg-[var(--color-app-shell-nav-hover)]"
+          className="size-[var(--spacing-40)] rounded-lg text-[var(--color-app-shell-text-secondary)] hover:bg-[var(--color-app-shell-nav-hover)]"
         >
           <CircleArrowRightIcon className="size-[var(--spacing-20)]" aria-hidden />
-        </button>
+        </Button>
       )}
     </aside>
   );
@@ -249,9 +257,13 @@ export function AppShell({
     <div
       className={cn(
         "flex min-h-screen w-full flex-col overflow-hidden bg-[var(--color-app-shell-background)] font-interface text-[var(--color-app-shell-text-body)]",
-        "[--color-button-primary-bg:var(--color-app-shell-button-primary-bg)] [--color-button-primary-on-action:var(--color-app-shell-button-primary-on-action)]",
-        "[--color-button-secondary-bg:var(--color-app-shell-button-secondary-bg)] [--color-button-secondary-border:var(--color-app-shell-button-secondary-border)] [--color-button-secondary-on-action:var(--color-app-shell-button-secondary-on-action)]",
-        "[--color-button-accent-bg:var(--color-app-shell-button-accent-bg)] [--color-button-accent-on-action:var(--color-app-shell-button-accent-on-action)]",
+        // No local --color-button-* re-scoping here (removed 2026-07-24):
+        // Button must always read the same global --color-button-* tokens
+        // everywhere, including inside AppShell, so it can't silently drift
+        // from its own reference styling the way `secondary` just did — the
+        // app-shell-specific shadow copy of these tokens was never updated
+        // when Button's colors were last synced to Figma. See
+        // docs/shadcn-integration.md §7.8.
         "[--color-input-primary-bg:var(--color-app-shell-background)] [--color-input-primary-border:var(--color-app-shell-border-input)] [--color-input-primary-hover-border:var(--color-app-shell-border-input)] [--color-input-primary-placeholder-text:var(--color-app-shell-text-placeholder)]",
         "[--color-input-search-bg:var(--color-app-shell-background)] [--color-input-search-border:var(--color-app-shell-border-input)] [--color-input-search-hover-border:var(--color-app-shell-border-input)] [--color-input-search-icon:var(--color-app-shell-text-placeholder)]",
         "[--color-input-primary-focused-border:var(--color-border-focus)] [--color-input-search-focused-border:var(--color-border-focus)]",

@@ -1,7 +1,7 @@
 import type { ComponentProps } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { EmptyState } from "./EmptyState";
-import { Button } from "../primitives/Button";
+import { Button } from "../components/button/Button";
 import { Icon } from "../primitives/Icon";
 
 const meta = {

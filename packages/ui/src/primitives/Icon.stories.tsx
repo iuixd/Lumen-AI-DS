@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, type ChangeEvent } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { Icon, type IconProps } from "./Icon";
-import { Input } from "./Input";
+import { Input } from "../components/input/Input";
 import { iconRegistry } from "../icons/generated/registry";
 
 const meta = {
@@ -43,7 +43,7 @@ function AllIconsGrid() {
         <Input
           type="search"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
           placeholder="Search icons by name…"
           aria-label="Search icons by name"
           className="max-w-xs"

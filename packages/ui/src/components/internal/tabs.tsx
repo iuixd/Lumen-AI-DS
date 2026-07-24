@@ -5,12 +5,13 @@ import { cn } from "../../lib/cn"
 
 /**
  * Adapted from shadcn/ui's Tabs (new-york style) — internal to @lumen/ui,
- * source for the public `ShadcnTabs` export (Lumen's own `Tabs` name
- * collides — see docs/shadcn-integration.md §7.1). Changes:
+ * source for the public `Tabs` export (promoted from `ShadcnTabs` after
+ * Lumen's original `Tabs` primitive was retired in its favor — see
+ * docs/shadcn-integration.md §7.8). Changes:
  * - imports resolve via this repo's existing relative-import convention
  * - `text-sm` replaced with Lumen's `label-md` type scale
  * - bare `shadow` (active-tab state) replaced with the bridged
- *   `--shadow-elevation-sm`, matching `ShadcnCard`'s own resting-elevation
+ *   `--shadow-elevation-sm`, matching `Card`'s own resting-elevation
  *   choice
  */
 const Tabs = TabsPrimitive.Root

@@ -1,7 +1,7 @@
 import type { ComponentProps } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { FormField } from "./FormField";
-import { Input } from "../primitives/Input";
+import { Input } from "../components/input/Input";
 
 const meta = {
   title: "Composite/FormField",

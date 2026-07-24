@@ -1,8 +1,8 @@
 import { useState, type FormEvent, type ReactNode } from "react";
 import { cn } from "../lib/cn";
 import { ArrowUpIcon, LmAiOutlineIcon } from "../icons/generated";
-import { Button } from "../primitives/Button";
-import { Input } from "../primitives/Input";
+import { Button } from "../components/button/Button";
+import { Input } from "../components/input/Input";
 
 export interface AIPanelMessage {
   role: "user" | "assistant";
@@ -105,7 +105,7 @@ export function AIPanel({
       </div>
       <form
         onSubmit={handleSubmit}
-        className="flex items-center gap-[var(--spacing-8)] p-[var(--spacing-12)] [&>span]:min-w-0 [&>span]:flex-1"
+        className="flex items-center gap-[var(--spacing-8)] p-[var(--spacing-12)]"
       >
         <label className="sr-only" htmlFor="ai-panel-input">
           Message
@@ -113,14 +113,13 @@ export function AIPanel({
         <Input
           id="ai-panel-input"
           type="text"
-          size="sm"
+          className="min-w-0 flex-1"
           value={value}
           onChange={(e) => setValue(e.target.value)}
           placeholder={inputPlaceholder}
         />
         <Button
           type="submit"
-          variant="accent"
           aria-label="Send message"
           className="size-[var(--spacing-32)] shrink-0 px-0 py-0"
         >

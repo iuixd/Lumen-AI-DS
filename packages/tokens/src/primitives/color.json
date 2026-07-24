@@ -29,7 +29,13 @@
     "600": { "value": "#980030" },
     "700": { "value": "#720024" },
     "800": { "value": "#4C0018" },
-    "900": { "value": "#310010" }
+    "900": { "value": "#310010" },
+    "500-a10": { "value": "#be003c1a", "_comment": "primary.500 at ~10% alpha — sourced from the Button component's `btn/secondary/bg` bound variable, Light mode (Lumen-AI-Design-System node 1174:1349, via get_variable_defs on 2026-07-24), the Secondary variant's translucent brand-tinted fill." },
+    "500-a16": { "value": "#be003c29", "_comment": "primary.500 at ~16% alpha — sourced from the same Button node's Light-mode `btn/secondary/hover-bg`/`btn/outline/hover-bg` bound variables, and (separately) the Dark-mode `btn/secondary/hover-border` bound variable — same value resolved in both modes." },
+    "500-a24": { "value": "#be003c3d", "_comment": "primary.500 at ~24% alpha — sourced from the same Button node's Light-mode `btn/secondary/border` bound variable." },
+    "500-a60": { "value": "#be003c99", "_comment": "primary.500 at ~60% alpha — sourced from the same Button node's Dark-mode `btn/secondary/hover-bg`, `btn/outline/hover-bg`, and `btn/ghost/hover-bg` bound variables (identical value in all three), via get_variable_defs on 2026-07-24 with the user's live selection set to a dark-mode instance." },
+    "300-a24": { "value": "#d8668a3d", "_comment": "primary.300 at ~24% alpha — sourced from the same Button node's Dark-mode `btn/secondary/bg` bound variable." },
+    "300-a40": { "value": "#d8668a66", "_comment": "primary.300 at ~40% alpha — sourced from the same Button node's Dark-mode `btn/secondary/border` bound variable." }
   },
   "lumen-gray": {
     "50": { "value": "#F6F8F8" },

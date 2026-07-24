@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { cn } from "../lib/cn";
+import { TextLink } from "../primitives/TextLink";
 
 export interface PageHeaderBreadcrumb {
   label: string;
@@ -21,7 +22,11 @@ export interface PageHeaderProps {
  * The 24/32 title matches the shared headline tier; exact AppShell tokens
  * cover the 12/16 regular breadcrumb and 13/20 description styles. Semantic
  * AppShell roles provide the theme-aware link, primary, body, and secondary
- * colors without component-local values.
+ * colors without component-local values. Breadcrumb links use the shared
+ * `TextLink` component (promoted from a raw `<a>` 2026-07-24, matching the
+ * fix already applied to AppShell's own Tablet breadcrumb) — still colored
+ * via `--color-app-shell-text-link` rather than `TextLink`'s own default,
+ * since this is a distinct AppShell-scoped semantic role by design.
  */
 export function PageHeader({
   breadcrumbs,
@@ -50,12 +55,9 @@ export function PageHeader({
                 </span>
               )}
               {crumb.href && i < breadcrumbs.length - 1 ? (
-                <a
-                  href={crumb.href}
-                  className="text-[var(--color-app-shell-text-link)] hover:underline"
-                >
+                <TextLink href={crumb.href} className="text-[var(--color-app-shell-text-link)]">
                   {crumb.label}
-                </a>
+                </TextLink>
               ) : (
                 <span
                   aria-current={i === breadcrumbs.length - 1 ? "page" : undefined}

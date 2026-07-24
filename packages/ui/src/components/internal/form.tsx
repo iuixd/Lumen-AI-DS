@@ -22,12 +22,14 @@ import { Label } from "./label"
  *   paragraph convention
  *
  * This directly collides in purpose (and, for `FormField`, in name) with
- * Lumen's existing hand-built `FormField` composite. Per the direct
- * user-approved exception in docs/shadcn-integration.md §7.1, the entire
- * family is exported publicly under `Shadcn`-prefixed names
- * (`ShadcnForm`, `ShadcnFormField`, ...) rather than per-symbol, so the
- * two form systems (Lumen's own vs. this react-hook-form-based one) read
- * as clearly distinct rather than colliding piecemeal.
+ * Lumen's existing hand-built `FormField` composite. Promoted to plain
+ * names 2026-07-24 (`Form`, `FormItem`, `FormLabel`, `FormControl`,
+ * `FormDescription`, `FormMessage`, `useFormField`) except the one symbol
+ * that actually collides — `FormField` stays `ShadcnFormField`, since
+ * Lumen's own `FormField` (a simple label/hint/error wrapper, no
+ * `react-hook-form`) remains in place for callers that don't need full
+ * form-state management (e.g. `AuthForm.tsx`). See
+ * docs/shadcn-integration.md §7.8 for the full record.
  */
 
 const Form = FormProvider

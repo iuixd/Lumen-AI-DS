@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { DashboardPage, type MetricCard } from "./DashboardPage";
-import { Card, Button, Badge, DataTable, PlusIcon, type Column } from "@lumen/ui";
+import { Card, CardContent, Button, Badge, DataTable, PlusIcon, type Column } from "@lumen/ui";
 
 const metrics: MetricCard[] = [
   { label: "Monthly recurring revenue", value: "$48,200", delta: "+4.2%", deltaTone: "success" },
@@ -17,7 +17,9 @@ const meta = {
     metrics,
     children: (
       <Card>
-        <p className="text-body-md text-[var(--color-text-body)]">Charts / recent activity content goes here.</p>
+        <CardContent>
+          <p className="text-body-md text-[var(--color-text-body)]">Charts / recent activity content goes here.</p>
+        </CardContent>
       </Card>
     )
   }
@@ -64,7 +66,8 @@ export const RenewalPipeline: Story = {
       <>
         <Button variant="secondary">Share</Button>
         <Button variant="secondary">Export</Button>
-        <Button variant="primary" iconStart={<PlusIcon className="size-4" aria-hidden />}>
+        <Button>
+          <PlusIcon className="size-4" aria-hidden />
           New project
         </Button>
       </>

@@ -5,29 +5,51 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "../../lib/cn"
 
 /**
- * shadcn/ui's own generated Button — adapted here. Previously internal-only
- * (a dependency of Carousel/Form), now also the source for the public
- * `ShadcnButton` export (batch 5) since Lumen's own `Button` name collides
- * with shadcn's — see docs/shadcn-integration.md §7.1. Adaptation changes:
- * relative imports, `text-sm`/`text-xs` -> `label-md`/`label-sm`, dropped
- * `shadow`/`shadow-sm` (no Lumen precedent on Lumen's own Button.tsx), and
- * every `/90`/`/80` opacity-modifier hover state replaced with its solid
- * base color — this repo's bridged colors are raw hex, not the
- * `<alpha-value>`-templated HSL channels those modifiers are designed
- * around. Re-fixed a fourth time 2026-07-23 (batches 3, 4, and now 5 have
- * each silently reverted this file as a registryDependency of something
- * newly requested — a confirmed standing risk of `--overwrite`).
+ * shadcn/ui's own generated Button — adapted here. Source for the public
+ * `Button` export (promoted from `ShadcnButton` after Lumen's original
+ * hand-built `Button` primitive was retired in its favor — see
+ * docs/shadcn-integration.md §7.8) and an internal dependency of
+ * Carousel/Form/Pagination/ButtonGroup. Adaptation changes: relative
+ * imports, `text-sm`/`text-xs` -> `label-md`/`label-sm`, dropped
+ * `shadow`/`shadow-sm` (no Lumen precedent on Lumen's own Button.tsx).
+ *
+ * Re-synced to Figma 2026-07-24 (Lumen-AI-Design-System node `1174:1349`,
+ * the canonical Button component-set, requested directly by the user now
+ * that this is the one canonical `Button`): every variant/state pair binds
+ * directly to its own `--color-button-*` semantic token (arbitrary-value
+ * classes) instead of shadcn's generic bridge tokens (`--primary`,
+ * `--secondary`, `--accent`, `--ring`), since those are shared by other
+ * components and a generic mapping had drifted from what this component
+ * actually needs — `outline`/`ghost`'s hover previously used `--accent`
+ * (a "selected nav row" placeholder token, see docs/shadcn-integration.md
+ * §5), and `hover:bg-primary`/`hover:bg-destructive`/`hover:bg-secondary`
+ * were literal no-ops (same class as the base state, a leftover from the
+ * original batch-5 adaptation). The token sync itself found real drift in
+ * `Secondary` and `Outline`'s hover colors against the current Figma
+ * values — see `packages/tokens/src/semantic/color.json`'s `_comment` for
+ * the full before/after. `Accent` and `Link` are declared style
+ * properties on the Figma component but have no authored visual states
+ * yet, so neither is wired here (by direct user decision, consistent with
+ * §7.8's "no accent variant" call) — `link` keeps shadcn's own generic
+ * text-underline treatment. Only a `Light` theme is authored in Figma;
+ * dark-mode values are untouched, same caveat as the rest of this repo's
+ * dark tokens.
  */
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-label-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-label-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-button-focus-ring)] disabled:pointer-events-none disabled:border-transparent disabled:bg-[var(--color-button-disabled-bg)] disabled:text-[var(--color-button-disabled-on-action)] [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive",
-        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
+        default:
+          "bg-[var(--color-button-primary-bg)] text-[var(--color-button-primary-on-action)] hover:bg-[var(--color-button-primary-hover-bg)]",
+        destructive:
+          "bg-[var(--color-button-destructive-bg)] text-[var(--color-button-destructive-on-action)] hover:bg-[var(--color-button-destructive-hover-bg)]",
+        outline:
+          "border border-[var(--color-button-outline-border)] bg-[var(--color-button-outline-bg)] text-[var(--color-button-outline-on-action)] hover:border-[var(--color-button-outline-hover-border)] hover:bg-[var(--color-button-outline-hover-bg)] hover:text-[var(--color-button-outline-hover-on-action)]",
+        secondary:
+          "border border-[var(--color-button-secondary-border)] bg-[var(--color-button-secondary-bg)] text-[var(--color-button-secondary-on-action)] hover:border-[var(--color-button-secondary-hover-border)] hover:bg-[var(--color-button-secondary-hover-bg)] hover:text-[var(--color-button-secondary-hover-on-action)]",
+        ghost:
+          "text-[var(--color-button-ghost-on-action)] hover:bg-[var(--color-button-ghost-hover-bg)]",
         link: "text-primary underline-offset-4 hover:underline"
       },
       size: {

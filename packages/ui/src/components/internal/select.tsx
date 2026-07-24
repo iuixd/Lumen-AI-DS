@@ -8,8 +8,9 @@ import { cn } from "../../lib/cn"
 
 /**
  * Adapted from shadcn/ui's Select (new-york style) — internal to
- * @lumen/ui, source for the public `ShadcnSelect` export (Lumen's own
- * `Select` name collides — see docs/shadcn-integration.md §7.1). Changes:
+ * @lumen/ui, source for the public `Select` export (promoted from
+ * `ShadcnSelect` after Lumen's original `Select` primitive was retired —
+ * see docs/shadcn-integration.md §7.8). Changes:
  * - imports resolve via this repo's existing relative-import convention
  * - lucide-react's `Check`/`ChevronDown`/`ChevronUp` replaced with
  *   Lumen's own `CheckIcon`/`ChevronDownIcon`/`ChevronUpIcon`

@@ -690,7 +690,7 @@ Recommended format:
 | Scale      | `429:14216`            | Verification required | Pending     | Pending          | 2026-07-12   |
 | Spacing    | `511:2`                | Documented            | Baseline    | Baseline         | 2026-07-12   |
 | Radius     | `511:78`               | Documented            | Baseline    | Baseline         | 2026-07-12   |
-| Buttons    | Component URL required | Pending               | Existing    | Existing         | Not verified |
+| Buttons    | `1174:1349`             | Published (Light + Dark via Figma variable modes, not separate variant instances; Accent/Link variants declared, not yet authored) | Synced | Synced | 2026-07-24 |
 
 Update this table after each approved synchronization.
 
@@ -794,8 +794,9 @@ The following still require direct verification from Figma Variables, Styles, or
 - motion
 - breakpoint values
 - component inventories
-- button component-set node
 - component properties
 - Code Connect mappings
 
 These gaps must not be filled through assumption.
+
+**Resolved 2026-07-24:** the Button component-set node was previously pending ("Component URL required"). It is now `1174:1349`, inspected via `get_design_context`/`get_variable_defs` and synced into `packages/tokens/src/{primitives,semantic}/color.json` and the `Button` component — see `docs/changelog.md`'s `[Unreleased]` §Fixed entries and `docs/shadcn-integration.md` §7.8. Both Light and Dark are covered: this node's `Theme` variant property only has `Light` instances built (`get_metadata` confirms all 20 child symbols are `Theme=Light`), but the file resolves dark mode through Figma's variable *mode* system instead — the same bound variables on the same node resolve to different values depending which mode is active, with no separate variant instance required. Don't assume "no `Theme=Dark` symbols" means "no dark data" for other components synced from this file; re-query `get_variable_defs` with the live selection set to the mode you need. `Accent` and `Link` are declared style properties with no built visual states in either mode yet — both remain open gaps for a future sync once Figma authors them.
