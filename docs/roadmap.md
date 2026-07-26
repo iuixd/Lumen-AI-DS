@@ -1355,3 +1355,34 @@ Lumen's `Modal.tsx` already carried a comment anticipating a future Radix depend
 - [ ] No shadcn default theme values present anywhere in committed CSS
 - [ ] Dark mode for every adopted component follows Lumen's existing `data-theme` mechanism with no second theme system introduced
 - [ ] `docs/shadcn-integration.md` documents the rules clearly enough that a future component adoption doesn't require re-deriving this phase's decisions
+
+# 31. Phase 16: Custom icon library reconciliation
+
+## Objective
+
+The bulk of `@lumen/ui`'s ~1,900 generated icons were sourced from an unrelated older icon library (see `CLAUDE.md`'s "Working with Figma" known-gaps list), not the current Lumen-AI-Design-System file. This phase reconciles the "Custom Icons (lm-)" and "Brand Logos" reference sheets in the *actual* current Figma file against what's already generated, adding only genuine gaps.
+
+## Status
+
+```text
+Started 2026-07-26, direct user request ("add these missing icons set") against
+Figma nodes 654:258 ("Custom Icons (lm-) (25)") and 654:260 ("Brand Logos (16)").
+Audited first: of 41 named icons across both sheets, 34 already existed under
+matching filenames from earlier sourcing. 5 genuine gaps were added this batch;
+3 remain open (see Deliverables).
+```
+
+## Deliverables
+
+- [x] `lm-ai` added (`packages/ui/src/icons/svg/lm-ai.svg`) — genuinely distinct from the existing `lm-aisymbol` (a target/scope motif vs. a sparkle pair), confirmed by downloading and comparing both raw assets rather than assuming from the name.
+- [x] `lm-project-filled` added — a second Figma layer also named `lm-project` (node `764:8865`) that is a different icon (solid isometric cube) from the existing `lm-project.svg` (stroke cube + sparkle badge, node `1119:2082`). A same-name collision in Figma itself, resolved with a disambiguated filename rather than overwriting the existing one.
+- [x] `lm-grammer` added (kebab-name keeps Figma's own layer-name typo, consistent with the existing `lim-settings` file already doing the same).
+- [x] `lm-loader` added — caught and fixed a real bug in the raw Figma export: it uses an SVG `<mask>` whose `fill="white"` is a luminance requirement (mask content must stay literally white — white=visible, black=hidden), not a real color, but this repo's icon pipeline (`icons-import.mjs`) blindly rewrites every non-`none`/non-`currentColor` fill to `currentColor` for theme-adaptive recoloring. Left as `<mask>`, `currentColor` frequently resolves to a dark color, making the spinner arc nearly invisible in most themes. Fixed at the source by rewriting the technique as an equivalent `<clipPath>` instead (functionally identical here — a single opaque shape, no gradient/partial-opacity) — a clip-path's geometry doesn't depend on any fill color, so it can't be broken by the same regex. Prefer this rewrite over a one-off manual patch to the generated (do-not-edit) output for any future icon with the same mask pattern.
+- [x] `lm-bot-static` added (renamed from `lumen-bot-static` mid-task after the user updated the Figma layer name to match the `lm-` prefix convention). Its two small "eye highlight" dots are authored as literal white fills in Figma; left flattened to `currentColor` like every other functional icon (not treated like a `-logo` brand mark) since that's this repo's existing convention for internal glyphs, and a hardcoded white would break in light-theme contexts.
+- [ ] `lm-bot-animated` — **deferred**. Figma's `get_motion_context` returns only an inventory (9 layers in one 6.36s looping timeline cohort) with empty keyframe/transition values for all of them, even after the user renamed and re-checked the node — there is no real animation data to reproduce faithfully. Building it would also require `motion/react` as a new runtime dependency (a bigger, undiscussed decision, similar in kind to how `react-day-picker`/`recharts` were each flagged before adoption in Phase 15). Re-attempt once Figma actually publishes real keyframe/easing data for this node.
+- [ ] `Tableau_logo` and `UiPath_logo` — **blocked**. Both are flattened raster PNGs in the Figma "Brand Logos" sheet (504×497 and 190×188), not vectors — unlike all 14 other brand logos (and every other icon in the system), which are clean SVG paths. No vector source exists to bring in; re-attempt if Figma gets a proper vector import for either mark.
+- [x] `thumbs-up-filled`/`thumbs-down-filled`/`copy-filled` added 2026-07-27, sourced from the "AI Conversation Components" frame (node `1412:3030`) while fixing `AIPanel`'s response-actions icon mismatch — see `docs/changelog.md`'s Changed entry. Not part of the original two-sheet audit above; a separate, targeted follow-up gap found via direct user bug report.
+
+## Findings
+
+Confirming "missing" vs. "already present" required downloading and comparing actual raw asset geometry in a few cases (`lm-ai` vs. `lm-aisymbol`; the two same-named `lm-project` layers) — filename/label matching alone was not sufficient evidence, consistent with `docs/figma-sync.md`'s "do not infer from names alone" rule. The `<mask>`-vs-`<clipPath>` finding is a new, generally-applicable lesson for this pipeline: any future icon using an SVG mask for a binary (non-gradient) reveal should be rewritten as a clip-path at the source, not patched post-generation, since `icons-import.mjs` regenerates its output from scratch on every run.

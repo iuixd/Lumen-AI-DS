@@ -27,13 +27,16 @@ import { cn } from "../../lib/cn"
  * original batch-5 adaptation). The token sync itself found real drift in
  * `Secondary` and `Outline`'s hover colors against the current Figma
  * values — see `packages/tokens/src/semantic/color.json`'s `_comment` for
- * the full before/after. `Accent` and `Link` are declared style
- * properties on the Figma component but have no authored visual states
- * yet, so neither is wired here (by direct user decision, consistent with
- * §7.8's "no accent variant" call) — `link` keeps shadcn's own generic
- * text-underline treatment. Only a `Light` theme is authored in Figma;
- * dark-mode values are untouched, same caveat as the rest of this repo's
- * dark tokens.
+ * the full before/after. `Accent` is a declared style property on the
+ * Figma component with no authored visual state, so it remains unwired
+ * (by direct user decision, consistent with §7.8's "no accent variant"
+ * call). Only a `Light` theme is authored in Figma; dark-mode values are
+ * untouched, same caveat as the rest of this repo's dark tokens.
+ *
+ * `link`'s color was synced 2026-07-26 to the first real evidence found
+ * for it (the canonical AIPanel component, node 1079:3141, "Show sources"
+ * follow-up button) — `--color-button-link-on-action` (primary.500),
+ * replacing shadcn's generic `text-primary` bridge-token fallback.
  */
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-label-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-button-focus-ring)] disabled:pointer-events-none disabled:border-transparent disabled:bg-[var(--color-button-disabled-bg)] disabled:text-[var(--color-button-disabled-on-action)] [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
@@ -50,7 +53,7 @@ const buttonVariants = cva(
           "border border-[var(--color-button-secondary-border)] bg-[var(--color-button-secondary-bg)] text-[var(--color-button-secondary-on-action)] hover:border-[var(--color-button-secondary-hover-border)] hover:bg-[var(--color-button-secondary-hover-bg)] hover:text-[var(--color-button-secondary-hover-on-action)]",
         ghost:
           "text-[var(--color-button-ghost-on-action)] hover:bg-[var(--color-button-ghost-hover-bg)]",
-        link: "text-primary underline-offset-4 hover:underline"
+        link: "text-[var(--color-button-link-on-action)] underline-offset-4 hover:underline"
       },
       size: {
         default: "h-9 px-4 py-2",

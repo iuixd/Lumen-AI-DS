@@ -520,6 +520,7 @@ import { ContrastIcon } from "./ContrastIcon";
 import { CookieIcon } from "./CookieIcon";
 import { CookingPotIcon } from "./CookingPotIcon";
 import { CopyCheckIcon } from "./CopyCheckIcon";
+import { CopyFilledIcon } from "./CopyFilledIcon";
 import { CopyMinusIcon } from "./CopyMinusIcon";
 import { CopyPlusIcon } from "./CopyPlusIcon";
 import { CopySlashIcon } from "./CopySlashIcon";
@@ -1006,8 +1007,10 @@ import { ListVideoIcon } from "./ListVideoIcon";
 import { ListXIcon } from "./ListXIcon";
 import { ListIcon } from "./ListIcon";
 import { LmAiOutlineIcon } from "./LmAiOutlineIcon";
+import { LmAiIcon } from "./LmAiIcon";
 import { LmAisymbolIcon } from "./LmAisymbolIcon";
 import { LmAuditLogIcon } from "./LmAuditLogIcon";
+import { LmBotStaticIcon } from "./LmBotStaticIcon";
 import { LmCharactersSymbolIcon } from "./LmCharactersSymbolIcon";
 import { LmCloseIcon } from "./LmCloseIcon";
 import { LmCreateProjectIcon } from "./LmCreateProjectIcon";
@@ -1016,15 +1019,18 @@ import { LmDocsIcon } from "./LmDocsIcon";
 import { LmEqualsSymbolIcon } from "./LmEqualsSymbolIcon";
 import { LmExtractDataIcon } from "./LmExtractDataIcon";
 import { LmFilesIcon } from "./LmFilesIcon";
+import { LmGrammerIcon } from "./LmGrammerIcon";
 import { LmIntegrationIcon } from "./LmIntegrationIcon";
 import { LmLawOutlinedIcon } from "./LmLawOutlinedIcon";
 import { LmLightBulbIcon } from "./LmLightBulbIcon";
+import { LmLoaderIcon } from "./LmLoaderIcon";
 import { LmModelsIcon } from "./LmModelsIcon";
 import { LmMoveToolIcon } from "./LmMoveToolIcon";
 import { LmNetworkFolderIcon } from "./LmNetworkFolderIcon";
 import { LmNotequalsSymbolIcon } from "./LmNotequalsSymbolIcon";
 import { LmPagesIcon } from "./LmPagesIcon";
 import { LmPrivacyOutlinedIcon } from "./LmPrivacyOutlinedIcon";
+import { LmProjectFilledIcon } from "./LmProjectFilledIcon";
 import { LmProjectIcon } from "./LmProjectIcon";
 import { LmSearchIcon } from "./LmSearchIcon";
 import { LmSelectorToolIcon } from "./LmSelectorToolIcon";
@@ -1724,7 +1730,9 @@ import { TheaterIcon } from "./TheaterIcon";
 import { ThermometerSnowflakeIcon } from "./ThermometerSnowflakeIcon";
 import { ThermometerSunIcon } from "./ThermometerSunIcon";
 import { ThermometerIcon } from "./ThermometerIcon";
+import { ThumbsDownFilledIcon } from "./ThumbsDownFilledIcon";
 import { ThumbsDownIcon } from "./ThumbsDownIcon";
+import { ThumbsUpFilledIcon } from "./ThumbsUpFilledIcon";
 import { ThumbsUpIcon } from "./ThumbsUpIcon";
 import { TickSquareIcon } from "./TickSquareIcon";
 import { TicketCheckIcon } from "./TicketCheckIcon";
@@ -2447,6 +2455,7 @@ export const iconRegistry: Record<string, IconComponent> = {
   "cookie": CookieIcon,
   "cooking-pot": CookingPotIcon,
   "copy-check": CopyCheckIcon,
+  "copy-filled": CopyFilledIcon,
   "copy-minus": CopyMinusIcon,
   "copy-plus": CopyPlusIcon,
   "copy-slash": CopySlashIcon,
@@ -2933,8 +2942,10 @@ export const iconRegistry: Record<string, IconComponent> = {
   "list-x": ListXIcon,
   "list": ListIcon,
   "lm-ai-outline": LmAiOutlineIcon,
+  "lm-ai": LmAiIcon,
   "lm-aisymbol": LmAisymbolIcon,
   "lm-audit-log": LmAuditLogIcon,
+  "lm-bot-static": LmBotStaticIcon,
   "lm-characters-symbol": LmCharactersSymbolIcon,
   "lm-close": LmCloseIcon,
   "lm-create-project": LmCreateProjectIcon,
@@ -2943,15 +2954,18 @@ export const iconRegistry: Record<string, IconComponent> = {
   "lm-equals-symbol": LmEqualsSymbolIcon,
   "lm-extract-data": LmExtractDataIcon,
   "lm-files": LmFilesIcon,
+  "lm-grammer": LmGrammerIcon,
   "lm-integration": LmIntegrationIcon,
   "lm-law-outlined": LmLawOutlinedIcon,
   "lm-light-bulb": LmLightBulbIcon,
+  "lm-loader": LmLoaderIcon,
   "lm-models": LmModelsIcon,
   "lm-move-tool": LmMoveToolIcon,
   "lm-network-folder": LmNetworkFolderIcon,
   "lm-notequals-symbol": LmNotequalsSymbolIcon,
   "lm-pages": LmPagesIcon,
   "lm-privacy-outlined": LmPrivacyOutlinedIcon,
+  "lm-project-filled": LmProjectFilledIcon,
   "lm-project": LmProjectIcon,
   "lm-search": LmSearchIcon,
   "lm-selector-tool": LmSelectorToolIcon,
@@ -3651,7 +3665,9 @@ export const iconRegistry: Record<string, IconComponent> = {
   "thermometer-snowflake": ThermometerSnowflakeIcon,
   "thermometer-sun": ThermometerSunIcon,
   "thermometer": ThermometerIcon,
+  "thumbs-down-filled": ThumbsDownFilledIcon,
   "thumbs-down": ThumbsDownIcon,
+  "thumbs-up-filled": ThumbsUpFilledIcon,
   "thumbs-up": ThumbsUpIcon,
   "tick-square": TickSquareIcon,
   "ticket-check": TicketCheckIcon,

@@ -173,6 +173,7 @@ export const colorPrimitives = {
   "forest.600": "#005E2E",
   "forest.700": "#004723",
   "forest.800": "#003118",
+  "chat.input-bg": "#2B2F2F",
   "sky.500": "#2563EB",
   "button.light.accent-on-action": "#FFF5F8",
   "button.dark.accent-on-action": "#FFF5F8",
@@ -222,6 +223,7 @@ export const semanticColor = {
   "_appShellComment": "Exception to the legacy dark-theme note above: the app-shell group and the dark Badge roles are sourced directly from the canonical AppShell light/dark variants at Figma node 1007:3700, verified 2026-07-22. Unrelated dark mappings remain provisional.",
   "_buttonComment": "Exception to the legacy dark-theme note above: the complete button group is sourced directly from the Light and Dark variants at Figma node 1027:3733, re-verified across all 48 variant/state/theme combinations on 2026-07-23. All 12 Hover instances were re-extracted individually; their exact surface, foreground, and border bindings are represented below. Link is not a standard Button style in the current component set.",
   "_inputComment": "Exception to the legacy dark-theme note above: the dark Input primary and search base roles are sourced directly from the canonical desktop dark AppShell at Figma node 1127:4197, verified 2026-07-22. Default-state background, border, placeholder, and search-icon values are exact; hover, focus, error, Radio, and Checkbox dark mappings remain provisional until dedicated dark component states are published.",
+  "_aiConversationComment": "light.app-shell.prompt-bg (updated 2026-07-26, sourced from the 'AI Conversation Components' documentation frame, node 1412:3030, via get_variable_defs) now aliases the new `chat.input-bg` primitive (#2B2F2F, the `bg/chat-input` bound variable) instead of lumen-gray.800 (#424849) — a real value correction for AIPanel's user-message bubble; dark.app-shell.prompt-bg has no evidence from this frame (Light-only) and is left unchanged. light.app-shell.chat-response-bg is new (added same session): `bg/chat-response` (#F6F8F8) aliases the existing lumen-gray.50 exactly, used for AIPanel's assistant-message bubble — distinct from the generic app-shell.surface (neutral.white) it previously (incorrectly) reused. dark.app-shell.chat-response-bg has no evidence from this frame and aliases the existing app-shell.dark.surface value unchanged, preserving AIPanel's current dark-mode assistant-bubble appearance. AIPanel's assistant-bubble text and border were also corrected in code (not token changes): text now binds to the existing app-shell.text-primary role (#1E2021, matching this frame's `text/primary` exactly) instead of app-shell.text-heading (#2B2F2F, which this frame does not use for bubble text), and the bubble's border was removed entirely (this frame's Bubble has no border/stroke). button.light/dark.link-on-action is new (added 2026-07-26, sourced from the actual canonical AIPanel component, node 1079:3141, its 'Show sources' follow-up button) — the first real evidence for Button's `link` variant, which was previously an unsynced generic shadcn fallback (the Figma Button component-set declares `Link` as a style property with no authored visual states — see figma-source.md §18). The evidenced variable is literally named `btn/secondary/on-action` (#BE003C) — reused by this instance rather than a dedicated `btn/link/on-action` variable, since Figma has not authored one yet — but its value (primary.500) differs from the already-synced, independently-sourced `button.secondary-on-action` (primary.600/primary.100), so it was added as its own new token rather than assumed to be the same role or used to silently overwrite Secondary's own value. dark.button.link-on-action has no independent evidence (this AIPanel instance is Light-only) and provisionally reuses the light value unchanged, per this file's established pattern for single-mode-evidenced tokens.",
   "light": {
     "background": {
       "default": "neutral.white",
@@ -325,6 +327,7 @@ export const semanticColor = {
       "ghost-bg": "neutral.transparent",
       "ghost-on-action": "app-shell.light.text-heading",
       "ghost-hover-bg": "lumen-gray.200",
+      "link-on-action": "primary.500",
       "destructive-bg": "red.500",
       "destructive-on-action": "neutral.white",
       "destructive-hover-bg": "red.600"
@@ -396,7 +399,8 @@ export const semanticColor = {
       "status-danger": "red.500",
       "badge-bg": "cobalt.50",
       "badge-text": "app-shell.light.badge-text",
-      "prompt-bg": "lumen-gray.800",
+      "prompt-bg": "chat.input-bg",
+      "chat-response-bg": "lumen-gray.50",
       "assistant-icon-bg": "app-shell.light.assistant-icon-bg",
       "assistant-icon": "primary.500",
       "toggle-bg": "neutral.white",
@@ -519,6 +523,7 @@ export const semanticColor = {
       "ghost-bg": "neutral.transparent",
       "ghost-on-action": "app-shell.dark.text-primary",
       "ghost-hover-bg": "primary.500-a60",
+      "link-on-action": "primary.500",
       "destructive-bg": "red.500",
       "destructive-on-action": "neutral.white",
       "destructive-hover-bg": "red.400"
@@ -591,6 +596,7 @@ export const semanticColor = {
       "badge-bg": "app-shell.dark.badge-bg",
       "badge-text": "neutral.black",
       "prompt-bg": "neutral.black",
+      "chat-response-bg": "app-shell.dark.surface",
       "assistant-icon-bg": "primary.900",
       "assistant-icon": "primary.500",
       "toggle-bg": "neutral.black",
@@ -612,7 +618,7 @@ export const semanticColor = {
   }
 } as const;
 export const typography = {
-  "_comment": "Sourced from Figma 'Lumen-AI-Design-System' file, page 'Design Tokens' > '02 Typography' (fileKey GJBYRm6ySR7XIECFcHMgy2, node 428:13769). Font family: Inter (UI text), Roboto Mono (code). H1-H6/Body/Label/Overline/Caption/Code map directly onto this scale's tiers: display-*=H1-H3, headline-*=H4-H6, title-* sits between H6 and Body at medium weight (Figma has no distinct 'title' tier), label-*/body-*/overline/caption/code-* are exact matches. button-* is a separate legacy scale read directly off the earlier Button page. standard-button-* is the current Instrument Sans Medium 12/14/16/18px scale from node 1034:4459, with Figma's normal line height and 1% letter spacing.",
+  "_comment": "Sourced from Figma 'Lumen-AI-Design-System' file, page 'Design Tokens' > '02 Typography' (fileKey GJBYRm6ySR7XIECFcHMgy2, node 428:13769). Font family: Inter (UI text), Roboto Mono (code). H1-H6/Body/Label/Overline/Caption/Code map directly onto this scale's tiers: display-*=H1-H3, headline-*=H4-H6, title-* sits between H6 and Body at medium weight (Figma has no distinct 'title' tier), label-*/body-*/overline/caption/code-* are exact matches. button-* is a separate legacy scale read directly off the earlier Button page. standard-button-* is the current Instrument Sans Medium 12/14/16/18px scale from node 1034:4459, with Figma's normal line height and 1% letter spacing. chat-message/chat-caption/chat-label (added 2026-07-26, chat-label removed then re-added 2026-07-27) are sourced from AIPanel (node 1079:3141) and the separate 'AI Conversation Components' documentation frame (node 1412:3030) via get_design_context's reported text styles: chat-message is the 'Body/Medium' style (Instrument Sans 16/18/400) used for bubble content; chat-caption is the 'Caption/Large' style (Space Mono 14/18/400, 0.2% letter-spacing = 0.028px at this size) used for the timestamp divider and response-metadata text (branch/edited); chat-label is the 'Body/Small' style (Instrument Sans 14/16/400) used for the 'Suggested follow-ups' section label that node 1412:3030's response-actions anatomy has (a section genuinely distinct from the in-bubble follow-ups the canonical 1079:3141 component uses, not a replacement for it — chat-label was briefly removed as apparently-unused before this distinction was made clear). None of the three exactly matches an existing tier at the same pairing, so new purpose-named tokens were added rather than reusing a coincidentally-close one, consistent with this file's existing app-*/ai-library-* convention.",
   "fontFamily": {
     "sans": {
       "value": [
@@ -1091,6 +1097,25 @@ export const typography = {
       "lineHeight": 40,
       "weight": 600,
       "usage": "AppShell desktop/tablet KPI value"
+    },
+    "chat-message": {
+      "fontSize": 16,
+      "lineHeight": 18,
+      "weight": 400,
+      "usage": "AIPanel conversation bubble text (Figma node 1412:3030, 'Body/Medium' style)"
+    },
+    "chat-caption": {
+      "fontSize": 14,
+      "lineHeight": 18,
+      "weight": 400,
+      "letterSpacing": 0.028,
+      "usage": "AIPanel timestamp divider and response-metadata text — branch/edited (Figma node 1412:3030, 'Caption/Large' style, pair with font-mono)"
+    },
+    "chat-label": {
+      "fontSize": 14,
+      "lineHeight": 16,
+      "weight": 400,
+      "usage": "AIPanel 'Suggested follow-ups' section label (Figma node 1412:3030, 'Body/Small' style). Re-added 2026-07-27 after being removed as unused — the canonical AIPanel component (node 1079:3141) doesn't have this label, but the separate 'AI Conversation Components' response-actions anatomy (node 1412:3030) genuinely does, as its own distinct section from the in-bubble follow-ups."
     }
   }
 } as const;
@@ -1255,7 +1280,7 @@ export const spacing = {
   }
 } as const;
 export const radius = {
-  "_comment": "Sourced from Figma 'Lumen-AI-Design-System' file, page 'Design Tokens' > '05 Radius' (fileKey GJBYRm6ySR7XIECFcHMgy2, node 511:78). pill=100 was added from the Badge component collection at node 1079:893, where it is bound as radius/pill.",
+  "_comment": "Sourced from Figma 'Lumen-AI-Design-System' file, page 'Design Tokens' > '05 Radius' (fileKey GJBYRm6ySR7XIECFcHMgy2, node 511:78). pill=100 was added from the Badge component collection at node 1079:893, where it is bound as radius/pill. chat-bubble=18 was added 2026-07-26 from the AIPanel component (node 1079:3141), the User Prompt/Bot Response bubbles' three rounded corners — no existing step matches 18px (2xl=16 and 3xl=24 are the nearest neighbors).",
   "none": {
     "value": 0
   },
@@ -1285,6 +1310,9 @@ export const radius = {
   },
   "3xl": {
     "value": 24
+  },
+  "chat-bubble": {
+    "value": 18
   },
   "full": {
     "value": 9999
