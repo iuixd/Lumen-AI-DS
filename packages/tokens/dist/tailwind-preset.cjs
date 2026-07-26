@@ -177,6 +177,7 @@ module.exports = {
   "forest-600": "var(--color-forest-600)",
   "forest-700": "var(--color-forest-700)",
   "forest-800": "var(--color-forest-800)",
+  "chat-input-bg": "var(--color-chat-input-bg)",
   "sky-500": "var(--color-sky-500)",
   "button-light-accent-on-action": "var(--color-button-light-accent-on-action)",
   "button-dark-accent-on-action": "var(--color-button-dark-accent-on-action)",
@@ -308,6 +309,7 @@ module.exports = {
   "button-ghost-bg": "var(--color-button-ghost-bg)",
   "button-ghost-on-action": "var(--color-button-ghost-on-action)",
   "button-ghost-hover-bg": "var(--color-button-ghost-hover-bg)",
+  "button-link-on-action": "var(--color-button-link-on-action)",
   "button-destructive-bg": "var(--color-button-destructive-bg)",
   "button-destructive-on-action": "var(--color-button-destructive-on-action)",
   "button-destructive-hover-bg": "var(--color-button-destructive-hover-bg)",
@@ -372,6 +374,7 @@ module.exports = {
   "app-shell-badge-bg": "var(--color-app-shell-badge-bg)",
   "app-shell-badge-text": "var(--color-app-shell-badge-text)",
   "app-shell-prompt-bg": "var(--color-app-shell-prompt-bg)",
+  "app-shell-chat-response-bg": "var(--color-app-shell-chat-response-bg)",
   "app-shell-assistant-icon-bg": "var(--color-app-shell-assistant-icon-bg)",
   "app-shell-assistant-icon": "var(--color-app-shell-assistant-icon)",
   "app-shell-toggle-bg": "var(--color-app-shell-toggle-bg)",
@@ -427,6 +430,7 @@ module.exports = {
   "xl": "var(--radius-xl)",
   "2xl": "var(--radius-2xl)",
   "3xl": "var(--radius-3xl)",
+  "chat-bubble": "var(--radius-chat-bubble)",
   "full": "var(--radius-full)"
 },
       fontSize: {
@@ -911,6 +915,27 @@ module.exports = {
     {
       "lineHeight": "var(--text-app-kpi-value-line-height)",
       "fontWeight": "var(--text-app-kpi-value-weight)"
+    }
+  ],
+  "chat-message": [
+    "var(--text-chat-message-size)",
+    {
+      "lineHeight": "var(--text-chat-message-line-height)",
+      "fontWeight": "var(--text-chat-message-weight)"
+    }
+  ],
+  "chat-caption": [
+    "var(--text-chat-caption-size)",
+    {
+      "lineHeight": "var(--text-chat-caption-line-height)",
+      "fontWeight": "var(--text-chat-caption-weight)"
+    }
+  ],
+  "chat-label": [
+    "var(--text-chat-label-size)",
+    {
+      "lineHeight": "var(--text-chat-label-line-height)",
+      "fontWeight": "var(--text-chat-label-weight)"
     }
   ]
 },

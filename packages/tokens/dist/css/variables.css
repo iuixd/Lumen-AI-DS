@@ -173,6 +173,7 @@
   --color-forest-600: #005E2E;
   --color-forest-700: #004723;
   --color-forest-800: #003118;
+  --color-chat-input-bg: #2B2F2F;
   --color-sky-500: #2563EB;
   --color-button-light-accent-on-action: #FFF5F8;
   --color-button-dark-accent-on-action: #FFF5F8;
@@ -283,6 +284,7 @@
   --radius-xl: 12px;
   --radius-2xl: 16px;
   --radius-3xl: 24px;
+  --radius-chat-bubble: 18px;
   --radius-full: 9999px;
 
   /* shadow (elevation) */
@@ -523,6 +525,16 @@
   --text-app-kpi-value-size: 32px;
   --text-app-kpi-value-line-height: 40px;
   --text-app-kpi-value-weight: 600;
+  --text-chat-message-size: 16px;
+  --text-chat-message-line-height: 18px;
+  --text-chat-message-weight: 400;
+  --text-chat-caption-size: 14px;
+  --text-chat-caption-line-height: 18px;
+  --text-chat-caption-weight: 400;
+  --text-chat-caption-letter-spacing: 0.028px;
+  --text-chat-label-size: 14px;
+  --text-chat-label-line-height: 16px;
+  --text-chat-label-weight: 400;
 
   /* responsive breakpoints */
   --breakpoint-mobile: 0px;
@@ -673,6 +685,7 @@
   --color-button-ghost-bg: #00000000;
   --color-button-ghost-on-action: #2B2F2F;
   --color-button-ghost-hover-bg: #DBE1E2;
+  --color-button-link-on-action: #BE003C;
   --color-button-destructive-bg: #DA1E28;
   --color-button-destructive-on-action: #FFFFFF;
   --color-button-destructive-hover-bg: #AE1820;
@@ -736,7 +749,8 @@
   --color-app-shell-status-danger: #DA1E28;
   --color-app-shell-badge-bg: #EBF1FF;
   --color-app-shell-badge-text: #7038B8;
-  --color-app-shell-prompt-bg: #424849;
+  --color-app-shell-prompt-bg: #2B2F2F;
+  --color-app-shell-chat-response-bg: #F6F8F8;
   --color-app-shell-assistant-icon-bg: #FFF5F8;
   --color-app-shell-assistant-icon: #BE003C;
   --color-app-shell-toggle-bg: #FFFFFF;
@@ -846,6 +860,7 @@
   --color-button-ghost-bg: #00000000;
   --color-button-ghost-on-action: #F5EFF3;
   --color-button-ghost-hover-bg: #be003c99;
+  --color-button-link-on-action: #BE003C;
   --color-button-destructive-bg: #DA1E28;
   --color-button-destructive-on-action: #FFFFFF;
   --color-button-destructive-hover-bg: #E14B53;
@@ -910,6 +925,7 @@
   --color-app-shell-badge-bg: rgba(180, 142, 224, 0.16);
   --color-app-shell-badge-text: #000000;
   --color-app-shell-prompt-bg: #000000;
+  --color-app-shell-chat-response-bg: #231C24;
   --color-app-shell-assistant-icon-bg: #310010;
   --color-app-shell-assistant-icon: #BE003C;
   --color-app-shell-toggle-bg: #000000;

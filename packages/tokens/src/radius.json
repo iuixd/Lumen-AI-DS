@@ -1,5 +1,5 @@
 {
-  "_comment": "Sourced from Figma 'Lumen-AI-Design-System' file, page 'Design Tokens' > '05 Radius' (fileKey GJBYRm6ySR7XIECFcHMgy2, node 511:78). pill=100 was added from the Badge component collection at node 1079:893, where it is bound as radius/pill.",
+  "_comment": "Sourced from Figma 'Lumen-AI-Design-System' file, page 'Design Tokens' > '05 Radius' (fileKey GJBYRm6ySR7XIECFcHMgy2, node 511:78). pill=100 was added from the Badge component collection at node 1079:893, where it is bound as radius/pill. chat-bubble=18 was added 2026-07-26 from the AIPanel component (node 1079:3141), the User Prompt/Bot Response bubbles' three rounded corners — no existing step matches 18px (2xl=16 and 3xl=24 are the nearest neighbors).",
   "none": { "value": 0 },
   "xs": { "value": 2 },
   "sm": { "value": 4 },
@@ -10,5 +10,6 @@
   "xl": { "value": 12 },
   "2xl": { "value": 16 },
   "3xl": { "value": 24 },
+  "chat-bubble": { "value": 18 },
   "full": { "value": 9999 }
 }

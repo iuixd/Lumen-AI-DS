@@ -1,6 +1,5 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { Button } from "../components/button/Button";
 import { AIPanel, type AIPanelMessage } from "./AIPanel";
 
 const messages: AIPanelMessage[] = [
@@ -9,12 +8,35 @@ const messages: AIPanelMessage[] = [
     role: "assistant",
     content:
       "Start with Meridian Health — $380k closing in 15 days with no exec touchpoint since May. I've drafted an outreach email referencing support tickets.",
-    actions: (
-      <>
-        <Button variant="secondary">Review draft</Button>
-        <Button variant="secondary">View accounts</Button>
-      </>
-    )
+    followUps: [
+      { label: "Review draft" },
+      { label: "Show sources", variant: "link" }
+    ]
+  }
+];
+
+const conversationMessages: AIPanelMessage[] = [
+  {
+    role: "user",
+    content: "Which enterprise accounts are at renewal risk this quarter?",
+    timestamp: "Today - 2:40 PM"
+  },
+  {
+    role: "assistant",
+    content:
+      "Three accounts show elevated risk. Northwind Corp, Fabrikam Ltd, and Contoso GmbH. All three have renewals inside 45 days and declining usage.",
+    responseActions: {
+      onThumbsUp: () => {},
+      onThumbsDown: () => {},
+      onCopy: () => {},
+      branch: "2/2",
+      edited: true
+    },
+    suggestedFollowUps: [
+      { label: "Draft outreach emails for all three" },
+      { label: "What changed since last quarter?" },
+      { label: "Show usage trend" }
+    ]
   }
 ];
 
@@ -27,7 +49,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Sourced from the canonical Figma 'AppShell' page (Lumen-AI-Design-System, node 1007:3700, `AIPanel` component `1079:3141`, instance `1119:3351`), with actions standardized on the final secondary Button collection at node 1027:3733."
+          "Sourced from the canonical AIPanel component, Lumen-AI-Design-System node `1079:3141` (re-synced 2026-07-26) — a 304px right-side assistant chat panel. Follow-up prompts render full-width and stacked inside the assistant bubble, in one of two treatments (`outline`/`link`, see `AIPanelFollowUp`). A response-actions feedback row (thumbs up/down, copy, branch, edited) is documented, optional anatomy sourced from a separate frame (node 1412:3030) not used by this component's own default instance — see the `WithResponseActions` story."
       }
     }
   },
@@ -76,6 +98,23 @@ export const Empty: Story = {
   render: () => (
     <div className="h-[812px]">
       <AIPanel title="Assistant" messages={[]} inputPlaceholder="Summarize pipeline..." />
+    </div>
+  )
+};
+
+export const WithResponseActions: Story = {
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          "The optional response-actions row (thumbs up/down, copy, a branch label, an 'edited' flag), a timestamp divider, and a labeled 'Suggested follow-ups' section — real Figma anatomy (node 1412:3030) that isn't part of the canonical AIPanel component's own default instance, but remains available on `AIPanelMessage` for products that need it."
+      }
+    }
+  },
+  render: () => (
+    <div className="h-[812px]">
+      <AIPanel title="Assistant" messages={conversationMessages} inputPlaceholder="Ask a follow-up..." />
     </div>
   )
 };
