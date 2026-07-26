@@ -59,6 +59,9 @@ export * from "./components/select/Select";
 export * from "./components/switch/Switch";
 export * from "./components/checkbox/Checkbox";
 export * from "./components/button-group/ButtonGroup";
+export * from "./components/menubar/Menubar";
+export * from "./components/resizable/Resizable";
+export * from "./components/input-group/InputGroup";
 
 // Composite
 export * from "./composite/Modal";
