@@ -170,8 +170,8 @@
       "usage": "Secondary paragraph text (Figma Body md)"
     },
     "body-sm": {
-      "fontSize": 16,
-      "lineHeight": 24,
+      "fontSize": 14,
+      "lineHeight": 22,
       "weight": 400,
       "usage": "Fine print, captions (Figma Body sm)"
     },
