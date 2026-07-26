@@ -254,10 +254,20 @@ function DesktopContent() {
         description="Track all risk accounts and let the assistant draft outreach before contracts lapse."
         actions={
           <>
-            <Button variant="secondary">Share</Button>
-            <Button variant="secondary">Export</Button>
-            <Button>
-              <PlusIcon aria-hidden />
+            <Button
+              variant="secondary"
+              className="h-[var(--spacing-34)] rounded-[var(--radius-lg)] px-[var(--spacing-14)] py-[var(--spacing-7)] text-button-md"
+            >
+              Share
+            </Button>
+            <Button
+              variant="secondary"
+              className="h-[var(--spacing-34)] rounded-[var(--radius-lg)] px-[var(--spacing-14)] py-[var(--spacing-7)] text-button-md"
+            >
+              Export
+            </Button>
+            <Button className="h-[var(--spacing-34)] rounded-[var(--radius-lg)] px-[var(--spacing-14)] py-[var(--spacing-7)] text-button-md">
+              <PlusIcon className="size-[var(--spacing-14)]" aria-hidden />
               New project
             </Button>
           </>
@@ -549,12 +559,10 @@ function AppShellDemo({ initialTheme }: { initialTheme: "light" | "dark" }) {
                 role: "assistant",
                 content:
                   "Start with Meridian Health — $380k closing in 15 days with no exec touchpoint since May. I've drafted an outreach email referencing support tickets.",
-                actions: (
-                  <>
-                    <Button variant="secondary">Secondary</Button>
-                    <Button variant="secondary">Secondary</Button>
-                  </>
-                )
+                followUps: [
+                  { label: "Review draft" },
+                  { label: "Show sources", variant: "link" }
+                ]
               }
             ]}
             inputPlaceholder="Summarize pipeline..."

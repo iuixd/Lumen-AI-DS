@@ -52,7 +52,7 @@ describe("AIPanel", () => {
 
     expect(screen.getByLabelText("Message")).toHaveClass("h-9", "min-w-0", "flex-1");
     expect(screen.getByRole("button", { name: "Send message" })).toHaveClass(
-      "bg-[var(--color-neutral-black)]",
+      "bg-[var(--color-button-secondary-bg)]",
       "size-[var(--spacing-34)]"
     );
   });
@@ -138,10 +138,13 @@ describe("AIPanel", () => {
       />
     );
     expect(screen.getByRole("button", { name: "Review draft" })).toHaveClass(
-      "border-[var(--color-button-outline-border)]"
+      "border-[var(--color-button-outline-border)]",
+      "border-[1.5px]",
+      "text-button-md"
     );
     expect(screen.getByRole("button", { name: "Show sources" })).toHaveClass(
-      "text-[var(--color-button-link-on-action)]"
+      "text-[var(--color-button-link-on-action)]",
+      "text-button-sm"
     );
   });
 
