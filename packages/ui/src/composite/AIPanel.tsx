@@ -143,6 +143,91 @@ export interface AIPanelProps {
  *   the follow-ups section's own additional 8px top padding — rather than
  *   the tighter 8px used between the bubble row and `responseActions`,
  *   which are grouped inside one shared inner container in Figma
+ *
+ * 2026-07-26 fixes, from a direct re-check of node 1412:3030 via
+ * `get_design_context`/`get_variable_defs` after the user reported the icon,
+ * buttons, and spacing still didn't match following the pass above:
+ * - `responseActions`' `ThumbsUpFilledIcon`/`ThumbsDownFilledIcon`/
+ *   `CopyFilledIcon` had correct geometry and color already, but rendered at
+ *   roughly 60% of Figma's visual size: their source SVGs centered the
+ *   ~14.6px glyph at native size inside the icon pipeline's fixed 24×24
+ *   viewBox, instead of scaling it up to fill the box the way Figma's own
+ *   16px icon instances do (each glyph fills ~91% of its container there,
+ *   confirmed from the frame's own inset percentages). Rescaled each source
+ *   SVG's transform (`scale(1.5)` plus a recomputed centering translate) so
+ *   the compiled icon matches Figma's fill ratio; this repo's other filled/
+ *   stroke icons already follow this full-bleed convention, so these three
+ *   were the outliers, not the rule
+ * - the bot avatar had no explicit text color (silently inheriting the
+ *   ambient/default color) instead of this frame's exact `#424849` fill,
+ *   which is the existing `--color-app-shell-text-body` token
+ *   (`lumen-gray.800`) — added explicitly rather than left to inherit
+ * - the response-actions row's horizontal padding was `spacing-12`; Figma's
+ *   own `ResponseBubbleActions` node uses `px-[40px]` exactly — corrected to
+ *   `spacing-40` (no new token needed, already existed)
+ * - the `suggestedFollowUps` section's padding was `px-[--spacing-12]
+ *   pt-[--spacing-32]`, an incorrect earlier estimate; Figma's actual
+ *   wrapping `prompt-actions` node uses `pl-[32px] pt-[16px]` only (no
+ *   right/bottom padding) — the parent's own `gap-[--spacing-8]` supplies
+ *   the rest, for a real total top gap of 24px, not the 40px claimed above.
+ *   Corrected to `pl-[--spacing-32] pt-[--spacing-16]`
+ * - the three response-action icon buttons (`<button>`) had no layout class
+ *   of their own, so each icon sat at its default inline vertical position
+ *   inside its button's box rather than centered — added
+ *   `flex items-center justify-center` to each so the icon centers exactly,
+ *   matching Figma's icon-in-a-block-container treatment (`overflow-clip
+ *   relative size-[16px]`, not an inline element)
+ * - `Button`'s shared `secondary` variant's text color
+ *   (`--color-button-secondary-on-action`) was `primary.600`; re-querying
+ *   this frame's own Suggested-follow-ups buttons directly returned
+ *   `btn/secondary/on-action` = `#BE003C` (`primary.500`) exactly — the same
+ *   value already found and used for `button.link-on-action` (see
+ *   `internal/button.tsx`). This is the third independent Figma confirmation
+ *   of the same drift (previously flagged twice and deliberately left
+ *   standing pending a decision, given its system-wide blast radius as a
+ *   shared token) — user-approved 2026-07-26 to correct the shared token
+ *   rather than defer again or override it locally; see
+ *   `packages/tokens/src/semantic/color.json`'s `_aiConversationComment`
+ *
+ * 2026-07-26 follow-up: the user separately reported the AIPanel embedded
+ * live in AppShell (node 1174:1357) didn't match either. Metadata on that
+ * frame's `Breakpoint=Desktop, Theme=Light` symbol (1127:4196) resolves to
+ * an actual `AIPanel` component instance (1119:3351) — the real, canonical,
+ * in-context source, distinct from both frames cited above. Diffing it
+ * against the current implementation found:
+ * - both bubbles used a flat `max-w-[--spacing-240]`, an estimate from the
+ *   much wider "AI Conversation Components" documentation canvas (1412:3030,
+ *   374px wide). This canonical instance's actual technique, at the real
+ *   304px panel width: the assistant bubble has no width cap at all (plain
+ *   `flex-1`, filling all space next to the 24px avatar+gap) and only the
+ *   user bubble reserves a gutter — via a fixed 24px leading spacer in its
+ *   row, not a flat token. Replaced the assistant bubble's cap with nothing
+ *   and the user bubble's with `max-w-[calc(100%-var(--spacing-24))]`,
+ *   which reproduces that reserved-gutter technique without an extra spacer
+ *   element and generalizes correctly if the panel's width ever changes
+ * - in-bubble `followUps`' `outline` treatment ("Review draft") used the
+ *   same `text-button-sm` (12/20) as the `link` treatment ("Show sources");
+ *   this instance shows outline pills in `button-md` (14/22, "Body/Small
+ *   Medium") and link pills in `button-sm` (12/20, "Body/XSmall Medium") —
+ *   two genuinely different sizes, not one shared size. Also gave `outline`
+ *   pills here their own `border-[1.5px]` (this instance's evidenced width),
+ *   distinct from the shared `Button` outline variant's default 1px border
+ *
+ * 2026-07-26 correction (user report: "icon-only button should be a secondary
+ * button, not black"), from a fresh re-fetch of node `1119:3351` — Figma had
+ * changed since the read above: the send button is no longer a solid-black
+ * custom treatment; it's now named "Icon Only - light" and matches `Button`'s
+ * own `secondary` variant exactly (`btn/secondary/bg`/`border`/`on-action`,
+ * confirmed via the arrow icon's own downloaded asset: `fill="#BE003C"` =
+ * `primary.500`, this component's `secondary-on-action` value). Switched from
+ * a hardcoded black/white treatment to `variant="secondary"` with local
+ * `size-34`/`rounded-lg`/`border-[1.5px]` overrides (1.5px matching this same
+ * node's other pill buttons). The same re-fetch also found the in-bubble
+ * `outline` follow-up pill's height changed from 30px to 34px (the `link`
+ * pill stays 30px) — updated to a per-variant height rather than the shared
+ * height both previously used. `AppShell.stories.tsx` needed no separate fix
+ * — it renders this same `AIPanel` component, so both corrections apply there
+ * automatically.
  */
 export function AIPanel({
   title = "Assistant",
@@ -205,15 +290,18 @@ export function AIPanel({
             )}
             {message.role === "user" ? (
               <div className="flex flex-col items-end">
-                <div className="max-w-[var(--spacing-240)] rounded-[var(--radius-chat-bubble)] rounded-br-none bg-[var(--color-app-shell-prompt-bg)] p-[var(--spacing-16)] text-chat-message text-[var(--color-app-shell-text-on-brand)]">
+                <div className="max-w-[calc(100%-var(--spacing-24))] rounded-[var(--radius-chat-bubble)] rounded-br-none bg-[var(--color-app-shell-prompt-bg)] p-[var(--spacing-16)] text-chat-message text-[var(--color-app-shell-text-on-brand)]">
                   {message.content}
                 </div>
               </div>
             ) : (
               <div className="flex flex-col gap-[var(--spacing-8)] items-start">
                 <div className="flex w-full items-start gap-[var(--spacing-8)]">
-                  <LmBotStaticIcon className="size-[var(--spacing-24)] shrink-0" aria-hidden />
-                  <div className="flex max-w-[var(--spacing-240)] flex-1 flex-col gap-[var(--spacing-12)] rounded-[var(--radius-chat-bubble)] rounded-tl-none bg-[var(--color-app-shell-chat-response-bg)] p-[var(--spacing-16)]">
+                  <LmBotStaticIcon
+                    className="size-[var(--spacing-24)] shrink-0 text-[var(--color-app-shell-text-body)]"
+                    aria-hidden
+                  />
+                  <div className="flex flex-1 flex-col gap-[var(--spacing-12)] rounded-[var(--radius-chat-bubble)] rounded-tl-none bg-[var(--color-app-shell-chat-response-bg)] p-[var(--spacing-16)]">
                     <p className="text-chat-message text-[var(--color-app-shell-text-primary)]">{message.content}</p>
                     {message.followUps && message.followUps.length > 0 && (
                       <div className="flex w-full flex-col gap-[var(--spacing-8)]">
@@ -221,7 +309,12 @@ export function AIPanel({
                           <Button
                             key={followUpIndex}
                             variant={followUp.variant === "link" ? "link" : "outline"}
-                            className="h-[var(--spacing-30)] w-full rounded-full px-[var(--spacing-14)] py-[var(--spacing-7)] text-button-sm"
+                            className={cn(
+                              "w-full rounded-full px-[var(--spacing-14)] py-[var(--spacing-7)]",
+                              followUp.variant === "link"
+                                ? "h-[var(--spacing-30)] text-button-sm"
+                                : "h-[var(--spacing-34)] border-[1.5px] text-button-md"
+                            )}
                             onClick={() => followUp.onSelect?.(followUp.label)}
                           >
                             {followUp.label}
@@ -232,12 +325,12 @@ export function AIPanel({
                   </div>
                 </div>
                 {message.responseActions && (
-                  <div className="flex items-center gap-[var(--spacing-16)] px-[var(--spacing-12)] text-[var(--color-app-shell-text-tertiary)]">
+                  <div className="flex items-center gap-[var(--spacing-16)] px-[var(--spacing-40)] text-[var(--color-app-shell-text-tertiary)]">
                     <button
                       type="button"
                       aria-label="Good response"
                       onClick={message.responseActions.onThumbsUp}
-                      className="hover:text-[var(--color-app-shell-text-primary)]"
+                      className="flex items-center justify-center hover:text-[var(--color-app-shell-text-primary)]"
                     >
                       <ThumbsUpFilledIcon className="size-[var(--spacing-16)]" />
                     </button>
@@ -245,7 +338,7 @@ export function AIPanel({
                       type="button"
                       aria-label="Bad response"
                       onClick={message.responseActions.onThumbsDown}
-                      className="hover:text-[var(--color-app-shell-text-primary)]"
+                      className="flex items-center justify-center hover:text-[var(--color-app-shell-text-primary)]"
                     >
                       <ThumbsDownFilledIcon className="size-[var(--spacing-16)]" />
                     </button>
@@ -253,7 +346,7 @@ export function AIPanel({
                       type="button"
                       aria-label="Copy response"
                       onClick={message.responseActions.onCopy}
-                      className="hover:text-[var(--color-app-shell-text-primary)]"
+                      className="flex items-center justify-center hover:text-[var(--color-app-shell-text-primary)]"
                     >
                       <CopyFilledIcon className="size-[var(--spacing-16)]" />
                     </button>
@@ -269,7 +362,7 @@ export function AIPanel({
                   </div>
                 )}
                 {message.suggestedFollowUps && message.suggestedFollowUps.length > 0 && (
-                  <div className="flex w-full flex-col gap-[var(--spacing-8)] px-[var(--spacing-12)] pt-[var(--spacing-32)]">
+                  <div className="flex w-full flex-col gap-[var(--spacing-8)] pl-[var(--spacing-32)] pt-[var(--spacing-16)]">
                     <p className="text-chat-label text-[var(--color-app-shell-text-tertiary)]">
                       Suggested follow-ups
                     </p>
@@ -312,8 +405,9 @@ export function AIPanel({
         />
         <Button
           type="submit"
+          variant="secondary"
           aria-label="Send message"
-          className="size-[var(--spacing-34)] shrink-0 rounded-lg bg-[var(--color-neutral-black)] px-0 py-0 text-[var(--color-neutral-white)] hover:bg-[var(--color-neutral-black)]"
+          className="size-[var(--spacing-34)] shrink-0 rounded-lg border-[1.5px] px-0 py-0"
         >
           <ArrowUpwardFilledIcon className="size-[var(--spacing-14)]" aria-hidden />
         </Button>
