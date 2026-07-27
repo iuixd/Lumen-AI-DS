@@ -1092,15 +1092,11 @@ export const typography = {
       "usage": "AppShell desktop/tablet KPI value"
     },
     "chat-message": {
-      "fontSize": 16,
-      "lineHeight": 18,
+      "fontSize": 14,
+      "lineHeight": 16,
       "weight": 400,
-      "usage": "AIPanel conversation bubble text (Figma node 1412:3030, 'Body/Medium' style)",
-      "dark": {
-        "fontSize": 14,
-        "lineHeight": 16,
-        "_comment": "The first theme-varying typography token in this system (every prior scale entry is fixed across themes; only colors previously varied by [data-theme]). Sourced from the canonical dark AppShell AIPanel instance (node 1166:4827, via get_design_context on 2026-07-27, user report 'check all font size not matching Figma'): both message bubbles render at 'Body/Small' (14/16) there, vs. 'Body/Medium' (16/18) in every light instance checked. User-directed to treat this as a real per-theme difference rather than a stale Figma authoring drift between two instances."
-      }
+      "usage": "AIPanel conversation bubble text (Figma node 1079:3141, 'Body/Small' style)",
+      "_comment": "2026-07-27 correction (user report: 'Chat bubble text font size is bigger in light mode, not aligned with the actual design'): this token briefly carried a light/dark fork (light 16/18 'Body/Medium', dark 14/16 'Body/Small') added the same day, on the theory that the two themes' canonical AIPanel instances genuinely differed. Re-checked both sides of that premise directly against get_design_context: the light value was never actually read from the canonical AIPanel instance (node 1079:3141) — it came from a separate 'AI Conversation Components' documentation frame (node 1412:3030) instead. The dark value *was* read from the real canonical instance (node 1166:4827) and was correct. Re-querying the canonical LIGHT instance (1079:3141) directly shows both bubbles at 'Body/Small' (14/16) — identical to dark. So there was never a real per-theme difference; only the light reading was wrong. Reverted to a single fixed value and removed the `dark` override (the per-theme typography machinery in build.mjs stays — it's generic, just unused for now)."
     },
     "chat-caption": {
       "fontSize": 14,

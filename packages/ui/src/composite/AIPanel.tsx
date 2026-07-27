@@ -272,6 +272,24 @@ export interface AIPanelProps {
  * `LmBotStaticIcon` exactly as before. See `LmBotAnimatedIcon` (new,
  * generated from `icons/svg/lm-bot-animated.svg`) and `AppShell.stories.tsx`'s
  * `AssistantDemo` for the actual usage this was added for.
+ *
+ * 2026-07-27 addition (making the AppShell demo's assistant panel
+ * drag-resizable): the root's width changed from a hardcoded
+ * `w-[var(--spacing-304)]` to `w-full` — `AIPanel` now tracks whatever width
+ * its parent container gives it instead of forcing its own, so it can shrink/
+ * grow inside a `ResizablePanel`. `AIPanel`'s own Storybook stories, which
+ * previously got their 304px appearance for free from this hardcoded width,
+ * now supply it explicitly via a wrapping `w-[var(--spacing-304)]` div (see
+ * `AIPanel.stories.tsx`).
+ *
+ * 2026-07-27 correction (user report: "Chat bubble text font size is bigger
+ * in light mode, not aligned with the actual design"): the "first
+ * theme-varying typography token" claim two entries above was wrong. Its
+ * light value (16/18) was never actually read from the canonical AIPanel
+ * instance — it came from a separate documentation frame. Re-checked the
+ * real canonical instance (node 1079:3141) directly: both themes render
+ * bubble text at 14/16 ("Body/Small"). `chat-message` is back to a single
+ * fixed value; see `typography.json`'s own comment for the full correction.
  */
 export function AIPanel({
   title = "Assistant",
@@ -294,7 +312,7 @@ export function AIPanel({
   return (
     <div
       className={cn(
-        "flex h-full w-[var(--spacing-304)] shrink-0 flex-col border-l border-r border-[var(--color-app-shell-border-default)] bg-[var(--color-app-shell-surface)] font-interface",
+        "flex h-full w-full flex-col border-l border-r border-[var(--color-app-shell-border-default)] bg-[var(--color-app-shell-surface)] font-interface",
         className
       )}
     >
