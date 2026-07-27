@@ -95,9 +95,45 @@ async function buildIconSvg(innerMarkup) {
   const cleaned = data.match(/<svg[^>]*>([\s\S]*)<\/svg>/)?.[1] ?? innerMarkup;
   // JSX requires camelCase SVG attributes (stroke-width -> strokeWidth) —
   // React renders kebab-case ones fine but warns on every mount.
-  return cleaned
+  return convertInlineStyleAttrs(escapeStyleBlocks(cleaned))
     .trim()
     .replace(/([a-z]+)-([a-z]+)=/g, (_, a, b) => `${a}${b[0].toUpperCase()}${b.slice(1)}=`);
+}
+
+// A <style> tag's CSS (e.g. an animated icon's @keyframes) is plain text in
+// real SVG/HTML, but JSX parses a literal `{`/`}` in an element's children as
+// the start of a JS expression — so raw CSS text breaks compilation the
+// moment a rule appears. Wrap it as a template-literal expression instead,
+// which JSX children fully support as-is. Escaping order matters: backslash
+// first, then backtick/${, so we don't double-escape the backslashes those
+// introduce.
+function escapeStyleBlocks(markup) {
+  return markup.replace(/<style>([\s\S]*?)<\/style>/g, (_, css) => {
+    const escaped = css.replace(/\\/g, "\\\\").replace(/`/g, "\\`").replace(/\$\{/g, "\\${");
+    return `<style>{\`${escaped}\`}</style>`;
+  });
+}
+
+// A per-element style="..." attribute (e.g. SVGO hoisting an animated icon's
+// CSS-selector rule onto the element it targets) is a plain string in real
+// SVG/HTML, but React's JSX `style` prop is typed as a CSSProperties object,
+// not a string — so it fails to typecheck as-is. Parse the declaration list
+// and emit the equivalent object literal instead.
+function convertInlineStyleAttrs(markup) {
+  return markup.replace(/style="([^"]*)"/g, (_, css) => {
+    const props = css
+      .split(";")
+      .map((decl) => decl.trim())
+      .filter(Boolean)
+      .map((decl) => {
+        const i = decl.indexOf(":");
+        const prop = decl.slice(0, i).trim().replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+        const value = decl.slice(i + 1).trim();
+        return `${prop}: ${JSON.stringify(value)}`;
+      })
+      .join(", ");
+    return `style={{${props}}}`;
+  });
 }
 
 function componentSource(componentName, innerSvg) {

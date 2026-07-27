@@ -257,16 +257,20 @@ export function AppShell({
     <div
       className={cn(
         "flex min-h-screen w-full flex-col overflow-hidden bg-[var(--color-app-shell-background)] font-interface text-[var(--color-app-shell-text-body)]",
-        // No local --color-button-* re-scoping here (removed 2026-07-24):
-        // Button must always read the same global --color-button-* tokens
-        // everywhere, including inside AppShell, so it can't silently drift
-        // from its own reference styling the way `secondary` just did — the
-        // app-shell-specific shadow copy of these tokens was never updated
-        // when Button's colors were last synced to Figma. See
+        // No local --color-button-*/--color-input-* re-scoping here (button
+        // re-scoping removed 2026-07-24; the matching --color-input-* copy
+        // below was removed 2026-07-27 for the identical reason, found via a
+        // user report that AppShell's search input and AIPanel's prompt
+        // input didn't match Figma's colors even after those components'
+        // own classNames were corrected to reference the real tokens):
+        // Button and Input must always read the same global --color-button-*/
+        // --color-input-* tokens everywhere, including inside AppShell, so
+        // they can't silently drift from their own reference styling the way
+        // `secondary`/`primary`/`search` just did — the app-shell-specific
+        // shadow copies of these tokens were never updated when Button's and
+        // Input's colors were last synced to Figma, and would have silently
+        // neutralized any future per-component fix too. See
         // docs/shadcn-integration.md §7.8.
-        "[--color-input-primary-bg:var(--color-app-shell-background)] [--color-input-primary-border:var(--color-app-shell-border-input)] [--color-input-primary-hover-border:var(--color-app-shell-border-input)] [--color-input-primary-placeholder-text:var(--color-app-shell-text-placeholder)]",
-        "[--color-input-search-bg:var(--color-app-shell-background)] [--color-input-search-border:var(--color-app-shell-border-input)] [--color-input-search-hover-border:var(--color-app-shell-border-input)] [--color-input-search-icon:var(--color-app-shell-text-placeholder)]",
-        "[--color-input-primary-focused-border:var(--color-border-focus)] [--color-input-search-focused-border:var(--color-border-focus)]",
         className
       )}
     >

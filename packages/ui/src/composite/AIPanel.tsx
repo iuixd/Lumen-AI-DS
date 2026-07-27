@@ -64,6 +64,15 @@ export interface AIPanelMessage {
    * modeled on Figma; this remains for content that doesn't fit either.
    */
   actions?: ReactNode;
+  /**
+   * Overrides the default bot avatar (`LmBotStaticIcon`) for this assistant
+   * message only — e.g. a temporary "thinking" placeholder using an animated
+   * icon. Rendered in the exact same position/size slot as the default icon;
+   * the caller supplies its own sizing/color classes (matching the default's
+   * `size-[--spacing-24] text-[--color-app-shell-bot-icon]` is recommended
+   * for visual consistency with real messages).
+   */
+  avatarIcon?: ReactNode;
 }
 
 export interface AIPanelProps {
@@ -228,6 +237,41 @@ export interface AIPanelProps {
  * height both previously used. `AppShell.stories.tsx` needed no separate fix
  * — it renders this same `AIPanel` component, so both corrections apply there
  * automatically.
+ *
+ * 2026-07-27 correction (user report: prompt input color styles didn't
+ * match): the message input had no color/border/radius overrides at all, so
+ * it rendered with the shared `Input` component's generic defaults
+ * (`bg-transparent`, a generic `border-input` bridge color, `rounded-md`/6px)
+ * instead of this node's actual `input/primary/bg` (white), `input/primary/
+ * border` (`--color-input-primary-border`), and 8px radius — all three
+ * already-correct existing tokens, just never applied here. Also see the
+ * dark-theme token corrections in `packages/tokens/src/semantic/color.json`
+ * (`_appShellComment`/`_inputComment`) from this same user report — this
+ * input's dark-mode border color was one of them.
+ *
+ * 2026-07-27 follow-up (same day, user report: "Robo icon color in dark mode
+ * is incorrect" / "check all font size"): the bot avatar's color binding
+ * (`--color-app-shell-text-body`) only coincidentally matched light mode's
+ * asset color; downloading the dark Bot Icon asset directly confirmed its
+ * real fill is `#A8939F`, not `text-body`'s dark value (`#F9F3F7`, near-
+ * white). Switched to the new, correctly-scoped `--color-app-shell-bot-icon`
+ * token (see `packages/tokens/src/semantic/color.json`). Separately, message-
+ * bubble text (`chat-message`) is now the first theme-varying typography
+ * token in this system — the dark AIPanel instance renders it at 14/16
+ * ("Body/Small") vs. light's 16/18 ("Body/Medium"); user-directed to treat
+ * this as a real per-theme difference rather than stale Figma drift between
+ * two instances, so `typography.json`'s `chat-message` entry now carries a
+ * `dark` override and `--text-chat-message-size/-line-height` swap by
+ * `[data-theme]` like every color token already does (see `build.mjs`).
+ *
+ * 2026-07-27 addition (user-supplied animated bot SVG, for the AppShell demo's
+ * "thinking" state): added `AIPanelMessage.avatarIcon` so a consumer can swap
+ * the bot avatar for one specific message (e.g. a temporary placeholder)
+ * without affecting any other message or requiring a new prop on `AIPanel`
+ * itself. Backward compatible — omitting it renders the existing default
+ * `LmBotStaticIcon` exactly as before. See `LmBotAnimatedIcon` (new,
+ * generated from `icons/svg/lm-bot-animated.svg`) and `AppShell.stories.tsx`'s
+ * `AssistantDemo` for the actual usage this was added for.
  */
 export function AIPanel({
   title = "Assistant",
@@ -297,10 +341,12 @@ export function AIPanel({
             ) : (
               <div className="flex flex-col gap-[var(--spacing-8)] items-start">
                 <div className="flex w-full items-start gap-[var(--spacing-8)]">
-                  <LmBotStaticIcon
-                    className="size-[var(--spacing-24)] shrink-0 text-[var(--color-app-shell-text-body)]"
-                    aria-hidden
-                  />
+                  {message.avatarIcon ?? (
+                    <LmBotStaticIcon
+                      className="size-[var(--spacing-24)] shrink-0 text-[var(--color-app-shell-bot-icon)]"
+                      aria-hidden
+                    />
+                  )}
                   <div className="flex flex-1 flex-col gap-[var(--spacing-12)] rounded-[var(--radius-chat-bubble)] rounded-tl-none bg-[var(--color-app-shell-chat-response-bg)] p-[var(--spacing-16)]">
                     <p className="text-chat-message text-[var(--color-app-shell-text-primary)]">{message.content}</p>
                     {message.followUps && message.followUps.length > 0 && (
@@ -398,7 +444,7 @@ export function AIPanel({
         <Input
           id="ai-panel-input"
           type="text"
-          className="min-w-0 flex-1"
+          className="min-w-0 flex-1 rounded-[var(--radius-lg)] border-[var(--color-input-primary-border)] bg-[var(--color-input-primary-bg)] px-[var(--spacing-10)] py-[var(--spacing-7)]"
           value={value}
           onChange={(e) => setValue(e.target.value)}
           placeholder={inputPlaceholder}

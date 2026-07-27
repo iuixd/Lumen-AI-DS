@@ -133,6 +133,22 @@ for (const [group, groupTokens] of Object.entries(semanticColor.dark)) {
     css += `  --color-${group}-${kebab(name)}: ${resolved};\n`;
   }
 }
+// Typography is fixed across themes by default (only colors vary) — a scale
+// entry can opt into a per-theme override via its own "dark" key. Emitted
+// here rather than a separate block so it lives alongside every other
+// [data-theme="dark"] override.
+const darkTypographyEntries = Object.entries(typography.scale).filter(([, val]) => val.dark);
+if (darkTypographyEntries.length > 0) {
+  css += "\n  /* typography: dark-only overrides */\n";
+  for (const [key, val] of darkTypographyEntries) {
+    if (val.dark.fontSize !== undefined) css += `  --text-${key}-size: ${val.dark.fontSize}px;\n`;
+    if (val.dark.lineHeight !== undefined)
+      css += `  --text-${key}-line-height: ${val.dark.lineHeight}${typeof val.dark.lineHeight === "number" ? "px" : ""};\n`;
+    if (val.dark.weight !== undefined) css += `  --text-${key}-weight: ${val.dark.weight};\n`;
+    if (val.dark.letterSpacing !== undefined)
+      css += `  --text-${key}-letter-spacing: ${val.dark.letterSpacing}px;\n`;
+  }
+}
 css += "}\n";
 
 writeFileSync(path.join(distDir, "css/variables.css"), css);

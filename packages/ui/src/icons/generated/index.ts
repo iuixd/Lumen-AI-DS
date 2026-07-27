@@ -1009,6 +1009,7 @@ export { LmAiOutlineIcon } from "./LmAiOutlineIcon";
 export { LmAiIcon } from "./LmAiIcon";
 export { LmAisymbolIcon } from "./LmAisymbolIcon";
 export { LmAuditLogIcon } from "./LmAuditLogIcon";
+export { LmBotAnimatedIcon } from "./LmBotAnimatedIcon";
 export { LmBotStaticIcon } from "./LmBotStaticIcon";
 export { LmCharactersSymbolIcon } from "./LmCharactersSymbolIcon";
 export { LmCloseIcon } from "./LmCloseIcon";

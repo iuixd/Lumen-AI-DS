@@ -153,6 +153,18 @@ describe("AIPanel", () => {
     expect(container.querySelector("svg")).toBeInTheDocument();
   });
 
+  it("renders a custom avatarIcon in place of the default bot avatar for that message only", () => {
+    render(
+      <AIPanel
+        messages={[
+          { role: "assistant", content: "Thinking", avatarIcon: <span data-testid="custom-avatar" /> },
+          { role: "assistant", content: "Hi" }
+        ]}
+      />
+    );
+    expect(screen.getByTestId("custom-avatar")).toBeInTheDocument();
+  });
+
   it("gives the user and assistant bubbles their asymmetric square corner", () => {
     render(
       <AIPanel

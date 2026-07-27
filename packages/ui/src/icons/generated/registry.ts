@@ -1010,6 +1010,7 @@ import { LmAiOutlineIcon } from "./LmAiOutlineIcon";
 import { LmAiIcon } from "./LmAiIcon";
 import { LmAisymbolIcon } from "./LmAisymbolIcon";
 import { LmAuditLogIcon } from "./LmAuditLogIcon";
+import { LmBotAnimatedIcon } from "./LmBotAnimatedIcon";
 import { LmBotStaticIcon } from "./LmBotStaticIcon";
 import { LmCharactersSymbolIcon } from "./LmCharactersSymbolIcon";
 import { LmCloseIcon } from "./LmCloseIcon";
@@ -2945,6 +2946,7 @@ export const iconRegistry: Record<string, IconComponent> = {
   "lm-ai": LmAiIcon,
   "lm-aisymbol": LmAisymbolIcon,
   "lm-audit-log": LmAuditLogIcon,
+  "lm-bot-animated": LmBotAnimatedIcon,
   "lm-bot-static": LmBotStaticIcon,
   "lm-characters-symbol": LmCharactersSymbolIcon,
   "lm-close": LmCloseIcon,
