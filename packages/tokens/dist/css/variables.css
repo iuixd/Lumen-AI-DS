@@ -528,6 +528,13 @@
   --text-chat-message-size: 14px;
   --text-chat-message-line-height: 16px;
   --text-chat-message-weight: 400;
+  --text-ai-empty-state-title-size: 32px;
+  --text-ai-empty-state-title-line-height: 42px;
+  --text-ai-empty-state-title-weight: 400;
+  --text-ai-empty-state-title-letter-spacing: -0.48px;
+  --text-ai-empty-state-body-size: 16px;
+  --text-ai-empty-state-body-line-height: 18px;
+  --text-ai-empty-state-body-weight: 400;
   --text-chat-caption-size: 14px;
   --text-chat-caption-line-height: 18px;
   --text-chat-caption-weight: 400;
@@ -621,6 +628,8 @@
   --color-border-brand: #F2CCD8;
   --color-icon-brand: #4C0018;
   --color-icon-default: #262626;
+  --color-icon-primary-bg: #FFF5F8;
+  --color-icon-primary: #BE003C;
   --color-input-primary-placeholder-text: #7F7F7F;
   --color-input-primary-bg: #FFFFFF;
   --color-input-primary-border: #C8D1D4;
@@ -797,6 +806,8 @@
   --color-border-brand: #594D54;
   --color-icon-brand: #E599B1;
   --color-icon-default: #FFFFFF;
+  --color-icon-primary-bg: #000000;
+  --color-icon-primary: #C9C2C7;
   --color-input-primary-placeholder-text: #A8939F;
   --color-input-primary-bg: #0E0B0E;
   --color-input-primary-border: #7A6674;

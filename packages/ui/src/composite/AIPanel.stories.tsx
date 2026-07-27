@@ -41,7 +41,7 @@ const conversationMessages: AIPanelMessage[] = [
 ];
 
 const meta = {
-  title: "Composite/AIPanel",
+  title: "AI Components/AIPanel",
   component: AIPanel,
   tags: ["autodocs"],
   parameters: {
