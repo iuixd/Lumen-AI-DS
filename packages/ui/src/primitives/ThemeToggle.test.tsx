@@ -44,4 +44,23 @@ describe("ThemeToggle", () => {
     expect(container.querySelectorAll("img")).toHaveLength(4);
     expect(container.querySelector("svg")).toBeNull();
   });
+
+  it("slides the knob and crossfades its icon via a peer-checked transition, not an instant swap", () => {
+    const { container } = render(<ThemeToggle name="theme" />);
+    const knobSun = container.querySelector('[data-theme-toggle-asset="sunLight"]');
+    const knobMoon = container.querySelector('[data-theme-toggle-asset="moonDark"]');
+    const mutedSun = container.querySelector('[data-theme-toggle-asset="sunDark"]');
+    const mutedMoon = container.querySelector('[data-theme-toggle-asset="moonLight"]');
+
+    // The knob pair starts at the same left anchor and translates together on check.
+    expect(knobSun).toHaveClass("left-[var(--spacing-2)]", "peer-checked:translate-x-[var(--spacing-30)]");
+    expect(knobMoon).toHaveClass("left-[var(--spacing-2)]", "peer-checked:translate-x-[var(--spacing-30)]");
+
+    // Every layer crossfades opacity instead of toggling display.
+    for (const layer of [knobSun, knobMoon, mutedSun, mutedMoon]) {
+      expect(layer?.className).toMatch(/transition-(opacity|\[transform,opacity\])/);
+      expect(layer).not.toHaveClass("hidden");
+      expect(layer).toHaveClass("motion-reduce:transition-none");
+    }
+  });
 });

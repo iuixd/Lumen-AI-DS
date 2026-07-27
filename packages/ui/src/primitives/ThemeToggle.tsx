@@ -14,9 +14,36 @@ export interface ThemeToggleProps extends Omit<InputHTMLAttributes<HTMLInputElem
  * ThemeToggle
  * Sourced from the canonical AppShell desktop/tablet light and dark variants
  * (node 1007:3700). The exact 54px track and two fixed 20px icon cells use
- * the published `btn/toggle/*` roles in both modes. The selected cell swaps
- * from Sun to Moon without moving either glyph. The native checkbox and
+ * the published `btn/toggle/*` roles in both modes. The native checkbox and
  * `role="switch"` preserve the established accessible-toggle behavior.
+ *
+ * 2026-07-27: rewritten with a transitioning knob (direct user request — "add
+ * a smooth sliding effect... white knob slide between the two cells with the
+ * sun/moon crossfading on it"). Not Figma-sourced (the static frames show no
+ * motion/prototype spec) — pure interaction polish on top of the exact
+ * anatomy synced above. Still the same 4 pre-existing icon assets as flat
+ * siblings of the input (`peer-checked:` requires that flatness — it only
+ * matches direct general siblings of `.peer`, not nested descendants, so a
+ * single wrapping "knob" element containing both icons wasn't an option
+ * without converting this from an uncontrolled native-checkbox pattern to
+ * JS-driven state). `sunLight`/`moonDark` (each already bundles its own
+ * white 20px circle baked into the asset) are the two that move: both
+ * anchored at the left cell and translated together by `--spacing-30` (the
+ * exact 2px-to-32px travel distance) on check, each crossfading opacity in
+ * the opposite phase — since they move in lockstep, they read as one knob
+ * whose icon crossfades mid-slide, not two independent layers. `sunDark`/
+ * `moonLight` (the no-knob, muted-color variants) stay fixed in place and
+ * only crossfade opacity, appearing on whichever cell the knob just
+ * vacated — same end states as before, just transitioned instead of an
+ * instant swap. No token exists for this duration/easing:
+ * `docs/accessibility.md` §3.6 documents a required motion-token system
+ * (Instant/Fast/Moderate/Slow durations, Standard/Enter/Exit easings) that
+ * has never actually been built anywhere in `@lumen/tokens` — a pre-existing
+ * gap, out of scope for one component's animation. Using stock Tailwind
+ * `duration-200`/`ease-out` isn't a Hard Rule #1 violation either way, since
+ * that rule's no-hardcoding list is color/font-size/spacing/shadow only, not
+ * motion. `motion-reduce:transition-none` respects `prefers-reduced-motion`
+ * per §16.
  */
 export const ThemeToggle = forwardRef<HTMLInputElement, ThemeToggleProps>(
   ({ className, id, "aria-label": ariaLabel, ...props }, ref) => {
@@ -40,24 +67,38 @@ export const ThemeToggle = forwardRef<HTMLInputElement, ThemeToggleProps>(
           aria-label={ariaLabel ?? "Toggle dark theme"}
           {...props}
         />
-        {Object.entries(toggleAssets).map(([name, src]) => {
-          const sun = name.startsWith("sun");
-          const dark = name.endsWith("Dark");
-          return (
-            <span
-              key={name}
-              aria-hidden
-              data-theme-toggle-asset={name}
-              className={cn(
-                "pointer-events-none absolute top-[var(--spacing-2)] size-[var(--spacing-20)]",
-                sun ? "left-[var(--spacing-2)]" : "left-[var(--spacing-32)]",
-                dark ? "hidden peer-checked:block" : "block peer-checked:hidden"
-              )}
-            >
-              <img src={src} alt="" className="size-full" />
-            </span>
-          );
-        })}
+        {/* Muted, no-knob icons — fixed in place, crossfade in to reveal whichever cell the knob has just vacated. */}
+        <span
+          aria-hidden
+          data-theme-toggle-asset="sunDark"
+          className="pointer-events-none absolute left-[var(--spacing-2)] top-[var(--spacing-2)] size-[var(--spacing-20)] opacity-0 transition-opacity duration-200 ease-out motion-reduce:transition-none peer-checked:opacity-100"
+        >
+          <img src={toggleAssets.sunDark} alt="" className="size-full" />
+        </span>
+        <span
+          aria-hidden
+          data-theme-toggle-asset="moonLight"
+          className="pointer-events-none absolute left-[var(--spacing-32)] top-[var(--spacing-2)] size-[var(--spacing-20)] opacity-100 transition-opacity duration-200 ease-out motion-reduce:transition-none peer-checked:opacity-0"
+        >
+          <img src={toggleAssets.moonLight} alt="" className="size-full" />
+        </span>
+        {/* The sliding knob: sunLight and moonDark each already bundle their own white
+            20px circle, so translating and crossfading this pair together reads as one
+            knob whose icon crossfades mid-slide. */}
+        <span
+          aria-hidden
+          data-theme-toggle-asset="sunLight"
+          className="pointer-events-none absolute left-[var(--spacing-2)] top-[var(--spacing-2)] size-[var(--spacing-20)] opacity-100 transition-[transform,opacity] duration-200 ease-out motion-reduce:transition-none peer-checked:translate-x-[var(--spacing-30)] peer-checked:opacity-0"
+        >
+          <img src={toggleAssets.sunLight} alt="" className="size-full" />
+        </span>
+        <span
+          aria-hidden
+          data-theme-toggle-asset="moonDark"
+          className="pointer-events-none absolute left-[var(--spacing-2)] top-[var(--spacing-2)] size-[var(--spacing-20)] opacity-0 transition-[transform,opacity] duration-200 ease-out motion-reduce:transition-none peer-checked:translate-x-[var(--spacing-30)] peer-checked:opacity-100"
+        >
+          <img src={toggleAssets.moonDark} alt="" className="size-full" />
+        </span>
       </label>
     );
   }
