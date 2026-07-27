@@ -944,8 +944,7 @@ module.exports = {
         "interface": ["var(--font-interface)"],
         "brand": ["var(--font-brand)"],
         "mono": ["var(--font-mono)"],
-        "editorial": ["var(--font-editorial)"],
-        "documentation-mono": ["var(--font-documentation-mono)"]
+        "editorial": ["var(--font-editorial)"]
       },
       screens: {
         tablet: "768px",
