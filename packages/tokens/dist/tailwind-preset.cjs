@@ -247,6 +247,8 @@ module.exports = {
   "border-brand": "var(--color-border-brand)",
   "icon-brand": "var(--color-icon-brand)",
   "icon-default": "var(--color-icon-default)",
+  "icon-primary-bg": "var(--color-icon-primary-bg)",
+  "icon-primary": "var(--color-icon-primary)",
   "input-primary-placeholder-text": "var(--color-input-primary-placeholder-text)",
   "input-primary-bg": "var(--color-input-primary-bg)",
   "input-primary-border": "var(--color-input-primary-border)",
@@ -924,6 +926,20 @@ module.exports = {
     {
       "lineHeight": "var(--text-chat-message-line-height)",
       "fontWeight": "var(--text-chat-message-weight)"
+    }
+  ],
+  "ai-empty-state-title": [
+    "var(--text-ai-empty-state-title-size)",
+    {
+      "lineHeight": "var(--text-ai-empty-state-title-line-height)",
+      "fontWeight": "var(--text-ai-empty-state-title-weight)"
+    }
+  ],
+  "ai-empty-state-body": [
+    "var(--text-ai-empty-state-body-size)",
+    {
+      "lineHeight": "var(--text-ai-empty-state-body-line-height)",
+      "fontWeight": "var(--text-ai-empty-state-body-weight)"
     }
   ],
   "chat-caption": [

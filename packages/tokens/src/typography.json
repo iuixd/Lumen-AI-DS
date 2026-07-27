@@ -445,6 +445,21 @@
       "usage": "AIPanel conversation bubble text (Figma node 1079:3141, 'Body/Small' style)",
       "_comment": "2026-07-27 correction (user report: 'Chat bubble text font size is bigger in light mode, not aligned with the actual design'): this token briefly carried a light/dark fork (light 16/18 'Body/Medium', dark 14/16 'Body/Small') added the same day, on the theory that the two themes' canonical AIPanel instances genuinely differed. Re-checked both sides of that premise directly against get_design_context: the light value was never actually read from the canonical AIPanel instance (node 1079:3141) — it came from a separate 'AI Conversation Components' documentation frame (node 1412:3030) instead. The dark value *was* read from the real canonical instance (node 1166:4827) and was correct. Re-querying the canonical LIGHT instance (1079:3141) directly shows both bubbles at 'Body/Small' (14/16) — identical to dark. So there was never a real per-theme difference; only the light reading was wrong. Reverted to a single fixed value and removed the `dark` override (the per-theme typography machinery in build.mjs stays — it's generic, just unused for now)."
     },
+    "ai-empty-state-title": {
+      "fontSize": 32,
+      "lineHeight": 42,
+      "weight": 400,
+      "letterSpacing": -0.48,
+      "usage": "AI Empty Communication State heading, e.g. EmptyState variant=\"ai\" (Figma node 1416:3638, 'Ask AI to get started', 'Heading/H4' style)",
+      "_comment": "Deliberately a new tier rather than reusing `headline-lg` (also documented as 'Figma H4', 32/42) — that token is weight 600 and is already a real, shared dependency of `KpiCard` in both the Angular and Web Components packages, so changing its weight would be an unrelated, unevidenced regression there. This node's own 'Heading/H4' text style, read directly via get_design_context, is weight 400 (Regular) — a real, narrower distinction, not a duplicate of an existing tier."
+    },
+    "ai-empty-state-body": {
+      "fontSize": 16,
+      "lineHeight": 18,
+      "weight": 400,
+      "usage": "AI Empty Communication State description text, e.g. EmptyState variant=\"ai\" (Figma node 1416:3638, 'Body/Medium' style)",
+      "_comment": "Numerically identical to `input-md` (also 16/18/400, also sourced from 'Body/Medium'), but not reused — `input-md`'s name and usage are specifically about input placeholder/value text, and this is unrelated description-paragraph text; the existing convention in this file (chat-message/chat-caption/chat-label, ai-library-*) adds a purpose-named tier rather than reusing a coincidentally-matching one."
+    },
     "chat-caption": {
       "fontSize": 14,
       "lineHeight": 18,

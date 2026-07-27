@@ -3055,7 +3055,7 @@ Source: `packages/ui/src/composite/AIPanel.tsx`.
 
 ## Storybook
 
-`Composite/AIPanel` — Playground, Interactive, Empty.
+`AI Components/AIPanel` — Playground, Interactive, Empty. Moved from `Composite/AIPanel` 2026-07-27 (grouped with the other AI-specific components in Storybook's sidebar).
 
 ## Testing
 
