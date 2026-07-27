@@ -302,12 +302,12 @@
   --divider-button-disabled: rgba(127, 127, 127, 0.3);
 
   /* typography */
-  --font-sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-interface: "Instrument Sans", Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-brand: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-mono: "Roboto Mono", SFMono-Regular, Menlo, monospace;
+  --font-sans: "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-interface: "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-brand: "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "Space Mono", SFMono-Regular, Menlo, monospace;
   --font-editorial: "Source Serif Pro", Georgia, serif;
-  --font-documentation-mono: "Space Mono", "Roboto Mono", SFMono-Regular, Menlo, monospace;
+  --font-documentation-mono: "Space Mono", SFMono-Regular, Menlo, monospace;
   --text-ai-library-h1-size: 60px;
   --text-ai-library-h1-line-height: 72px;
   --text-ai-library-h1-weight: 400;

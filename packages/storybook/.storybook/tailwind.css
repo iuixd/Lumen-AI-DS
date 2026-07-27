@@ -1,14 +1,18 @@
 /* Storybook-chrome-only typeface for the Docs page title (.sbdocs-title) —
-   not part of @lumen/tokens' Inter/Roboto Mono type scale, so it must load
-   separately rather than through the design system's own font stack. */
+   not part of @lumen/tokens' Instrument Sans/Space Mono type scale, so it
+   must load separately rather than through the design system's own font
+   stack. */
 @import url("https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap");
 /* Storybook-chrome-only typeface for the Docs page code blocks
    (.docblock-source) — matches the "Tokyo Night" reference screenshot. */
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap");
-/* Product-preview families used by the canonical AppShell: Instrument Sans
-   for interface copy and Inter for the Lumen mark. Family selection remains
+/* Product-preview family used by the canonical AppShell for both interface
+   copy and the Lumen mark (2026-07-27: `brand` moved off Inter onto
+   Instrument Sans — see typography.json's `_comment` — so one import now
+   covers both; weight 700 added for the `app-logo`/`app-logo-compact` brand-
+   mark tokens Inter previously supplied). Family selection remains
    token-owned (`--font-interface`/`--font-brand`); this only supplies glyphs. */
-@import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Inter:wght@600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap");
 @import "@lumen/tokens/css";
 @import "@lumen/ui/shadcn.css";
 
