@@ -270,6 +270,7 @@
       "text-muted": { "value": "#7A6674" },
       "toggle-on-action": { "value": "#17101A" },
       "toggle-off-action": { "value": "#C9C2C7" },
+      "chat-response-bg": { "value": "rgba(255, 255, 255, 0.1)", "_comment": "A translucent white overlay over the dark surface, not a solid fill — sourced from the canonical AppShell dark AIPanel instance (node 1166:4827, `bg/chat-response` = #ffffff1a), via get_variable_defs on 2026-07-27. Distinct from `surface` (#231C24, opaque), which this token previously reused as an approximation." },
       "success": { "value": "#78E6A0" },
       "success-muted": { "value": "#0B8A3E" },
       "success-bg": { "value": "rgba(11, 138, 62, 0.15)" },

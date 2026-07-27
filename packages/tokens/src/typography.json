@@ -442,7 +442,12 @@
       "fontSize": 16,
       "lineHeight": 18,
       "weight": 400,
-      "usage": "AIPanel conversation bubble text (Figma node 1412:3030, 'Body/Medium' style)"
+      "usage": "AIPanel conversation bubble text (Figma node 1412:3030, 'Body/Medium' style)",
+      "dark": {
+        "fontSize": 14,
+        "lineHeight": 16,
+        "_comment": "The first theme-varying typography token in this system (every prior scale entry is fixed across themes; only colors previously varied by [data-theme]). Sourced from the canonical dark AppShell AIPanel instance (node 1166:4827, via get_design_context on 2026-07-27, user report 'check all font size not matching Figma'): both message bubbles render at 'Body/Small' (14/16) there, vs. 'Body/Medium' (16/18) in every light instance checked. User-directed to treat this as a real per-theme difference rather than a stale Figma authoring drift between two instances."
+      }
     },
     "chat-caption": {
       "fontSize": 14,

@@ -206,6 +206,7 @@
   --color-app-shell-dark-text-muted: #7A6674;
   --color-app-shell-dark-toggle-on-action: #17101A;
   --color-app-shell-dark-toggle-off-action: #C9C2C7;
+  --color-app-shell-dark-chat-response-bg: rgba(255, 255, 255, 0.1);
   --color-app-shell-dark-success: #78E6A0;
   --color-app-shell-dark-success-muted: #0B8A3E;
   --color-app-shell-dark-success-bg: rgba(11, 138, 62, 0.15);
@@ -752,6 +753,7 @@
   --color-app-shell-chat-response-bg: #F6F8F8;
   --color-app-shell-assistant-icon-bg: #FFF5F8;
   --color-app-shell-assistant-icon: #BE003C;
+  --color-app-shell-bot-icon: #424849;
   --color-app-shell-toggle-bg: #FFFFFF;
   --color-app-shell-toggle-track: #EDF0F1;
   --color-app-shell-toggle-on-action: #1E2021;
@@ -797,15 +799,15 @@
   --color-icon-default: #FFFFFF;
   --color-input-primary-placeholder-text: #A8939F;
   --color-input-primary-bg: #0E0B0E;
-  --color-input-primary-border: #3D3039;
+  --color-input-primary-border: #7A6674;
   --color-input-primary-hover-border: #EDF0F1;
-  --color-input-primary-focused-border: #720024;
+  --color-input-primary-focused-border: #E599B1;
   --color-input-primary-error-border: #E9787E;
-  --color-input-search-icon: #A8939F;
+  --color-input-search-icon: #C9C2C7;
   --color-input-search-bg: #0E0B0E;
   --color-input-search-border: #3D3039;
   --color-input-search-hover-border: #EDF0F1;
-  --color-input-search-focused-border: #720024;
+  --color-input-search-focused-border: #E599B1;
   --color-input-radio-checkbox-selected: #FFFFFF;
   --color-input-radio-checkbox-selected-text: #000000;
   --color-input-radio-checkbox-disabled-border: #2C343B;
@@ -859,7 +861,7 @@
   --color-button-ghost-bg: #00000000;
   --color-button-ghost-on-action: #F5EFF3;
   --color-button-ghost-hover-bg: #be003c99;
-  --color-button-link-on-action: #BE003C;
+  --color-button-link-on-action: #D8668A;
   --color-button-destructive-bg: #DA1E28;
   --color-button-destructive-on-action: #FFFFFF;
   --color-button-destructive-hover-bg: #E14B53;
@@ -908,7 +910,7 @@
   --color-app-shell-text-tertiary: #A8939F;
   --color-app-shell-text-placeholder: #A8939F;
   --color-app-shell-text-muted: #7A6674;
-  --color-app-shell-text-link: #D8668A;
+  --color-app-shell-text-link: #E599B1;
   --color-app-shell-text-on-brand: #FFFFFF;
   --color-app-shell-border-default: #3D3039;
   --color-app-shell-border-subtle: #151116;
@@ -924,9 +926,10 @@
   --color-app-shell-badge-bg: rgba(180, 142, 224, 0.16);
   --color-app-shell-badge-text: #000000;
   --color-app-shell-prompt-bg: #000000;
-  --color-app-shell-chat-response-bg: #231C24;
-  --color-app-shell-assistant-icon-bg: #310010;
-  --color-app-shell-assistant-icon: #BE003C;
+  --color-app-shell-chat-response-bg: rgba(255, 255, 255, 0.1);
+  --color-app-shell-assistant-icon-bg: #000000;
+  --color-app-shell-assistant-icon: #C9C2C7;
+  --color-app-shell-bot-icon: #A8939F;
   --color-app-shell-toggle-bg: #000000;
   --color-app-shell-toggle-track: #3D3039;
   --color-app-shell-toggle-on-action: #17101A;
@@ -942,4 +945,8 @@
   --color-app-shell-button-accent-bg: #BE003C;
   --color-app-shell-button-accent-on-action: #E6F3F3;
   --color-app-shell-button-accent-text: #E6F3F3;
+
+  /* typography: dark-only overrides */
+  --text-chat-message-size: 14px;
+  --text-chat-message-line-height: 16px;
 }

@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { AppShell, type NavSection } from "./AppShell";
 import { Icon } from "../primitives/Icon";
@@ -7,9 +7,10 @@ import { Badge } from "../primitives/Badge";
 import { Button } from "../components/button/Button";
 import { TextLink } from "../primitives/TextLink";
 import { Input } from "../components/input/Input";
+import { Kbd } from "../components/kbd/Kbd";
 import { KPICard } from "../primitives/KPICard";
 import { ThemeToggle } from "../primitives/ThemeToggle";
-import { AIPanel } from "../composite/AIPanel";
+import { AIPanel, type AIPanelMessage } from "../composite/AIPanel";
 import { PageHeader } from "../composite/PageHeader";
 import { Footer } from "./Footer";
 import {
@@ -22,9 +23,11 @@ import {
   FolderIcon,
   HomeIcon,
   LmAuditLogIcon,
+  LmBotAnimatedIcon,
   LmProjectIcon,
   MenuIcon,
   PlusIcon,
+  SearchIcon,
   SignalIcon,
   TrendingUpIcon,
   WifiIcon
@@ -119,12 +122,18 @@ function Brand({ mobile = false, tablet = false }: { mobile?: boolean; tablet?: 
 function SearchBar() {
   return (
     <div className="w-[var(--spacing-400)]">
-      <Input
-        type="search"
-        aria-label="Type your question"
-        placeholder="Type your question..."
-        className="h-[var(--spacing-36)]"
-      />
+      <div className="flex h-[var(--spacing-36)] items-center gap-[var(--spacing-8)] rounded-[var(--radius-lg)] border-[1.5px] border-[var(--color-input-search-border)] bg-[var(--color-input-search-bg)] px-[var(--spacing-14)] py-[var(--spacing-7)] transition-colors hover:border-2 hover:border-[var(--color-input-search-hover-border)] has-[:focus-visible]:border-[2.5px] has-[:focus-visible]:border-[var(--color-input-search-focused-border)]">
+        <SearchIcon className="size-[var(--spacing-14)] shrink-0 text-[var(--color-input-search-icon)]" aria-hidden />
+        <Input
+          type="search"
+          aria-label="Type your question"
+          placeholder="Type your question..."
+          className="h-auto flex-1 border-0 bg-transparent p-0 hover:border-0 focus-visible:border-0"
+        />
+        <Kbd className="h-auto shrink-0 rounded-[var(--radius-sm)] border border-[var(--color-app-shell-border-default)] bg-[var(--color-app-shell-surface)] px-[var(--spacing-4)] py-0 text-[var(--color-input-search-icon)]">
+          ⌘K
+        </Kbd>
+      </div>
     </div>
   );
 }
@@ -239,6 +248,88 @@ function MobileHeader({
 
 function StatusBadge({ tone, children }: { tone: "success" | "warning"; children: ReactNode }) {
   return <Badge status={tone}>{children}</Badge>;
+}
+
+const GREETINGS = ["hello", "hi", "hey", "yo", "howdy", "greetings"];
+const FALLBACK_REPLIES = [
+  "I don't have that cached yet, but I can pull it from the renewal pipeline if you point me at an account.",
+  "Good question — I'd need to check the CRM for specifics there. Want me to look it up?",
+  "That's outside what I've got on hand right now, but I can dig into the pipeline data if you'd like."
+];
+
+/** Small keyword-matched canned-response pool for the AppShell demo — not a real assistant. */
+function dummyAssistantReply(question: string): string {
+  const q = question.toLowerCase().trim();
+  if (GREETINGS.some((greeting) => q === greeting || q.startsWith(`${greeting} `) || q.startsWith(`${greeting},`))) {
+    return "Hi! I'm your renewals assistant — ask me about any account in the pipeline, this quarter's forecast, or which renewals are at risk.";
+  }
+  const account = accounts.find((a) => q.includes(a.name.toLowerCase().split(" ")[0]));
+  if (account) {
+    return `${account.name} is at ${account.value}, renewing in ${account.days}, currently marked "${account.status}".`;
+  }
+  if (/forecast|arr/.test(q)) {
+    return "Forecast ARR for this quarter is $4.2M at 83% confidence, up 12% from last quarter.";
+  }
+  if (/risk|flag/.test(q)) {
+    return "3 accounts are flagged at risk this quarter — Meridian Health needs the most attention, 15 days out with no exec touchpoint.";
+  }
+  if (/summar|pipeline|overview|renewal/.test(q)) {
+    return "47 open renewals this quarter, 9 flagged at risk, forecast ARR $4.2M at 83% confidence. Meridian Health needs the most attention.";
+  }
+  if (/source/.test(q)) {
+    return "Sources: CRM activity log, support ticket history, and the last QBR notes for each account.";
+  }
+  return FALLBACK_REPLIES[Math.floor(Math.random() * FALLBACK_REPLIES.length)];
+}
+
+/** ~8s so the animated bot's own 6s loop (antenna wiggle, blink, loading dots) plays fully before the reply lands. */
+const THINKING_DELAY_MS = 8000;
+
+function AssistantDemo() {
+  const [messages, setMessages] = useState<AIPanelMessage[]>([
+    { role: "user", content: "Which renewals should I focus on this week?" },
+    {
+      role: "assistant",
+      content:
+        "Start with Meridian Health — $380k closing in 15 days with no exec touchpoint since May. I've drafted an outreach email referencing support tickets.",
+      followUps: [{ label: "Review draft" }, { label: "Show sources", variant: "link" }]
+    }
+  ]);
+  const [isThinking, setIsThinking] = useState(false);
+  const timeoutRef = useRef<number>();
+
+  useEffect(() => {
+    return () => window.clearTimeout(timeoutRef.current);
+  }, []);
+
+  const handleSend = (value: string) => {
+    setMessages((prev) => [...prev, { role: "user", content: value }]);
+    setIsThinking(true);
+    timeoutRef.current = window.setTimeout(() => {
+      setMessages((prev) => [...prev, { role: "assistant", content: dummyAssistantReply(value) }]);
+      setIsThinking(false);
+    }, THINKING_DELAY_MS);
+  };
+
+  const thinkingMessage: AIPanelMessage = {
+    role: "assistant",
+    content: "Thinking…",
+    avatarIcon: (
+      <LmBotAnimatedIcon
+        className="size-[var(--spacing-24)] shrink-0 text-[var(--color-app-shell-bot-icon)]"
+        aria-hidden
+      />
+    )
+  };
+
+  return (
+    <AIPanel
+      title="Assistant"
+      messages={isThinking ? [...messages, thinkingMessage] : messages}
+      inputPlaceholder="Summarize pipeline..."
+      onSend={handleSend}
+    />
+  );
 }
 
 function DesktopContent() {
@@ -551,23 +642,7 @@ function AppShellDemo({ initialTheme }: { initialTheme: "light" | "dark" }) {
         mobileHeader={
           <MobileHeader dark={dark} onThemeChange={(next) => setTheme(next ? "dark" : "light")} />
         }
-        assistant={
-          <AIPanel
-            messages={[
-              { role: "user", content: "Which renewals should I focus on this week?" },
-              {
-                role: "assistant",
-                content:
-                  "Start with Meridian Health — $380k closing in 15 days with no exec touchpoint since May. I've drafted an outreach email referencing support tickets.",
-                followUps: [
-                  { label: "Review draft" },
-                  { label: "Show sources", variant: "link" }
-                ]
-              }
-            ]}
-            inputPlaceholder="Summarize pipeline..."
-          />
-        }
+        assistant={<AssistantDemo />}
         footer={
           <Footer
             version="Lumen Platform v4.0"

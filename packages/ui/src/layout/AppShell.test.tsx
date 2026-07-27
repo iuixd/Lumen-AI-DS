@@ -170,18 +170,22 @@ describe("AppShell", () => {
     expect(screen.getByText("Assistant").parentElement).toHaveClass("desktop:block");
     expect(container.firstElementChild).toHaveClass(
       "bg-[var(--color-app-shell-background)]",
-      "text-[var(--color-app-shell-text-body)]",
+      "text-[var(--color-app-shell-text-body)]"
+    );
+    // Neither Button nor Input is locally re-scoped to app-shell-specific
+    // token shadow-copies inside AppShell — both must read the same global
+    // --color-button-*/--color-input-* tokens everywhere, so a fix to either
+    // component's real tokens is never silently neutralized here again.
+    expect(container.firstElementChild).not.toHaveClass(
+      "[--color-button-primary-bg:var(--color-app-shell-button-primary-bg)]",
+      "[--color-button-secondary-bg:var(--color-app-shell-button-secondary-bg)]",
+      "[--color-button-accent-bg:var(--color-app-shell-button-accent-bg)]",
       "[--color-input-primary-bg:var(--color-app-shell-background)]",
       "[--color-input-primary-border:var(--color-app-shell-border-input)]",
       "[--color-input-primary-placeholder-text:var(--color-app-shell-text-placeholder)]",
       "[--color-input-search-bg:var(--color-app-shell-background)]",
       "[--color-input-search-border:var(--color-app-shell-border-input)]",
       "[--color-input-search-icon:var(--color-app-shell-text-placeholder)]"
-    );
-    expect(container.firstElementChild).not.toHaveClass(
-      "[--color-button-primary-bg:var(--color-app-shell-button-primary-bg)]",
-      "[--color-button-secondary-bg:var(--color-app-shell-button-secondary-bg)]",
-      "[--color-button-accent-bg:var(--color-app-shell-button-accent-bg)]"
     );
   });
 

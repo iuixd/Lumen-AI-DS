@@ -37,6 +37,18 @@ import { cn } from "../../lib/cn"
  * for it (the canonical AIPanel component, node 1079:3141, "Show sources"
  * follow-up button) — `--color-button-link-on-action` (primary.500),
  * replacing shadcn's generic `text-primary` bridge-token fallback.
+ *
+ * `link-on-action`'s dark value corrected 2026-07-27 (user report: "TextLink
+ * color is incorrect in dark mode, not reused the TextLink component") —
+ * dark had independently drifted to `primary.500` (matching light only by
+ * coincidence) instead of matching `TextLink`'s own dark color, `primary.300`
+ * (`text.link.dark`). Figma's own dark instance literally binds this text to
+ * the unrelated `btn/secondary/on-action` variable (`primary.100`) since it
+ * has never authored a dedicated link-button variable — per direct user
+ * instruction, that literal binding was not followed; `TextLink`'s actual
+ * color was used instead, since a Button styled as a link should always look
+ * like this system's one canonical link, not redirect through whichever
+ * unrelated variable a given Figma frame happened to reuse.
  */
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-label-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-button-focus-ring)] disabled:pointer-events-none disabled:border-transparent disabled:bg-[var(--color-button-disabled-bg)] disabled:text-[var(--color-button-disabled-on-action)] [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
