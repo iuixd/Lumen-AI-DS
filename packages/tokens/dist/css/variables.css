@@ -525,8 +525,8 @@
   --text-app-kpi-value-size: 32px;
   --text-app-kpi-value-line-height: 40px;
   --text-app-kpi-value-weight: 600;
-  --text-chat-message-size: 16px;
-  --text-chat-message-line-height: 18px;
+  --text-chat-message-size: 14px;
+  --text-chat-message-line-height: 16px;
   --text-chat-message-weight: 400;
   --text-chat-caption-size: 14px;
   --text-chat-caption-line-height: 18px;
@@ -945,8 +945,4 @@
   --color-app-shell-button-accent-bg: #BE003C;
   --color-app-shell-button-accent-on-action: #E6F3F3;
   --color-app-shell-button-accent-text: #E6F3F3;
-
-  /* typography: dark-only overrides */
-  --text-chat-message-size: 14px;
-  --text-chat-message-line-height: 16px;
 }

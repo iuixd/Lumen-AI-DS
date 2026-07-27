@@ -1,7 +1,8 @@
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { cn } from "../lib/cn";
 import { Button } from "../components/button/Button";
 import { CircleArrowLeftIcon, CircleArrowRightIcon } from "../icons/generated";
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "../components/resizable/Resizable";
 
 export interface NavItem {
   label: string;
@@ -230,10 +231,68 @@ function NavigationRail({
   );
 }
 
+// Mirrors packages/tokens/src/breakpoint.json's "desktop" threshold (1024px)
+// and Tailwind's `desktop:` screen variant (packages/tokens/scripts/build.mjs).
+// The assistant panel is only ever resizable at this breakpoint — below it,
+// `assistant` renders through pure CSS (`hidden ... desktop:block`) exactly as
+// before, so mobile/tablet layout is untouched by this hook.
+const DESKTOP_MEDIA_QUERY = "(min-width: 1024px)";
+
+// AIPanel's own genuine minimum usable width (header icon+title row, prompt
+// input + send button, message-bubble padding) — measured live in a browser
+// at several widths rather than picked arbitrarily; see docs/changelog.md's
+// "assistant panel drag-resizable" entry for the measurement notes. A plain
+// pixel string (not a percentage) so it holds regardless of how wide the
+// overall row is — react-resizable-panels' Panel interprets a unit-suffixed
+// size string literally, unlike the percent-only public contract this
+// wrapper's `defaultSize`/`maxSize` use.
+const ASSISTANT_MIN_WIDTH = "260px";
+
+function useIsDesktop(): boolean {
+  const [isDesktop, setIsDesktop] = useState(
+    () => typeof window !== "undefined" && window.matchMedia(DESKTOP_MEDIA_QUERY).matches
+  );
+
+  useEffect(() => {
+    const mql = window.matchMedia(DESKTOP_MEDIA_QUERY);
+    const handleChange = () => setIsDesktop(mql.matches);
+    handleChange();
+    mql.addEventListener("change", handleChange);
+    return () => mql.removeEventListener("change", handleChange);
+  }, []);
+
+  return isDesktop;
+}
+
 /**
  * Responsive Lumen application shell sourced from Figma node 1007:3700.
  * Mobile (<768px), Tablet (768-1023px), and Desktop (>=1024px) layouts
  * correspond to the six approved Breakpoint/Theme variants.
+ *
+ * 2026-07-27 addition: the desktop `assistant` panel is resizable, via the
+ * existing shadcn-sourced `ResizablePanelGroup`/`ResizablePanel`/
+ * `ResizableHandle` (packages/ui/src/components/resizable) rather than a new
+ * bespoke drag implementation — no other component in `@lumen/ui` needed
+ * draggable width before this, and this reuses that one instead of adding a
+ * second. Gated on `useIsDesktop()` (not just CSS) because
+ * `react-resizable-panels` commits each panel's width as a fixed
+ * `flexBasis: X%` after its first layout pass with no `flexGrow` fallback —
+ * simply hiding the assistant panel via `desktop:hidden` CSS at narrower
+ * breakpoints would leave the main column pinned at its resized percentage
+ * (e.g. 79%) instead of reclaiming the freed width, producing a dead gap on
+ * tablet/mobile. Below desktop, this renders the exact same plain flex
+ * markup as before (verified: `window.matchMedia` is stubbed to always
+ * report no match in the jsdom test environment, so `AppShell.test.tsx`'s
+ * existing assertions against the plain `desktop:block` aside continue to
+ * exercise that unchanged path). Default/min/max sizes are percentages of
+ * the row width, chosen against the canonical 1440px desktop frame: 21%
+ * (~302px) default, matching the previous fixed 304px width; 18–32%
+ * (~259–461px) bounds on the assistant so it can't be dragged unusably
+ * narrow or so wide it crowds out the main content. No cross-reload
+ * persistence: the installed `react-resizable-panels@4.12` replaced
+ * shadcn's simple `autoSaveId` string prop with a separate
+ * `useDefaultLayout` storage hook — out of scope for this addition, so the
+ * panel resets to its default width on reload, same as before this change.
  */
 export function AppShell({
   nav,
@@ -253,6 +312,21 @@ export function AppShell({
   onExpand,
   className
 }: AppShellProps) {
+  const isDesktop = useIsDesktop();
+  const mainContent = (
+    <>
+      {tabletHeader && (
+        <header className="hidden h-[var(--spacing-52)] shrink-0 items-center border-b border-[var(--color-app-shell-border-default)] bg-[var(--color-app-shell-surface)] tablet:flex desktop:hidden">
+          {tabletHeader}
+        </header>
+      )}
+      <main className="min-h-0 flex-1 overflow-y-auto">{children}</main>
+      {tabletFooter && (
+        <div className="hidden shrink-0 tablet:block desktop:hidden">{tabletFooter}</div>
+      )}
+    </>
+  );
+
   return (
     <div
       className={cn(
@@ -293,22 +367,51 @@ export function AppShell({
           desktopVisible={variant === "rail"}
         />
 
-        <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
-          {tabletHeader && (
-            <header className="hidden h-[var(--spacing-52)] shrink-0 items-center border-b border-[var(--color-app-shell-border-default)] bg-[var(--color-app-shell-surface)] tablet:flex desktop:hidden">
-              {tabletHeader}
-            </header>
-          )}
-          <main className="min-h-0 flex-1 overflow-y-auto">{children}</main>
-          {tabletFooter && (
-            <div className="hidden shrink-0 tablet:block desktop:hidden">{tabletFooter}</div>
-          )}
-        </div>
-
-        {assistant && (
-          <aside className="hidden w-[var(--spacing-304)] shrink-0 desktop:block">
-            {assistant}
-          </aside>
+        {assistant && isDesktop ? (
+          <ResizablePanelGroup
+            direction="horizontal"
+            className="min-w-0 flex-1"
+            // react-resizable-panels' Group hardcodes an inline `height:
+            // "100%"`. That percentage never resolves here: this row's own
+            // height comes from *its* flex-grow allocation (not a literal
+            // CSS height), and — confirmed empirically, not just assumed
+            // from spec-reading — Chromium doesn't treat a flex-grow-derived
+            // size as "definite" for a descendant's plain percentage height,
+            // so Group silently collapsed to its content's height instead of
+            // the row's. `style` here is spread over the library's own style
+            // object before its non-overridable properties, so this
+            // overrides just `height` with `auto`, which (per the flexbox
+            // spec) is exactly the condition that makes `align-items:
+            // stretch` take over — verified this actually stretches Group to
+            // the row's full height, not merely inferred.
+            style={{ height: "auto" }}
+          >
+            <ResizablePanel
+              defaultSize={79}
+              minSize={60}
+              className="flex h-full min-w-0 flex-col"
+            >
+              {mainContent}
+            </ResizablePanel>
+            <ResizableHandle className="bg-[var(--color-app-shell-border-default)]" />
+            <ResizablePanel
+              defaultSize={21}
+              minSize={ASSISTANT_MIN_WIDTH}
+              maxSize={32}
+              className="h-full"
+            >
+              {assistant}
+            </ResizablePanel>
+          </ResizablePanelGroup>
+        ) : (
+          <>
+            <div className="flex min-w-0 flex-1 flex-col overflow-hidden">{mainContent}</div>
+            {assistant && (
+              <aside className="hidden w-[var(--spacing-304)] shrink-0 desktop:block">
+                {assistant}
+              </aside>
+            )}
+          </>
         )}
       </div>
 

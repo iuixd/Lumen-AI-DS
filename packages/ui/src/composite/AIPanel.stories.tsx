@@ -67,7 +67,7 @@ type Story = StoryObj<typeof meta>;
 export const Playground: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
-    <div className="h-[812px]">
+    <div className="h-[812px] w-[var(--spacing-304)]">
       <AIPanel {...args} />
     </div>
   )
@@ -79,7 +79,7 @@ export const Interactive: Story = {
     function Demo() {
       const [msgs, setMsgs] = useState<AIPanelMessage[]>(messages);
       return (
-        <div className="h-[812px]">
+        <div className="h-[812px] w-[var(--spacing-304)]">
           <AIPanel
             title="Assistant"
             messages={msgs}
@@ -96,7 +96,7 @@ export const Interactive: Story = {
 export const Empty: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
-    <div className="h-[812px]">
+    <div className="h-[812px] w-[var(--spacing-304)]">
       <AIPanel title="Assistant" messages={[]} inputPlaceholder="Summarize pipeline..." />
     </div>
   )
@@ -113,7 +113,7 @@ export const WithResponseActions: Story = {
     }
   },
   render: () => (
-    <div className="h-[812px]">
+    <div className="h-[812px] w-[var(--spacing-304)]">
       <AIPanel title="Assistant" messages={conversationMessages} inputPlaceholder="Ask a follow-up..." />
     </div>
   )

@@ -189,6 +189,62 @@ describe("AppShell", () => {
     );
   });
 
+  it("renders the assistant panel as a fixed, non-resizable aside when matchMedia reports below the desktop breakpoint", () => {
+    // vitest.setup.ts stubs window.matchMedia to always report matches:
+    // false, so this exercises the same default path as every other test
+    // in this file — asserted explicitly here since it's the fallback this
+    // suite's resizable-panel test below is contrasted against.
+    render(
+      <AppShell nav={nav} assistant={<span>Assistant</span>}>
+        <p>Content</p>
+      </AppShell>
+    );
+    expect(screen.queryByRole("separator")).not.toBeInTheDocument();
+    expect(screen.getByText("Assistant").parentElement).toHaveClass(
+      "hidden",
+      "w-[var(--spacing-304)]",
+      "desktop:block"
+    );
+  });
+
+  it("renders the assistant panel as a draggable ResizablePanel when matchMedia reports desktop", () => {
+    const matchMedia = vi.fn().mockReturnValue({
+      matches: true,
+      media: "(min-width: 1024px)",
+      onchange: null,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn()
+    });
+    const original = window.matchMedia;
+    window.matchMedia = matchMedia as unknown as typeof window.matchMedia;
+
+    try {
+      render(
+        <AppShell nav={nav} assistant={<span>Assistant</span>}>
+          <p>Content</p>
+        </AppShell>
+      );
+      const separator = screen.getByRole("separator");
+      expect(separator).toBeInTheDocument();
+      // Plain draggable divider (the Resizable component's "Default" story),
+      // not "With Handle Grip" — no grip-icon child.
+      expect(separator).toBeEmptyDOMElement();
+      expect(screen.getByText("Assistant")).toBeInTheDocument();
+      expect(screen.getByText("Content")).toBeInTheDocument();
+      // react-resizable-panels' Group hardcodes an inline height:"100%" that
+      // never resolves against this row's flex-grow-derived height (verified
+      // live in a browser, not just in jsdom) — this height:"auto" override
+      // is what makes align-items:stretch actually fill the row. jsdom has
+      // no layout engine so it can't verify the visual stretch itself, but
+      // it can catch the override being silently removed.
+      const group = separator.parentElement;
+      expect(group).toHaveStyle({ height: "auto" });
+    } finally {
+      window.matchMedia = original;
+    }
+  });
+
   it("binds navigation and count badges to the published AppShell and Badge roles", () => {
     render(
       <AppShell nav={nav}>
