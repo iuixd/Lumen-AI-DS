@@ -1,0 +1,11 @@
+{
+  "_comment": "Toast component tokens. Sourced from Figma 'Lumen-AI-Design-System' node 1475:5100 (frame 'Toast', instances 1475:5099 Default/Info, 1475:5101 Variant2/Warning, 1475:5115 Variant3/Error), read via get_design_context and get_variable_defs on 2026-07-29. `width` is Figma's literal card width, used directly as the shipped component's fixed width (unlike ContentState's container-width, which the component deliberately renders fluid instead — Toast is a floating notification card, where a fixed width is the expected pattern, not a content region that should fill its container). `icon-size` and `close-size` are the anatomy's icon/close-glyph box sizes. `progress-height` is the bottom countdown bar's thickness. `accent-width` is the left accent border's thickness. None of these fall on the shared spacing scale (docs/design-tokens.md §4), so, following the input.json/content-state.json precedent, they live in this component-scoped file instead of adding one-off steps to the global scale. The build emits these as `--toast-*` CSS variables in px.",
+  "width": { "value": 450 },
+  "icon-size": {
+    "value": 28,
+    "_comment": "Direct user override (2026-07-29) of Figma's evidenced 24px icon size ('increased icon size to 28px') — current user instruction outranks the Figma read per docs/project-governance.md §3."
+  },
+  "close-size": { "value": 16 },
+  "progress-height": { "value": 2 },
+  "accent-width": { "value": 2 }
+}

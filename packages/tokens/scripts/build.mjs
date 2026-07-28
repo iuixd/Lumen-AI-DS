@@ -25,6 +25,7 @@ const breakpoint = JSON.parse(readFileSync(path.join(srcDir, "breakpoint.json"),
 const input = JSON.parse(readFileSync(path.join(srcDir, "input.json"), "utf8"));
 const motion = JSON.parse(readFileSync(path.join(srcDir, "motion.json"), "utf8"));
 const contentState = JSON.parse(readFileSync(path.join(srcDir, "content-state.json"), "utf8"));
+const toast = JSON.parse(readFileSync(path.join(srcDir, "toast.json"), "utf8"));
 
 function kebab(str) {
   return String(str).replace(/[._]/g, "-");
@@ -141,6 +142,10 @@ css += "\n  /* ContentState component geometry */\n";
 for (const [key, value] of Object.entries(flattenValueTokens(contentState))) {
   css += `  --content-state-${kebab(key)}: ${value}px;\n`;
 }
+css += "\n  /* Toast component geometry */\n";
+for (const [key, value] of Object.entries(flattenValueTokens(toast))) {
+  css += `  --toast-${kebab(key)}: ${value}px;\n`;
+}
 
 // :root carries the light theme as the default — every consuming app gets
 // correct colors with zero setup. [data-theme="dark"] below overrides them.
@@ -208,6 +213,27 @@ css += `
   .lumen-skeleton-pulse {
     animation: none;
     opacity: ${pulseFrom};
+  }
+}
+
+/* Toast auto-dismiss progress bar. Duration is direct user request, not
+   Figma motion data — see motion.json's duration.toast. Reduced motion keeps
+   the bar static and full rather than animating, so the toast's own
+   disappearance at the end of the (still-running) JS timer remains the
+   non-animated status cue — see docs/accessibility.md §3.6. */
+@keyframes lumen-toast-progress {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+.lumen-toast-progress {
+  animation: lumen-toast-progress var(--duration-toast) linear forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lumen-toast-progress {
+    animation: none;
+    width: 100%;
   }
 }
 `;
@@ -339,6 +365,7 @@ export const breakpoint = ${JSON.stringify(breakpoint, null, 2)} as const;
 export const input = ${JSON.stringify(input, null, 2)} as const;
 export const motion = ${JSON.stringify(motion, null, 2)} as const;
 export const contentState = ${JSON.stringify(contentState, null, 2)} as const;
+export const toast = ${JSON.stringify(toast, null, 2)} as const;
 
 export type ColorPrimitive = keyof typeof colorPrimitives;
 export type SpacingLayoutKey = keyof typeof spacing.layout;
@@ -349,6 +376,7 @@ export type InputTokenGroup = Exclude<keyof typeof input, "_comment">;
 export type DurationKey = keyof typeof motion.duration;
 export type EasingKey = keyof typeof motion.easing;
 export type ContentStateToken = Exclude<keyof typeof contentState, "_comment">;
+export type ToastToken = Exclude<keyof typeof toast, "_comment">;
 `;
 writeFileSync(path.join(distDir, "index.ts"), indexTs);
 
