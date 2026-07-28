@@ -14,5 +14,11 @@
     "default": {
       "value": "0px 1px 4px rgba(0,0,0,0.06), 0px 4px 16px rgba(0,0,0,0.12)"
     }
+  },
+  "toast": {
+    "default": {
+      "value": "0px 16px 32px -4px rgba(0,0,0,0.1), 0px 2px 4px rgba(0,0,0,0.04)",
+      "_comment": "Exact two-layer drop shadow ('Shadow/sm - y:16') read off Figma node 1475:5100's Toast frame via get_design_context. No existing shadow tier matches this combination."
+    }
   }
 }

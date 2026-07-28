@@ -345,6 +345,8 @@ module.exports = {
   "segment-border-selected": "var(--color-segment-border-selected)",
   "segment-text": "var(--color-segment-text)",
   "segment-text-selected": "var(--color-segment-text-selected)",
+  "toast-title-text": "var(--color-toast-title-text)",
+  "toast-info-accent": "var(--color-toast-info-accent)",
   "app-shell-background": "var(--color-app-shell-background)",
   "app-shell-surface": "var(--color-app-shell-surface)",
   "app-shell-avatar-bg": "var(--color-app-shell-avatar-bg)",

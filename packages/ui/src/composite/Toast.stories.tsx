@@ -10,7 +10,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Wrap the app root in `<ToastProvider>` once, then call `useToast().push({ title, description, tone })` from anywhere. Toasts auto-dismiss after 5s."
+          "Wrap the app root in `<ToastProvider>` once, then call `useToast().push({ title, description, tone })` from anywhere. Toasts auto-dismiss after 6s, shown by an animated progress bar along the bottom edge; hovering or focusing a toast pauses both the timer and the bar. Sourced from Lumen-AI-Design-System node `1475:5100` — `info`/`warning`/`error` tones have exact Figma-evidenced icons and accent colors; `success`/`neutral` keep their pre-existing generic treatment (no Figma instance for either)."
       }
     },
     controls: { disable: true }
@@ -25,20 +25,47 @@ function Demo() {
   const { push } = useToast();
   return (
     <div className="flex flex-wrap gap-3">
-      <Button variant="ghost" onClick={() => push({ title: "Saved", tone: "success" })}>
-        Trigger success
+      <Button
+        variant="ghost"
+        onClick={() =>
+          push({
+            title: "Memorial Day - Office Closed",
+            description:
+              "Today is a federal holiday. Your payroll deadline has been extended to Tuesday, May 26 - 1:00 PM (EST).",
+            tone: "info"
+          })
+        }
+      >
+        Trigger info
       </Button>
       <Button
         variant="ghost"
         onClick={() =>
           push({
-            title: "Something went wrong",
-            description: "Try again in a moment.",
+            title: "Memorial Day - Office Closed",
+            description:
+              "Today is a federal holiday. Your payroll deadline has been extended to Tuesday, May 26 - 1:00 PM (EST).",
+            tone: "warning"
+          })
+        }
+      >
+        Trigger warning
+      </Button>
+      <Button
+        variant="ghost"
+        onClick={() =>
+          push({
+            title: "Memorial Day - Office Closed",
+            description:
+              "Today is a federal holiday. Your payroll deadline has been extended to Tuesday, May 26 - 1:00 PM (EST).",
             tone: "error"
           })
         }
       >
         Trigger error
+      </Button>
+      <Button variant="ghost" onClick={() => push({ title: "Saved", tone: "success" })}>
+        Trigger success
       </Button>
       <Button variant="ghost" onClick={() => push({ title: "3 records updated", tone: "neutral" })}>
         Trigger neutral
@@ -53,4 +80,109 @@ export const Playground: Story = {
       <Demo />
     </ToastProvider>
   )
+};
+
+/**
+ * All five tones stacked at once, so the info/warning/error accent, icon,
+ * and progress-bar colors can be compared side by side against the three
+ * Figma-sourced instances.
+ */
+export const AllTones: Story = {
+  render: () => {
+    function AllTonesDemo() {
+      const { push } = useToast();
+      return (
+        <Button
+          variant="default"
+          onClick={() => {
+            push({
+              title: "Memorial Day - Office Closed",
+              description:
+                "Today is a federal holiday. Your payroll deadline has been extended to Tuesday, May 26 - 1:00 PM (EST).",
+              tone: "info"
+            });
+            push({
+              title: "Submission Due Tomorrow - 1:00 PM (EST)",
+              description:
+                "4 open exceptions remain for the week of May 18 - 22. Review and resolve before the extended deadline.",
+              tone: "warning"
+            });
+            push({
+              title: "Critical: Min Wage Violation",
+              description:
+                "Maya Thompson (E-1042) - effective rate $6.50/hr is below minimum wage. Shortfall of $340.00 must be corrected.",
+              tone: "error"
+            });
+          }}
+        >
+          Show info, warning, and error
+        </Button>
+      );
+    }
+    return (
+      <ToastProvider>
+        <AllTonesDemo />
+      </ToastProvider>
+    );
+  }
+};
+
+/**
+ * Hover or focus the toast to pause its 6-second countdown — both the
+ * dismiss timer and the progress bar's animation pause together, then
+ * resume from where they left off.
+ */
+export const PauseOnHover: Story = {
+  render: () => {
+    function PauseDemo() {
+      const { push } = useToast();
+      return (
+        <Button
+          variant="default"
+          onClick={() =>
+            push({
+              title: "Hover or focus me",
+              description: "The 6s countdown and progress bar pause while you're on this toast.",
+              tone: "info"
+            })
+          }
+        >
+          Trigger a pausable toast
+        </Button>
+      );
+    }
+    return (
+      <ToastProvider>
+        <PauseDemo />
+      </ToastProvider>
+    );
+  }
+};
+
+/** Every toast includes a keyboard-reachable close button, independent of the auto-dismiss timer. */
+export const ManualDismiss: Story = {
+  render: () => {
+    function ManualDismissDemo() {
+      const { push } = useToast();
+      return (
+        <Button
+          variant="default"
+          onClick={() =>
+            push({
+              title: "Dismiss me early",
+              description: "Use the close button in the top-right corner, or press Tab to reach it.",
+              tone: "warning"
+            })
+          }
+        >
+          Trigger a dismissible toast
+        </Button>
+      );
+    }
+    return (
+      <ToastProvider>
+        <ManualDismissDemo />
+      </ToastProvider>
+    );
+  }
 };

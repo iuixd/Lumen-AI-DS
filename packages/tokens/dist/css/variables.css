@@ -296,6 +296,7 @@
   --shadow-button-pressed-inset: inset 0px 2px 4px rgba(0,0,0,0.18);
   --shadow-elevation-sm: 0px 1px 2px rgba(0,0,0,0.08);
   --shadow-menu-default: 0px 1px 4px rgba(0,0,0,0.06), 0px 4px 16px rgba(0,0,0,0.12);
+  --shadow-toast-default: 0px 16px 32px -4px rgba(0,0,0,0.1), 0px 2px 4px rgba(0,0,0,0.04);
 
   /* divider (translucent, raw rgba — see divider.json) */
   --divider-button-primary: rgba(255, 255, 255, 0.3);
@@ -612,6 +613,7 @@
   --duration-moderate: 200ms;
   --duration-slow: 400ms;
   --duration-skeleton-pulse: 2000ms;
+  --duration-toast: 6000ms;
   --easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --easing-enter: cubic-bezier(0, 0, 0.2, 1);
   --easing-exit: cubic-bezier(0.4, 0, 1, 1);
@@ -646,6 +648,13 @@
   --content-state-skeleton-row-cell-1-width: 60px;
   --content-state-skeleton-row-cell-2-width: 50px;
   --content-state-skeleton-row-cell-3-width: 70px;
+
+  /* Toast component geometry */
+  --toast-width: 450px;
+  --toast-icon-size: 28px;
+  --toast-close-size: 16px;
+  --toast-progress-height: 2px;
+  --toast-accent-width: 2px;
 
   /* semantic: light (default) */
   --color-background-default: #FFFFFF;
@@ -772,6 +781,8 @@
   --color-segment-border-selected: #C8D1D4;
   --color-segment-text: #626B6E;
   --color-segment-text-selected: #4C0018;
+  --color-toast-title-text: #424849;
+  --color-toast-info-accent: #2563EB;
   --color-app-shell-background: #F6F8F8;
   --color-app-shell-surface: #FFFFFF;
   --color-app-shell-avatar-bg: #5E5E5E;
@@ -952,6 +963,8 @@
   --color-segment-border-selected: #A4B3B7;
   --color-segment-text: #EDF0F1;
   --color-segment-text-selected: #F9E6EC;
+  --color-toast-title-text: #F6F8F8;
+  --color-toast-info-accent: #2563EB;
   --color-app-shell-background: #0E0B0E;
   --color-app-shell-surface: #231C24;
   --color-app-shell-avatar-bg: #7A6674;
@@ -1024,5 +1037,26 @@
   .lumen-skeleton-pulse {
     animation: none;
     opacity: 1;
+  }
+}
+
+/* Toast auto-dismiss progress bar. Duration is direct user request, not
+   Figma motion data — see motion.json's duration.toast. Reduced motion keeps
+   the bar static and full rather than animating, so the toast's own
+   disappearance at the end of the (still-running) JS timer remains the
+   non-animated status cue — see docs/accessibility.md §3.6. */
+@keyframes lumen-toast-progress {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+.lumen-toast-progress {
+  animation: lumen-toast-progress var(--duration-toast) linear forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lumen-toast-progress {
+    animation: none;
+    width: 100%;
   }
 }

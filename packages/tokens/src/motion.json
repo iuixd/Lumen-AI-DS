@@ -9,6 +9,11 @@
       "value": 2000,
       "usage": "One full loop of the ContentState loading skeleton's opacity wave.",
       "_comment": "Exact, from Figma node 1174:1355's timeline cohort (durationMs 2000, loopMode 'loop')."
+    },
+    "toast": {
+      "value": 6000,
+      "usage": "Toast auto-dismiss delay and progress-bar countdown.",
+      "_comment": "Direct user request ('show the toaster message for 6 seconds and automatically closed after 6 seconds'), not Figma-sourced — get_motion_context on node 1475:5100 returns no keyframe data; the Toast frame is a static mockup with 3 snapshot instances at different progress-bar fill widths illustrating the concept, not an animated prototype."
     }
   },
   "easing": {

@@ -953,6 +953,11 @@ Alert
 
 # 16. Toast
 
+> Replaced 2026-07-29: §53 is the Figma-sourced, implemented specification.
+> This section's purpose/behavior prose remains the intent the component
+> serves; the aspirational "Danger" naming below is superseded by §53's
+> shipped `error` tone value.
+
 ## Purpose
 
 Toast communicates brief, non-blocking feedback following an action.
@@ -3268,3 +3273,239 @@ states.
 ## Change history
 
 - 2026-07-28: added, sourced from node `1174:1355`.
+
+---
+
+# 53. Toast
+
+## Status
+
+Baseline specification, added 2026-07-29.
+
+## Figma source
+
+- Node: `1475:5100` ("Toast" frame)
+- Instances: `1475:5099` (Default/Info), `1475:5101` (Variant2/Warning),
+  `1475:5115` (Variant3/Error)
+- Verified with `get_metadata`, `get_design_context`, `get_variable_defs`;
+  `get_motion_context` returned no keyframe data — this frame is a static
+  mockup, not an animated prototype
+- Last synchronized: 2026-07-29
+
+## Purpose
+
+Brief, non-blocking feedback following an action — see §16 for the full
+purpose/behavior narrative this component implements.
+
+## When to use
+
+- Confirming an action succeeded, failed, or needs attention, without
+  blocking the user's current task.
+
+## When not to use
+
+- Information the user must retain — use `Alert` (persistent) instead.
+- A full-region load failure — use `ContentState`'s `error` state.
+
+## Anatomy
+
+```text
+Toast
+├── Status icon        (info/warning/error only — Figma-evidenced)
+├── Title
+├── Description         (optional)
+├── Close button        (top-right)
+└── Progress bar         (bottom edge, animated countdown)
+```
+
+## Variants
+
+`tone` maps onto Figma's 3 built instances plus 2 pre-existing,
+Figma-unevidenced values carried over unchanged from the prior
+implementation:
+
+```text
+info       Figma-evidenced (Default instance)
+warning    Figma-evidenced (Variant2)
+error      Figma-evidenced (Variant3)
+success    not in this Figma node — pre-existing generic treatment, unchanged
+neutral    not in this Figma node — pre-existing generic treatment, unchanged
+```
+
+`success`/`neutral` render no default status icon (nothing to match in
+Figma); a caller can still pass `icon` explicitly for either.
+
+## Sizes
+
+None. Figma specs one fixed 450px card width, used directly as the
+component's width (`toast.width` token) — unlike `ContentState`, a
+floating notification card is the expected fixed-width pattern here, not a
+region that should fill its container.
+
+## States
+
+No Figma-authored interaction states beyond the always-present anatomy.
+Two code-side behavioral states, both direct user instruction (not
+Figma-sourced — see "Known differences"):
+
+```text
+running   default — 6s countdown timer + animated progress bar
+paused    on hover or keyboard focus — timer and bar both freeze,
+          then resume from where they left off
+```
+
+## Properties
+
+Figma properties: none exposed as component properties on this frame (3
+separate instances, not a component-set with variant properties).
+
+Property contract (framework-neutral):
+
+```text
+title        string, required
+description  string, optional
+tone         enum: neutral | info | success | warning | error (default: neutral)
+icon         renderable content (icon), optional — overrides the tone's
+             default icon; pass null to force no icon
+```
+
+## Reference implementation (React)
+
+```ts
+export interface ToastItem {
+  id: string;
+  title: string;
+  description?: string;
+  tone?: "neutral" | "info" | "success" | "warning" | "error";
+  icon?: React.ReactNode;
+}
+```
+
+`useToast().push(toast)` adds a toast; `ToastProvider` renders the stack and
+owns each toast's auto-dismiss lifecycle. Source:
+`packages/ui/src/composite/Toast.tsx`.
+
+## Behavior
+
+- Auto-dismisses after 6 seconds (`motion.duration.toast`).
+- The bottom progress bar animates from 100% to 0% width over the same 6
+  seconds (`lumen-toast-progress` keyframes, emitted by the token build).
+- Hovering or focusing a toast pauses both the dismiss timer and the
+  progress-bar animation; leaving/blurring resumes both from the remaining
+  time, not a full reset.
+- The close button dismisses immediately, independent of the timer.
+- `prefers-reduced-motion: reduce` freezes the progress bar at a static
+  full width; the dismiss timer is JS-driven and keeps running regardless,
+  so the toast's own disappearance remains the non-animated status cue.
+
+## Content
+
+- Keep titles short and specific; use description for supporting detail.
+- Avoid duplicating the title in the description.
+
+## Tokens
+
+```text
+color.toast.title-text     (new)
+color.toast.info-accent    (new — exact Figma sky.500, distinct from the
+                             generic status.info, which does not match this
+                             frame's evidenced color; see semantic/color.json's
+                             _toastComment)
+color.status.warning       (reused, exact)
+color.status.error         (reused, exact)
+color.status.success       (reused — not Figma-evidenced for Toast)
+color.border.default       (reused, exact — frame border and neutral accent)
+color.background.raised    (reused, exact — card background)
+color.text.secondary       (reused, exact — description)
+typography.input-lg        (reused, exact — "Body/Medium Bold" title)
+typography.body-sm         (reused, exact — "Body/Small" description)
+radius.lg                  (reused, exact)
+shadow.toast.default        (new — exact two-layer drop shadow)
+motion.duration.toast       (new — user-directed, not Figma-sourced)
+toast.*                     (new — width, icon-size, close-size,
+                             progress-height, accent-width geometry)
+```
+
+## Accessibility
+
+- `role="status"` on each toast card; content is announced through a
+  polite live region.
+- Focus is never moved to a toast automatically.
+- The close button has an explicit accessible name ("Dismiss notification")
+  and is a native `<button>`, reachable by keyboard independent of the
+  auto-dismiss timer.
+- Status icons are `aria-hidden` — decorative reinforcement; the title text
+  carries the meaning, not color or icon alone.
+- Hover/focus pausing satisfies "pause dismissal on hover or focus where
+  auto-dismiss is used" (§16, `docs/accessibility.md` §19).
+- Reduced motion removes the animated cue but not the underlying timer, so
+  dismissal timing is unaffected — see "Behavior".
+
+## Responsive behavior
+
+Fixed 450px width, per Figma. Not tested at narrow viewports as part of
+this sync (no Figma breakpoint evidence for Toast).
+
+## Storybook stories
+
+`Composite/Toast` — Playground (all 5 tones), AllTones (info/warning/error
+stacked with distinct contextual copy), PauseOnHover, ManualDismiss.
+
+## Tests
+
+`packages/ui/src/composite/Toast.test.tsx`: `useToast` outside a provider
+throws; a pushed toast renders with `role="status"`; default icon presence
+per tone (info/warning/error yes, success/neutral no); caller-supplied
+icon overrides for any tone; the close button's accessible name and click
+dismissal; the 6-second auto-dismiss boundary; hover pause/resume; focus
+pause/resume.
+
+## Code mapping
+
+| Framework | Export                    | Source                                  |
+| --------- | ------------------------- | ---------------------------------------- |
+| React     | `ToastProvider`/`useToast` | `packages/ui/src/composite/Toast.tsx`    |
+
+## Known differences from Figma
+
+Recorded rather than silently closed — see `docs/figma-sync.md`:
+
+- **6-second duration and progress-bar animation are not Figma-sourced.**
+  `get_motion_context` returned no keyframe data on this node; the 3
+  instances are a static illustration of the countdown concept (different
+  snapshot bar widths), not an animated prototype. Duration and animation
+  are direct user instruction.
+- **Icon size (28px) overrides the Figma-read 24px.** Direct user
+  instruction, applied after the initial sync.
+- **`success`/`neutral` tones have no Figma instance in this node.** They
+  keep their pre-existing generic colors and render no default icon, rather
+  than an invented Figma-styled treatment.
+- **`status.info`/`status.info-subtle` mismatch, not repointed.** This
+  frame's evidenced info color (sky.500, #2563EB) does not match the
+  existing generic `status.info` (blue.500, #0E17FF) — a gap
+  `docs/figma-sync.md` §18 already flagged as unresolved. This sync adds
+  the exact value as `toast.info-accent` (Toast-scoped) rather than
+  repointing the shared `status.info` token, which has other consumers
+  outside this sync's unit.
+- **Drop shadow bypasses Tailwind's `shadow-[...]` arbitrary-value
+  utility.** `shadow-[var(--shadow-toast-default)]` compiles to a shadow
+  *color* hint (`--tw-shadow-color`), not the full shadow value, so nothing
+  renders — a pre-existing, repo-wide Tailwind parsing issue also present
+  in `Card`/`Popover`/`DropdownMenu`/`Command`/etc.'s identical
+  `shadow-[var(--shadow-menu-default)]`/`shadow-[var(--shadow-elevation-sm)]`
+  usages, confirmed in the built Storybook CSS. Fixed for `Toast` only via
+  a direct inline `boxShadow` style; the repo-wide fix is out of this
+  sync's scope.
+
+## Known limitations
+
+- React only. `@lumen/web-components` and `@lumen/angular` are
+  Button-only proofs of concept; no Toast equivalent exists there — an
+  explicit deferral, not drift.
+- No visual-regression coverage; the repo has no such tooling configured.
+- Not verified with a real screen reader.
+
+## Change history
+
+- 2026-07-29: added, sourced from node `1475:5100`. Icon size adjusted to
+  28px per direct user instruction after the initial sync.
