@@ -23,6 +23,8 @@ const shadow = JSON.parse(readFileSync(path.join(srcDir, "shadow.json"), "utf8")
 const divider = JSON.parse(readFileSync(path.join(srcDir, "divider.json"), "utf8"));
 const breakpoint = JSON.parse(readFileSync(path.join(srcDir, "breakpoint.json"), "utf8"));
 const input = JSON.parse(readFileSync(path.join(srcDir, "input.json"), "utf8"));
+const motion = JSON.parse(readFileSync(path.join(srcDir, "motion.json"), "utf8"));
+const contentState = JSON.parse(readFileSync(path.join(srcDir, "content-state.json"), "utf8"));
 
 function kebab(str) {
   return String(str).replace(/[._]/g, "-");
@@ -114,6 +116,31 @@ css += "\n  /* input, radio, and checkbox component geometry */\n";
 for (const [key, value] of Object.entries(flattenValueTokens(input))) {
   css += `  --input-${kebab(key)}: ${value}px;\n`;
 }
+// Motion carries three different unit conventions in one file, so unlike the
+// px-only geometry files above it can't share a single emitter: durations are
+// ms, easings are bare cubic-bezier()/keyword strings, and opacities are
+// unitless numbers.
+css += "\n  /* motion — see motion.json; every step except the skeleton group is provisional */\n";
+for (const [key, val] of Object.entries(motion.duration)) {
+  css += `  --duration-${kebab(key)}: ${val.value}ms;\n`;
+}
+for (const [key, val] of Object.entries(motion.easing)) {
+  css += `  --easing-${kebab(key)}: ${val.value};\n`;
+}
+for (const [key, val] of Object.entries(motion.opacity)) {
+  css += `  --opacity-${kebab(key)}: ${val.value};\n`;
+}
+// Stagger is authored as a fraction of the loop (portable if the loop
+// duration is ever re-sourced) but is only ever consumed as an
+// animation-delay, so it is resolved to ms here rather than in every caller.
+for (const [key, val] of Object.entries(motion.stagger)) {
+  if (key.startsWith("_")) continue;
+  css += `  --duration-stagger-${kebab(key)}: ${val.value * motion.duration["skeleton-pulse"].value}ms;\n`;
+}
+css += "\n  /* ContentState component geometry */\n";
+for (const [key, value] of Object.entries(flattenValueTokens(contentState))) {
+  css += `  --content-state-${kebab(key)}: ${value}px;\n`;
+}
 
 // :root carries the light theme as the default — every consuming app gets
 // correct colors with zero setup. [data-theme="dark"] below overrides them.
@@ -150,6 +177,40 @@ if (darkTypographyEntries.length > 0) {
   }
 }
 css += "}\n";
+
+// ---- Motion keyframes ----
+// The only rule set this file emits that isn't a custom-property declaration.
+// It lives here, rather than in a component stylesheet, because @lumen/tokens'
+// single `./css` export is the one stylesheet every consumer already imports
+// (see packages/storybook/.storybook/tailwind.css) — a separate motion.css
+// would need its own import in every app and would drift from motion.json.
+// A keyframe percentage cannot reference a custom property, so the waveform's
+// shape is inlined from motion.json's own values at build time; nothing here
+// is hand-authored. The reduced-motion block is mandatory, not optional —
+// see docs/accessibility.md §3.6.
+const pulseFrom = motion.opacity["skeleton-pulse-from"].value;
+const pulseTo = motion.opacity["skeleton-pulse-to"].value;
+css += `
+/* Skeleton pulse — exact waveform from Figma node 1174:1355. Consumed by
+   @lumen/ui's ContentState loading state; see motion.json. */
+@keyframes lumen-skeleton-pulse {
+  0% { opacity: ${pulseFrom}; }
+  30% { opacity: ${pulseTo}; }
+  60%, 100% { opacity: ${pulseFrom}; }
+}
+
+.lumen-skeleton-pulse {
+  animation: lumen-skeleton-pulse var(--duration-skeleton-pulse) var(--easing-skeleton-pulse) infinite;
+  animation-delay: var(--lumen-skeleton-delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lumen-skeleton-pulse {
+    animation: none;
+    opacity: ${pulseFrom};
+  }
+}
+`;
 
 writeFileSync(path.join(distDir, "css/variables.css"), css);
 
@@ -276,6 +337,8 @@ export const shadow = ${JSON.stringify(shadow, null, 2)} as const;
 export const divider = ${JSON.stringify(divider, null, 2)} as const;
 export const breakpoint = ${JSON.stringify(breakpoint, null, 2)} as const;
 export const input = ${JSON.stringify(input, null, 2)} as const;
+export const motion = ${JSON.stringify(motion, null, 2)} as const;
+export const contentState = ${JSON.stringify(contentState, null, 2)} as const;
 
 export type ColorPrimitive = keyof typeof colorPrimitives;
 export type SpacingLayoutKey = keyof typeof spacing.layout;
@@ -283,6 +346,9 @@ export type SpacingKey = keyof typeof spacing.space;
 export type RadiusKey = Exclude<keyof typeof radius, "_comment">;
 export type TypographyStyle = keyof typeof typography.scale;
 export type InputTokenGroup = Exclude<keyof typeof input, "_comment">;
+export type DurationKey = keyof typeof motion.duration;
+export type EasingKey = keyof typeof motion.easing;
+export type ContentStateToken = Exclude<keyof typeof contentState, "_comment">;
 `;
 writeFileSync(path.join(distDir, "index.ts"), indexTs);
 

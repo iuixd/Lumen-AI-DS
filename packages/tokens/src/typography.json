@@ -453,6 +453,14 @@
       "usage": "AI Empty Communication State heading, e.g. EmptyState variant=\"ai\" (Figma node 1416:3638, 'Ask AI to get started', 'Heading/H4' style)",
       "_comment": "Deliberately a new tier rather than reusing `headline-lg` (also documented as 'Figma H4', 32/42) — that token is weight 600 and is already a real, shared dependency of `KpiCard` in both the Angular and Web Components packages, so changing its weight would be an unrelated, unevidenced regression there. This node's own 'Heading/H4' text style, read directly via get_design_context, is weight 400 (Regular) — a real, narrower distinction, not a duplicate of an existing tier."
     },
+    "content-state-title": {
+      "fontSize": 24,
+      "lineHeight": 32,
+      "weight": 400,
+      "letterSpacing": -0.12,
+      "usage": "ContentState heading, e.g. \"No projects yet\" / \"Something went wrong\" (Figma node 1174:1355, 'Heading/H5' style)",
+      "_comment": "Deliberately a new tier rather than reusing `headline-md` (also documented as 'Figma H5', 24/32) — that token is weight 600, while this set's own 'Heading/H5' text style, read via get_design_context and get_variable_defs on node 1174:1355, is Source Serif Pro Regular (weight 400). Same real, narrower distinction already recorded for `ai-empty-state-title` vs. `headline-lg`, and resolved the same way: `headline-md` is a shared dependency of other components, so changing its weight would be an unrelated, unevidenced regression there. letterSpacing is Figma's -0.5% resolved against this tier's own 24px size (24 x -0.005 = -0.12px); the build emits letterSpacing in px, so the percentage is not portable as-authored."
+    },
     "ai-empty-state-body": {
       "fontSize": 16,
       "lineHeight": 18,

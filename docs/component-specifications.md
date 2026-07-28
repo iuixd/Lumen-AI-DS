@@ -3073,3 +3073,198 @@ rejection, and the labeled live region.
   search fixture now also composes the standard `Input`.
 - 2026-07-22: scoped the shared Input roles through AppShell so the AI query
   field retains the exact dark background, border, and placeholder colors.
+
+---
+
+# 52. ContentState
+
+## Status
+
+Baseline specification, added 2026-07-28.
+
+## Figma source
+
+- Node: `1174:1355` ("ContentState" component set)
+- Variants: `1073:4486` (Empty), `1073:4484` (Loading), `1073:4483` (Error)
+- Verified with `get_metadata`, `get_design_context`, `get_variable_defs`,
+  and `get_motion_context`
+- Last synchronized: 2026-07-28
+
+## Purpose
+
+The full-region state a content area shows *instead of* its content:
+nothing to show yet, still loading, or failed to load.
+
+## When to use
+
+- A page body, panel, or route-level region with no content to render.
+- The wait before that region's data arrives.
+- The failure when it doesn't.
+
+## When not to use
+
+- Inside a card, table, or other surface — use `EmptyState`, which is the
+  inline treatment. `ContentState` paints the app-canvas background
+  (`color.background.app`) and will look wrong on a raised surface.
+- A transient, dismissible failure — use `Toast` or `Alert`.
+- A single loading placeholder with no surrounding layout — use `Skeleton`
+  directly.
+
+## Anatomy
+
+```text
+ContentState (state = empty | error)
+├── Icon badge (circular, 64px)
+│   └── Icon slot, or the variant's own fallback glyph
+├── Title            (content-state-title)
+├── Description      (optional)
+└── Action slot      (optional — a standard Button)
+
+ContentState (state = loading)
+├── Visually hidden live-region label
+└── Skeleton (default anatomy, or a caller-supplied replacement)
+    ├── Title bar
+    ├── Subtitle bar
+    ├── 3 cards  x 3 bars
+    └── 3 rows   x 4 bars
+```
+
+## Variants
+
+`state` is the only variant property, mapping 1:1 onto Figma's:
+
+```text
+empty    (default)
+loading
+error
+```
+
+`loading` ignores `title`, `description`, `icon`, and `action` entirely —
+its accessible name comes from `loadingLabel`.
+
+## Sizes
+
+None. Figma publishes a single 600x400 frame. The shipped component is
+fluid (`width: 100%`) with a 400px min-height — see "Known differences".
+
+## States
+
+No interactive states. `ContentState` is not itself focusable or
+interactive; interactivity lives in whatever is passed to `action`.
+
+## Motion
+
+The loading skeleton's pulse is exact from Figma's own keyframe data: a 2s
+loop, opacity 1 -> 0.4 -> 1 with `ease-in-out` on the dip segments, and
+five stagger offsets (0/150/300/450/600ms) that produce a wave rather than
+a single synchronized flash. Implemented as one shared `@keyframes
+lumen-skeleton-pulse` plus a per-bar `animation-delay`, both emitted from
+`packages/tokens/src/motion.json` by the token build. Deliberately not
+Tailwind's `animate-pulse`, whose 0.5 dim stop is close but wrong; the
+shared `Skeleton` primitive keeps `animate-pulse` and is unchanged.
+
+## Accessibility
+
+Figma carries no accessibility annotations on any of the three variants,
+so all of the following are code-side decisions:
+
+- `loading` is a `role="status"` region with `aria-live="polite"` and
+  `aria-busy="true"`. Every placeholder bar is `aria-hidden`, so the only
+  thing announced is the visually hidden `loadingLabel` — a screen-reader
+  user hears "Loading projects", not twenty anonymous placeholders.
+- `error` is `role="alert"`: a load failure is an unrequested, interruptive
+  change. `empty` gets no live semantics — it is an expected result.
+- The pulse stops entirely under `prefers-reduced-motion: reduce`, holding
+  every bar at full opacity. Loading is never signaled by animation alone;
+  the live region carries it.
+- Both icon badges are `aria-hidden` — they are decorative, and the title
+  already carries the meaning.
+
+## Design tokens
+
+```text
+color.background.app          (new — canvas, all three variants)
+color.background.raised       (skeleton cards/rows)
+color.background.nav-active   (empty icon badge fill)
+color.border.table            (skeleton bar fill)
+color.border.subtle           (skeleton card/row border)
+color.text.body               (title)
+color.text.tertiary           (new — empty description)
+color.text.secondary          (error description, empty glyph stroke)
+color.status.error-subtle     (error badge fill)
+color.status.error            (error glyph)
+typography.content-state-title (new)
+radius.sm / md / lg / xl / full
+motion.duration.skeleton-pulse / easing.skeleton-pulse /
+  opacity.skeleton-pulse-* / stagger.skeleton-step-*  (all new)
+content-state.*               (new — skeleton bar geometry)
+```
+
+## Known differences from Figma
+
+Recorded rather than silently closed — see `docs/figma-sync.md`:
+
+- **Fluid width.** Figma frames this at a fixed 600x400 and publishes no
+  breakpoint evidence. The component fills its container instead, with the
+  400px height applied as a min-height.
+- **Empty CTA fill.** Figma binds the Empty variant's button fill to a raw
+  `--lumen-dark/default` (#231C24) rather than to any `btn/*` variable,
+  unlike the Error variant's correctly-bound `btn/destructive/default/bg`.
+  Treated as a Figma authoring gap; both CTAs use the standard `Button`,
+  and no #231C24 button token was added.
+- **`text/body` shade.** This set's `text/body` reads #424849
+  (lumen-gray.800); the generic `text.body` role is neutral.700 (#393939).
+  Reused as-is rather than re-pointing a token with 9+ consumers — the same
+  call already recorded for the AI EmptyState frame.
+- **Dark mode.** This set publishes Light only. Dark values are ramp
+  mirrors, not Figma-authored.
+
+## Known limitations
+
+- React only. `@lumen/web-components` and `@lumen/angular` ship neither
+  `EmptyState` nor `Skeleton`, so parity would require porting the
+  dependency chain first — an explicit deferral, not undetected drift.
+- Screen-reader announcement behavior is covered structurally by unit
+  tests, not verified with a real screen reader.
+- No visual-regression coverage; the repo has no such tooling configured.
+
+## Reference implementation (React)
+
+```ts
+export type ContentStateStatus = "empty" | "loading" | "error";
+
+export interface ContentStateProps {
+  state?: ContentStateStatus;
+  title?: string;
+  description?: React.ReactNode;
+  icon?: React.ReactNode;
+  action?: React.ReactNode;
+  loadingLabel?: string;
+  skeleton?: React.ReactNode;
+  className?: string;
+}
+```
+
+Source: `packages/ui/src/composite/ContentState.tsx`.
+
+## Storybook
+
+`Composite/ContentState` — Default, Playground, State: Empty, State:
+Loading, State: Error, VariantCollection, Responsive, CustomSkeleton,
+Do / Don't.
+
+## Testing
+
+17 unit tests covering: default state; title/description/icon/action slots
+per variant; the empty and error fallback glyphs; the tertiary-vs-secondary
+description roles; `role="alert"` on error and its absence on empty; the
+loading live region's `aria-live`/`aria-busy`; the default and overridden
+`loadingLabel`; `aria-hidden` on every bar; the default skeleton's 23-bar
+anatomy; the token-sourced per-bar stagger delays; `animate-none` replacing
+`animate-pulse`; the caller-supplied `skeleton` override; loading ignoring
+the empty/error props; and the app-canvas background across all three
+states.
+
+## Change history
+
+- 2026-07-28: added, sourced from node `1174:1355`.

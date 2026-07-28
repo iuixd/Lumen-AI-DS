@@ -229,8 +229,10 @@ module.exports = {
   "background-nav-active": "var(--color-background-nav-active)",
   "background-badge": "var(--color-background-badge)",
   "background-prompt": "var(--color-background-prompt)",
+  "background-app": "var(--color-background-app)",
   "text-title": "var(--color-text-title)",
   "text-body": "var(--color-text-body)",
+  "text-tertiary": "var(--color-text-tertiary)",
   "text-muted": "var(--color-text-muted)",
   "text-inverse": "var(--color-text-inverse)",
   "text-link": "var(--color-text-link)",
@@ -933,6 +935,13 @@ module.exports = {
     {
       "lineHeight": "var(--text-ai-empty-state-title-line-height)",
       "fontWeight": "var(--text-ai-empty-state-title-weight)"
+    }
+  ],
+  "content-state-title": [
+    "var(--text-content-state-title-size)",
+    {
+      "lineHeight": "var(--text-content-state-title-line-height)",
+      "fontWeight": "var(--text-content-state-title-weight)"
     }
   ],
   "ai-empty-state-body": [

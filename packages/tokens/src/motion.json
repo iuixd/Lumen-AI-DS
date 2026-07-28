@@ -1,0 +1,44 @@
+{
+  "_comment": "Motion tokens. `docs/design-tokens.md` §6 and `docs/accessibility.md` §3.6 have listed Motion/Duration/* and Motion/Easing/* as required token categories since before this file existed, but no source file implemented them — this file closes that gap. Added 2026-07-28 during the ContentState sync (Figma node 1174:1355), whose Loading variant is the first shipped component with real, Figma-authored keyframe data. Sourcing: `duration.slow` (2000ms) and the `skeleton-pulse` group are exact, read from that node's animation via get_motion_context — a 2s looping opacity track on every skeleton bar, easing easeInOut between the dimmed and full stops, with each bar's dip offset along the timeline to produce a staggered wave. The remaining duration steps and every easing curve have NO Figma source: Figma publishes no motion variable collection, so they are conventional Material-style values recorded here as PROVISIONAL, and exist so components stop reaching for raw ms/cubic-bezier literals. Do not treat them as design-approved; reconcile them if a motion collection is ever published. Every consumer must pair these with a prefers-reduced-motion branch per docs/accessibility.md §3.6 — the tokens carry no reduced-motion behavior of their own.",
+  "duration": {
+    "instant": { "value": 0, "usage": "No transition. Reduced-motion fallback." },
+    "fast": { "value": 100, "usage": "Hover, focus, and other immediate affordance feedback. Provisional." },
+    "moderate": { "value": 200, "usage": "Enter/exit of small surfaces — popovers, tooltips, toasts. Provisional." },
+    "slow": { "value": 400, "usage": "Larger surfaces — drawers, modals, panel resize. Provisional." },
+    "skeleton-pulse": {
+      "value": 2000,
+      "usage": "One full loop of the ContentState loading skeleton's opacity wave.",
+      "_comment": "Exact, from Figma node 1174:1355's timeline cohort (durationMs 2000, loopMode 'loop')."
+    }
+  },
+  "easing": {
+    "standard": { "value": "cubic-bezier(0.4, 0, 0.2, 1)", "usage": "Default for state changes. Provisional — no Figma source." },
+    "enter": { "value": "cubic-bezier(0, 0, 0.2, 1)", "usage": "Elements entering the viewport. Provisional — no Figma source." },
+    "exit": { "value": "cubic-bezier(0.4, 0, 1, 1)", "usage": "Elements leaving the viewport. Provisional — no Figma source." },
+    "emphasized": { "value": "cubic-bezier(0.2, 0, 0, 1)", "usage": "Large or attention-carrying transitions. Provisional — no Figma source." },
+    "skeleton-pulse": {
+      "value": "ease-in-out",
+      "usage": "Segment easing between the ContentState skeleton's full and dimmed opacity stops.",
+      "_comment": "Exact, from Figma node 1174:1355 — get_motion_context reports easeInOut on the dip segments and linear on the hold segments; the holds are expressed as keyframe percentages in the generated @keyframes rather than as a separate easing token."
+    }
+  },
+  "opacity": {
+    "skeleton-pulse-from": {
+      "value": 1,
+      "usage": "ContentState skeleton bar opacity at rest and at the end of each loop."
+    },
+    "skeleton-pulse-to": {
+      "value": 0.4,
+      "usage": "ContentState skeleton bar opacity at the dimmest point of the wave.",
+      "_comment": "Exact, from Figma node 1174:1355. Note this is 0.4, NOT the 0.5 that Tailwind's core `animate-pulse` uses — the shared Skeleton primitive keeps animate-pulse; ContentState's skeleton bars use this Figma-exact value instead."
+    }
+  },
+  "stagger": {
+    "_comment": "Exact, from Figma node 1174:1355. get_motion_context returns each skeleton bar as its own opacity track with the same waveform (hold at full -> dip to 0.4 across 30% of the loop -> return to full across the next 30% -> hold), differing only in where along the 2s timeline the dip begins: 0, 0.075, 0.15, 0.225 and 0.3 of the loop. That is one shared @keyframes plus a per-bar animation-delay, not five different animations — so it is recorded as a fraction of the loop here and multiplied by duration.skeleton-pulse at emit time. The build emits these as ms in --duration-skeleton-stagger-*.",
+    "skeleton-step-0": { "value": 0, "usage": "Skeleton title. Dips immediately." },
+    "skeleton-step-1": { "value": 0.075, "usage": "Skeleton subtitle, and table-row first cell." },
+    "skeleton-step-2": { "value": 0.15, "usage": "Card label, and table-row second cell." },
+    "skeleton-step-3": { "value": 0.225, "usage": "Card value, and table-row third cell." },
+    "skeleton-step-4": { "value": 0.3, "usage": "Card meta, and table-row fourth cell." }
+  }
+}

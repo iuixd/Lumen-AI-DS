@@ -1,0 +1,26 @@
+{
+  "_comment": "ContentState component tokens. Sourced from Figma 'Lumen-AI-Design-System' node 1174:1355 (component set 'ContentState', variants 1073:4486 Empty / 1073:4484 Loading / 1073:4483 Error), read via get_design_context and get_variable_defs on 2026-07-28. Every value here is a literal pixel geometry that Figma authored on this component and nowhere else — chiefly the loading skeleton's placeholder bar dimensions, which are decorative content geometry rather than layout rhythm. They live in this component-scoped file, following the precedent set by input.json, instead of being pushed into the global spacing scale: adding one-off keys like 50/70/100/200/320 to spacing.space would imply a system-wide rhythm step that no other component uses. Values that DO fall on the shared scales are not duplicated here — the container gap (24/20px), padding (32/24px), icon-badge size (64px), inner-square size (28px), and card padding (20/16px) all resolve to existing spacing keys, and every radius resolves to an existing radius key (4=sm, 6=md, 8=lg, 12=xl; the icon badge's 32px on a 64px square is a full circle, so it binds radius.full). The build emits these as `--content-state-*` CSS variables in px.",
+  "container-width": {
+    "value": 600,
+    "_comment": "Figma's fixed frame width. Emitted as a token for reference and Storybook fidelity only — the shipped component is fluid (width: 100%), a deliberate code-side decision recorded in docs/figma-sync.md, since this set publishes a single fixed frame and no breakpoint evidence."
+  },
+  "container-min-height": { "value": 400, "_comment": "Figma's fixed frame height, applied as a min-height so content can grow." },
+  "icon-badge-size": { "value": 64 },
+  "empty-glyph-size": { "value": 28, "_comment": "The Empty variant's outlined square, node 1073:4315." },
+  "empty-glyph-border-width": { "value": 1.5 },
+  "error-glyph-size": { "value": 32, "_comment": "Font size of the Error variant's '!' glyph, node 1073:4470." },
+  "skeleton-title-width": { "value": 200 },
+  "skeleton-title-height": { "value": 24 },
+  "skeleton-subtitle-width": { "value": 320 },
+  "skeleton-subtitle-height": { "value": 14 },
+  "skeleton-card-label-width": { "value": 80 },
+  "skeleton-card-label-height": { "value": 12 },
+  "skeleton-card-value-width": { "value": 60 },
+  "skeleton-card-value-height": { "value": 28 },
+  "skeleton-card-meta-width": { "value": 100 },
+  "skeleton-card-meta-height": { "value": 10 },
+  "skeleton-row-height": { "value": 12 },
+  "skeleton-row-cell-1-width": { "value": 60 },
+  "skeleton-row-cell-2-width": { "value": 50 },
+  "skeleton-row-cell-3-width": { "value": 70 }
+}
