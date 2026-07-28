@@ -68,6 +68,7 @@ export * from "./composite/Modal";
 export * from "./composite/DataTable";
 export * from "./composite/FormField";
 export * from "./composite/EmptyState";
+export * from "./composite/ContentState";
 export * from "./composite/Toast";
 export * from "./composite/SplitButton";
 export * from "./composite/PageHeader";

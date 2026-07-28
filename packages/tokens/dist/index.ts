@@ -226,6 +226,7 @@ export const semanticColor = {
   "_inputComment": "Exception to the legacy dark-theme note above: the dark Input primary and search base roles are sourced directly from the canonical desktop dark AppShell at Figma node 1127:4197, verified 2026-07-22. Default-state background, border, placeholder, and search-icon values are exact; hover, focus, error, Radio, and Checkbox dark mappings remain provisional until dedicated dark component states are published. Corrected 2026-07-27 (user report: dark theme not matching Figma), re-verified via `get_variable_defs` on the same symbol's actual Header (1166:4932) and AIPanel (1166:4827) instances rather than the bare frame: `dark.input.primary-border` was `app-shell.dark.border` (#3D3039), Figma's `input/primary/border` is actually #7A6674 — realiased to the existing `app-shell.dark.text-muted` primitive (same hex, no new value needed) rather than `border`. `dark.input.search-icon` was `app-shell.dark.text-placeholder` (#A8939F), Figma's `input/search/icon` is #C9C2C7 — realiased to `app-shell.dark.toggle-off-action` (same hex already used for the toggle's off-state icon). `search-bg`/`search-border` were not re-verified against a dark search-input instance in this pass (no dark Header pull performed) and remain as previously sourced. Corrected again same day (user report, with screenshots: dark-mode Focused border showed a saturated red/crimson glow, not matching Figma): `dark.input.primary-focused-border`/`dark.input.search-focused-border` were `primary.700` (#720024, an unevidenced placeholder value from before Input's Hover/Focused/Error states were properly wired up) — re-verified directly via `get_design_context` on node `1265:2098` ('Type=Bordered, State=Focused, Icon=No, Size=sm'), whose bound variables resolve to dark-mode values on this exact node (Figma resolves dark mode via variable modes on the same node, not separate instances): `input/primary/focused-border` = `#E599B1` (`primary.200`). Both tokens corrected to `primary.200`; `hover`/`error` dark values were not re-verified in this pass and remain as previously sourced.",
   "_aiConversationComment": "light.app-shell.prompt-bg (updated 2026-07-26, sourced from the 'AI Conversation Components' documentation frame, node 1412:3030, via get_variable_defs) now aliases the new `chat.input-bg` primitive (#2B2F2F, the `bg/chat-input` bound variable) instead of lumen-gray.800 (#424849) — a real value correction for AIPanel's user-message bubble; dark.app-shell.prompt-bg has no evidence from this frame (Light-only) and is left unchanged. light.app-shell.chat-response-bg is new (added same session): `bg/chat-response` (#F6F8F8) aliases the existing lumen-gray.50 exactly, used for AIPanel's assistant-message bubble — distinct from the generic app-shell.surface (neutral.white) it previously (incorrectly) reused. dark.app-shell.chat-response-bg has no evidence from this frame and aliases the existing app-shell.dark.surface value unchanged, preserving AIPanel's current dark-mode assistant-bubble appearance. AIPanel's assistant-bubble text and border were also corrected in code (not token changes): text now binds to the existing app-shell.text-primary role (#1E2021, matching this frame's `text/primary` exactly) instead of app-shell.text-heading (#2B2F2F, which this frame does not use for bubble text), and the bubble's border was removed entirely (this frame's Bubble has no border/stroke). button.light/dark.link-on-action is new (added 2026-07-26, sourced from the actual canonical AIPanel component, node 1079:3141, its 'Show sources' follow-up button) — the first real evidence for Button's `link` variant, which was previously an unsynced generic shadcn fallback (the Figma Button component-set declares `Link` as a style property with no authored visual states — see figma-source.md §18). The evidenced variable is literally named `btn/secondary/on-action` (#BE003C) — reused by this instance rather than a dedicated `btn/link/on-action` variable, since Figma has not authored one yet — but its value (primary.500) differs from the already-synced, independently-sourced `button.secondary-on-action` (primary.600/primary.100), so it was added as its own new token rather than assumed to be the same role or used to silently overwrite Secondary's own value. dark.button.link-on-action has no independent evidence (this AIPanel instance is Light-only) and provisionally reuses the light value unchanged, per this file's established pattern for single-mode-evidenced tokens. light.button.secondary-on-action (corrected 2026-07-26, user-approved after a third independent Figma confirmation) changed from primary.600 to primary.500: re-querying `get_variable_defs` directly on node 1412:3030's own Suggested-follow-ups buttons returned `btn/secondary/on-action` = #BE003C (primary.500) exactly, the same value already found on this same node for `button.link-on-action` above — the two prior soundings (this file's original 2026-07-23 button-group sync, and the 2026-07-26 link-on-action addition) had each treated the primary.600 vs. primary.500 split as two legitimately different roles and left it standing; a third instance agreeing with primary.500 made that untenable, so secondary-on-action was aligned to match rather than deferred again. secondary-hover-on-action (primary.800) is unchanged — no hover instance was evidenced in this frame.",
   "_emptyStateComment": "light/dark.icon.primary-bg and .icon.primary (added 2026-07-27, for EmptyState's new variant=\"ai\", sourced from the 'AI Empty Communication States' documentation frame, node 1416:3638, via get_design_context) are new GENERIC (non-app-shell-scoped) roles for the icon-badge treatment that frame's card uses (`icon/primary-bg` #FFF5F8 background, `icon/primary-icon` foreground) — added at this generic level, not under `app-shell`, since EmptyState is a standalone composite that must not depend on app-shell-scoped tokens. Not invented: both alias the exact same primitives already verified for AIPanel's own header-icon badge, which binds the identical Figma variable names under `app-shell.assistant-icon-bg`/`app-shell.assistant-icon` — light.icon.primary-bg aliases `app-shell.light.assistant-icon-bg` (#FFF5F8) and light.icon.primary aliases `primary.500`; dark.icon.primary-bg aliases `neutral.black` and dark.icon.primary aliases `app-shell.dark.toggle-off-action` (#C9C2C7), matching the same dark-mode values already confirmed for AIPanel's badge (this frame itself has no dark instance to check directly). This new variant's border (`border.table`, already generic) and heading/body text colors (`text.title`/`text.body`, already generic) are reused as-is without new tokens, despite each being a close-but-not-exact match to this frame's own literal `stroke/table`/`text/primary`/`text/body` reads (e.g. text.body is neutral.700/#393939 vs. this frame's #424849) — the more precise values already exist under `app-shell.text-primary`/`app-shell.text-body`, but both are widely-consumed shared tokens (`--color-text-body` alone has 9+ existing consumers across composite/pattern components) and re-pointing them, or adding single-use near-duplicates for an imperceptible few-point shade difference, was judged out of scope for adding one new component variant. Flagged here, not silently absorbed.",
+  "_contentStateComment": "light.background.app and light.text.tertiary (added 2026-07-28, for the new ContentState composite, sourced from the 'ContentState' component set at node 1174:1355 via get_design_context and get_variable_defs) are new generic roles with no prior equivalent. light.background.app aliases lumen-gray.50 (#F6F8F8), the exact value of that set's `bg/app` bound variable on all three variants — distinct from the existing background.subtle (neutral.50, #EFEFEF), which is a different tone, and from app-shell.light.search-bg/chat-response-bg, which alias the same primitive but are app-shell- and AIPanel-scoped; ContentState is a standalone composite and must not depend on either. light.text.tertiary aliases lumen-gray.600 (#838F92), the exact value of `text/tertiary` on the Empty variant's description — the primitive was already reachable only as the input-scoped input.text-tertiary, so this promotes it to a generic role rather than adding a value. Their dark counterparts have no Figma source (this set publishes Light only, same caveat as the rest of the dark block) and are mirrored onto the same ramps by position, using the rule already applied to text.secondary: dark index = 8 minus the light index on lumen-gray's 9-step (50-800) ramp, so text.tertiary light lumen-gray.600 -> dark lumen-gray.200; background.app mirrors onto neutral.800, one step below dark's raised surface (neutral.700), preserving light mode's app-sits-behind-surface relationship. NOT added, deliberately: this set's own `text/body` reads #424849 (lumen-gray.800), whereas the generic text.body role is neutral.700 (#393939). That is the identical near-duplicate case already decided in _emptyStateComment above for the AI EmptyState frame, and it is resolved the same way here — ContentState's heading and body reuse the existing generic text.title/text.body rather than gaining a single-use near-duplicate role or re-pointing a token with 9+ existing consumers. Flagged, not silently absorbed. Also NOT added: the Empty variant's CTA fill, which Figma binds to a raw `--lumen-dark/default` (#231C24) rather than to any `btn/*` variable, unlike the Error variant's CTA (`btn/destructive/default/bg` = #DA1E28 = red.500, matching button.destructive-bg exactly). Treated as a Figma-side authoring gap, not a second primary-button color; ContentState renders the standard Button variant=\"primary\" for both CTAs. See docs/figma-sync.md for the recorded drift.",
   "light": {
     "background": {
       "default": "neutral.white",
@@ -234,11 +235,13 @@ export const semanticColor = {
       "inverse": "neutral.800",
       "nav-active": "lumen-gray.100",
       "badge": "cobalt.50",
-      "prompt": "lumen-gray.800"
+      "prompt": "lumen-gray.800",
+      "app": "lumen-gray.50"
     },
     "text": {
       "title": "neutral.800",
       "body": "neutral.700",
+      "tertiary": "lumen-gray.600",
       "muted": "neutral.500",
       "inverse": "neutral.white",
       "link": "primary.500",
@@ -433,11 +436,13 @@ export const semanticColor = {
       "inverse": "neutral.white",
       "nav-active": "lumen-gray.700",
       "badge": "cobalt.700",
-      "prompt": "lumen-gray.700"
+      "prompt": "lumen-gray.700",
+      "app": "neutral.800"
     },
     "text": {
       "title": "neutral.white",
       "body": "neutral.100",
+      "tertiary": "lumen-gray.200",
       "muted": "neutral.400",
       "inverse": "neutral.800",
       "link": "primary.300",
@@ -1111,6 +1116,14 @@ export const typography = {
       "usage": "AI Empty Communication State heading, e.g. EmptyState variant=\"ai\" (Figma node 1416:3638, 'Ask AI to get started', 'Heading/H4' style)",
       "_comment": "Deliberately a new tier rather than reusing `headline-lg` (also documented as 'Figma H4', 32/42) — that token is weight 600 and is already a real, shared dependency of `KpiCard` in both the Angular and Web Components packages, so changing its weight would be an unrelated, unevidenced regression there. This node's own 'Heading/H4' text style, read directly via get_design_context, is weight 400 (Regular) — a real, narrower distinction, not a duplicate of an existing tier."
     },
+    "content-state-title": {
+      "fontSize": 24,
+      "lineHeight": 32,
+      "weight": 400,
+      "letterSpacing": -0.12,
+      "usage": "ContentState heading, e.g. \"No projects yet\" / \"Something went wrong\" (Figma node 1174:1355, 'Heading/H5' style)",
+      "_comment": "Deliberately a new tier rather than reusing `headline-md` (also documented as 'Figma H5', 24/32) — that token is weight 600, while this set's own 'Heading/H5' text style, read via get_design_context and get_variable_defs on node 1174:1355, is Source Serif Pro Regular (weight 400). Same real, narrower distinction already recorded for `ai-empty-state-title` vs. `headline-lg`, and resolved the same way: `headline-md` is a shared dependency of other components, so changing its weight would be an unrelated, unevidenced regression there. letterSpacing is Figma's -0.5% resolved against this tier's own 24px size (24 x -0.005 = -0.12px); the build emits letterSpacing in px, so the percentage is not portable as-authored."
+    },
     "ai-empty-state-body": {
       "fontSize": 16,
       "lineHeight": 18,
@@ -1581,6 +1594,156 @@ export const input = {
     }
   }
 } as const;
+export const motion = {
+  "_comment": "Motion tokens. `docs/design-tokens.md` §6 and `docs/accessibility.md` §3.6 have listed Motion/Duration/* and Motion/Easing/* as required token categories since before this file existed, but no source file implemented them — this file closes that gap. Added 2026-07-28 during the ContentState sync (Figma node 1174:1355), whose Loading variant is the first shipped component with real, Figma-authored keyframe data. Sourcing: `duration.slow` (2000ms) and the `skeleton-pulse` group are exact, read from that node's animation via get_motion_context — a 2s looping opacity track on every skeleton bar, easing easeInOut between the dimmed and full stops, with each bar's dip offset along the timeline to produce a staggered wave. The remaining duration steps and every easing curve have NO Figma source: Figma publishes no motion variable collection, so they are conventional Material-style values recorded here as PROVISIONAL, and exist so components stop reaching for raw ms/cubic-bezier literals. Do not treat them as design-approved; reconcile them if a motion collection is ever published. Every consumer must pair these with a prefers-reduced-motion branch per docs/accessibility.md §3.6 — the tokens carry no reduced-motion behavior of their own.",
+  "duration": {
+    "instant": {
+      "value": 0,
+      "usage": "No transition. Reduced-motion fallback."
+    },
+    "fast": {
+      "value": 100,
+      "usage": "Hover, focus, and other immediate affordance feedback. Provisional."
+    },
+    "moderate": {
+      "value": 200,
+      "usage": "Enter/exit of small surfaces — popovers, tooltips, toasts. Provisional."
+    },
+    "slow": {
+      "value": 400,
+      "usage": "Larger surfaces — drawers, modals, panel resize. Provisional."
+    },
+    "skeleton-pulse": {
+      "value": 2000,
+      "usage": "One full loop of the ContentState loading skeleton's opacity wave.",
+      "_comment": "Exact, from Figma node 1174:1355's timeline cohort (durationMs 2000, loopMode 'loop')."
+    }
+  },
+  "easing": {
+    "standard": {
+      "value": "cubic-bezier(0.4, 0, 0.2, 1)",
+      "usage": "Default for state changes. Provisional — no Figma source."
+    },
+    "enter": {
+      "value": "cubic-bezier(0, 0, 0.2, 1)",
+      "usage": "Elements entering the viewport. Provisional — no Figma source."
+    },
+    "exit": {
+      "value": "cubic-bezier(0.4, 0, 1, 1)",
+      "usage": "Elements leaving the viewport. Provisional — no Figma source."
+    },
+    "emphasized": {
+      "value": "cubic-bezier(0.2, 0, 0, 1)",
+      "usage": "Large or attention-carrying transitions. Provisional — no Figma source."
+    },
+    "skeleton-pulse": {
+      "value": "ease-in-out",
+      "usage": "Segment easing between the ContentState skeleton's full and dimmed opacity stops.",
+      "_comment": "Exact, from Figma node 1174:1355 — get_motion_context reports easeInOut on the dip segments and linear on the hold segments; the holds are expressed as keyframe percentages in the generated @keyframes rather than as a separate easing token."
+    }
+  },
+  "opacity": {
+    "skeleton-pulse-from": {
+      "value": 1,
+      "usage": "ContentState skeleton bar opacity at rest and at the end of each loop."
+    },
+    "skeleton-pulse-to": {
+      "value": 0.4,
+      "usage": "ContentState skeleton bar opacity at the dimmest point of the wave.",
+      "_comment": "Exact, from Figma node 1174:1355. Note this is 0.4, NOT the 0.5 that Tailwind's core `animate-pulse` uses — the shared Skeleton primitive keeps animate-pulse; ContentState's skeleton bars use this Figma-exact value instead."
+    }
+  },
+  "stagger": {
+    "_comment": "Exact, from Figma node 1174:1355. get_motion_context returns each skeleton bar as its own opacity track with the same waveform (hold at full -> dip to 0.4 across 30% of the loop -> return to full across the next 30% -> hold), differing only in where along the 2s timeline the dip begins: 0, 0.075, 0.15, 0.225 and 0.3 of the loop. That is one shared @keyframes plus a per-bar animation-delay, not five different animations — so it is recorded as a fraction of the loop here and multiplied by duration.skeleton-pulse at emit time. The build emits these as ms in --duration-skeleton-stagger-*.",
+    "skeleton-step-0": {
+      "value": 0,
+      "usage": "Skeleton title. Dips immediately."
+    },
+    "skeleton-step-1": {
+      "value": 0.075,
+      "usage": "Skeleton subtitle, and table-row first cell."
+    },
+    "skeleton-step-2": {
+      "value": 0.15,
+      "usage": "Card label, and table-row second cell."
+    },
+    "skeleton-step-3": {
+      "value": 0.225,
+      "usage": "Card value, and table-row third cell."
+    },
+    "skeleton-step-4": {
+      "value": 0.3,
+      "usage": "Card meta, and table-row fourth cell."
+    }
+  }
+} as const;
+export const contentState = {
+  "_comment": "ContentState component tokens. Sourced from Figma 'Lumen-AI-Design-System' node 1174:1355 (component set 'ContentState', variants 1073:4486 Empty / 1073:4484 Loading / 1073:4483 Error), read via get_design_context and get_variable_defs on 2026-07-28. Every value here is a literal pixel geometry that Figma authored on this component and nowhere else — chiefly the loading skeleton's placeholder bar dimensions, which are decorative content geometry rather than layout rhythm. They live in this component-scoped file, following the precedent set by input.json, instead of being pushed into the global spacing scale: adding one-off keys like 50/70/100/200/320 to spacing.space would imply a system-wide rhythm step that no other component uses. Values that DO fall on the shared scales are not duplicated here — the container gap (24/20px), padding (32/24px), icon-badge size (64px), inner-square size (28px), and card padding (20/16px) all resolve to existing spacing keys, and every radius resolves to an existing radius key (4=sm, 6=md, 8=lg, 12=xl; the icon badge's 32px on a 64px square is a full circle, so it binds radius.full). The build emits these as `--content-state-*` CSS variables in px.",
+  "container-width": {
+    "value": 600,
+    "_comment": "Figma's fixed frame width. Emitted as a token for reference and Storybook fidelity only — the shipped component is fluid (width: 100%), a deliberate code-side decision recorded in docs/figma-sync.md, since this set publishes a single fixed frame and no breakpoint evidence."
+  },
+  "container-min-height": {
+    "value": 400,
+    "_comment": "Figma's fixed frame height, applied as a min-height so content can grow."
+  },
+  "icon-badge-size": {
+    "value": 64
+  },
+  "empty-glyph-size": {
+    "value": 28,
+    "_comment": "The Empty variant's outlined square, node 1073:4315."
+  },
+  "empty-glyph-border-width": {
+    "value": 1.5
+  },
+  "error-glyph-size": {
+    "value": 32,
+    "_comment": "Font size of the Error variant's '!' glyph, node 1073:4470."
+  },
+  "skeleton-title-width": {
+    "value": 200
+  },
+  "skeleton-title-height": {
+    "value": 24
+  },
+  "skeleton-subtitle-width": {
+    "value": 320
+  },
+  "skeleton-subtitle-height": {
+    "value": 14
+  },
+  "skeleton-card-label-width": {
+    "value": 80
+  },
+  "skeleton-card-label-height": {
+    "value": 12
+  },
+  "skeleton-card-value-width": {
+    "value": 60
+  },
+  "skeleton-card-value-height": {
+    "value": 28
+  },
+  "skeleton-card-meta-width": {
+    "value": 100
+  },
+  "skeleton-card-meta-height": {
+    "value": 10
+  },
+  "skeleton-row-height": {
+    "value": 12
+  },
+  "skeleton-row-cell-1-width": {
+    "value": 60
+  },
+  "skeleton-row-cell-2-width": {
+    "value": 50
+  },
+  "skeleton-row-cell-3-width": {
+    "value": 70
+  }
+} as const;
 
 export type ColorPrimitive = keyof typeof colorPrimitives;
 export type SpacingLayoutKey = keyof typeof spacing.layout;
@@ -1588,3 +1751,6 @@ export type SpacingKey = keyof typeof spacing.space;
 export type RadiusKey = Exclude<keyof typeof radius, "_comment">;
 export type TypographyStyle = keyof typeof typography.scale;
 export type InputTokenGroup = Exclude<keyof typeof input, "_comment">;
+export type DurationKey = keyof typeof motion.duration;
+export type EasingKey = keyof typeof motion.easing;
+export type ContentStateToken = Exclude<keyof typeof contentState, "_comment">;

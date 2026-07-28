@@ -532,6 +532,10 @@
   --text-ai-empty-state-title-line-height: 42px;
   --text-ai-empty-state-title-weight: 400;
   --text-ai-empty-state-title-letter-spacing: -0.48px;
+  --text-content-state-title-size: 24px;
+  --text-content-state-title-line-height: 32px;
+  --text-content-state-title-weight: 400;
+  --text-content-state-title-letter-spacing: -0.12px;
   --text-ai-empty-state-body-size: 16px;
   --text-ai-empty-state-body-line-height: 18px;
   --text-ai-empty-state-body-weight: 400;
@@ -602,6 +606,47 @@
   --input-indeterminate-offset-y-md: 0px;
   --input-indeterminate-offset-y-lg: 0px;
 
+  /* motion — see motion.json; every step except the skeleton group is provisional */
+  --duration-instant: 0ms;
+  --duration-fast: 100ms;
+  --duration-moderate: 200ms;
+  --duration-slow: 400ms;
+  --duration-skeleton-pulse: 2000ms;
+  --easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-enter: cubic-bezier(0, 0, 0.2, 1);
+  --easing-exit: cubic-bezier(0.4, 0, 1, 1);
+  --easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --easing-skeleton-pulse: ease-in-out;
+  --opacity-skeleton-pulse-from: 1;
+  --opacity-skeleton-pulse-to: 0.4;
+  --duration-stagger-skeleton-step-0: 0ms;
+  --duration-stagger-skeleton-step-1: 150ms;
+  --duration-stagger-skeleton-step-2: 300ms;
+  --duration-stagger-skeleton-step-3: 450ms;
+  --duration-stagger-skeleton-step-4: 600ms;
+
+  /* ContentState component geometry */
+  --content-state-container-width: 600px;
+  --content-state-container-min-height: 400px;
+  --content-state-icon-badge-size: 64px;
+  --content-state-empty-glyph-size: 28px;
+  --content-state-empty-glyph-border-width: 1.5px;
+  --content-state-error-glyph-size: 32px;
+  --content-state-skeleton-title-width: 200px;
+  --content-state-skeleton-title-height: 24px;
+  --content-state-skeleton-subtitle-width: 320px;
+  --content-state-skeleton-subtitle-height: 14px;
+  --content-state-skeleton-card-label-width: 80px;
+  --content-state-skeleton-card-label-height: 12px;
+  --content-state-skeleton-card-value-width: 60px;
+  --content-state-skeleton-card-value-height: 28px;
+  --content-state-skeleton-card-meta-width: 100px;
+  --content-state-skeleton-card-meta-height: 10px;
+  --content-state-skeleton-row-height: 12px;
+  --content-state-skeleton-row-cell-1-width: 60px;
+  --content-state-skeleton-row-cell-2-width: 50px;
+  --content-state-skeleton-row-cell-3-width: 70px;
+
   /* semantic: light (default) */
   --color-background-default: #FFFFFF;
   --color-background-subtle: #EFEFEF;
@@ -610,8 +655,10 @@
   --color-background-nav-active: #EDF0F1;
   --color-background-badge: #EBF1FF;
   --color-background-prompt: #424849;
+  --color-background-app: #F6F8F8;
   --color-text-title: #262626;
   --color-text-body: #393939;
+  --color-text-tertiary: #838F92;
   --color-text-muted: #5E5E5E;
   --color-text-inverse: #FFFFFF;
   --color-text-link: #BE003C;
@@ -788,8 +835,10 @@
   --color-background-nav-active: #626B6E;
   --color-background-badge: #003A8C;
   --color-background-prompt: #626B6E;
+  --color-background-app: #262626;
   --color-text-title: #FFFFFF;
   --color-text-body: #DFDFDF;
+  --color-text-tertiary: #DBE1E2;
   --color-text-muted: #7F7F7F;
   --color-text-inverse: #262626;
   --color-text-link: #D8668A;
@@ -956,4 +1005,24 @@
   --color-app-shell-button-accent-bg: #BE003C;
   --color-app-shell-button-accent-on-action: #E6F3F3;
   --color-app-shell-button-accent-text: #E6F3F3;
+}
+
+/* Skeleton pulse — exact waveform from Figma node 1174:1355. Consumed by
+   @lumen/ui's ContentState loading state; see motion.json. */
+@keyframes lumen-skeleton-pulse {
+  0% { opacity: 1; }
+  30% { opacity: 0.4; }
+  60%, 100% { opacity: 1; }
+}
+
+.lumen-skeleton-pulse {
+  animation: lumen-skeleton-pulse var(--duration-skeleton-pulse) var(--easing-skeleton-pulse) infinite;
+  animation-delay: var(--lumen-skeleton-delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lumen-skeleton-pulse {
+    animation: none;
+    opacity: 1;
+  }
 }
