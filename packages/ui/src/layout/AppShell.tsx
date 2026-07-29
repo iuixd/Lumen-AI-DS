@@ -1,27 +1,10 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import { cn } from "../lib/cn";
-import { Button } from "../components/button/Button";
-import { CircleArrowLeftIcon, CircleArrowRightIcon } from "../icons/generated";
+import { useIsDesktop } from "../lib/useIsDesktop";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "../components/resizable/Resizable";
+import { SideNav, type NavSection, type WorkspaceInfo } from "./SideNav";
 
-export interface NavItem {
-  label: string;
-  href: string;
-  active?: boolean;
-  icon?: ReactNode;
-  badge?: string | number;
-}
-
-export interface NavSection {
-  label?: string;
-  items: NavItem[];
-}
-
-export interface WorkspaceInfo {
-  name: string;
-  plan?: string;
-  logo?: ReactNode;
-}
+export type { NavItem, NavSection, WorkspaceInfo } from "./SideNav";
 
 export interface AppShellProps {
   nav: NavSection[];
@@ -44,199 +27,19 @@ export interface AppShellProps {
   assistant?: ReactNode;
   /** Optional custom content above the canonical rail navigation. */
   logo?: ReactNode;
-  /** Desktop navigation mode. Tablet always uses the canonical rail; mobile uses bottom navigation. */
+  /**
+   * Desktop navigation width. "sidebar" (default) shows the full labeled
+   * `SideNav`; "rail" shows the icon-only collapsed form. Tablet always
+   * shows the collapsed rail regardless of this value; mobile uses bottom
+   * navigation. Toggle via `onCollapse`/`onExpand` for a real, animated
+   * user-driven collapse rather than a fixed initial mode.
+   */
   variant?: "sidebar" | "rail";
   workspace?: WorkspaceInfo;
   onCollapse?: () => void;
   onExpand?: () => void;
   className?: string;
 }
-
-const navItemBase =
-  "flex w-full items-center gap-[var(--spacing-10)] rounded-lg px-[var(--spacing-12)] py-[var(--spacing-8)] font-interface text-app-nav transition-colors";
-
-function WorkspaceMark({
-  workspace,
-  size = "compact"
-}: {
-  workspace?: WorkspaceInfo;
-  size?: "compact" | "rail";
-}) {
-  if (workspace?.logo) return workspace.logo;
-  const initial = workspace?.name.charAt(0).toUpperCase() ?? "L";
-  return (
-    <div
-      className={cn(
-        "flex shrink-0 items-center justify-center bg-[var(--color-app-shell-brand-primary)] font-brand text-[var(--color-app-shell-text-on-brand)]",
-        size === "rail"
-          ? "size-[var(--spacing-36)] rounded-lg text-app-logo-rail"
-          : "size-[var(--spacing-28)] rounded-md text-app-logo-compact"
-      )}
-    >
-      {initial}
-    </div>
-  );
-}
-
-function Sidebar({
-  nav,
-  workspace,
-  onCollapse
-}: Pick<AppShellProps, "nav" | "workspace" | "onCollapse">) {
-  return (
-    <aside className="hidden w-[var(--spacing-224)] shrink-0 flex-col gap-[var(--spacing-2)] overflow-hidden border-x border-[var(--color-app-shell-border-default)] bg-[var(--color-app-shell-nav-bg)] px-[var(--spacing-12)] pb-[var(--spacing-12)] desktop:flex">
-      {workspace && (
-        <>
-          <div className="flex w-full items-center gap-[var(--spacing-10)] py-[var(--spacing-12)]">
-            <WorkspaceMark workspace={workspace} />
-            <div className="min-w-0 font-interface">
-              <p className="truncate text-app-workspace text-[var(--color-app-shell-text-heading)]">
-                {workspace.name}
-              </p>
-              {workspace.plan && (
-                <p className="truncate text-app-meta text-[var(--color-app-shell-text-placeholder)]">
-                  {workspace.plan}
-                </p>
-              )}
-            </div>
-          </div>
-          <div className="h-px w-full bg-[var(--color-app-shell-border-default)]" />
-        </>
-      )}
-      {nav.map((section, index) => (
-        <nav
-          key={section.label ?? index}
-          aria-label={section.label ?? (index === 0 ? "Primary" : undefined)}
-          className="flex flex-col gap-[var(--spacing-2)]"
-        >
-          {section.label && (
-            <p className="px-[var(--spacing-12)] pb-[var(--spacing-4)] pt-[var(--spacing-16)] font-interface text-app-admin uppercase [letter-spacing:var(--text-app-admin-letter-spacing)] text-[var(--color-app-shell-text-tertiary)]">
-              {section.label}
-            </p>
-          )}
-          {section.items.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              aria-current={item.active ? "page" : undefined}
-              className={cn(
-                navItemBase,
-                item.active
-                  ? "bg-[var(--color-app-shell-nav-active)] text-[var(--color-app-shell-nav-selected-on-action)]"
-                  : "text-[var(--color-app-shell-nav-on-action)] hover:bg-[var(--color-app-shell-nav-hover)] hover:text-[var(--color-app-shell-nav-selected-on-action)]"
-              )}
-            >
-              <span
-                className="flex size-[var(--spacing-20)] shrink-0 items-center justify-center"
-                aria-hidden
-              >
-                {item.icon}
-              </span>
-              <span className="min-w-0 flex-1 truncate text-left">{item.label}</span>
-              {item.badge !== undefined && (
-                <span className="rounded-full bg-[var(--color-badge-default-bg)] px-[var(--spacing-8)] py-[var(--spacing-2)] font-interface text-badge-sm text-[var(--color-badge-default-text)]">
-                  {item.badge}
-                </span>
-              )}
-            </a>
-          ))}
-        </nav>
-      ))}
-      <div className="min-h-0 flex-1" />
-      <div className="h-px w-full bg-[var(--color-app-shell-border-default)]" />
-      {/* Not the shared Button component: this is a full-width nav-list row
-          sharing navItemBase with the <a> items above it, not a standalone
-          action — converting it alone would leave it visually inconsistent
-          with its list siblings, which are real navigation links (not
-          Button/TextLink candidates either, since they carry icon+badge+
-          active-state slots no generic link component represents). */}
-      {onCollapse && (
-        <button
-          type="button"
-          onClick={onCollapse}
-          className={cn(
-            navItemBase,
-            "text-[var(--color-app-shell-text-secondary)] hover:bg-[var(--color-app-shell-nav-hover)]"
-          )}
-        >
-          <CircleArrowLeftIcon className="size-[var(--spacing-20)] shrink-0" aria-hidden />
-          Collapse
-        </button>
-      )}
-    </aside>
-  );
-}
-
-function NavigationRail({
-  nav,
-  logo,
-  onExpand,
-  desktopVisible
-}: Pick<AppShellProps, "nav" | "logo" | "onExpand"> & { desktopVisible: boolean }) {
-  const items = nav.flatMap((section) => section.items);
-  return (
-    <aside
-      className={cn(
-        "hidden w-[var(--spacing-64)] shrink-0 flex-col items-center gap-[var(--spacing-4)] overflow-hidden border-x border-[var(--color-app-shell-border-default)] bg-[var(--color-app-shell-nav-bg)] px-[var(--spacing-8)] pb-[var(--spacing-12)] tablet:flex",
-        !desktopVisible && "desktop:hidden"
-      )}
-    >
-      {logo && (
-        <>
-          <div className="flex justify-center py-[var(--spacing-12)]">{logo}</div>
-          <div className="h-px w-full bg-[var(--color-app-shell-border-default)]" />
-        </>
-      )}
-      <nav
-        aria-label="Primary"
-        className="flex w-full flex-col items-center gap-[var(--spacing-4)]"
-      >
-        {items.map((item, index) => (
-          <a
-            key={item.href}
-            href={item.href}
-            aria-label={item.label}
-            title={item.label}
-            aria-current={item.active ? "page" : undefined}
-            className={cn(
-              "flex size-[var(--spacing-40)] items-center justify-center rounded-lg text-[var(--color-app-shell-icon-secondary)] transition-colors",
-              item.active
-                ? "bg-[var(--color-app-shell-nav-active)] text-[var(--color-app-shell-nav-selected-on-action)]"
-                : "hover:bg-[var(--color-app-shell-nav-hover)] hover:text-[var(--color-app-shell-nav-on-action)]",
-              index > 0 &&
-                nav.some((section) => section.items[0] === item && section.label) &&
-                "mt-[var(--spacing-8)]"
-            )}
-          >
-            <span className="flex size-[var(--spacing-20)] items-center justify-center" aria-hidden>
-              {item.icon}
-            </span>
-          </a>
-        ))}
-      </nav>
-      <div className="min-h-0 flex-1" />
-      <div className="h-px w-full bg-[var(--color-app-shell-border-default)]" />
-      {onExpand && (
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={onExpand}
-          aria-label="Expand navigation"
-          className="size-[var(--spacing-40)] rounded-lg text-[var(--color-app-shell-text-secondary)] hover:bg-[var(--color-app-shell-nav-hover)]"
-        >
-          <CircleArrowRightIcon className="size-[var(--spacing-20)]" aria-hidden />
-        </Button>
-      )}
-    </aside>
-  );
-}
-
-// Mirrors packages/tokens/src/breakpoint.json's "desktop" threshold (1024px)
-// and Tailwind's `desktop:` screen variant (packages/tokens/scripts/build.mjs).
-// The assistant panel is only ever resizable at this breakpoint — below it,
-// `assistant` renders through pure CSS (`hidden ... desktop:block`) exactly as
-// before, so mobile/tablet layout is untouched by this hook.
-const DESKTOP_MEDIA_QUERY = "(min-width: 1024px)";
 
 // AIPanel's own genuine minimum usable width (header icon+title row, prompt
 // input + send button, message-bubble padding) — measured live in a browser
@@ -248,26 +51,20 @@ const DESKTOP_MEDIA_QUERY = "(min-width: 1024px)";
 // wrapper's `defaultSize`/`maxSize` use.
 const ASSISTANT_MIN_WIDTH = "260px";
 
-function useIsDesktop(): boolean {
-  const [isDesktop, setIsDesktop] = useState(
-    () => typeof window !== "undefined" && window.matchMedia(DESKTOP_MEDIA_QUERY).matches
-  );
-
-  useEffect(() => {
-    const mql = window.matchMedia(DESKTOP_MEDIA_QUERY);
-    const handleChange = () => setIsDesktop(mql.matches);
-    handleChange();
-    mql.addEventListener("change", handleChange);
-    return () => mql.removeEventListener("change", handleChange);
-  }, []);
-
-  return isDesktop;
-}
-
 /**
  * Responsive Lumen application shell sourced from Figma node 1007:3700.
  * Mobile (<768px), Tablet (768-1023px), and Desktop (>=1024px) layouts
  * correspond to the six approved Breakpoint/Theme variants.
+ *
+ * 2026-07-29: the desktop nav column is `SideNav` (Figma node 1498:2877), one
+ * persistent component with a real animated width transition — replacing the
+ * previous `Sidebar`/`NavigationRail` pair, two structurally different
+ * components hard-swapped via `variant`, which is why `onCollapse`/
+ * `onExpand` never actually animated anything before this. `SideNav` renders
+ * once and internally gates its expanded/collapsed content on the real
+ * desktop breakpoint (via the same `useIsDesktop()` this file already used
+ * for the assistant panel below) so tablet always gets the icon-only rail
+ * regardless of `variant`, matching this shell's original invariant.
  *
  * 2026-07-27 addition: the desktop `assistant` panel is resizable, via the
  * existing shadcn-sourced `ResizablePanelGroup`/`ResizablePanel`/
@@ -357,14 +154,13 @@ export function AppShell({
       )}
 
       <div className="flex min-h-0 flex-1 items-stretch">
-        {variant === "sidebar" && (
-          <Sidebar nav={nav} workspace={workspace} onCollapse={onCollapse} />
-        )}
-        <NavigationRail
+        <SideNav
           nav={nav}
+          expanded={variant === "sidebar"}
+          workspace={workspace}
           logo={logo}
+          onCollapse={onCollapse}
           onExpand={onExpand}
-          desktopVisible={variant === "rail"}
         />
 
         {assistant && isDesktop ? (

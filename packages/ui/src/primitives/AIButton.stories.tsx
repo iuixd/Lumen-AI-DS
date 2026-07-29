@@ -133,7 +133,7 @@ export const Library: Story = {
     return (
       <main className="min-h-screen bg-[var(--color-app-shell-background)] px-[var(--spacing-96)] py-[var(--spacing-80)]">
         <header>
-          <p className="font-mono text-ai-library-caption uppercase text-[var(--color-app-shell-text-tertiary)]">
+          <p className="font-mono text-ai-library-caption uppercase text-[var(--color-app-shell-text-secondary)]">
             AI Button Library · V1.0
           </p>
           <h1 className="mt-[var(--spacing-24)] font-editorial text-ai-library-h1 text-[var(--color-app-shell-text-primary)]">

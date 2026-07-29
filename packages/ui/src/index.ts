@@ -12,6 +12,7 @@ export * from "./primitives/Radio";
 export * from "./primitives/Icon";
 export * from "./primitives/ThemeToggle";
 export * from "./primitives/KPICard";
+export * from "./primitives/LumenLogo";
 
 // Icons
 export * from "./icons/generated";
@@ -81,6 +82,7 @@ export * from "./composite/AIResponseCard";
 export * from "./layout/Container";
 export * from "./layout/Stack";
 export * from "./layout/Grid";
+export * from "./layout/SideNav";
 export * from "./layout/AppShell";
 export * from "./layout/Footer";
 

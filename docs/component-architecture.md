@@ -1117,6 +1117,21 @@ composition (`1127:4196`) instances surfaced a real, larger gap:
   first sourced from; the canonical value wins per this repo's Figma
   authority order.
 
+As of 2026-07-29: Figma itself later consolidated what this section
+sourced as two disconnected instances — `SideNav/Expanded` (`1079:2427`)
+and the separately-confirmed `NavigationRail` (`1079:2686`) — into one
+proper component with explicit `State=Expanded`/`State=collapsed`
+variants, published as node `1498:2877` ("SideNav"; `1079:2427` is now
+that component's `Expanded` child, reused verbatim). Code followed the
+same consolidation, at direct user request: `AppShell`'s previous private
+`Sidebar`/`NavigationRail` pair (two structurally different, hard-swapped
+components — the reason `onCollapse`/`onExpand` never animated anything)
+was replaced by one new, independently exported `SideNav` component
+(`packages/ui/src/layout/SideNav.tsx`) with a real animated width
+transition between the same two states. See
+`docs/component-specifications.md` §57 and `docs/figma-sync.md`'s
+manifest for the full sync record.
+
 ```text
 Figma: AI Panel                Node: 1007:3700 (1079:3141)
 React: AIPanel                         packages/ui/src/composite/AIPanel.tsx

@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { AppShell, type NavSection } from "./AppShell";
-import { Icon } from "../primitives/Icon";
 import { Avatar, AvatarFallback } from "../components/avatar/Avatar";
 import { Badge } from "../primitives/Badge";
 import { Button } from "../components/button/Button";
@@ -9,6 +8,7 @@ import { TextLink } from "../primitives/TextLink";
 import { Input } from "../components/input/Input";
 import { Kbd } from "../components/kbd/Kbd";
 import { KPICard } from "../primitives/KPICard";
+import { LumenLogo } from "../primitives/LumenLogo";
 import { ThemeToggle } from "../primitives/ThemeToggle";
 import { AIPanel, type AIPanelMessage } from "../composite/AIPanel";
 import { PageHeader } from "../composite/PageHeader";
@@ -20,28 +20,40 @@ import {
   BotIcon,
   ChartBarIcon,
   DatabaseIcon,
+  FileChartColumnIcon,
   FolderIcon,
   HomeIcon,
+  HouseIcon,
+  IdCardLanyardIcon,
+  InboxIcon,
+  LmAiOutlineIcon,
   LmAuditLogIcon,
   LmBotAnimatedIcon,
   LmProjectIcon,
   MenuIcon,
   PlusIcon,
+  ReceiptTextIcon,
   SearchIcon,
   SignalIcon,
   TrendingUpIcon,
   WifiIcon
 } from "../icons/generated";
 
+// Icons here match Figma node 1498:2877 ("SideNav") exactly by glyph name —
+// e.g. Home is HouseIcon ("house" in Figma), not the generic HomeIcon;
+// Agents is LmAiOutlineIcon ("lm-ai-outline"), not BotIcon; Reports is
+// FileChartColumnIcon ("file-chart-column"), not the plainer ChartColumnIcon;
+// Members is IdCardLanyardIcon ("id-card-lanyard"), not IdCardIcon; Billing
+// is ReceiptTextIcon ("receipt-text"), not ReceiptIcon.
 const nav: NavSection[] = [
   {
     items: [
-      { label: "Home", href: "#home", icon: <Icon name="home" className="size-full" /> },
+      { label: "Home", href: "#home", icon: <HouseIcon className="size-full" /> },
       {
         label: "Inbox",
         href: "#inbox",
         badge: 5,
-        icon: <Icon name="inbox" className="size-full" />
+        icon: <InboxIcon className="size-full" />
       },
       {
         label: "Projects",
@@ -49,20 +61,24 @@ const nav: NavSection[] = [
         active: true,
         icon: <LmProjectIcon className="size-full" />
       },
-      { label: "Agents", href: "#agents", icon: <Icon name="bot" className="size-full" /> },
-      { label: "Data", href: "#data", icon: <Icon name="database" className="size-full" /> },
+      { label: "Agents", href: "#agents", icon: <LmAiOutlineIcon className="size-full" /> },
+      { label: "Data", href: "#data", icon: <DatabaseIcon className="size-full" /> },
       {
         label: "Reports",
         href: "#reports",
-        icon: <Icon name="chart-column" className="size-full" />
+        icon: <FileChartColumnIcon className="size-full" />
       }
     ]
   },
   {
     label: "Admin",
     items: [
-      { label: "Members", href: "#members", icon: <Icon name="id-card" className="size-full" /> },
-      { label: "Billing", href: "#billing", icon: <Icon name="receipt" className="size-full" /> },
+      {
+        label: "Members",
+        href: "#members",
+        icon: <IdCardLanyardIcon className="size-full" />
+      },
+      { label: "Billing", href: "#billing", icon: <ReceiptTextIcon className="size-full" /> },
       { label: "Audit log", href: "#audit-log", icon: <LmAuditLogIcon className="size-full" /> }
     ]
   }
@@ -95,15 +111,9 @@ const accounts = [
 function Brand({ mobile = false, tablet = false }: { mobile?: boolean; tablet?: boolean }) {
   return (
     <div className="flex items-center gap-[var(--spacing-8)]">
-      <span
-        className={
-          mobile
-            ? "flex size-[var(--spacing-28)] items-center justify-center rounded-md bg-[var(--color-app-shell-brand-primary)] font-brand text-app-logo-compact text-[var(--color-app-shell-text-on-brand)]"
-            : "flex size-[var(--spacing-28)] items-center justify-center rounded-md bg-[var(--color-app-shell-brand-primary)] font-brand text-app-logo text-[var(--color-app-shell-text-on-brand)]"
-        }
-      >
-        L
-      </span>
+      {/* Figma's exact rendered size (21.2423×21.8788, not a perfect square)
+          inside its 28px bounding box — see LumenLogo's own docblock. */}
+      <LumenLogo className="h-[21.8788px] w-[21.2423px] shrink-0" title="" />
       <span
         className={
           mobile
@@ -397,7 +407,7 @@ function TabletContent() {
   return (
     <div className="hidden h-full flex-col gap-[var(--spacing-24)] p-[var(--spacing-32)] tablet:flex desktop:hidden">
       <div className="flex flex-col gap-[var(--spacing-16)] pb-[var(--spacing-20)]">
-        <div className="flex gap-[var(--spacing-6)] text-app-breadcrumb text-[var(--color-app-shell-text-tertiary)]">
+        <div className="flex gap-[var(--spacing-6)] text-app-breadcrumb text-[var(--color-app-shell-text-secondary)]">
           <TextLink href="#workspace" className="text-[var(--color-app-shell-text-link)]">
             Workspace
           </TextLink>
@@ -622,13 +632,19 @@ function MobileNavigation() {
 
 function AppShellDemo({ initialTheme }: { initialTheme: "light" | "dark" }) {
   const [theme, setTheme] = useState(initialTheme);
+  const [variant, setVariant] = useState<"sidebar" | "rail">("sidebar");
   const dark = theme === "dark";
   return (
     <div data-theme={theme} className="h-screen">
       <AppShell
         nav={nav}
-        onCollapse={() => {}}
-        onExpand={() => {}}
+        variant={variant}
+        onCollapse={() => setVariant("rail")}
+        onExpand={() => setVariant("sidebar")}
+        workspace={{
+          name: "Lumen",
+          logo: <LumenLogo className="h-[21.8788px] w-[21.2423px]" title="" />
+        }}
         header={
           <AppHeader dark={dark} onThemeChange={(next) => setTheme(next ? "dark" : "light")} />
         }

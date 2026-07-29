@@ -344,7 +344,12 @@ export function AIPanel({
             {message.timestamp && (
               <div className="flex items-center gap-[var(--spacing-12)]">
                 <div className="h-px flex-1 bg-[var(--color-app-shell-border-default)]" />
-                <p className="shrink-0 font-mono text-chat-caption text-[var(--color-app-shell-text-tertiary)]">
+                {/* text-secondary, not text-tertiary: text-tertiary (lumen-gray.600)
+                    contrasts at 3.33:1 against this white/surface background,
+                    below WCAG AA's 4.5:1 minimum for this 14px text — an axe
+                    "Serious" violation. text-secondary (lumen-gray.700, ~5.46:1)
+                    passes. See semantic/color.json's _a11yBadgeContrastComment. */}
+                <p className="shrink-0 font-mono text-chat-caption text-[var(--color-app-shell-text-secondary)]">
                   {message.timestamp}
                 </p>
                 <div className="h-px flex-1 bg-[var(--color-app-shell-border-default)]" />
@@ -427,7 +432,9 @@ export function AIPanel({
                 )}
                 {message.suggestedFollowUps && message.suggestedFollowUps.length > 0 && (
                   <div className="flex w-full flex-col gap-[var(--spacing-8)] pl-[var(--spacing-32)] pt-[var(--spacing-16)]">
-                    <p className="text-chat-label text-[var(--color-app-shell-text-tertiary)]">
+                    {/* text-secondary, not text-tertiary — same WCAG AA contrast
+                        fix as the timestamp caption above. */}
+                    <p className="text-chat-label text-[var(--color-app-shell-text-secondary)]">
                       Suggested follow-ups
                     </p>
                     <div className="flex flex-wrap items-start gap-[var(--spacing-8)]">

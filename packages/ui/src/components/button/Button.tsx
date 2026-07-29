@@ -1,4 +1,4 @@
-import type { ComponentProps } from "react";
+import { forwardRef, type ComponentProps } from "react";
 
 import { Button as InternalButton, buttonVariants } from "../internal/button";
 
@@ -20,10 +20,19 @@ import { Button as InternalButton, buttonVariants } from "../internal/button";
  * packages/ui/src/components/internal/button.tsx for the token-by-token
  * mapping. This public module is the only supported import path; the
  * internal implementation may change without notice.
+ *
+ * Forwards its ref to `InternalButton` (already `forwardRef`-wrapped) —
+ * this plain wrapper previously dropped any ref passed to it, which was
+ * invisible until a consumer needed one: Radix's `asChild` (e.g.
+ * `TooltipTrigger asChild`, first used by `SideNav`'s Expand control)
+ * clones its child and attaches a ref for positioning, and a
+ * non-forwarding function component fails that silently except for a
+ * console warning — found and fixed as part of the SideNav sync.
  */
 export type ButtonProps = ComponentProps<typeof InternalButton>;
-export function Button(props: ButtonProps) {
-  return <InternalButton {...props} />;
-}
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => (
+  <InternalButton ref={ref} {...props} />
+));
+Button.displayName = "Button";
 
 export { buttonVariants };

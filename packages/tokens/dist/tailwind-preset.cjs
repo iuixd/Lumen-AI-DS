@@ -407,6 +407,7 @@ module.exports = {
   "app-shell-button-accent-text": "var(--color-app-shell-button-accent-text)"
 },
       spacing: {
+  "13": "var(--spacing-13)",
   "15": "var(--spacing-15)",
   "17": "var(--spacing-17)",
   "18": "var(--spacing-18)",

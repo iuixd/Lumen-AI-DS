@@ -4173,3 +4173,419 @@ Recorded rather than silently closed — see `docs/figma-sync.md`:
   published version), so this is not recorded as a breaking change.
 - 2026-07-29 (same day): added a loading skeleton during Regenerate and
   tooltips on both footer icon actions, per direct user follow-up requests.
+
+# 57. SideNav
+
+## Status
+
+Baseline specification, added 2026-07-29.
+
+## Figma source
+
+- Node: `1498:2877` ("SideNav" frame; children `1079:2427` `State=Expanded`,
+  `1498:2878` `State=collapsed`)
+- Verified with `get_metadata`, `get_design_context`, `get_variable_defs`,
+  `get_motion_context`
+- Last synchronized: 2026-07-29
+
+## Purpose
+
+Lumen's collapsible desktop application-navigation column: a labeled nav
+list that the user can collapse to an icon-only rail and expand back,
+with a real animated transition rather than a hard swap.
+
+## When to use
+
+- The primary navigation column of `AppShell` (its only current consumer),
+  or any standalone product surface needing the same collapsible-rail
+  pattern.
+
+## When not to use
+
+- Mobile bottom navigation — use `AppShell`'s `mobileNavigation` slot.
+- A tablet-only always-compact rail with no user-facing toggle — `SideNav`
+  already forces the compact rail at tablet regardless of `expanded`; no
+  separate component is needed for that case.
+
+## Anatomy
+
+```text
+SideNav
+├── Header (optional)
+│   ├── Workspace mark or `logo`
+│   └── Workspace name + plan text (expanded only)
+├── Nav sections
+│   ├── Section label (expanded only; an 8px spacer when collapsed)
+│   └── Nav items
+│       ├── Icon
+│       ├── Label (expanded only) + badge (expanded only)
+│       └── Tooltip (collapsed only — reveals the label on hover)
+├── Divider
+└── Footer control
+    ├── "Collapse" (labeled row, shown when expanded)
+    └── "Expand navigation" (icon-only + Tooltip, shown when collapsed)
+```
+
+## Variants
+
+None — one component, two visual states driven by `expanded`.
+
+## Sizes
+
+None — width is fixed per state (224px expanded, 64px collapsed at
+desktop; always 64px at tablet), not a size scale.
+
+## States
+
+```text
+Expanded  (desktop only, expanded=true)
+Collapsed (desktop, expanded=false; always, at tablet)
+```
+
+## Properties
+
+Property contract (framework-neutral):
+
+```text
+nav          array, required — { label?, items: NavItem[] }[]
+expanded     boolean, required — true shows full labels at desktop
+onCollapse   function, optional — renders the "Collapse" control
+onExpand     function, optional — renders the "Expand navigation" control
+workspace    { name, plan?, logo? }, optional
+logo         ReactNode, optional — header content when no `workspace`
+className    string, optional
+```
+
+## Reference implementation (React)
+
+```ts
+export interface NavItem {
+  label: string;
+  href: string;
+  active?: boolean;
+  icon?: ReactNode;
+  badge?: string | number;
+}
+
+export interface NavSection {
+  label?: string;
+  items: NavItem[];
+}
+
+export interface WorkspaceInfo {
+  name: string;
+  plan?: string;
+  logo?: ReactNode;
+}
+
+export interface SideNavProps {
+  nav: NavSection[];
+  expanded: boolean;
+  onCollapse?: () => void;
+  onExpand?: () => void;
+  workspace?: WorkspaceInfo;
+  logo?: ReactNode;
+  className?: string;
+}
+```
+
+Source: `packages/ui/src/layout/SideNav.tsx`.
+
+## Behavior
+
+- One persistent component, not two swapped trees: the outer `<aside>`'s
+  width transitions between `--spacing-224` and `--spacing-64`
+  (`transition-[width] duration-[var(--duration-moderate)]
+  ease-[var(--easing-standard)]`) — a real CSS animation. It relies on the
+  parent row's `items-stretch` for height (no explicit `height`/`h-full` on
+  the `<aside>` itself — an explicit `h-full` was tried and reverted after
+  it broke the stretch, since `height: 100%` needs a CSS-definite parent
+  height that a flex-grown row doesn't have; see Known differences).
+- Content (labels, workspace text, section headers, badges, which footer
+  control renders) is gated on `expanded && useIsDesktop()`, not `expanded`
+  alone. This is what makes tablet always show the icon-only rail
+  regardless of `expanded` — without it, expanded content would render
+  inside a CSS-forced 64px tablet width and overflow.
+- Collapsed nav items get `aria-label` set to the item's label (compensating
+  for the hidden visible text) and a `Tooltip` (hover reveals the label);
+  expanded items render icon + label + optional badge inline, no tooltip
+  needed since the label is already visible.
+- The footer shows at most one control at a time: "Collapse" (a full-width
+  nav-list row, not the shared `Button`, since it visually matches its
+  list siblings) when expanded and `onCollapse` is provided; the icon-only
+  "Expand navigation" `Button` (wrapped in a `Tooltip`) when collapsed and
+  `onExpand` is provided. Omitting the relevant callback hides that control
+  entirely.
+
+## Content
+
+- Nav item labels, section labels, and the workspace name/plan come from
+  the consumer via `nav`/`workspace` — no hardcoded copy.
+- Default accessible name for the collapsed Expand control:
+  "Expand navigation" (also its tooltip text).
+
+## Tokens
+
+Every color/radius/typography value this Figma node specifies matched an
+existing token exactly:
+
+- Colors: `--color-app-shell-nav-bg`, `--color-app-shell-nav-on-action`,
+  `--color-app-shell-nav-active`, `--color-app-shell-nav-selected-on-action`,
+  `--color-app-shell-nav-hover`, `--color-app-shell-icon-secondary`,
+  `--color-app-shell-text-secondary`, `--color-app-shell-text-placeholder`,
+  `--color-app-shell-text-heading`, `--color-app-shell-border-default`,
+  `--color-badge-default-bg`, `--color-badge-default-text`,
+  `--color-app-shell-brand-primary`, `--color-app-shell-text-on-brand`.
+  (Not `--color-app-shell-text-tertiary`, Figma's literal binding for the
+  section label — see Accessibility.)
+- Spacing/radius: `--spacing-224`, `--spacing-64`, `--spacing-20`,
+  `--spacing-40`, `--spacing-13` (new — see below), `--spacing-12`,
+  `--spacing-10`, `--spacing-8`, `--spacing-4`, `--spacing-2`,
+  `--radius-lg`.
+- Typography: `text-app-nav` (13/20/500), `text-app-admin` (10/14/600,
+  0.8 tracking), `text-badge-sm` (11/16/500), `text-app-workspace`,
+  `text-app-meta`, `text-app-logo-compact`/`text-app-logo-rail`.
+- Motion: `--duration-moderate` (200ms), `--easing-standard` — reused,
+  not new; `get_motion_context` returned no keyframe data for this node
+  (a static two-state mockup).
+
+One new token: `--spacing-13` (`packages/tokens/src/spacing.json`), for
+this node's own asymmetric container top padding (`pt-13px` against
+`pb-12px`) — confirmed real via a dedicated single-state Figma pull, not a
+code-gen artifact (see Known differences' history).
+
+## Accessibility
+
+- Each nav section renders as a `<nav>` with `aria-label` (the section's
+  own label, or "Primary" for the first unlabeled section).
+- The active item carries `aria-current="page"`.
+- Collapsed items expose their label via `aria-label` and a hover
+  `Tooltip`, since the visible text is not rendered in that state.
+- The footer toggle is a real `<button>` in both states, reachable and
+  operable via keyboard; also wrapped in a `Tooltip` when collapsed.
+- The "ADMIN"-style section label uses `--color-app-shell-text-secondary`
+  (lumen-gray.700, `#626B6E`, ~5.46:1 on white), not Figma's literal
+  `text/tertiary` binding (lumen-gray.600, `#838F92`, 3.32:1) — an axe
+  "Serious" WCAG AA contrast violation (needs 4.5:1 for 10px text) caught
+  after the initial sync. Scoped to this one label rather than changing
+  the shared `text-tertiary` token, which `AIPanel`/`PageHeader`/other
+  consumers also use at sizes/contexts not audited here.
+
+## Responsive behavior
+
+- Hidden below the tablet breakpoint (768px) — `AppShell` uses
+  `mobileNavigation` there instead.
+- Tablet (768–1023px): always the collapsed icon-only rail, regardless of
+  `expanded`.
+- Desktop (≥1024px): follows `expanded` — 224px labeled, or 64px
+  icon-only.
+
+## Storybook stories
+
+`Expanded`, `Collapsed`, `WithWorkspace`, `Interactive` (real, clickable
+expand/collapse) — `packages/ui/src/layout/SideNav.stories.tsx`.
+
+## Tests
+
+12 tests in `packages/ui/src/layout/SideNav.test.tsx`: default (non-desktop)
+rendering, expanded/collapsed content and footer control selection at
+desktop, `aria-current`, badge rendering, `onCollapse`/`onExpand` firing,
+workspace name/plan visibility, the desktop width classes, tooltip-on-hover
+for a collapsed nav item and the Expand control, and the section label's
+accessible color class.
+
+## Code mapping
+
+`packages/ui/src/layout/SideNav.tsx`. Consumed by `AppShell.tsx`, which
+replaced its previous private `Sidebar`/`NavigationRail` pair with a
+single `<SideNav>` instance.
+
+## Known differences from Figma
+
+- The collapsed-state footer icon in Figma's export reuses the same
+  `circle-arrow-left` asset as the expanded Collapse button. Kept the
+  existing, already-shipped `CircleArrowRightIcon` for Expand instead
+  (semantically "outward," and the already-tested behavior) rather than
+  matching the asset literally.
+- The "ADMIN" section label uses `text-secondary`, not Figma's literal
+  `text/tertiary` binding — a deliberate WCAG AA accessibility correction,
+  not drift; see Accessibility above.
+- History: the initial sync logged two spacing values as Figma-code-gen
+  artifacts and normalized them away (`pt-13px` rounded to `--spacing-12`;
+  collapsed items given the previous `NavigationRail`'s centered/unpadded
+  sizing instead of Figma's `px-12 py-8 gap-10`). A user-reported layout
+  bug (the `<aside>` not filling its parent's height, caused by an
+  unrelated `h-full` regression — now removed) prompted re-verification
+  with a dedicated `get_design_context` pull directly on the collapsed
+  node, which confirmed both values are real, consistent Figma spacing,
+  not artifacts. Corrected same session; the `--spacing-13` token and the
+  literal `px-12 py-8 gap-10` collapsed-item box model are current.
+
+## Known limitations
+
+- No cross-framework equivalent — `@lumen/web-components`/`@lumen/angular`
+  have no `AppShell`/navigation component yet (both Button-only proofs of
+  concept).
+- No persisted collapse state across reloads — `expanded` is fully
+  controlled by the consumer (e.g. `AppShell`'s `variant` prop);
+  persistence, if wanted, is the consumer's responsibility.
+
+## Change history
+
+- 2026-07-29: added, sourced from node `1498:2877`, replacing `AppShell`'s
+  previous private `Sidebar`/`NavigationRail` pair with one persistent,
+  animated component.
+- 2026-07-29 (same day, user-reported follow-up): fixed a height regression
+  (`h-full` broke the inherited flex stretch); corrected 5 mismatched demo
+  icons in the Storybook nav data; re-verified and corrected two spacing
+  values previously (wrongly) treated as Figma code-gen artifacts, adding
+  the new `--spacing-13` token; added hover tooltips on all collapsed
+  icon-only controls; fixed a WCAG AA contrast violation on the section
+  label; and fixed the public `Button` wrapper's missing ref forwarding
+  (needed for the Expand control's `TooltipTrigger asChild`).
+
+# 58. LumenLogo
+
+## Status
+
+Baseline specification, added 2026-07-29.
+
+## Figma source
+
+- Node: `1174:1354` ("Header" frame; `Breakpoint=Desktop` `1079:1890` >
+  "Brand" `1079:1883` > "Lumen DS Logo" instance)
+- Verified with `get_metadata`, `get_design_context`, `download_assets`
+- Last synchronized: 2026-07-29
+
+## Purpose
+
+The Lumen brand mark — a fixed graphic asset, not a themeable icon.
+
+## When to use
+
+- Anywhere Lumen's own product branding is shown: a header's brand lockup,
+  a workspace's default logo mark, marketing/about surfaces.
+
+## When not to use
+
+- As a per-tenant/customer workspace mark — use `SideNav`'s
+  `workspace.name`-derived initial-letter fallback (or the consumer's own
+  uploaded logo via `workspace.logo`) instead; this asset represents Lumen
+  the product, not an arbitrary customer's brand.
+- Anywhere a recolorable, `currentColor`-based icon is needed — use the
+  generated icon set (`packages/ui/src/icons/generated`) instead; this
+  asset bakes in its own fixed gradients and cannot be recolored via CSS.
+
+## Anatomy
+
+A single `<img>` — no sub-parts.
+
+## Variants
+
+None.
+
+## Sizes
+
+None — sized entirely via `className` (Tailwind `h-*`/`w-*`); no default
+size scale, since consumers place it in varied contexts (a 28px header
+mark, a larger marketing lockup, etc.).
+
+## States
+
+None — a static image.
+
+## Properties
+
+Property contract (framework-neutral):
+
+```text
+title       string, optional (default "Lumen") — accessible name; pass ""
+            for decorative use (e.g. beside text that already says "Lumen")
+className   string, optional
+```
+
+Plus any other native `<img>` attribute except `src`/`alt` (fixed).
+
+## Reference implementation (React)
+
+```ts
+export interface LumenLogoProps
+  extends Omit<ImgHTMLAttributes<HTMLImageElement>, "src" | "alt"> {
+  title?: string;
+}
+```
+
+Source: `packages/ui/src/primitives/LumenLogo.tsx`.
+
+## Behavior
+
+- Renders `packages/ui/src/assets/lumen-logo.svg` (a committed static
+  asset, resolved via `new URL(..., import.meta.url).href` — the same
+  Vite-asset pattern already used by `ThemeToggle`'s sun/moon icons) as a
+  plain `<img>`.
+- `className` merges with the component's own default sizing classes via
+  `cn()` (tailwind-merge), so a consumer's `h-*`/`w-*` wins over the
+  default.
+
+## Content
+
+- `alt` is fixed to `title`, defaulting to `"Lumen"`. Pass `title=""` for
+  a decorative instance (the accessible name is then empty, matching the
+  `alt=""` convention for images whose meaning is already conveyed by
+  adjacent text).
+
+## Tokens
+
+None. The asset is a fixed, multi-gradient graphic (deep purple through
+crimson to gold) with no themeable color roles — it does not vary by
+light/dark mode or any semantic token, the same treatment already applied
+to `ThemeToggle`'s and Checkbox's committed icon assets.
+
+## Accessibility
+
+- Renders with a real accessible name (`alt="Lumen"`) by default; supports
+  marking itself decorative (`title=""`) when adjacent text already
+  conveys "Lumen", avoiding a redundant announcement.
+
+## Responsive behavior
+
+None — a fixed-aspect-ratio image sized entirely by the consumer.
+
+## Storybook stories
+
+`Default`, `Large`, `Decorative` —
+`packages/ui/src/primitives/LumenLogo.stories.tsx`.
+
+## Tests
+
+4 tests in `packages/ui/src/primitives/LumenLogo.test.tsx`: default
+accessible name, decorative (`title=""`) mode, `className` merging, and
+that `src` resolves to the committed asset.
+
+## Code mapping
+
+`packages/ui/src/primitives/LumenLogo.tsx`, asset at
+`packages/ui/src/assets/lumen-logo.svg`. Consumed by
+`AppShell.stories.tsx`'s `Brand` (the header mockup) and by
+`AppShell.stories.tsx`'s/`SideNav.stories.tsx`'s `workspace.logo` demo
+wiring.
+
+## Known differences from Figma
+
+None — the asset is committed byte-for-byte from Figma's own export, and
+rendered at its exact natural aspect ratio (21.2423×21.8788px) rather than
+stretched or cropped into the 28×28 bounding box it sits inside in the
+Header.
+
+## Known limitations
+
+- No cross-framework equivalent — `@lumen/web-components`/`@lumen/angular`
+  have no header/brand-mark component yet (both Button-only proofs of
+  concept).
+
+## Change history
+
+- 2026-07-29: added, sourced from node `1174:1354`, replacing a placeholder
+  (a plain crimson square with a literal "L" character) used in
+  `AppShell.stories.tsx`'s `Brand` mockup and demonstrated as `SideNav`'s
+  example custom `workspace.logo`, at direct user request.

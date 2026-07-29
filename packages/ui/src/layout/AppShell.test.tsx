@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { AppShell, type NavSection } from "./AppShell";
 
 const nav: NavSection[] = [
@@ -15,92 +16,167 @@ const nav: NavSection[] = [
   }
 ];
 
+function mockDesktop(matches: boolean) {
+  const matchMedia = vi.fn().mockReturnValue({
+    matches,
+    media: "(min-width: 1024px)",
+    onchange: null,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn()
+  });
+  const original = window.matchMedia;
+  window.matchMedia = matchMedia as unknown as typeof window.matchMedia;
+  return () => {
+    window.matchMedia = original;
+  };
+}
+
 describe("AppShell", () => {
+  // 2026-07-29: the desktop nav column is now `SideNav`, a single persistent
+  // component (see SideNav.test.tsx for its own full coverage) rather than
+  // the previous Sidebar+NavigationRail pair rendered simultaneously — so
+  // these tests assert one link per item, not two, and mock the desktop
+  // breakpoint where they need to observe the expanded/labeled layout
+  // (matching this file's existing precedent for the assistant panel below;
+  // vitest.setup.ts stubs window.matchMedia to always report matches: false
+  // otherwise).
   it("defaults to the sidebar variant and renders visible nav labels across sections", () => {
-    render(
-      <AppShell nav={nav}>
-        <p>Content</p>
-      </AppShell>
-    );
-    expect(screen.getAllByRole("link", { name: /Home/ })).toHaveLength(2);
-    expect(screen.getAllByRole("link", { name: /Members/ })).toHaveLength(2);
-    expect(screen.getByText("Content")).toBeInTheDocument();
+    const restore = mockDesktop(true);
+    try {
+      render(
+        <AppShell nav={nav}>
+          <p>Content</p>
+        </AppShell>
+      );
+      expect(screen.getByRole("link", { name: /Home/ })).toBeInTheDocument();
+      expect(screen.getByRole("link", { name: /Members/ })).toBeInTheDocument();
+      expect(screen.getByText("Admin")).toBeInTheDocument();
+      expect(screen.getByText("Content")).toBeInTheDocument();
+    } finally {
+      restore();
+    }
   });
 
   it("marks the active nav item with aria-current", () => {
-    render(
-      <AppShell nav={nav}>
-        <p>Content</p>
-      </AppShell>
-    );
-    screen
-      .getAllByRole("link", { name: /Home/ })
-      .forEach((link) => expect(link).toHaveAttribute("aria-current", "page"));
-    screen
-      .getAllByRole("link", { name: /Members/ })
-      .forEach((link) => expect(link).not.toHaveAttribute("aria-current"));
+    const restore = mockDesktop(true);
+    try {
+      render(
+        <AppShell nav={nav}>
+          <p>Content</p>
+        </AppShell>
+      );
+      expect(screen.getByRole("link", { name: /Home/ })).toHaveAttribute("aria-current", "page");
+      expect(screen.getByRole("link", { name: /Members/ })).not.toHaveAttribute("aria-current");
+    } finally {
+      restore();
+    }
   });
 
   it("renders a badge on nav items that have one", () => {
+    const restore = mockDesktop(true);
+    try {
+      render(
+        <AppShell nav={nav}>
+          <p>Content</p>
+        </AppShell>
+      );
+      expect(screen.getByRole("link", { name: /Inbox/ }).textContent).toContain("5");
+    } finally {
+      restore();
+    }
+  });
+
+  it("renders the workspace name and plan when provided", () => {
+    const restore = mockDesktop(true);
+    try {
+      render(
+        <AppShell nav={nav} workspace={{ name: "Northwind Corp", plan: "Enterprise" }}>
+          <p>Content</p>
+        </AppShell>
+      );
+      expect(screen.getByText("Northwind Corp")).toBeInTheDocument();
+      expect(screen.getByText("Enterprise")).toBeInTheDocument();
+      expect(screen.getAllByText("N")).toHaveLength(1);
+    } finally {
+      restore();
+    }
+  });
+
+  it("renders a Collapse control only when onCollapse is provided, and calls it on click", () => {
+    const restore = mockDesktop(true);
+    try {
+      const onCollapse = vi.fn();
+      const { rerender } = render(
+        <AppShell nav={nav}>
+          <p>Content</p>
+        </AppShell>
+      );
+      expect(screen.queryByRole("button", { name: "Collapse" })).not.toBeInTheDocument();
+
+      rerender(
+        <AppShell nav={nav} onCollapse={onCollapse}>
+          <p>Content</p>
+        </AppShell>
+      );
+      const collapseButton = screen.getByRole("button", { name: "Collapse" });
+      collapseButton.click();
+      expect(onCollapse).toHaveBeenCalledOnce();
+    } finally {
+      restore();
+    }
+  });
+
+  it("calls onExpand from the rail variant's Expand control", async () => {
+    const restore = mockDesktop(true);
+    try {
+      const user = userEvent.setup();
+      const onExpand = vi.fn();
+      render(
+        <AppShell nav={nav} variant="rail" onExpand={onExpand}>
+          <p>Content</p>
+        </AppShell>
+      );
+      // userEvent.click, not the native .click() — the Expand control is
+      // wrapped in a Tooltip (SideNav), and a raw .click() bypasses Testing
+      // Library's act() wrapping around the Tooltip's own pointer-tracking
+      // state update, producing an act() warning even though the test still
+      // passes.
+      await user.click(screen.getByRole("button", { name: "Expand navigation" }));
+      expect(onExpand).toHaveBeenCalledOnce();
+    } finally {
+      restore();
+    }
+  });
+
+  it("renders the rail variant with icon-only nav items exposing labels via aria-label", () => {
+    const restore = mockDesktop(true);
+    try {
+      render(
+        <AppShell nav={nav} variant="rail">
+          <p>Content</p>
+        </AppShell>
+      );
+      expect(screen.getByRole("link", { name: "Home" })).toBeInTheDocument();
+      expect(screen.getByRole("link", { name: "Members" })).toBeInTheDocument();
+      expect(screen.queryByText("Admin")).not.toBeInTheDocument();
+      expect(screen.getByText("Content")).toBeInTheDocument();
+    } finally {
+      restore();
+    }
+  });
+
+  it("always shows the icon-only rail below the desktop breakpoint, regardless of variant", () => {
+    // Default (unmocked) matchMedia — vitest.setup.ts's stub reports
+    // matches: false, exercising the tablet/mobile path.
     render(
       <AppShell nav={nav}>
-        <p>Content</p>
-      </AppShell>
-    );
-    expect(
-      screen.getAllByRole("link", { name: /Inbox/ }).some((link) => link.textContent?.includes("5"))
-    ).toBe(true);
-  });
-
-  it("renders a section header for labeled sections only", () => {
-    render(
-      <AppShell nav={nav}>
-        <p>Content</p>
-      </AppShell>
-    );
-    expect(screen.getByText("Admin")).toBeInTheDocument();
-  });
-
-  it("renders the WorkspaceSwitcher when workspace is provided", () => {
-    render(
-      <AppShell nav={nav} workspace={{ name: "Northwind Corp", plan: "Enterprise" }}>
-        <p>Content</p>
-      </AppShell>
-    );
-    expect(screen.getByText("Northwind Corp")).toBeInTheDocument();
-    expect(screen.getByText("Enterprise")).toBeInTheDocument();
-    expect(screen.getAllByText("N")).toHaveLength(1);
-  });
-
-  it("renders a Collapse control only when onCollapse is provided, and calls it on click", async () => {
-    const onCollapse = vi.fn();
-    const { rerender } = render(
-      <AppShell nav={nav}>
-        <p>Content</p>
-      </AppShell>
-    );
-    expect(screen.queryByRole("button", { name: "Collapse" })).not.toBeInTheDocument();
-
-    rerender(
-      <AppShell nav={nav} onCollapse={onCollapse}>
-        <p>Content</p>
-      </AppShell>
-    );
-    const collapseButton = screen.getByRole("button", { name: "Collapse" });
-    collapseButton.click();
-    expect(onCollapse).toHaveBeenCalledOnce();
-  });
-
-  it("renders the rail variant with icon-only nav items exposing labels via aria-label, flattening sections", () => {
-    render(
-      <AppShell nav={nav} variant="rail">
         <p>Content</p>
       </AppShell>
     );
     expect(screen.getByRole("link", { name: "Home" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Members" })).toBeInTheDocument();
     expect(screen.queryByText("Admin")).not.toBeInTheDocument();
-    expect(screen.getByText("Content")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Collapse" })).not.toBeInTheDocument();
   });
 
   it("renders header and footer content in both variants when provided", () => {
@@ -208,17 +284,7 @@ describe("AppShell", () => {
   });
 
   it("renders the assistant panel as a draggable ResizablePanel when matchMedia reports desktop", () => {
-    const matchMedia = vi.fn().mockReturnValue({
-      matches: true,
-      media: "(min-width: 1024px)",
-      onchange: null,
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-      dispatchEvent: vi.fn()
-    });
-    const original = window.matchMedia;
-    window.matchMedia = matchMedia as unknown as typeof window.matchMedia;
-
+    const restore = mockDesktop(true);
     try {
       render(
         <AppShell nav={nav} assistant={<span>Assistant</span>}>
@@ -241,33 +307,38 @@ describe("AppShell", () => {
       const group = separator.parentElement;
       expect(group).toHaveStyle({ height: "auto" });
     } finally {
-      window.matchMedia = original;
+      restore();
     }
   });
 
   it("binds navigation and count badges to the published AppShell and Badge roles", () => {
-    render(
-      <AppShell nav={nav}>
-        <p>Content</p>
-      </AppShell>
-    );
+    const restore = mockDesktop(true);
+    try {
+      render(
+        <AppShell nav={nav}>
+          <p>Content</p>
+        </AppShell>
+      );
 
-    const desktopHome = screen.getAllByRole("link", { name: /Home/ })[0];
-    const desktopInbox = screen.getAllByRole("link", { name: /Inbox/ })[0];
-    const count = desktopInbox.querySelector("span:last-child");
+      const home = screen.getByRole("link", { name: /Home/ });
+      const inbox = screen.getByRole("link", { name: /Inbox/ });
+      const count = inbox.querySelector("span:last-child");
 
-    expect(desktopHome).toHaveClass(
-      "bg-[var(--color-app-shell-nav-active)]",
-      "text-[var(--color-app-shell-nav-selected-on-action)]"
-    );
-    expect(desktopHome).not.toHaveClass("hover:bg-[var(--color-app-shell-nav-hover)]");
-    expect(desktopInbox).toHaveClass(
-      "text-[var(--color-app-shell-nav-on-action)]",
-      "hover:bg-[var(--color-app-shell-nav-hover)]"
-    );
-    expect(count).toHaveClass(
-      "bg-[var(--color-badge-default-bg)]",
-      "text-[var(--color-badge-default-text)]"
-    );
+      expect(home).toHaveClass(
+        "bg-[var(--color-app-shell-nav-active)]",
+        "text-[var(--color-app-shell-nav-selected-on-action)]"
+      );
+      expect(home).not.toHaveClass("hover:bg-[var(--color-app-shell-nav-hover)]");
+      expect(inbox).toHaveClass(
+        "text-[var(--color-app-shell-nav-on-action)]",
+        "hover:bg-[var(--color-app-shell-nav-hover)]"
+      );
+      expect(count).toHaveClass(
+        "bg-[var(--color-badge-default-bg)]",
+        "text-[var(--color-badge-default-text)]"
+      );
+    } finally {
+      restore();
+    }
   });
 });
