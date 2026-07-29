@@ -1,0 +1,8 @@
+{
+  "_comment": "IconButton component tokens. Sourced from the 'Sizes' reference frame at Figma node 1034:4459 (get_metadata/get_design_context/get_variable_defs, 2026-07-29) — specifically its 'Icon Only - light' instance (node 1035:4738), the first real Figma evidence for a standalone icon-only button. `border-width` is exact, from that instance's bound `Border Width/xs` variable. Height at each size reuses the existing --spacing-{30,34,38,42} tokens directly (the same scale this frame's four Primary Button sizes and AIButton already use) rather than duplicating them here. Only the md (34px) instance is a literal Figma instance; `icon-size-{sm,lg,xl}` are inferred by consistency with the Primary Button symbols' own icon sizes at each tier in this same frame (12/16/18px), not independently sourced for an icon-only context — flagged, not independently verified, the same disclosed-inference pattern already used for Choice Chip's Hover/Focus/Disabled states.",
+  "border-width": { "value": 1.5 },
+  "icon-size-sm": { "value": 12 },
+  "icon-size-md": { "value": 14, "_comment": "Exact — the only size with a literal Icon Only Figma instance; matches the instance's own icon size." },
+  "icon-size-lg": { "value": 16 },
+  "icon-size-xl": { "value": 18 }
+}

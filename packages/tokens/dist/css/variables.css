@@ -457,21 +457,21 @@
   --text-app-button-weight: 500;
   --text-app-button-letter-spacing: 0.14px;
   --text-standard-button-sm-size: 12px;
-  --text-standard-button-sm-line-height: normal;
-  --text-standard-button-sm-weight: 500;
-  --text-standard-button-sm-letter-spacing: 0.12px;
+  --text-standard-button-sm-line-height: 18px;
+  --text-standard-button-sm-weight: 600;
+  --text-standard-button-sm-letter-spacing: 0px;
   --text-standard-button-md-size: 14px;
-  --text-standard-button-md-line-height: normal;
-  --text-standard-button-md-weight: 500;
-  --text-standard-button-md-letter-spacing: 0.14px;
-  --text-standard-button-lg-size: 16px;
-  --text-standard-button-lg-line-height: normal;
-  --text-standard-button-lg-weight: 500;
-  --text-standard-button-lg-letter-spacing: 0.16px;
+  --text-standard-button-md-line-height: 22px;
+  --text-standard-button-md-weight: 600;
+  --text-standard-button-md-letter-spacing: 0px;
+  --text-standard-button-lg-size: 18px;
+  --text-standard-button-lg-line-height: 28px;
+  --text-standard-button-lg-weight: 600;
+  --text-standard-button-lg-letter-spacing: 0px;
   --text-standard-button-xl-size: 18px;
-  --text-standard-button-xl-line-height: normal;
-  --text-standard-button-xl-weight: 500;
-  --text-standard-button-xl-letter-spacing: 0.18px;
+  --text-standard-button-xl-line-height: 28px;
+  --text-standard-button-xl-weight: 600;
+  --text-standard-button-xl-letter-spacing: 0px;
   --text-app-nav-size: 13px;
   --text-app-nav-line-height: 20px;
   --text-app-nav-weight: 500;
@@ -655,6 +655,13 @@
   --toast-close-size: 16px;
   --toast-progress-height: 2px;
   --toast-accent-width: 2px;
+
+  /* IconButton component geometry */
+  --icon-button-border-width: 1.5px;
+  --icon-button-icon-size-sm: 12px;
+  --icon-button-icon-size-md: 14px;
+  --icon-button-icon-size-lg: 16px;
+  --icon-button-icon-size-xl: 18px;
 
   /* semantic: light (default) */
   --color-background-default: #FFFFFF;
