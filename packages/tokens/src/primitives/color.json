@@ -283,5 +283,11 @@
       "button-disabled-border": { "value": "#2C343B" },
       "brand-stroke": { "value": "#594D54" }
     }
+  },
+  "code": {
+    "_comment": "Exact code-block colors sourced from the 'AI Response Components' frame (node 1484:2905), via get_variable_defs, 2026-07-29. `bg` (`bg/code`) is theme-invariant — code blocks stay dark for contrast regardless of the app's light/dark mode, the same convention most code editors and this Figma frame use; there is no separate light/dark instance to evidence a different value. `syntax-keyword`/`syntax-string` are the only two Prism token colors this frame evidences (SQL keywords and string literals); every other syntax-highlighting token color (comment, number, function, etc.) has no Figma evidence and is deliberately left at the default text color in `CodeBlock`'s theme rather than invented.",
+    "bg": { "value": "#111111" },
+    "syntax-keyword": { "value": "#F8A6C9" },
+    "syntax-string": { "value": "#83D197" }
   }
 }

@@ -333,10 +333,20 @@ Exact color values, aliases, modes, font families, font weights, letter spacing,
 ## Status
 
 Final specification, synchronized across React, Web Components, Angular,
-and Storybook from Lumen-AI-Design-System variant/state node `1027:3733` and
-size node `1034:4459`. The size collection was synchronized on 2026-07-23.
+and Storybook from Lumen-AI-Design-System variant/state node `1027:3733`/`1174:1349`
+and size node `1034:4459`. The size collection was synchronized on 2026-07-23.
 The final contract supersedes the previous Raised/Tertiary variants,
 Pressed/Loading/status states, Pill, or Icon-only modifiers.
+
+**Naming note:** React's live `Button` is the shadcn-adapted component (see
+`docs/shadcn-integration.md` §7.8) and names these variants
+`default`/`destructive`/`outline`/`secondary`/`ghost`/`link` rather than
+`Primary`/`Destructive`/`Outline`/`Secondary`/`Ghost`/(no Link) below —
+this section still describes the Figma-side variant/color contract, which
+the live component's `--color-button-*` tokens implement under those
+different names; it was not rewritten to match React's exact prop values.
+`Accent` remains declared in Figma with no built visual states in either
+mode, same as before.
 
 ## Purpose
 
@@ -422,8 +432,12 @@ require confirmation.
 | `lg` |   38px |           16px | 8px | 16px | Instrument Sans Medium 16px, 0.16px letter spacing |
 | `xl` |   42px |           16px | 8px | 18px | Instrument Sans Medium 18px, 0.18px letter spacing |
 
-`md` is the default. All variants use an 8px radius; bordered variants use a
-1px border.
+`md` is the default. All variants use a 10px radius (corrected 2026-07-29
+from the previously documented 8px — Figma's own bound `radius/xl`
+variable on the canonical collection resolves to 10px, not 8px; see
+`packages/tokens/src/radius.json`'s `button` step). `Outline`'s border is
+1.5px (also corrected 2026-07-29); other bordered variants (`Secondary`)
+use a 1px border.
 
 ## States
 
@@ -1375,6 +1389,15 @@ actually satisfies today.
 ---
 
 # 31. AI Response Panel
+
+> Superseded 2026-07-29: §56 (`AIResponseCard`) is the Figma-sourced,
+> implemented specification, named after Figma's own literal label
+> ("AI Response Card") rather than "AI Response Panel". This section's
+> purpose/requirements remain the intent the component serves; its anatomy
+> list below predates any real evidence and doesn't fully match the shipped
+> anatomy — §56 documents what's actually evidenced and shipped. Edit/
+> Accept/Reject/Feedback controls remain unbuilt — not evidenced by node
+> `1484:2905`, not invented.
 
 ## Purpose
 
@@ -3718,3 +3741,435 @@ the native `type="button"` default.
 
 - 2026-07-29: added, sourced from node `1034:4459`'s "Icon Only - light"
   instance.
+
+---
+
+# 55. CodeBlock
+
+## Status
+
+Baseline specification, added 2026-07-29.
+
+## Figma source
+
+- Node: `1484:2905` ("AI Response Components" frame), the code-block region
+- Verified with `get_design_context`, `get_variable_defs`
+- Last synchronized: 2026-07-29
+
+## Purpose
+
+A syntax-highlighted, read-only code display.
+
+## When to use
+
+- Displaying a code sample, query, or configuration snippet — inline
+  content within `AIResponseCard` or anywhere else in the product.
+
+## When not to use
+
+- Editable code — this is a display-only primitive, not an editor.
+
+## Anatomy
+
+```text
+CodeBlock
+└── <pre> (dark background, monospace, syntax-colored tokens)
+```
+
+## Variants
+
+None — one visual treatment, parameterized by `language`.
+
+## Sizes
+
+None.
+
+## States
+
+None — static display.
+
+## Properties
+
+Property contract (framework-neutral):
+
+```text
+code      string, required — the source to display
+language  string, optional (default "sql") — a Prism language identifier
+```
+
+## Reference implementation (React)
+
+```ts
+export interface CodeBlockProps {
+  code: string;
+  language?: Language; // from `prism-react-renderer`
+  className?: string;
+}
+```
+
+Source: `packages/ui/src/primitives/CodeBlock.tsx`. Built on
+`prism-react-renderer` (real Prism-grammar tokenization, not a hand-rolled
+parser), by direct user request ("full fledge reusable codeblock component
+with real syntax highlighter, and reuse this across this design system") —
+this is a new runtime dependency of `@lumen/ui`.
+
+## Behavior
+
+- Renders whatever language grammar Prism supports; not limited to the
+  Figma-evidenced SQL example.
+- No copy button, no line numbers, no editing — kept minimal to what's
+  evidenced. A consumer wanting a copy affordance composes one alongside it
+  (as `AIResponseCard` does, at the card-footer level, not attached to the
+  code block itself — matching Figma's own anatomy).
+
+## Content
+
+Pass real source text; the component does not reformat or validate it.
+
+## Tokens
+
+```text
+color.code.bg               (new primitive, theme-invariant — code blocks
+                              stay dark regardless of app theme)
+color.code.syntax-keyword    (new primitive — SQL keywords/operators, the
+                              only evidenced keyword-family color)
+color.code.syntax-string     (new primitive — string literals, the only
+                              evidenced string-family color)
+color.text.inverse           (reused, exact — plain/unhighlighted token color)
+radius.button                (reused — same 10px value as Button's radius.
+                              corner radius token; see that token's own note
+                              on the shared naming)
+typography.code-md           (reused, exact — Figma "Code/Inline Medium",
+                              14/22/400)
+font-mono                    (reused — Space Mono)
+```
+
+Only 2 of Prism's many token types (`keyword`/`operator`/`builtin`,
+`string`/`char`) have Figma-evidenced colors. Every other token type
+(comment, number, function, punctuation, etc.) renders in the plain
+`text.inverse` color rather than an invented one — recorded as a known
+limitation below, not silently presented as fully designed.
+
+## Accessibility
+
+- Renders semantic `<pre>`; content remains selectable text (not an image).
+- No interactive elements inside the block itself.
+- Color is not the only way information is conveyed — the code's own
+  structure/text carries meaning; syntax color is a enhancement, not the
+  sole signal.
+
+## Responsive behavior
+
+`overflow-x-auto` on the `<pre>` — long lines scroll horizontally rather
+than wrapping or clipping.
+
+## Storybook stories
+
+`Primitives/CodeBlock` — Playground (SQL, the evidenced example),
+TypeScript, JsonExample, Bash — demonstrating real multi-language
+tokenization, not just the one evidenced example.
+
+## Tests
+
+`packages/ui/src/primitives/CodeBlock.test.tsx`: renders code inside a
+`<pre>`; the Figma-exact keyword and string colors apply to the correct
+tokens; plain tokens (identifiers) are not colored as keyword or string;
+a second language (TypeScript) tokenizes correctly, proving this isn't
+hardcoded to the one evidenced SQL example; the `sql` default.
+
+## Code mapping
+
+| Framework | Export      | Source                                    |
+| --------- | ----------- | ------------------------------------------ |
+| React     | `CodeBlock` | `packages/ui/src/primitives/CodeBlock.tsx` |
+
+## Known limitations
+
+- Only 2 Prism token-type colors are Figma-evidenced; all others use the
+  plain text color, not an invented palette.
+- React only. No `@lumen/web-components`/`@lumen/angular` equivalent.
+- No visual-regression coverage; the repo has no such tooling configured.
+
+## Change history
+
+- 2026-07-29: added, sourced from node `1484:2905`.
+
+---
+
+# 56. AIResponseCard
+
+## Status
+
+Baseline specification, added 2026-07-29. Supersedes §31's anatomy list —
+see that section's Status note.
+
+## Figma source
+
+- Node: `1484:2905` ("AI Response Components" frame)
+- Verified with `get_metadata`, `get_design_context`, `get_variable_defs`
+- Last synchronized: 2026-07-29
+
+## Purpose
+
+A structured AI-generated response: title, summary bullets, an optional
+data table, an optional code block, additional collapsed sections, and
+follow-up actions — see §31 for the fuller purpose/requirements narrative
+this component implements (Edit/Accept/Reject/Feedback remain unbuilt,
+not evidenced here).
+
+## When to use
+
+- Presenting a multi-part AI-generated analysis or report inline in the
+  product, where the user needs to review structured content (summary,
+  data, a query) alongside source count and follow-up actions.
+
+## When not to use
+
+- A single short AI reply in a conversational thread — use `AIPanel`'s
+  message bubble instead.
+
+## Anatomy
+
+```text
+AIResponseCard
+├── Header
+│   ├── Bot icon
+│   ├── Title (default "AI Response Card")
+│   └── Model badge (optional, e.g. "claude-fable-5")
+├── First section (always visible)
+│   ├── Section title
+│   ├── Bullet list (optional)
+│   ├── Data table (optional)
+│   └── Code block (optional, via CodeBlock)
+├── Expand control (only when more than one section)
+│   └── "{multiPartLabel} · {N} more section(s)" — reveals remaining sections
+└── Follow-up actions
+    ├── Suggested-action pill (optional, green success styling)
+    ├── Source count (optional, e.g. "2 sources")
+    ├── Copy icon action
+    └── Regenerate icon action
+```
+
+## Variants
+
+None.
+
+## Sizes
+
+None — fluid width, fills its container.
+
+## States
+
+```text
+Sections collapsed (default, when more than one section exists)
+Sections expanded  (via the Collapsible expand control)
+```
+
+## Properties
+
+Property contract (framework-neutral):
+
+```text
+title             string, optional (default "AI Response Card")
+model             string, optional — model badge, omitted when absent
+sections          array, required — { title, bullets?, table?, code? }[];
+                   first renders inline, the rest behind the expand control
+multiPartLabel    string, optional (default "Multi-part response")
+sourcesCount      number, optional — renders "{N} source(s)"
+suggestedAction   { label, onClick? }, optional — the green pill
+onCopy            function(copiedText), optional — called after a
+                   successful clipboard write
+onRegenerate      function, optional — may return a Promise
+```
+
+## Reference implementation (React)
+
+```ts
+export interface AIResponseCardSection {
+  title: string;
+  bullets?: string[];
+  table?: { columns: { key: string; header: string }[]; rows: Record<string, React.ReactNode>[] };
+  code?: { code: string; language?: Language };
+}
+
+export interface AIResponseCardProps {
+  title?: string;
+  model?: string;
+  sections: AIResponseCardSection[];
+  multiPartLabel?: string;
+  sourcesCount?: number;
+  suggestedAction?: { label: string; onClick?: () => void };
+  onCopy?: (copiedText: string) => void;
+  onRegenerate?: () => void | Promise<void>;
+  className?: string;
+}
+```
+
+Source: `packages/ui/src/composite/AIResponseCard.tsx`.
+
+## Behavior
+
+- Only the first section renders unconditionally; additional sections are
+  hidden behind an expand control built on the existing `Collapsible`
+  primitive (Radix) — real keyboard-accessible expand/collapse, not a
+  static visual, per direct user request.
+- The expand control's label is computed: `{multiPartLabel} · {N} more
+  section{s}`, singular/plural handled automatically.
+- The expand control itself is omitted entirely when only one section
+  exists — nothing to expand.
+- **Copy** is fully functional, not a bare passthrough (2026-07-29, direct
+  user request: "make Copy and Refresh iconButtons interactive and
+  functional"): it writes a plain-text rendering of every section (title,
+  bullets, table, code — not just the visible first section) to the
+  clipboard via `navigator.clipboard.writeText`, then shows a temporary
+  "Copied" confirmation (icon swaps to a checkmark, accessible name changes
+  to "Copied", reverts after 2s) before calling the optional
+  `onCopy(copiedText)`. If the Clipboard API rejects (denied permission,
+  insecure context), `onCopy` still fires so the caller can offer a
+  fallback.
+- **Regenerate** is genuinely async-aware: while an `onRegenerate` promise
+  is pending, the button shows a spinner, sets `aria-busy="true"`, and
+  disables itself (preventing duplicate triggers) — the same CSS-spinner
+  treatment already used by `AIButton`/`SplitButton`. This still does not
+  call an AI model or manage generation state itself — it only manages the
+  button's own pending visual state around whatever async work the
+  caller's `onRegenerate` performs.
+- **While Regenerate is pending, the section body (first section plus the
+  expand control) is replaced with a loading skeleton** (`ResponseSkeleton`,
+  built from the existing `Skeleton` primitive) rather than staying static
+  underneath a spinning button — direct user request ("refresh should show
+  the demo skeleton loading... for every refresh"), not Figma-evidenced
+  (this frame has no loading state). `role="status"`/`aria-live="polite"`/
+  `aria-busy="true"` with a visually hidden "Regenerating response" label,
+  the same live-region pattern `ContentState`'s loading state already
+  established.
+- Both Copy and Regenerate have `Tooltip`s (the existing Radix-based
+  `Tooltip` component), direct user request — the tooltip text tracks
+  current state ("Copied"/"Regenerating…") rather than staying static.
+- The suggested-action pill remains a presentational trigger; the caller
+  supplies its behavior via `onClick`.
+
+## Content
+
+- Section titles should be short and scannable ("Executive Summary", not
+  a full sentence).
+- Table headers should be short; long cell content should wrap rather than
+  truncate silently (not yet tested against very long cell values).
+
+## Tokens
+
+```text
+color.text.primary        (new — card title; promoted from app-shell)
+color.text.heading        (new — section titles, table header/cell text;
+                            promoted from app-shell)
+color.text.body           (reused — bullet text; same "text/body reads
+                            lumen-gray.800 vs generic neutral.700" accepted
+                            imperceptible difference already documented for
+                            ContentState/EmptyState)
+color.border.input        (reused, exact — table and card border)
+color.background.app      (reused, exact — table header row background)
+color.background.nav-active (reused, exact — model badge background)
+color.background.raised   (reused — card background)
+color.status.success / .success-subtle (reused, exact — suggested-action
+                            pill text/background)
+color.green.100            (primitive, referenced directly — the pill's
+                            border; a one-off, not promoted to a new
+                            semantic status-border role for a single usage)
+color.icon.default         (reused — Copy/Regenerate icon color; Figma's
+                            exact value is #2B2F2F, this token is #262626 —
+                            an accepted close-but-not-exact reuse, not a new
+                            one-off token for two small secondary icons)
+radius.2xl / radius.button / radius.full (reused, exact)
+typography.input-lg / button-md / title-sm / body-sm / code-sm (all
+                            reused, exact matches for every text style this
+                            frame uses — no new typography tokens needed)
+```
+
+## Accessibility
+
+- The expand control is a real `<button>` (via `CollapsibleTrigger`) with
+  native `aria-expanded` state from Radix; the chevron rotates based on
+  `data-state`, not color alone.
+- Copy and Regenerate actions have explicit `aria-label`s ("Copy response",
+  "Regenerate response") — icon-only controls, no visible text label. Copy's
+  accessible name changes to "Copied" during the temporary confirmation
+  state, not just a visual icon swap, so screen-reader users get the same
+  confirmation sighted users see. Regenerate sets `aria-busy="true"` and the
+  native `disabled` attribute while its promise is pending — the pending
+  state is exposed programmatically, not by spinner color alone.
+- The table uses semantic `<table>`/`<th>`/`<td>` markup.
+- Bullet lists use a semantic `<ul>`/`<li>`.
+
+## Responsive behavior
+
+Fluid width. Table content is not tested against narrow viewports in this
+pass — no Figma breakpoint evidence for this frame.
+
+## Storybook stories
+
+`AI Components/AIResponseCard` — Playground (full anatomy: table + code +
+a second collapsed section), SingleSection (expand control hidden),
+NoTableOrCode (bullets-only section), Interactive (real clipboard copy and
+a simulated 1.5s async regenerate, demonstrating the spinner/disabled
+state).
+
+## Tests
+
+`packages/ui/src/composite/AIResponseCard.test.tsx`: title/model badge/
+first section render; model badge omitted when absent; table renders
+headers and rows; code block renders; expand control hidden with one
+section; expand control shows the correct singular/plural count and stays
+collapsed until activated; expanding reveals additional sections; the
+suggested-action pill and source count render and fire `onClick`; Copy
+writes a plain-text rendering of every section (not just the visible one)
+to the clipboard, calls `onCopy` with that text and shows the "Copied"
+confirmation, and still calls `onCopy` when the Clipboard API rejects;
+Regenerate fires a synchronous `onRegenerate`, shows a spinner and disables
+itself (`aria-busy`/`disabled`) for the duration of an async
+`onRegenerate`, and ignores extra clicks while one is already pending.
+
+## Code mapping
+
+| Framework | Export           | Source                                          |
+| --------- | ---------------- | ------------------------------------------------ |
+| React     | `AIResponseCard` | `packages/ui/src/composite/AIResponseCard.tsx`   |
+
+## Known differences from Figma
+
+Recorded rather than silently closed — see `docs/figma-sync.md`:
+
+- **Table is not built on the existing `DataTable` composite.**
+  `DataTable`'s hardcoded typography/color/radius don't match this frame's
+  evidenced values, and it exposes no override props; rather than force
+  an inexact reuse or widen its API for one new consumer, this renders its
+  own semantic `<table>`. `DataTable` itself was not changed.
+- **Copy/Regenerate icon color** uses the existing generic `icon.default`
+  (`#262626`), not Figma's exact `#2B2F2F` — a small, accepted difference
+  for two secondary icon actions rather than a new one-off token.
+- **Code-block/collapse-trigger radius (10px)** reuses the same
+  `radius.button` token added for Button's own radius correction — same
+  underlying Figma `radius/xl` variable value, flagged (not resolved) as
+  possibly deserving a more generic name in a future foundation pass.
+
+## Known limitations
+
+- React only. No `@lumen/web-components`/`@lumen/angular` equivalent —
+  composite/page-level, same reasoning as `AIPanel`/`PageHeader`.
+- No visual-regression coverage; the repo has no such tooling configured.
+- Not verified with a real screen reader.
+- Long table cell content and very long code lines are not tested against
+  narrow viewports.
+
+## Change history
+
+- 2026-07-29: added, sourced from node `1484:2905`.
+- 2026-07-29 (same day): made Copy and Regenerate functional — real
+  clipboard writes with a temporary "Copied" confirmation, and async-aware
+  Regenerate with a spinner/disabled state — per direct user request
+  ("make Copy and Refresh iconButtons interactive and functional").
+  `onCopy`'s signature changed from `() => void` to
+  `(copiedText: string) => void` and `onRegenerate`'s from `() => void` to
+  `() => void | Promise<void>` — both still pre-release (unshipped in any
+  published version), so this is not recorded as a breaking change.
+- 2026-07-29 (same day): added a loading skeleton during Regenerate and
+  tooltips on both footer icon actions, per direct user follow-up requests.

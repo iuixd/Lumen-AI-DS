@@ -755,6 +755,16 @@ AIEditableOutput
 AIReviewPanel
 ```
 
+`AIActionButton` shipped as `AIButton` (§7 uses the Button architecture
+directly; see `docs/component-specifications.md` §46). `AIResponse` shipped
+2026-07-29 as `AIResponseCard` (`docs/component-specifications.md` §56),
+sourced from Figma node `1484:2905` — named after Figma's own literal
+label rather than this list's name. `AIConfidence`/`AICitation`/
+`AIFeedback`/`AIStatus`/`AIEditableOutput`/`AIReviewPanel` remain unbuilt;
+`AIResponseCard`'s sources count and follow-up actions cover a subset of
+what `AICitation`/`AIFeedback` describe, but not a full implementation of
+either.
+
 ## 8.2 Required AI states
 
 ```text

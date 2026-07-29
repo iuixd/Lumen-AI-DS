@@ -1,6 +1,7 @@
 // Primitives
 export * from "./primitives/AIButton";
 export * from "./primitives/IconButton";
+export * from "./primitives/CodeBlock";
 export * from "./primitives/ai-capabilities";
 export * from "./primitives/TextLink";
 export * from "./primitives/Badge";
@@ -74,6 +75,7 @@ export * from "./composite/Toast";
 export * from "./composite/SplitButton";
 export * from "./composite/PageHeader";
 export * from "./composite/AIPanel";
+export * from "./composite/AIResponseCard";
 
 // Layout
 export * from "./layout/Container";
