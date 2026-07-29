@@ -1,5 +1,6 @@
 // Primitives
 export * from "./primitives/AIButton";
+export * from "./primitives/IconButton";
 export * from "./primitives/ai-capabilities";
 export * from "./primitives/TextLink";
 export * from "./primitives/Badge";

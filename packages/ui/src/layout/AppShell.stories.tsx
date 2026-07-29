@@ -129,6 +129,7 @@ function SearchBar() {
           aria-label="Type your question"
           placeholder="Type your question..."
           className="h-auto flex-1 border-0 bg-transparent p-0 hover:border-0 focus-visible:border-0"
+          style={{ lineHeight: "var(--spacing-20)" }}
         />
         <Kbd className="h-auto shrink-0 rounded-[var(--radius-sm)] border border-[var(--color-app-shell-border-default)] bg-[var(--color-app-shell-surface)] px-[var(--spacing-4)] py-0 text-[var(--color-input-search-icon)]">
           ⌘K
@@ -347,17 +348,17 @@ function DesktopContent() {
           <>
             <Button
               variant="secondary"
-              className="h-[var(--spacing-34)] rounded-[var(--radius-lg)] px-[var(--spacing-14)] py-[var(--spacing-7)] text-button-md"
+              className="rounded-[var(--radius-lg)] px-[var(--spacing-14)] py-[var(--spacing-7)] text-button-md"
             >
               Share
             </Button>
             <Button
               variant="secondary"
-              className="h-[var(--spacing-34)] rounded-[var(--radius-lg)] px-[var(--spacing-14)] py-[var(--spacing-7)] text-button-md"
+              className="rounded-[var(--radius-lg)] px-[var(--spacing-14)] py-[var(--spacing-7)] text-button-md"
             >
               Export
             </Button>
-            <Button className="h-[var(--spacing-34)] rounded-[var(--radius-lg)] px-[var(--spacing-14)] py-[var(--spacing-7)] text-button-md">
+            <Button className="rounded-[var(--radius-lg)] px-[var(--spacing-14)] py-[var(--spacing-7)] text-button-md">
               <PlusIcon className="size-[var(--spacing-14)]" aria-hidden />
               New project
             </Button>

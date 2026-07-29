@@ -404,15 +404,37 @@ Avoid implicit browser defaults.
 
 ## Standard Button scale
 
-The standard Button size reference at Figma node `1034:4459` defines four
-Instrument Sans Medium label tiers:
+The "Sizes" reference frame at Figma node `1034:4459` defines four
+Instrument Sans SemiBold label tiers. **Despite the token names, this
+scale's real, live consumer is `AIButton`** (`packages/ui/src/primitives/AIButton.tsx`),
+not `Button` — the original hand-built `Button` primitive this scale was
+named after was retired and replaced by a shadcn-sourced `Button` with an
+unrelated size/type system (see `docs/shadcn-integration.md` §7.8). The
+`standard-button-*` name is a historical relic kept for backward
+compatibility.
 
-| Runtime token        | Font size | Line height | Letter spacing |
-| -------------------- | --------: | ----------- | -------------: |
-| `standard-button-sm` |      12px | normal      |         0.12px |
-| `standard-button-md` |      14px | normal      |         0.14px |
-| `standard-button-lg` |      16px | normal      |         0.16px |
-| `standard-button-xl` |      18px | normal      |         0.18px |
+Corrected 2026-07-29 via a fresh `get_variable_defs` pull — weight is
+SemiBold/600 (was documented as Medium/500), letter-spacing is exactly 0
+for every bound tier (was a positive per-size value), and line-height now
+has exact bound px values (was unset/`normal`):
+
+| Runtime token        | Font size | Line height | Weight | Letter spacing |
+| -------------------- | --------: | ----------: | -----: | --------------: |
+| `standard-button-sm` |      12px |         18px |    600 |              0px |
+| `standard-button-md` |      14px |         22px |    600 |              0px |
+| `standard-button-lg` |      18px |         28px |    600 |              0px |
+| `standard-button-xl` |      18px |         28px |    600 |              0px |
+
+`standard-button-lg` has no independent `Button/Large` Figma variable —
+the Large instance's own label binds directly to the same `Button/XLarge`
+variable as the X-Large instance, so `lg` is now identical to `xl`. This
+was a direct user decision (confirmed, not inferred) after the ambiguity
+was flagged.
+
+This same frame also has the first real Figma evidence for a standalone
+icon-only button (`Icon Only - light`, node `1035:4738`, 34px, secondary
+Button coloring) — see `docs/component-specifications.md`'s IconButton
+section and `packages/tokens/src/icon-button.json`.
 
 The Split Button AI dropdown at node `1046:1875` uses
 `typography.ai-menu-item`: Instrument Sans Regular, 14px size, and 16px

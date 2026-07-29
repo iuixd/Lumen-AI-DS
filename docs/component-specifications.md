@@ -559,6 +559,14 @@ The React Storybook implements all four required stories.
 
 # 6. Icon Button
 
+> Superseded 2026-07-29: §54 is the Figma-sourced, implemented
+> specification. This section's Purpose/Requirements prose remains the
+> intent the component serves; the Variants/Sizes lists and the
+> `variant="danger"` example below predate any real evidence and don't
+> match the shipped API — §54's `default | destructive | outline |
+> secondary | ghost | link` variant set (reusing `Button`'s own live token
+> family) replaces `Primary | Secondary | Ghost | Danger | AI` below.
+
 ## Purpose
 
 Icon Button provides a compact control for a familiar action represented by an icon.
@@ -3509,3 +3517,204 @@ Recorded rather than silently closed — see `docs/figma-sync.md`:
 
 - 2026-07-29: added, sourced from node `1475:5100`. Icon size adjusted to
   28px per direct user instruction after the initial sync.
+
+---
+
+# 54. IconButton
+
+## Status
+
+Baseline specification, added 2026-07-29. Supersedes §6's Variants/Sizes
+lists — see that section's Status note.
+
+## Figma source
+
+- Node: `1034:4459` ("Sizes" reference frame)
+- Instance: `1035:4738` ("Icon Only - light")
+- Verified with `get_metadata`, `get_design_context`, `get_variable_defs`
+- Last synchronized: 2026-07-29
+
+## Purpose
+
+A compact control for a familiar action represented by an icon alone — see
+§6 for the full purpose/requirements narrative this component implements.
+
+## When to use
+
+- A familiar, unambiguous action in a compact space (toolbar, table row,
+  card header) where a labeled `Button` would be too wide.
+
+## When not to use
+
+- The action's meaning isn't universally clear without a label — use
+  `Button` with a visible label instead, or pair with a tooltip.
+
+## Anatomy
+
+```text
+IconButton
+└── Icon slot (aria-hidden — the accessible name comes from aria-label)
+```
+
+## Variants
+
+Reuses `Button`'s live variant vocabulary and `--color-button-*` token
+family directly — the same shadcn-adapted set `Button` and `AIButton`
+already share:
+
+```text
+default
+destructive
+outline
+secondary   (default — the only variant with a literal Figma instance)
+ghost
+link
+```
+
+Only `secondary` at `size="md"` matches the Figma "Icon Only - light"
+instance exactly. The other five variants reuse the same already-Figma-synced
+`--color-button-*` roles applied to this new icon-only geometry —
+consistent by construction, not independently sourced per variant.
+
+## Sizes
+
+```text
+sm    30px, 12px icon
+md    34px, 14px icon   (default — the only size with a literal Figma instance)
+lg    38px, 16px icon
+xl    42px, 18px icon
+```
+
+Heights reuse the same `--spacing-{30,34,38,42}` tokens `AIButton` and this
+same Figma frame's Primary Button sizes use. Icon-glyph sizes at
+`sm`/`lg`/`xl` are inferred by consistency with this frame's Primary Button
+icon sizes (12/16/18px) — not independently sourced icon-only instances.
+
+## States
+
+```text
+Default
+Hover     (via Button's existing per-variant hover tokens)
+Focus     (Button's shared focus-ring token)
+Disabled  (native disabled attribute; Button's disabled tokens)
+```
+
+No Loading state — not evidenced by this Figma instance, not implemented.
+
+## Properties
+
+Figma properties: none exposed as component properties on this frame (a
+single instance alongside the four Button sizes, not a component-set with
+variant properties).
+
+Property contract (framework-neutral):
+
+```text
+icon      renderable content (icon), required — IconButton has no text label
+variant   enum: default | destructive | outline | secondary | ghost | link (default: secondary)
+size      enum: sm | md | lg | xl (default: md)
+disabled  boolean
+```
+
+Plus every native `<button>` attribute (`onClick`, `type`, `aria-label`,
+`aria-labelledby`, etc.).
+
+## Reference implementation (React)
+
+```ts
+export interface IconButtonProps
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "children"> {
+  icon: React.ReactNode;
+  variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
+  size?: "sm" | "md" | "lg" | "xl";
+}
+```
+
+Source: `packages/ui/src/primitives/IconButton.tsx`.
+
+```tsx
+<IconButton aria-label="Delete record" icon={<TrashIcon />} variant="destructive" size="md" />
+```
+
+## Behavior
+
+- Native `<button type="button">` — never submits an enclosing form.
+- Disabled buttons do not receive interaction (native `disabled` attribute).
+- Focus-visible treatment uses the shared `--color-button-focus-ring` token.
+
+## Content
+
+- No visible label. The accessible name is the only text a screen-reader
+  user gets — keep it a short, specific verb phrase ("Delete record"), not
+  a generic one ("More").
+
+## Tokens
+
+```text
+color.button.{variant}-{bg,on-action,border,hover-*}   (reused, exact —
+                                                          same tokens Button/AIButton use)
+radius.lg                                               (reused, exact — 8px)
+icon-button.border-width                                (new — 1.5px, exact)
+icon-button.icon-size-{sm,md,lg,xl}                     (new — md exact,
+                                                          sm/lg/xl inferred by consistency)
+spacing.{30,34,38,42}                                   (reused, exact — same scale as AIButton)
+```
+
+## Accessibility
+
+- An accessible name (`aria-label` or `aria-labelledby`) is required — a
+  dev-time `console.warn` fires when both are missing, matching `AIButton`'s
+  `iconOnly` convention.
+- The icon itself is `aria-hidden` — decorative; the accessible name
+  carries the meaning, not the glyph.
+- Target size: `sm` (30px) is below the 44×44 preferred touch target
+  (`docs/accessibility.md` §3.3) but meets the 24×24 minimum; `md`/`lg`/`xl`
+  (34/38/42px) meet the preferred minimum in one dimension.
+
+## Responsive behavior
+
+Fixed square dimensions per size, per Figma. No responsive variants.
+
+## Storybook stories
+
+`Primitives/IconButton` — Playground, VariantCollection, Sizes, Examples,
+Disabled.
+
+## Tests
+
+`packages/ui/src/primitives/IconButton.test.tsx`: the Figma-evidenced
+secondary/md default; each variant binds a `--color-button-*` token; each
+size binds its geometry; the icon is `aria-hidden`; `aria-labelledby` works
+as an alternative to `aria-label`; the dev-time accessible-name warning
+fires (and doesn't, when a name is present); `onClick`/`disabled` behavior;
+the native `type="button"` default.
+
+## Code mapping
+
+| Framework | Export       | Source                                       |
+| --------- | ------------ | --------------------------------------------- |
+| React     | `IconButton` | `packages/ui/src/primitives/IconButton.tsx`  |
+
+## Known differences from Figma
+
+- **Only one variant/size combination is a literal Figma instance.** The
+  other 23 combinations reuse already-Figma-synced `Button` color tokens
+  and this same frame's Primary Button icon-size ladder, by consistency —
+  not independently sourced. Recorded, not silently presented as verified.
+- **Variant vocabulary reuses `Button`'s live token family**, not the
+  Primary/Secondary/Ghost/Danger/AI list in §6 — direct user decision,
+  since that older vocabulary has no live component behind it (the
+  original `Button` primitive it described was retired; see
+  `docs/shadcn-integration.md` §7.8).
+
+## Known limitations
+
+- React only. No `@lumen/web-components`/`@lumen/angular` equivalent —
+  both packages are Button-only proofs of concept.
+- No Loading state (not evidenced).
+- No visual-regression coverage; the repo has no such tooling configured.
+
+## Change history
+
+- 2026-07-29: added, sourced from node `1034:4459`'s "Icon Only - light"
+  instance.

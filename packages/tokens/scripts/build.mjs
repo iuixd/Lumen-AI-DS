@@ -26,6 +26,7 @@ const input = JSON.parse(readFileSync(path.join(srcDir, "input.json"), "utf8"));
 const motion = JSON.parse(readFileSync(path.join(srcDir, "motion.json"), "utf8"));
 const contentState = JSON.parse(readFileSync(path.join(srcDir, "content-state.json"), "utf8"));
 const toast = JSON.parse(readFileSync(path.join(srcDir, "toast.json"), "utf8"));
+const iconButton = JSON.parse(readFileSync(path.join(srcDir, "icon-button.json"), "utf8"));
 
 function kebab(str) {
   return String(str).replace(/[._]/g, "-");
@@ -145,6 +146,10 @@ for (const [key, value] of Object.entries(flattenValueTokens(contentState))) {
 css += "\n  /* Toast component geometry */\n";
 for (const [key, value] of Object.entries(flattenValueTokens(toast))) {
   css += `  --toast-${kebab(key)}: ${value}px;\n`;
+}
+css += "\n  /* IconButton component geometry */\n";
+for (const [key, value] of Object.entries(flattenValueTokens(iconButton))) {
+  css += `  --icon-button-${kebab(key)}: ${value}px;\n`;
 }
 
 // :root carries the light theme as the default — every consuming app gets
@@ -366,6 +371,7 @@ export const input = ${JSON.stringify(input, null, 2)} as const;
 export const motion = ${JSON.stringify(motion, null, 2)} as const;
 export const contentState = ${JSON.stringify(contentState, null, 2)} as const;
 export const toast = ${JSON.stringify(toast, null, 2)} as const;
+export const iconButton = ${JSON.stringify(iconButton, null, 2)} as const;
 
 export type ColorPrimitive = keyof typeof colorPrimitives;
 export type SpacingLayoutKey = keyof typeof spacing.layout;
@@ -377,6 +383,7 @@ export type DurationKey = keyof typeof motion.duration;
 export type EasingKey = keyof typeof motion.easing;
 export type ContentStateToken = Exclude<keyof typeof contentState, "_comment">;
 export type ToastToken = Exclude<keyof typeof toast, "_comment">;
+export type IconButtonToken = Exclude<keyof typeof iconButton, "_comment">;
 `;
 writeFileSync(path.join(distDir, "index.ts"), indexTs);
 
