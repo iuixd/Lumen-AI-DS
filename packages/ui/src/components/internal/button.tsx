@@ -55,9 +55,20 @@ import { cn } from "../../lib/cn"
  * match the `md` height `AIButton`/`IconButton` use from the same
  * 30/34/38/42px scale (Figma node `1034:4459`). `sm`/`lg`/`icon` sizes are
  * unchanged.
+ *
+ * 2026-07-29 (same day, re-audit of the full canonical collection, node
+ * `1174:1349`, at direct user request): radius changed from shadcn's own
+ * `rounded-md` (6px, never token-backed) to the new `--radius-button`
+ * (10px) — Figma's own bound `radius/xl` variable on this node resolves to
+ * 10px, not the 8px this component previously shipped with (see
+ * `radius.json`'s note on the new `button` step). `outline`'s border
+ * thickened from the plain `border` (1px) to `border-[1.5px]`, matching
+ * Figma's evidenced Outline border width; `secondary` remains 1px, also
+ * matching Figma. `ghost`'s text/hover-bg color fix lives in
+ * `packages/tokens/src/semantic/color.json` (`_buttonComment`), not here.
  */
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-label-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-button-focus-ring)] disabled:pointer-events-none disabled:border-transparent disabled:bg-[var(--color-button-disabled-bg)] disabled:text-[var(--color-button-disabled-on-action)] [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[var(--radius-button)] text-label-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-button-focus-ring)] disabled:pointer-events-none disabled:border-transparent disabled:bg-[var(--color-button-disabled-bg)] disabled:text-[var(--color-button-disabled-on-action)] [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -66,7 +77,7 @@ const buttonVariants = cva(
         destructive:
           "bg-[var(--color-button-destructive-bg)] text-[var(--color-button-destructive-on-action)] hover:bg-[var(--color-button-destructive-hover-bg)]",
         outline:
-          "border border-[var(--color-button-outline-border)] bg-[var(--color-button-outline-bg)] text-[var(--color-button-outline-on-action)] hover:border-[var(--color-button-outline-hover-border)] hover:bg-[var(--color-button-outline-hover-bg)] hover:text-[var(--color-button-outline-hover-on-action)]",
+          "border-[1.5px] border-[var(--color-button-outline-border)] bg-[var(--color-button-outline-bg)] text-[var(--color-button-outline-on-action)] hover:border-[var(--color-button-outline-hover-border)] hover:bg-[var(--color-button-outline-hover-bg)] hover:text-[var(--color-button-outline-hover-on-action)]",
         secondary:
           "border border-[var(--color-button-secondary-border)] bg-[var(--color-button-secondary-bg)] text-[var(--color-button-secondary-on-action)] hover:border-[var(--color-button-secondary-hover-border)] hover:bg-[var(--color-button-secondary-hover-bg)] hover:text-[var(--color-button-secondary-hover-on-action)]",
         ghost:
@@ -75,8 +86,8 @@ const buttonVariants = cva(
       },
       size: {
         default: "h-[var(--spacing-34)] px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-label-sm",
-        lg: "h-10 rounded-md px-8",
+        sm: "h-8 px-3 text-label-sm",
+        lg: "h-10 px-8",
         icon: "h-9 w-9"
       }
     },

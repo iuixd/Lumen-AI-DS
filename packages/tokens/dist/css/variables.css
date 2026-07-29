@@ -218,6 +218,9 @@
   --color-app-shell-dark-button-disabled-bg: #20272D;
   --color-app-shell-dark-button-disabled-border: #2C343B;
   --color-app-shell-dark-brand-stroke: #594D54;
+  --color-code-bg: #111111;
+  --color-code-syntax-keyword: #F8A6C9;
+  --color-code-syntax-string: #83D197;
 
   /* spacing (layout scale, Figma-sourced) */
   --spacing-layout-xs: 8px;
@@ -281,6 +284,7 @@
   --radius-md: 6px;
   --radius-lg: 8px;
   --radius-app-search: 10px;
+  --radius-button: 10px;
   --radius-pill: 100px;
   --radius-xl: 12px;
   --radius-2xl: 16px;
@@ -682,6 +686,8 @@
   --color-text-disabled: #9F9F9F;
   --color-text-secondary: #626B6E;
   --color-text-brand: #4C0018;
+  --color-text-primary: #1E2021;
+  --color-text-heading: #2B2F2F;
   --color-border-default: #DFDFDF;
   --color-border-strong: #9F9F9F;
   --color-border-focus: #BE003C;
@@ -755,8 +761,8 @@
   --color-button-outline-hover-border: #D8668A;
   --color-button-outline-focus-border: #E599B1;
   --color-button-ghost-bg: #00000000;
-  --color-button-ghost-on-action: #2B2F2F;
-  --color-button-ghost-hover-bg: #DBE1E2;
+  --color-button-ghost-on-action: #BE003C;
+  --color-button-ghost-hover-bg: #F9E6EC;
   --color-button-link-on-action: #BE003C;
   --color-button-destructive-bg: #DA1E28;
   --color-button-destructive-on-action: #FFFFFF;
@@ -864,6 +870,8 @@
   --color-text-disabled: #5E5E5E;
   --color-text-secondary: #EDF0F1;
   --color-text-brand: #E599B1;
+  --color-text-primary: #F5EFF3;
+  --color-text-heading: #F9F3F7;
   --color-border-default: #4C4C4C;
   --color-border-strong: #7F7F7F;
   --color-border-focus: #D8668A;

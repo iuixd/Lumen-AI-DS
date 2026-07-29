@@ -1,11 +1,12 @@
 {
-  "_comment": "Sourced from Figma 'Lumen-AI-Design-System' file, page 'Design Tokens' > '05 Radius' (fileKey GJBYRm6ySR7XIECFcHMgy2, node 511:78). pill=100 was added from the Badge component collection at node 1079:893, where it is bound as radius/pill. chat-bubble=18 was added 2026-07-26 from the AIPanel component (node 1079:3141), the User Prompt/Bot Response bubbles' three rounded corners — no existing step matches 18px (2xl=16 and 3xl=24 are the nearest neighbors).",
+  "_comment": "Sourced from Figma 'Lumen-AI-Design-System' file, page 'Design Tokens' > '05 Radius' (fileKey GJBYRm6ySR7XIECFcHMgy2, node 511:78). pill=100 was added from the Badge component collection at node 1079:893, where it is bound as radius/pill. chat-bubble=18 was added 2026-07-26 from the AIPanel component (node 1079:3141), the User Prompt/Bot Response bubbles' three rounded corners — no existing step matches 18px (2xl=16 and 3xl=24 are the nearest neighbors). button=10 was added 2026-07-29, re-verified via a fresh `get_variable_defs`/`get_design_context` pull on the canonical Button collection (node 1174:1349): its own bound `radius/xl` variable resolves to 10px, not the documented 8px (Lg) this component previously shipped with, and not the 12px the same-named `Xl` step in the generic Radius scale documents either — treated as the Button component's own real, current value (direct user confirmation to update the codebase to match), not a correction to the generic Xl step, which is left alone pending a dedicated foundation-level re-audit.",
   "none": { "value": 0 },
   "xs": { "value": 2 },
   "sm": { "value": 4 },
   "md": { "value": 6 },
   "lg": { "value": 8 },
   "app-search": { "value": 10 },
+  "button": { "value": 10 },
   "pill": { "value": 100 },
   "xl": { "value": 12 },
   "2xl": { "value": 16 },
