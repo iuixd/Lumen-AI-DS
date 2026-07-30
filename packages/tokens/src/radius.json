@@ -12,5 +12,6 @@
   "2xl": { "value": 16 },
   "3xl": { "value": 24 },
   "chat-bubble": { "value": 18 },
+  "xxxl": { "value": 18, "_comment": "Sourced from the new FileUploadDropzone card (Lumen-AI-Design-System node 1511:2702, 'Upload Component' section), whose own bound `radius/xxxl` variable resolves to 18px — the same value as chat-bubble but a distinct Figma-named step and role (a generic card corner, not the chat-bubble-specific token), matching this file's existing precedent of keeping component-scoped and generic-scale steps separate even when they briefly coincide in value (see button=10 alongside app-search=10 above)." },
   "full": { "value": 9999 }
 }

@@ -1,0 +1,41 @@
+import { Meta, Canvas } from "@storybook/blocks";
+import * as FileUploadProgressListStories from "./FileUploadProgressList.stories";
+
+<Meta of={FileUploadProgressListStories} />
+
+# FileUploadProgressList
+
+The accordion-grouped, per-file upload progress view that follows `FileUploadDropzone` once
+files are selected. Files are pre-grouped by the caller (e.g. by document type) into
+`FileUploadGroupData[]`; each group renders as an `Accordion` item with a folder-style header,
+an aggregate progress bar while any file in it is still uploading, and a removable row per file.
+
+<Canvas of={FileUploadProgressListStories.Uploading} />
+
+## Complete
+
+<Canvas of={FileUploadProgressListStories.Complete} />
+
+## Creating Project
+
+<Canvas of={FileUploadProgressListStories.CreatingProject} />
+
+## Live progress
+
+<Canvas of={FileUploadProgressListStories.LiveProgress} />
+
+## Props
+
+| Prop | Type | Notes |
+|---|---|---|
+| `groups` | `FileUploadGroupData[]` | `{ id, name, files: FileUploadFile[] }` |
+| `FileUploadFile` | — | `{ id, name, sizeLabel, status: "uploading" \| "uploaded" \| "error", progress? }` |
+| `onRemoveFile` | `(groupId, fileId) => void` | Called from each row's remove button |
+| `cancelLabel` / `onCancel` | `string` / `() => void` | Footer's ghost button |
+| `primaryActionLabel` / `onPrimaryAction` | `string` / `() => void` | Footer's primary button, default label "Create Project" |
+| `primaryActionLoading` | `boolean` | Shows the disabled "Creating Project…" state |
+| `primaryActionDisabled` | `boolean` | |
+
+This component doesn't drive progress itself — pass already-computed `progress`/`status` per
+file and update `groups` from wherever the real (or simulated) upload lives. See
+`DataExtractionOnboardingPage` for a full example wired to a timer-driven simulation.

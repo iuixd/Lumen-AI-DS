@@ -460,6 +460,7 @@ module.exports = {
   "2xl": "var(--radius-2xl)",
   "3xl": "var(--radius-3xl)",
   "chat-bubble": "var(--radius-chat-bubble)",
+  "xxxl": "var(--radius-xxxl)",
   "full": "var(--radius-full)"
 },
       fontSize: {

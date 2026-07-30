@@ -12,6 +12,7 @@ import { cn } from "../lib/cn";
 import { InfoOutlinedIcon } from "../icons/generated/InfoOutlinedIcon";
 import { WarningAmberOutlinedIcon } from "../icons/generated/WarningAmberOutlinedIcon";
 import { CloseFilledIcon } from "../icons/generated/CloseFilledIcon";
+import { CircleCheckIcon } from "../icons/generated/CircleCheckIcon";
 
 /**
  * Toast — brief, non-blocking feedback following an action.
@@ -34,9 +35,19 @@ export interface ToastItem {
   id: string;
   title: string;
   description?: string;
-  tone?: "neutral" | "info" | "success" | "warning" | "error";
+  tone?: "neutral" | "info" | "success" | "warning" | "error" | "celebration";
   /** Overrides the tone's default status icon. Pass `null` to render no icon. */
   icon?: ReactNode;
+  /**
+   * `"card"` (default) is the original light card with a tone-colored left
+   * border and accent. `"solid"` fills the whole card with the tone's
+   * accent color and switches to white text/icon/close/progress — sourced
+   * from the "Upload Component" section's `Toast` instance (node
+   * `1519:6185`, `type="SystemInfo"`, `bg/toaster-systeminfo-bg` =
+   * deep-purple.700), the first real evidence for anything but the plain
+   * card treatment.
+   */
+  variant?: "card" | "solid";
 }
 
 interface ToastContextValue {
@@ -69,22 +80,26 @@ const accentVar: Record<Tone, string> = {
   info: "var(--color-toast-info-accent)",
   success: "var(--color-status-success)",
   warning: "var(--color-status-warning)",
-  error: "var(--color-status-error)"
+  error: "var(--color-status-error)",
+  celebration: "var(--color-deep-purple-700)"
 };
 
 const defaultIcon: Partial<Record<Tone, ReactNode>> = {
   info: <InfoOutlinedIcon className="size-full" />,
   warning: <WarningAmberOutlinedIcon className="size-full" />,
-  error: <WarningAmberOutlinedIcon className="size-full" />
+  error: <WarningAmberOutlinedIcon className="size-full" />,
+  celebration: <CircleCheckIcon className="size-full" />
 };
 
 const DISMISS_LABEL = "Dismiss notification";
 
 function ToastCard({ toast, onDismiss }: { toast: ToastItem; onDismiss: (id: string) => void }) {
   const tone = toast.tone ?? "neutral";
+  const variant = toast.variant ?? "card";
   const durationMs: number = motion.duration.toast.value;
   const accent = accentVar[tone];
   const icon = toast.icon !== undefined ? toast.icon : defaultIcon[tone];
+  const isSolid = variant === "solid";
 
   const remainingRef = useRef(durationMs);
   const startedAtRef = useRef(0);
@@ -137,10 +152,16 @@ function ToastCard({ toast, onDismiss }: { toast: ToastItem; onDismiss: (id: str
       onMouseLeave={resume}
       onFocus={pause}
       onBlur={resume}
-      className="relative w-[var(--toast-width)] overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border-default)] bg-[var(--color-background-raised)]"
+      className={cn(
+        "relative w-[var(--toast-width)] overflow-hidden rounded-[var(--radius-lg)] border",
+        isSolid
+          ? "border-transparent text-[var(--color-neutral-white)]"
+          : "border-[var(--color-border-default)] bg-[var(--color-background-raised)]"
+      )}
       style={{
-        borderLeftColor: accent,
-        borderLeftWidth: "var(--toast-accent-width)",
+        background: isSolid ? accent : undefined,
+        borderLeftColor: isSolid ? undefined : accent,
+        borderLeftWidth: isSolid ? undefined : "var(--toast-accent-width)",
         // Tailwind's `shadow-[var(--shadow-toast-default)]` arbitrary-value
         // utility misparses a bare var() as a shadow *color* hint
         // (--tw-shadow-color) rather than the full shadow value, so
@@ -156,17 +177,29 @@ function ToastCard({ toast, onDismiss }: { toast: ToastItem; onDismiss: (id: str
       <div className="flex flex-col gap-[var(--spacing-8)] px-[var(--spacing-32)] py-[var(--spacing-24)] pr-[var(--spacing-40)]">
         <div className="flex items-center gap-[var(--spacing-16)]">
           {icon && (
-            <span aria-hidden className="size-[var(--toast-icon-size)] shrink-0" style={{ color: accent }}>
+            <span
+              aria-hidden
+              className="size-[var(--toast-icon-size)] shrink-0"
+              style={{ color: isSolid ? "var(--color-neutral-white)" : accent }}
+            >
               {icon}
             </span>
           )}
-          <p className="min-w-0 flex-1 text-input-lg text-[var(--color-toast-title-text)]">
+          <p
+            className={cn(
+              "min-w-0 flex-1 text-input-lg",
+              isSolid ? "font-bold text-[var(--color-neutral-white)]" : "text-[var(--color-toast-title-text)]"
+            )}
+          >
             {toast.title}
           </p>
         </div>
         {toast.description && (
           <p
-            className="text-body-sm text-[var(--color-text-secondary)]"
+            className={cn(
+              "text-body-sm",
+              isSolid ? "text-[var(--color-neutral-white-a72)]" : "text-[var(--color-text-secondary)]"
+            )}
             style={
               icon ? { paddingLeft: "calc(var(--toast-icon-size) + var(--spacing-16))" } : undefined
             }
@@ -180,7 +213,12 @@ function ToastCard({ toast, onDismiss }: { toast: ToastItem; onDismiss: (id: str
         type="button"
         aria-label={DISMISS_LABEL}
         onClick={() => onDismiss(toast.id)}
-        className="absolute right-[var(--spacing-8)] top-[var(--spacing-8)] flex size-[var(--toast-close-size)] items-center justify-center text-[var(--color-text-secondary)] hover:text-[var(--color-toast-title-text)]"
+        className={cn(
+          "absolute right-[var(--spacing-8)] top-[var(--spacing-8)] flex size-[var(--toast-close-size)] items-center justify-center",
+          isSolid
+            ? "text-[var(--color-neutral-white-a72)] hover:text-[var(--color-neutral-white)]"
+            : "text-[var(--color-text-secondary)] hover:text-[var(--color-toast-title-text)]"
+        )}
       >
         <CloseFilledIcon className="size-full" />
       </button>
@@ -189,7 +227,7 @@ function ToastCard({ toast, onDismiss }: { toast: ToastItem; onDismiss: (id: str
         aria-hidden
         className="lumen-toast-progress motion-reduce:animate-none absolute inset-x-0 bottom-0 h-[var(--toast-progress-height)]"
         style={{
-          backgroundColor: accent,
+          backgroundColor: isSolid ? "var(--color-neutral-white-a32)" : accent,
           animationPlayState: paused ? "paused" : "running"
         }}
       />

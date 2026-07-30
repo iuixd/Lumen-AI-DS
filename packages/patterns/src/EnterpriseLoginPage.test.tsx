@@ -151,4 +151,14 @@ describe("EnterpriseLoginPage", () => {
     await user.click(checkbox);
     expect(checkbox).not.toBeChecked();
   });
+
+  it("calls onComplete once the passkey ceremony reaches Signed in", async () => {
+    const user = userEvent.setup();
+    const onComplete = vi.fn();
+    const onStartPasskey = vi.fn().mockResolvedValue(true);
+    render(<EnterpriseLoginPage onStartPasskey={onStartPasskey} onComplete={onComplete} />);
+    await user.click(screen.getByRole("button", { name: "Continue with passkey" }));
+    await waitFor(() => expect(screen.getByRole("heading", { name: "Signed in" })).toBeInTheDocument());
+    expect(onComplete).toHaveBeenCalledOnce();
+  });
 });
