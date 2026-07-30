@@ -77,6 +77,8 @@ export * from "./composite/SplitButton";
 export * from "./composite/PageHeader";
 export * from "./composite/AIPanel";
 export * from "./composite/AIResponseCard";
+export * from "./composite/FileUploadDropzone";
+export * from "./composite/FileUploadProgressList";
 
 // Layout
 export * from "./layout/Container";

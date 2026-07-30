@@ -159,6 +159,34 @@ export const PauseOnHover: Story = {
   }
 };
 
+/**
+ * The `solid` variant fills the card with the tone's accent color instead
+ * of a light card with a left-border accent — sourced from the "Upload
+ * Component" section's Toast instance (node `1519:6185`, `type=
+ * "SystemInfo"`), used by `DataExtractionOnboardingPage`'s "Files
+ * uploaded!" confirmation.
+ */
+export const Solid: Story = {
+  render: () => {
+    function SolidDemo() {
+      const { push } = useToast();
+      return (
+        <Button
+          variant="default"
+          onClick={() => push({ title: "Files uploaded!", tone: "celebration", variant: "solid" })}
+        >
+          Trigger a solid celebration toast
+        </Button>
+      );
+    }
+    return (
+      <ToastProvider>
+        <SolidDemo />
+      </ToastProvider>
+    );
+  }
+};
+
 /** Every toast includes a keyboard-reachable close button, independent of the auto-dismiss timer. */
 export const ManualDismiss: Story = {
   render: () => {

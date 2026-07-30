@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
+import { useEffect, useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
 import {
   Button,
   IconButton,
@@ -14,6 +14,7 @@ import {
   GlobeIcon,
   LanguagesIcon,
   FingerprintPatternIcon,
+  KeyIcon,
   ScanQrCodeIcon,
   CheckCircleFilledIcon,
   CircleAlertIcon
@@ -65,6 +66,8 @@ export interface EnterpriseLoginPageProps {
   /** Called once all 6 MFA digits are entered. Return `false` to stay on this screen; anything else advances to "Signed in". */
   onVerifyMfaCode?: (code: string) => Promise<boolean | void> | boolean | void;
   onSsoSignIn?: (provider: EnterpriseLoginSsoProvider) => void;
+  /** Called once the internal state machine reaches the "Signed in" screen — whether via passkey or MFA. The natural point for a composing pattern to advance to whatever comes after login. */
+  onComplete?: () => void;
   /** Which of the 4 screens to render first. Defaults to `"sign-in"` — an entry point for Storybook/tests to preview the other screens directly, not something a real integration needs to set. */
   initialScreen?: "sign-in" | "passkey" | "mfa" | "done";
 }
@@ -161,9 +164,14 @@ export function EnterpriseLoginPage({
   onStartPasskey,
   onVerifyMfaCode,
   onSsoSignIn,
+  onComplete,
   initialScreen = "sign-in"
 }: EnterpriseLoginPageProps) {
   const [screen, setScreen] = useState<"sign-in" | "passkey" | "mfa" | "done">(initialScreen);
+  // Intentionally depends only on `screen`, not `onComplete` — fires once per transition to "done", not on every render.
+  useEffect(() => {
+    if (screen === "done") onComplete?.();
+  }, [screen]);
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -519,8 +527,24 @@ function SsoProviderButton({
             <rect x="9" y="9" width="7" height="7" fill="currentColor" opacity={0.3} />
           </svg>
         )}
-        {provider === "google" && <GlobeIcon className="size-[15px]" />}
-        {provider === "okta" && <FingerprintPatternIcon className="size-[15px]" />}
+        {provider === "google" && (
+          <svg width="15" height="15" viewBox="0 0 16.8 16.7999" fill="none">
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              fill="currentColor"
+              d="M16.6501 6.72329H8.57749C8.57749 7.56282 8.57749 9.24172 8.57234 10.0812H13.2502C13.0709 10.9208 12.4354 12.0963 11.5374 12.6882C11.5374 12.6882 11.5357 12.6931 11.534 12.6923C10.34 13.4806 8.76447 13.6595 7.59458 13.4244C5.76083 13.0601 4.3096 11.7302 3.72037 10.041C3.7238 10.0385 3.72638 10.0152 3.72896 10.0136C3.36015 8.96583 3.36015 7.56282 3.72896 6.72329H3.7281C4.20326 5.18024 5.69821 3.77242 7.53453 3.38708C9.01148 3.07394 10.678 3.41292 11.9036 4.55972C12.0666 4.40021 14.1593 2.35688 14.3163 2.19065C10.129 -1.60149 3.42447 -0.267524 0.91572 4.62944H0.914862C0.914862 4.62944 0.915726 4.62964 0.910581 4.63888C-0.330501 7.04412 -0.279041 9.87829 0.919155 12.1685C0.915725 12.171 0.913153 12.1726 0.910581 12.1751C1.99642 14.2823 3.97254 15.8984 6.3535 16.5137C8.88283 17.177 12.1017 16.7237 14.258 14.7734L14.2606 14.7759C16.0875 13.1304 17.2247 10.3274 16.6501 6.72329Z"
+            />
+          </svg>
+        )}
+        {provider === "okta" && (
+          <svg width="15" height="15" viewBox="0 0 12.6 12.6" fill="none">
+            <path
+              fill="currentColor"
+              d="M6.3 0C2.8287 0 0 2.808 0 6.3C0 9.792 2.8089 12.6 6.3 12.6C9.7911 12.6 12.6 9.7911 12.6 6.3C12.6 2.8089 9.7713 0 6.3 0ZM6.3 9.45C4.554 9.45 3.15 8.046 3.15 6.3C3.15 4.554 4.554 3.15 6.3 3.15C8.046 3.15 9.45 4.554 9.45 6.3C9.45 8.046 8.046 9.45 6.3 9.45Z"
+            />
+          </svg>
+        )}
       </span>
       {ssoProviderLabel[provider]}
     </Button>
@@ -578,7 +602,9 @@ function SignInScreen({
   return (
     <div className="flex flex-col gap-[var(--spacing-32)]">
       <div className="flex flex-col gap-[var(--spacing-8)]">
-        <h1 className="m-0 text-headline-lg text-[var(--color-text-title)]">Welcome back, {userName}.</h1>
+        <h1 className="m-0 font-editorial text-headline-lg font-semibold text-[var(--color-text-title)]">
+          Welcome back, {userName}.
+        </h1>
         {lastSignIn && <p className="m-0 text-body-sm text-[var(--color-text-secondary)]">{lastSignIn}</p>}
       </div>
 
@@ -586,7 +612,7 @@ function SignInScreen({
 
       <div className="flex flex-col gap-[var(--spacing-12)]">
         <Button type="button" className="h-12 w-full" onClick={onStartPasskey}>
-          <FingerprintPatternIcon className="size-[17px]" aria-hidden="true" />
+          <KeyIcon className="size-[17px]" aria-hidden="true" />
           Continue with passkey
         </Button>
         <p className="m-0 text-center text-body-xs text-[var(--color-text-secondary)]">
@@ -609,7 +635,7 @@ function SignInScreen({
 
       <div className="flex items-center gap-[var(--spacing-16)]">
         <span className="h-px flex-1 bg-[var(--color-border-default)]" />
-        <span className="text-label-sm uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">
+        <span className="font-mono text-label-sm uppercase tracking-[0.08em] text-[var(--color-text-secondary)]">
           or use email
         </span>
         <span className="h-px flex-1 bg-[var(--color-border-default)]" />
@@ -708,7 +734,12 @@ function SignInScreen({
           </div>
         )}
 
-        <Button type="submit" variant="outline" disabled={loading} className="h-12 w-full">
+        <Button
+          type="submit"
+          variant="outline"
+          disabled={loading}
+          className="h-12 w-full border-[1.5px] border-[var(--color-input-primary-border)] text-[var(--color-text-body)] hover:border-[var(--color-input-primary-hover-border)]"
+        >
           {loading && (
             <span
               aria-hidden="true"
@@ -751,7 +782,7 @@ function PasskeyScreen({ onCancel, onUseAnotherMethod }: { onCancel: () => void;
         </span>
       </div>
       <div className="flex flex-col gap-[var(--spacing-10)]">
-        <h1 className="m-0 text-headline-md text-[var(--color-text-title)]">Waiting for your passkey</h1>
+        <h1 className="m-0 font-editorial text-headline-md font-semibold text-[var(--color-text-title)]">Waiting for your passkey</h1>
         <p className="m-0 max-w-[340px] text-body-sm text-[var(--color-text-secondary)]">
           Confirm with Face ID, Touch ID or your security key. Nothing leaves this device — the key never reaches our
           servers.
@@ -801,7 +832,7 @@ function MfaScreen({
         Back
       </Button>
       <div className="flex flex-col gap-[var(--spacing-10)]">
-        <h1 className="m-0 text-headline-md text-[var(--color-text-title)]">Verify it's you</h1>
+        <h1 className="m-0 font-editorial text-headline-md font-semibold text-[var(--color-text-title)]">Verify it's you</h1>
         <p className="m-0 text-body-sm text-[var(--color-text-secondary)]">
           Enter the 6-digit code from Lumen Authenticator, or the SMS we sent to your registered number.
         </p>
@@ -868,7 +899,7 @@ function DoneScreen({ orgName, region }: { orgName: string; region: string }) {
       <span className="flex size-16 items-center justify-center rounded-full bg-[var(--color-primary-500-a10)] text-[var(--color-primary-500)]">
         <CheckCircleFilledIcon className="size-7" aria-hidden="true" />
       </span>
-      <h1 className="m-0 text-headline-md text-[var(--color-text-title)]">Signed in</h1>
+      <h1 className="m-0 font-editorial text-headline-md font-semibold text-[var(--color-text-title)]">Signed in</h1>
       <p className="m-0 text-body-sm text-[var(--color-text-secondary)]">
         Taking you to {orgName} · {region}
       </p>

@@ -1,0 +1,33 @@
+import { Meta, Canvas } from "@storybook/blocks";
+import * as FileUploadDropzoneStories from "./FileUploadDropzone.stories";
+
+<Meta of={FileUploadDropzoneStories} />
+
+# FileUploadDropzone
+
+The idle-state file-upload card: a gradient header with an overlapping file-icon cluster, a
+heading/subheading, and a dashed-border dropzone that supports both click-to-browse and
+drag-and-drop onto the card itself.
+
+<Canvas of={FileUploadDropzoneStories.Playground} />
+
+## Custom copy
+
+<Canvas of={FileUploadDropzoneStories.CustomCopy} />
+
+## Props
+
+| Prop | Type | Notes |
+|---|---|---|
+| `heading` / `subheading` / `helperText` | `string` | Defaults match the Figma source ("Start by uploading 20+ files" / "to create a project for optimal results" / "PDF, PNG, JPG or GIF (max. 3MB)") |
+| `accept` | `string` | Native `<input type="file">` accept string |
+| `multiple` | `boolean` | Defaults to `true` |
+| `disabled` | `boolean` | |
+| `onFilesSelected` | `(files: File[]) => void` | Called on both click-to-browse and drop |
+
+This component only tracks drag state over its own area. It does not implement a full-viewport
+"drop anywhere on the page" overlay — see `DataExtractionOnboardingPage` in `@lumen/patterns`,
+which layers that behavior on top using page-level `dragenter`/`drop` listeners. If you build
+your own page-level drag handling around this component, note that its drop handler calls
+`stopPropagation()` so a drop landing directly on the card isn't also picked up by a
+window-level listener.

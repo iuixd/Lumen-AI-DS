@@ -21,6 +21,7 @@ const spacing = JSON.parse(readFileSync(path.join(srcDir, "spacing.json"), "utf8
 const radius = JSON.parse(readFileSync(path.join(srcDir, "radius.json"), "utf8"));
 const shadow = JSON.parse(readFileSync(path.join(srcDir, "shadow.json"), "utf8"));
 const divider = JSON.parse(readFileSync(path.join(srcDir, "divider.json"), "utf8"));
+const gradient = JSON.parse(readFileSync(path.join(srcDir, "gradient.json"), "utf8"));
 const breakpoint = JSON.parse(readFileSync(path.join(srcDir, "breakpoint.json"), "utf8"));
 const input = JSON.parse(readFileSync(path.join(srcDir, "input.json"), "utf8"));
 const motion = JSON.parse(readFileSync(path.join(srcDir, "motion.json"), "utf8"));
@@ -97,6 +98,11 @@ for (const [group, groupTokens] of Object.entries(divider)) {
   for (const [name, val] of Object.entries(groupTokens)) {
     css += `  --divider-${group}-${kebab(name)}: ${val.value};\n`;
   }
+}
+css += "\n  /* gradient (raw CSS values — see gradient.json) */\n";
+for (const [key, val] of Object.entries(gradient)) {
+  if (key.startsWith("_")) continue;
+  css += `  --gradient-${kebab(key)}: ${val.value};\n`;
 }
 css += "\n  /* typography */\n";
 for (const [key, val] of Object.entries(typography.fontFamily)) {

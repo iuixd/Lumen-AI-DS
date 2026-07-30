@@ -36,7 +36,8 @@ describe("Toast", () => {
     { tone: "warning", hasDefaultIcon: true },
     { tone: "error", hasDefaultIcon: true },
     { tone: "success", hasDefaultIcon: false },
-    { tone: "neutral", hasDefaultIcon: false }
+    { tone: "neutral", hasDefaultIcon: false },
+    { tone: "celebration", hasDefaultIcon: true }
   ])("tone=$tone", ({ tone, hasDefaultIcon }) => {
     it(`${hasDefaultIcon ? "renders" : "omits"} a default status icon (Figma-evidenced tones only)`, () => {
       const { result } = renderHook(() => useToast(), { wrapper });
@@ -64,6 +65,16 @@ describe("Toast", () => {
       });
     });
     expect(screen.getByTestId("custom-icon")).toBeInTheDocument();
+  });
+
+  it("renders the solid variant with a filled background instead of a left-border accent", () => {
+    const { result } = renderHook(() => useToast(), { wrapper });
+    act(() => {
+      result.current.push({ title: "Files uploaded!", tone: "celebration", variant: "solid" });
+    });
+    const status = screen.getByRole("status");
+    expect(status).toHaveStyle({ background: "var(--color-deep-purple-700)" });
+    expect(status.style.borderLeftWidth).toBe("");
   });
 
   it("provides an accessible, keyboard-reachable close button that dismisses the toast", async () => {
