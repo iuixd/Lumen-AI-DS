@@ -121,7 +121,7 @@ export function FileUploadDropzone({
       </div>
 
       <div className="flex flex-col items-center gap-[var(--spacing-8)] text-center">
-        <h2 className="m-0 font-editorial text-headline-md font-semibold text-[var(--color-text-title)]">
+        <h2 className="m-0 font-editorial text-headline-lg font-semibold tracking-[-1.5px] text-[var(--color-text-title)]">
           {heading}
         </h2>
         <p className="m-0 text-body-md text-[var(--color-text-secondary)]">{subheading}</p>

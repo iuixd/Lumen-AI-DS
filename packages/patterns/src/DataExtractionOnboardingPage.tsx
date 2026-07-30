@@ -127,7 +127,7 @@ function ProgressStep({
     <div className="flex min-h-screen flex-col bg-[var(--color-background-subtle)]">
       <OnboardingHeader logo={logo} />
       <div className="flex flex-1 items-start justify-center px-[var(--spacing-32)] pb-[var(--spacing-32)]">
-        <div className="w-full max-w-[538px] rounded-[var(--radius-xxxl)] border border-[var(--color-border-default)] bg-[var(--color-background-default)] p-[var(--spacing-40)]">
+        <div className="w-full max-w-[538px] rounded-[var(--radius-2xl)] border border-[var(--color-border-default)] bg-[var(--color-background-default)] p-[var(--spacing-40)]">
           <FileUploadProgressList
             groups={groups}
             onRemoveFile={onRemoveFile}
