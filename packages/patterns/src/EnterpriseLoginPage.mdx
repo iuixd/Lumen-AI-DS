@@ -1,0 +1,54 @@
+import { Meta, Canvas } from "@storybook/blocks";
+import * as EnterpriseLoginPageStories from "./EnterpriseLoginPage.stories";
+
+<Meta of={EnterpriseLoginPageStories} />
+
+# EnterpriseLoginPage
+
+A multi-step enterprise sign-in flow: a marketing hero panel (desktop only) beside SSO,
+passkey, and email/password sign-in, with MFA and a "Signed in" confirmation screen. Distinct
+from `AuthForm` (a minimal centered card, intentionally kept minimal — see its own docs) rather
+than an extension of it — this is a different shape entirely, not a variant of the same
+component.
+
+<Canvas of={EnterpriseLoginPageStories.Playground} />
+
+## Screens
+
+The component owns its own 4-screen state machine (`sign-in` → `passkey` | `mfa` → `done`).
+`initialScreen` renders any of them directly — meant for previews/tests, not real integrations,
+which should always start on `"sign-in"`.
+
+<Canvas of={EnterpriseLoginPageStories.Passkey} />
+<Canvas of={EnterpriseLoginPageStories.MultiFactorAuth} />
+<Canvas of={EnterpriseLoginPageStories.SignedIn} />
+
+## Inline error
+
+<Canvas of={EnterpriseLoginPageStories.SignInError} />
+
+## Props
+
+| Prop | Type | Notes |
+|---|---|---|
+| `logo` | `ReactNode` | Defaults to `LumenLogo` |
+| `heroTitle` / `heroDescription` | `string` | Desktop hero-panel marketing copy |
+| `complianceBadges` | `string[]` | e.g. `["SOC 2 Type II", "ISO 27001"]` — omit/empty to hide the row |
+| `dataResidencyNote` | `string` | Hero-panel caption — omit to hide |
+| `statusText` / `statusHref` | `string` | Hero-panel status row — omit either to hide |
+| `userName` | `string` | "Welcome back, {userName}." |
+| `lastSignIn` | `string` | Preformatted session-metadata line — omit to hide |
+| `recentWorkspaces` | `{ id, name, initial }[]` | Chips above the sign-in options — omit/empty to hide |
+| `ssoProviders` | `("microsoft" \| "google" \| "okta")[]` | Which SSO buttons to show |
+| `region` | `string` | Shown in the header region control and the "Signed in" screen |
+| `orgName` | `string` | "Taking you to {orgName}" on the "Signed in" screen |
+| `onSubmitCredentials` | `(email, password) => Promise<{success, error?}> \| void` | Return `{ success: false, error }` to show the inline error and stay; anything else advances to MFA |
+| `onStartPasskey` | `() => Promise<boolean> \| void` | Return `false` to fall back to sign-in; anything else advances to "Signed in" |
+| `onVerifyMfaCode` | `(code: string) => Promise<boolean> \| void` | Return `false` to stay on MFA; anything else advances to "Signed in" |
+| `onSsoSignIn` | `(provider) => void` | Called when an SSO button is clicked |
+| `initialScreen` | `"sign-in" \| "passkey" \| "mfa" \| "done"` | Preview/test entry point — defaults to `"sign-in"` |
+
+This component calls the callback props and does nothing on its own if they're omitted — it
+never simulates a network call or fakes a result, the same "call the prop, don't fake a
+backend" contract `AuthForm.onSubmit` already uses. Wire real auth calls to
+`onSubmitCredentials`/`onStartPasskey`/`onVerifyMfaCode` in the product repo.
