@@ -4,7 +4,6 @@ import { FileUploadDropzone } from "./FileUploadDropzone";
 const meta = {
   title: "Composite/FileUploadDropzone",
   component: FileUploadDropzone,
-  tags: ["autodocs"],
   parameters: {
     layout: "centered",
     docs: {

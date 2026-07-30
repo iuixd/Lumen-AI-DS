@@ -5,7 +5,6 @@ import { FileUploadProgressList, type FileUploadGroupData } from "./FileUploadPr
 const meta = {
   title: "Composite/FileUploadProgressList",
   component: FileUploadProgressList,
-  tags: ["autodocs"],
   parameters: {
     layout: "centered",
     docs: {
