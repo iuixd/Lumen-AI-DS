@@ -44,7 +44,11 @@ export interface EnterpriseLoginPageProps {
   /** Paired with `statusHref` for the hero panel's live-status row. Omit either to hide the row. */
   statusText?: string;
   statusHref?: string;
-  /** First name used in "Welcome back, {userName}." */
+  /**
+   * Name used in "Welcome back, {name}!" — camelCase/PascalCase values are
+   * split into words for display (e.g. "JohnDoe" -> "John Doe"); anything
+   * else (already space-separated, an email address, etc.) renders as-is.
+   */
   userName?: string;
   /** e.g. `"Last signed in 3 days ago · Bengaluru, IN · Chrome on macOS"`. Omit to hide. */
   lastSignIn?: string;
@@ -74,6 +78,19 @@ const ssoProviderLabel: Record<EnterpriseLoginSsoProvider, string> = {
   google: "Google",
   okta: "Okta"
 };
+
+/**
+ * Splits a camelCase/PascalCase `userName` into space-separated words for
+ * display (e.g. "JohnDoe" -> "John Doe"). Direct user request, added
+ * 2026-07-31. Deliberately narrow: only inserts a space before an internal
+ * capital that follows a lowercase letter — a value with no such transition
+ * (already space-separated, all-lowercase, or an email address like
+ * "johndoe@company.com") passes through unchanged, by explicit user
+ * decision rather than also parsing email local-parts.
+ */
+function splitCamelCase(userName: string): string {
+  return userName.replace(/([a-z])([A-Z])/g, "$1 $2");
+}
 
 function detectOrgHint(email: string): string {
   const at = email.indexOf("@");
@@ -588,6 +605,18 @@ function detectOrgHint(email: string): string {
  * mechanism already used for `lumen-skeleton-pulse`/`lumen-toast-progress`,
  * each with its own `prefers-reduced-motion: reduce` fallback per
  * `docs/accessibility.md` §3.6.
+ *
+ * Added 2026-07-31 (same day; the user manually edited this file's own test/
+ * story fixtures — "FYI I have manually changed the user name from Priya to
+ * John Doe" — to demo the name "John Doe" from a raw `userName="JohnDoe"`
+ * input, which the greeting didn't yet know how to produce): the greeting
+ * now runs `userName` through `splitCamelCase` and closes with "!" instead
+ * of ".". Per direct user decision (asked rather than guessed, given the
+ * story fixture separately passes an email, `"johndoe@company.com"`, which
+ * should NOT be parsed the same way): only camelCase/PascalCase splitting
+ * is implemented — a value with no lowercase-to-uppercase transition
+ * (already space-separated, all-lowercase, an email address) renders
+ * unchanged. See `splitCamelCase`'s own docblock.
  */
 export function EnterpriseLoginPage({
   logo,
@@ -1054,7 +1083,7 @@ function SignInScreen({
     <div className="flex flex-col gap-[var(--spacing-24)]">
       <div className="flex flex-col gap-[var(--spacing-4)]">
         <h1 className="m-0 font-editorial text-headline-md font-semibold tracking-[-0.5px] text-[var(--color-text-primary)]">
-          Welcome back, {userName}.
+          Welcome back, {splitCamelCase(userName)}!
         </h1>
         {lastSignIn && <p className="m-0 text-body-sm text-[var(--color-text-secondary)]">{lastSignIn}</p>}
       </div>
