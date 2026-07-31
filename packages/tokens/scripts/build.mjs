@@ -247,6 +247,45 @@ css += `
     width: 100%;
   }
 }
+
+/* EnterpriseLoginPage hero illustration ambient motion — direct user request,
+   no Figma motion source (see motion.json's hero-rotate/hero-glimmer). A
+   full, smooth, constant-speed clockwise rotation (linear timing, not an
+   ease — an eased continuous spin visibly speeds up/slows down at the loop
+   boundary, which reads as a stutter rather than "smooth"), plus a handful
+   of staggered sparkle-dot twinkles layered over the illustration. */
+@keyframes lumen-hero-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.lumen-hero-rotate {
+  animation: lumen-hero-rotate var(--duration-hero-rotate) linear infinite;
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lumen-hero-rotate {
+    animation: none;
+  }
+}
+
+@keyframes lumen-hero-glimmer {
+  0%, 100% { opacity: 0; transform: scale(0.6); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+.lumen-hero-glimmer {
+  animation: lumen-hero-glimmer var(--duration-hero-glimmer) var(--easing-skeleton-pulse) infinite;
+  animation-delay: var(--lumen-glimmer-delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lumen-hero-glimmer {
+    animation: none;
+    opacity: 0;
+  }
+}
 `;
 
 writeFileSync(path.join(distDir, "css/variables.css"), css);

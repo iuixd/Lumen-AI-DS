@@ -29,4 +29,32 @@ describe("Checkbox", () => {
     await userEvent.click(checkbox);
     expect(checkbox).toHaveAttribute("aria-checked", "false");
   });
+
+  it("defaults to size md", () => {
+    render(<Checkbox aria-label="Accept terms" />);
+    expect(screen.getByRole("checkbox", { name: "Accept terms" }).className).toContain(
+      "size-[var(--input-indicator-size-md)]"
+    );
+  });
+
+  it("applies the requested size", () => {
+    render(<Checkbox aria-label="Accept terms" size="lg" />);
+    expect(screen.getByRole("checkbox", { name: "Accept terms" }).className).toContain(
+      "size-[var(--input-indicator-size-lg)]"
+    );
+  });
+
+  it("renders as indeterminate", () => {
+    render(<Checkbox aria-label="Select all" checked="indeterminate" />);
+    expect(screen.getByRole("checkbox", { name: "Select all" })).toHaveAttribute(
+      "data-state",
+      "indeterminate"
+    );
+  });
+
+  it("forwards a ref to the underlying checkbox element", () => {
+    const ref = { current: null as HTMLButtonElement | null };
+    render(<Checkbox aria-label="Accept terms" ref={ref} />);
+    expect(ref.current).not.toBeNull();
+  });
 });

@@ -1,4 +1,4 @@
-import { useEffect, useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
+import { useEffect, useState, type ChangeEvent, type CSSProperties, type FormEvent, type ReactNode } from "react";
 import {
   Button,
   Input,
@@ -547,6 +547,47 @@ function detectOrgHint(email: string): string {
  * left as-is rather than removed, since removing it risks a future regression
  * if either child's coverage ever changes (e.g. a narrower viewport where
  * the grid gap or a child's own margin could expose it).
+ *
+ * Added 2026-07-31 (same day; direct user request: "Is it possible to add
+ * subtle rotating animation with mild glittering effects? Do you have any
+ * expert level recommendation?", approved after confirming "figma doesn't
+ * have the animation background" — no Figma source for any of this, a
+ * disclosed code-side enhancement): the hero illustration spins smoothly,
+ * clockwise, at a constant speed (`lumen-hero-rotate`, a full 0deg->360deg
+ * turn every 60s, `linear` timing — not eased, since an eased continuous
+ * loop visibly speeds up/slows down at the seam, which reads as a stutter
+ * rather than "smooth"). Corrected same day from an initial small
+ * -3deg/+3deg oscillating wobble after direct user follow-up ("rotate the
+ * dotted SVG smoothly clockwise... I don't see the smooth rotation") — the
+ * wobble had been chosen to avoid sweeping gaps past the image's own
+ * landscape-proportioned (823.823x573.604) bounding box on this portrait
+ * panel, but that risk doesn't actually apply: the panel's own background
+ * (`--color-primary-900`) already matches the illustration's transparent
+ * negative space, and the static crop already leaves areas of the panel
+ * uncovered with no visible seam — a full rotation just sweeps that same
+ * already-invisible boundary around instead of introducing a new one.
+ * Five small radial-gradient sparkles
+ * (`lumen-hero-glimmer`, staggered 3s fade-in/out pulses) are centered
+ * exactly on real dot coordinates read directly from
+ * `enterprise-login-hero.svg`'s own path data (per user follow-up:
+ * "subtle sparkles should be on the dots in the dotted SVG file") — not
+ * arbitrary scattered positions. The illustration `<img>` and its sparkles
+ * are both children of one wrapper `<div>` (per a further follow-up: "only
+ * then the sparkles also rotate along with dotted SVG") whose own
+ * `aspect-ratio: 823.823 / 573.604` locks it to the SVG's native viewBox
+ * regardless of the panel's actual rendered size — this is what lets each
+ * sparkle's top/left percentage land on the same real dot at any viewport
+ * width, and lets the whole group (dots + sparkles) rotate together as one
+ * rigid unit via the shared `lumen-hero-rotate` class on the wrapper,
+ * rather than the sparkles staying fixed while the dots sway under them.
+ * New tokens: `motion.duration.hero-rotate`/`hero-glimmer` (both
+ * explicitly flagged non-Figma-sourced in `motion.json`, matching the
+ * existing `duration.toast` precedent for this exact situation); the
+ * keyframes themselves (`lumen-hero-rotate`/`lumen-hero-glimmer`) are
+ * emitted globally by `packages/tokens/scripts/build.mjs`, the same
+ * mechanism already used for `lumen-skeleton-pulse`/`lumen-toast-progress`,
+ * each with its own `prefers-reduced-motion: reduce` fallback per
+ * `docs/accessibility.md` §3.6.
  */
 export function EnterpriseLoginPage({
   logo,
@@ -756,13 +797,44 @@ function HeroPanel({
         </defs>
         <rect x="0" y="0" width="600" height="900" fill="url(#lm-auth-hero-glow)" />
       </svg>
-      {/* Exact Figma-exported illustration (node 1537:1821, a transparent dot-pattern vector — the Figma file's own layer was reorganized/cleaned up since this was first sourced, replacing the old deeply-nested "Asset 1 1" group with this one flat vector) — positioned at its real x=-53.23/y=73.95/w=823.82 offsets within its 720-wide reference frame, expressed as percentages so it scales with this panel's actual (responsive) width. */}
-      <img
-        src={heroIllustrationAsset}
-        alt=""
+      {/* Exact Figma-exported illustration (node 1537:1821, a transparent dot-pattern vector — the Figma file's own layer was reorganized/cleaned up since this was first sourced, replacing the old deeply-nested "Asset 1 1" group with this one flat vector) — positioned at its real x=-53.23/y=73.95/w=823.82 offsets within its 720-wide reference frame, expressed as percentages so it scales with this panel's actual (responsive) width.
+          Wrapped (rather than positioning the <img> directly) so the sparkle
+          overlay below can share its exact coordinate space: this div's own
+          `aspect-ratio` locks it to the SVG's native 823.823x573.604 viewBox
+          regardless of the panel's actual rendered size, so each sparkle's
+          top/left percentage lands on the same real dot at any viewport
+          width, and the whole group (dots + sparkles) rotates together as
+          one rigid unit via the shared `lumen-hero-rotate` class. */}
+      <div
         aria-hidden="true"
-        className="pointer-events-none absolute left-[-7.4%] top-[8.2%] w-[114.4%] max-w-none"
-      />
+        className="lumen-hero-rotate pointer-events-none absolute left-[-7.4%] top-[8.2%] w-[114.4%]"
+        style={{ aspectRatio: "823.823 / 573.604" }}
+      >
+        <img src={heroIllustrationAsset} alt="" className="block h-full w-full max-w-none" />
+        {/* Ambient sparkle overlay — direct user request ("subtle rotating animation with mild glittering effects... sparkles should be on the dots in the dotted SVG"), no Figma source; approved after confirming Figma has no animated version of this background. Five small radial-gradient highlights, each centered exactly on a real dot's own path coordinates (read directly from enterprise-login-hero.svg, converted to percentages of its 823.823x573.604 viewBox: (411.9,312.8)->50.0%/54.5%, (514.2,226.9)->62.4%/39.5%, (204.9,299.7)->24.9%/52.2%, (291.1,442.0)->35.3%/77.1%, (651.6,485.8)->79.1%/84.7%), each on the shared `lumen-hero-glimmer` keyframe (see motion.json/build.mjs) staggered via the existing skeleton stagger fractions (0/0.075/0.15/0.225/0.3 of the 3s loop = 0/225/450/675/900ms) so they twinkle independently rather than in lockstep. */}
+        {[
+          { top: "54.5%", left: "50.0%", size: 6, delay: 0 },
+          { top: "39.5%", left: "62.4%", size: 8, delay: 225 },
+          { top: "52.2%", left: "24.9%", size: 5, delay: 450 },
+          { top: "77.1%", left: "35.3%", size: 7, delay: 675 },
+          { top: "84.7%", left: "79.1%", size: 6, delay: 900 }
+        ].map((sparkle, i) => (
+          <span
+            key={i}
+            className="lumen-hero-glimmer pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 rounded-full"
+            style={
+              {
+                top: sparkle.top,
+                left: sparkle.left,
+                width: sparkle.size,
+                height: sparkle.size,
+                background: "radial-gradient(circle, var(--color-neutral-white) 0%, transparent 70%)",
+                "--lumen-glimmer-delay": `${sparkle.delay}ms`
+              } as CSSProperties
+            }
+          />
+        ))}
+      </div>
 
       <div className="relative flex items-center gap-[var(--spacing-8)]">
         {brand}

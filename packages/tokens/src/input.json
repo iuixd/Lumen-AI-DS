@@ -21,6 +21,12 @@
     "md": { "value": 1.5 },
     "lg": { "value": 2 }
   },
+  "checkbox-selected-border-width": {
+    "sm": { "value": 1.143 },
+    "md": { "value": 1.329 },
+    "lg": { "value": 1.518 },
+    "_comment": "Checkbox's own Checked/Indeterminate ring border width, sourced 2026-07-31 directly from the Checked/Indeterminate symbols (nodes 1278:2235/1278:2259 and siblings) at each size — added as its own token rather than reusing `selection-border-width` above, since md/lg genuinely diverge (1.329/1.518 vs. 1.5/2) despite sm coinciding exactly (1.143); `selection-border-width` may be Radio's own value, unverified here and left unchanged."
+  },
   "radio-dot-size": {
     "sm": { "value": 8 },
     "md": { "value": 9.333 },

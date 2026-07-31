@@ -15,7 +15,7 @@ const meta = {
   },
   args: {
     loginProps: {
-      userName: "Priya",
+      userName: "johndoe@company.com",
       lastSignIn: "Last signed in 3 days ago · Bengaluru, IN · Chrome on macOS",
       recentWorkspaces: [{ id: "northwind", name: "Northwind Group", initial: "N" }],
       onStartPasskey: () => true,
