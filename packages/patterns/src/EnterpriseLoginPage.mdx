@@ -40,7 +40,7 @@ which should always start on `"sign-in"`.
 | `lastSignIn` | `string` | Preformatted session-metadata line — omit to hide |
 | `recentWorkspaces` | `{ id, name, initial }[]` | Chips above the sign-in options — omit/empty to hide |
 | `ssoProviders` | `("microsoft" \| "google" \| "okta")[]` | Which SSO buttons to show |
-| `region` | `string` | Shown in the header region control and the "Signed in" screen |
+| `region` | `string` | Shown on the "Signed in" screen (`"Taking you to {orgName} · {region}"`) |
 | `orgName` | `string` | `"Taking you to {orgName}"` on the "Signed in" screen |
 | `onSubmitCredentials` | `(email, password) => Promise<{success, error?}> \| void` | Return `{ success: false, error }` to show the inline error and stay; anything else advances to MFA |
 | `onStartPasskey` | `() => Promise<boolean> \| void` | Return `false` to fall back to sign-in; anything else advances to "Signed in" |

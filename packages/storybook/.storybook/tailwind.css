@@ -13,6 +13,15 @@
    mark tokens Inter previously supplied). Family selection remains
    token-owned (`--font-interface`/`--font-brand`); this only supplies glyphs. */
 @import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap");
+/* `editorial` (Source Serif Pro) design-system font family — used by every
+   headline and display heading tier plus several composite-specific serif
+   tiers (font-editorial). Never previously loaded as a webfont anywhere in
+   this repo (confirmed 2026-07-31, user report that heading fonts didn't
+   match Figma at all): the token/Tailwind class correctly declared "Source
+   Serif Pro" with a Georgia/serif fallback, but with no matching import
+   every consumer silently rendered its fallback the entire time. Not the
+   same import as the Lora import above, which is Storybook-chrome-only. */
+@import url("https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;600;700&display=swap");
 @import "@lumen/tokens/css";
 @import "@lumen/ui/shadcn.css";
 

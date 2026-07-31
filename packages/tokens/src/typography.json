@@ -177,19 +177,19 @@
       "fontSize": 16,
       "lineHeight": 18,
       "weight": 400,
-      "usage": "Input placeholder and value text, sizes md and lg (Figma Body/Medium)"
+      "usage": "Input placeholder and value text, sizes md and lg (Figma Body/Medium). NOTE (2026-07-31): a fresh get_design_context pull on the canonical Input collection's own Size=md symbols (node 1262:1181) shows the real bound lineHeight is 26, not 18 — but this token is also consumed by five other components (`command`/`input-group`/`input-otp`/`select`/`textarea` internals), each with its own independently-tuned fixed height that a lineHeight change could visually break without checking each one against its own Figma source first. Left unchanged here (same 'flag, don't silently patch a widely-shared token' rule already applied elsewhere in this file, e.g. `_emptyStateComment`/`_contentStateComment`); the new `Input` primitive rewrite (2026-07-31) uses its own literal, correctly-sized classes instead of this token for exactly this reason — see `components/internal/input.tsx`."
     },
     "input-lg": {
       "fontSize": 16,
       "lineHeight": 26,
       "weight": 600,
-      "usage": "Input placeholder and value text, size lg (Figma Body/Medium Bold)"
+      "usage": "Input placeholder and value text, size lg (Figma Body/Medium Bold) — also consumed by `AIResponseCard`/`Toast`. Re-confirmed exact 2026-07-31 against the canonical Input collection's Size=lg symbols (node 1262:1181); unchanged."
     },
     "input-sm": {
       "fontSize": 14,
       "lineHeight": 16,
       "weight": 400,
-      "usage": "Input placeholder and value text, size sm (Figma Body/Small)"
+      "usage": "Input placeholder and value text, size sm (Figma Body/Small). NOTE (2026-07-31): a fresh get_design_context pull on the canonical Input collection's own Size=sm symbols (node 1262:1181) shows the real bound lineHeight is 22, not 16 — left unchanged for the same shared-token-blast-radius reason documented on `input-md` above; the new `Input` primitive rewrite uses its own literal value instead."
     },
     "input-shortcut": {
       "fontSize": 11,

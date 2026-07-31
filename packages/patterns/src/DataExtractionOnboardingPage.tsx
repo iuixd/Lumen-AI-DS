@@ -78,25 +78,38 @@ function DragMask({ visible }: { visible: boolean }) {
   );
 }
 
-function OnboardingHeader({ logo }: { logo: ReactNode }) {
+function OnboardingHeader({ logo, userName }: { logo: ReactNode; userName?: string }) {
+  const initial = (userName?.trim()?.[0] ?? "U").toUpperCase();
   return (
-    <header className="flex items-center gap-[var(--spacing-10)] px-[var(--spacing-32)] py-[var(--spacing-24)]">
-      {logo}
-      <span className="font-brand text-title-md text-[var(--color-text-title)]">Lumen</span>
+    <header className="flex h-[52px] shrink-0 items-center justify-between border-b border-[var(--color-border-default)] bg-[var(--color-background-default)] px-[var(--spacing-16)]">
+      <span className="flex items-center gap-[var(--spacing-8)]">
+        {logo}
+        <span className="font-brand text-[16px] font-semibold leading-[24px] text-[var(--color-text-primary)]">
+          Lumen AI
+        </span>
+      </span>
+      <span
+        aria-hidden="true"
+        className="flex size-8 items-center justify-center rounded-full bg-[var(--color-text-muted)] text-label-md font-semibold text-[var(--color-text-inverse)]"
+      >
+        {initial}
+      </span>
     </header>
   );
 }
 
 function UploadStep({
   onFilesSelected,
-  logo
+  logo,
+  userName
 }: {
   onFilesSelected: (files: File[]) => void;
   logo: ReactNode;
+  userName?: string;
 }) {
   return (
-    <div className="flex min-h-screen flex-col bg-[var(--color-background-subtle)]">
-      <OnboardingHeader logo={logo} />
+    <div className="flex min-h-screen flex-col bg-[var(--color-background-app)]">
+      <OnboardingHeader logo={logo} userName={userName} />
       <div className="flex flex-1 items-center justify-center px-[var(--spacing-32)] pb-[var(--spacing-32)]">
         <div className="w-full max-w-[500px]">
           <FileUploadDropzone onFilesSelected={onFilesSelected} />
@@ -113,7 +126,8 @@ function ProgressStep({
   primaryActionLoading,
   primaryActionDisabled,
   onPrimaryAction,
-  logo
+  logo,
+  userName
 }: {
   groups: FileUploadGroupData[];
   onRemoveFile: (groupId: string, fileId: string) => void;
@@ -122,10 +136,11 @@ function ProgressStep({
   primaryActionDisabled: boolean;
   onPrimaryAction: () => void;
   logo: ReactNode;
+  userName?: string;
 }) {
   return (
-    <div className="flex min-h-screen flex-col bg-[var(--color-background-subtle)]">
-      <OnboardingHeader logo={logo} />
+    <div className="flex min-h-screen flex-col bg-[var(--color-background-app)]">
+      <OnboardingHeader logo={logo} userName={userName} />
       <div className="flex flex-1 items-start justify-center px-[var(--spacing-32)] pb-[var(--spacing-32)]">
         <div className="w-full max-w-[538px] rounded-[var(--radius-2xl)] border border-[var(--color-border-default)] bg-[var(--color-background-default)] p-[var(--spacing-40)]">
           <FileUploadProgressList
@@ -296,7 +311,7 @@ function OnboardingFlow({
       )}
       {step === "upload" && (
         <StepTransition stepKey="upload">
-          <UploadStep onFilesSelected={handleFilesSelected} logo={logo} />
+          <UploadStep onFilesSelected={handleFilesSelected} logo={logo} userName={loginProps?.userName} />
         </StepTransition>
       )}
       {step === "progress" && (
@@ -309,6 +324,7 @@ function OnboardingFlow({
             primaryActionDisabled={!allUploaded}
             onPrimaryAction={handleCreateProject}
             logo={logo}
+            userName={loginProps?.userName}
           />
         </StepTransition>
       )}
@@ -344,6 +360,30 @@ function OnboardingFlow({
  * API call in the product repo. The per-file progress bars advance on a
  * client-side timer alone, which is why this component's docs call it a
  * demonstration of the *flow*, not a working uploader.
+ *
+ * Corrected 2026-07-31 (direct user request to standardize this pattern's
+ * tokens alongside `EnterpriseLoginPage`'s own extensive same-day
+ * correction pass — see that component's docblock for the full trail this
+ * one reuses): the upload/progress steps' full-page background
+ * (`UploadStep`/`ProgressStep`) used `--color-background-subtle`
+ * (`#EFEFEF`); a fresh `get_variable_defs` pull on this same "Upload
+ * Component" Figma section's own dropzone frame (`1511:2701`) shows it
+ * binds `bg/app` (`#f6f8f8`) instead — the exact same token
+ * `EnterpriseLoginPage`'s outer wrapper was just corrected to. Both steps'
+ * root now use `--color-background-app`, matching the login step exactly
+ * rather than a different, coincidentally-similar gray. `OnboardingHeader`
+ * was also re-verified against this section's own shared `Header`
+ * component instance (node `1511:3675`): its brand text is "Lumen AI" (not
+ * this component's previous "Lumen" — the same drift `EnterpriseLoginPage`
+ * had already been corrected for), on a bordered white bar
+ * (`bg/surface`/`stroke/default`, 52px tall) rather than this component's
+ * previous bare, unstyled, undersized header — and it carries a user
+ * avatar on its right edge that this component had never rendered at all.
+ * Corrected the brand text and header chrome to match, and added the
+ * avatar: since this pattern has no dedicated "current user" concept of
+ * its own, its initial is derived from `loginProps.userName`'s first
+ * character (falling back to "U") — reusing data this component already
+ * receives rather than adding a new required prop for one badge.
  */
 export function DataExtractionOnboardingPage(props: DataExtractionOnboardingPageProps) {
   return (
