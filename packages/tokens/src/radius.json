@@ -7,6 +7,7 @@
   "lg": { "value": 8 },
   "app-search": { "value": 10 },
   "button": { "value": 10 },
+  "input": { "value": 10, "_comment": "Sourced 2026-07-31 from the canonical Input component collection (node 1262:1181), re-verified across every Type=Bordered/Size/State/Icon combination via `get_design_context`: every one binds the same `radius/xl` variable, resolving to 10px — the same value as `button` above, but a distinct component-scoped step per this file's own established precedent of keeping component-scoped and generic-scale steps separate even when they coincide in value." },
   "pill": { "value": 100 },
   "xl": { "value": 12 },
   "2xl": { "value": 16 },

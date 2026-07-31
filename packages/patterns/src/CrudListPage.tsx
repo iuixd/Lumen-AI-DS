@@ -71,6 +71,7 @@ export function CrudListPage<T>({
           <CardContent>
             <Input
               placeholder="Search..."
+              size="sm"
               value={query}
               onChange={(e) => {
                 setQuery(e.target.value);

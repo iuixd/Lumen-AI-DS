@@ -11,11 +11,8 @@ const meta = {
     lastSignIn: "Last signed in 3 days ago · Bengaluru, IN · Chrome on macOS",
     recentWorkspaces: [
       { id: "northwind", name: "Northwind Group", initial: "N" },
-      { id: "acme", name: "Acme Legal", initial: "A" }
-    ],
-    statusText: "All systems operational",
-    statusHref: "https://status.lumen.ai",
-    dataResidencyNote: "Data residency: EU (Frankfurt) · Tenant lumen-nw-eu-1"
+      { id: "acme", name: "Acme Corp", initial: "A" }
+    ]
   }
 } satisfies Meta<typeof EnterpriseLoginPage>;
 

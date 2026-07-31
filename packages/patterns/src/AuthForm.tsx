@@ -18,10 +18,10 @@ export function AuthForm({
                 {mode === "sign-in" ? "Sign in" : "Create your account"}
               </h1>
               <FormField label="Work email" htmlFor="email" required>
-                <Input id="email" name="email" type="email" required />
+                <Input id="email" name="email" type="email" size="sm" required />
               </FormField>
               <FormField label="Password" htmlFor="password" required>
-                <Input id="password" name="password" type="password" required minLength={8} />
+                <Input id="password" name="password" type="password" size="sm" required minLength={8} />
               </FormField>
               <Button type="submit" className="w-full">
                 {mode === "sign-in" ? "Sign in" : "Create account"}

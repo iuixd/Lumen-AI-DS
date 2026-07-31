@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "shadcn/ui's own Button, sourced and adapted to Lumen's token system — see docs/shadcn-integration.md §7.8. Promoted to this plain name after Lumen's original hand-built `Button` primitive was retired in its favor; the variant vocabulary is now `default`/`destructive`/`outline`/`secondary`/`ghost`/`link` (there is no `accent`/`ai` equivalent, and no `iconStart`/`iconEnd` props — pass an icon as a plain child). Every variant/state's colors are synced to the canonical Figma Button component-set (node `1174:1349`) as of 2026-07-24. Dark mode follows the global `data-theme` toolbar toggle, not a separate story."
+          "shadcn/ui's own Button, sourced and adapted to Lumen's token system — see docs/shadcn-integration.md §7.8. Promoted to this plain name after Lumen's original hand-built `Button` primitive was retired in its favor; the variant vocabulary is now `default`/`destructive`/`outline`/`secondary`/`ghost`/`link`/`neutral` (there is no `accent`/`ai` equivalent, and no `iconStart`/`iconEnd` props — pass an icon as a plain child). Every variant/state's colors are synced to the canonical Figma Button component-set (node `1174:1349`) as of 2026-07-24; `neutral` (Figma's `Style=Neutral`) added 2026-07-31. Dark mode follows the global `data-theme` toolbar toggle, not a separate story."
       }
     }
   },
@@ -30,6 +30,7 @@ export const Variants: Story = {
       <Button variant="ghost">Ghost</Button>
       <Button variant="link">Link</Button>
       <Button variant="destructive">Destructive</Button>
+      <Button variant="neutral">Neutral</Button>
     </div>
   )
 };

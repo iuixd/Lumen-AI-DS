@@ -469,7 +469,8 @@ export function AIPanel({
         <Input
           id="ai-panel-input"
           type="text"
-          className="min-w-0 flex-1 rounded-[var(--radius-lg)] border-[var(--color-input-primary-border)] bg-[var(--color-input-primary-bg)] px-[var(--spacing-10)] py-[var(--spacing-7)]"
+          size="sm"
+          className="h-9 min-w-0 flex-1 rounded-[var(--radius-lg)] border-[var(--color-input-primary-border)] bg-[var(--color-input-primary-bg)] px-[var(--spacing-10)] py-[var(--spacing-7)]"
           value={value}
           onChange={(e) => setValue(e.target.value)}
           placeholder={inputPlaceholder}

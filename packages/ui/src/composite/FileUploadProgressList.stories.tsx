@@ -47,7 +47,7 @@ const completeGroups: FileUploadGroupData[] = uploadingGroups.map((g) => ({
 
 export const Uploading: Story = {
   render: () => (
-    <div className="w-[538px] rounded-[var(--radius-xxxl)] border border-[var(--color-border-default)] bg-[var(--color-background-default)] p-[var(--spacing-40)]">
+    <div className="w-[538px] rounded-[var(--radius-2xl)] border border-[var(--color-border-default)] bg-[var(--color-background-default)] p-[var(--spacing-40)]">
       <FileUploadProgressList groups={uploadingGroups} primaryActionDisabled onCancel={() => {}} />
     </div>
   )
@@ -55,7 +55,7 @@ export const Uploading: Story = {
 
 export const Complete: Story = {
   render: () => (
-    <div className="w-[538px] rounded-[var(--radius-xxxl)] border border-[var(--color-border-default)] bg-[var(--color-background-default)] p-[var(--spacing-40)]">
+    <div className="w-[538px] rounded-[var(--radius-2xl)] border border-[var(--color-border-default)] bg-[var(--color-background-default)] p-[var(--spacing-40)]">
       <FileUploadProgressList groups={completeGroups} onCancel={() => {}} onPrimaryAction={() => {}} />
     </div>
   )
@@ -63,7 +63,7 @@ export const Complete: Story = {
 
 export const CreatingProject: Story = {
   render: () => (
-    <div className="w-[538px] rounded-[var(--radius-xxxl)] border border-[var(--color-border-default)] bg-[var(--color-background-default)] p-[var(--spacing-40)]">
+    <div className="w-[538px] rounded-[var(--radius-2xl)] border border-[var(--color-border-default)] bg-[var(--color-background-default)] p-[var(--spacing-40)]">
       <FileUploadProgressList groups={completeGroups} primaryActionLoading onCancel={() => {}} />
     </div>
   )
@@ -94,7 +94,7 @@ export const LiveProgress: Story = {
     }, []);
     const allDone = groups.every((g) => g.files.every((f) => f.status === "uploaded"));
     return (
-      <div className="w-[538px] rounded-[var(--radius-xxxl)] border border-[var(--color-border-default)] bg-[var(--color-background-default)] p-[var(--spacing-40)]">
+      <div className="w-[538px] rounded-[var(--radius-2xl)] border border-[var(--color-border-default)] bg-[var(--color-background-default)] p-[var(--spacing-40)]">
         <FileUploadProgressList groups={groups} primaryActionDisabled={!allDone} onCancel={() => {}} onPrimaryAction={() => {}} />
       </div>
     );

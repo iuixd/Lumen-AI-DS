@@ -66,6 +66,22 @@ import { cn } from "../../lib/cn"
  * Figma's evidenced Outline border width; `secondary` remains 1px, also
  * matching Figma. `ghost`'s text/hover-bg color fix lives in
  * `packages/tokens/src/semantic/color.json` (`_buttonComment`), not here.
+ *
+ * `neutral` added 2026-07-31, at direct user request ("I want you to use
+ * this neutral button", with a screenshot of the component's own
+ * Default/Hover/Focused/Disabled anatomy) — the Figma Button component set
+ * gained a new `Style=Neutral` variant since the last sync (nodes
+ * `1540:2550`/`2944`/`2950`/`2958`), used by `EnterpriseLoginPage`'s SSO/
+ * "Continue with email" buttons and its inactive workspace chip, which had
+ * previously been hand-rolling this look via one-off `className` overrides
+ * on top of `outline` in that pattern file instead of getting a real
+ * variant here — the CLAUDE.md rule against duplicating a component's look
+ * outside its own definition. Border/bg/text/hover-bg all bind to new
+ * dedicated `--color-button-neutral-*` tokens (see `semantic/color.json`'s
+ * `_neutralButtonComment`); Focused and Disabled need no variant-specific
+ * classes, since Figma's own bound values for both states already match
+ * this component's existing shared global treatment exactly (the base
+ * `focus-visible:ring` color and the base `disabled:*` classes).
  */
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[var(--radius-button)] text-label-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-button-focus-ring)] disabled:pointer-events-none disabled:border-transparent disabled:bg-[var(--color-button-disabled-bg)] disabled:text-[var(--color-button-disabled-on-action)] [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
@@ -82,7 +98,9 @@ const buttonVariants = cva(
           "border border-[var(--color-button-secondary-border)] bg-[var(--color-button-secondary-bg)] text-[var(--color-button-secondary-on-action)] hover:border-[var(--color-button-secondary-hover-border)] hover:bg-[var(--color-button-secondary-hover-bg)] hover:text-[var(--color-button-secondary-hover-on-action)]",
         ghost:
           "text-[var(--color-button-ghost-on-action)] hover:bg-[var(--color-button-ghost-hover-bg)]",
-        link: "text-[var(--color-button-link-on-action)] underline-offset-4 hover:underline"
+        link: "text-[var(--color-button-link-on-action)] underline-offset-4 hover:underline",
+        neutral:
+          "border border-[var(--color-button-neutral-border)] bg-[var(--color-button-neutral-bg)] text-[var(--color-button-neutral-on-action)] hover:bg-[var(--color-button-neutral-hover-bg)]"
       },
       size: {
         default: "h-[var(--spacing-34)] px-4 py-2",

@@ -3,6 +3,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "..
 import { UploadIcon } from "../icons/generated/UploadIcon";
 import { CloseFilledIcon } from "../icons/generated/CloseFilledIcon";
 import { FolderIcon } from "../icons/generated/FolderIcon";
+import { PlusIcon } from "../icons/generated/PlusIcon";
 
 export interface FileUploadFile {
   id: string;
@@ -99,6 +100,24 @@ function FileRow({
  * new tokens needed. The per-group header's own aggregate bar
  * (`groupProgress`) is a derived average, not independently Figma-sourced
  * (that frame's group-header progress bar has no bound data — this is a
+ *
+ * Corrected 2026-07-30 (same day, direct user report of a Figma mismatch)
+ * after a dedicated `get_design_context` pull on the card's own root node
+ * (`1518:4035`), not just its file-row/button sub-nodes as in the first
+ * pass: heading was `headline-sm` (20/28), the real Figma H4 style is
+ * `headline-lg` (32/42, matching `FileUploadDropzone`'s own heading) with
+ * `-1.5px` tracking; subheading was `body-sm` (14/22), real value is
+ * `body-md` (16/26); the "Create Project" button was missing its leading
+ * `+` icon (`PlusIcon`), present in every non-loading Figma instance of
+ * this button; "Cancel" was rendering `Button`'s default `ghost` on-action
+ * color (primary.500 crimson, correct for `Button` generally per its own
+ * sync) where this specific instance's bound color is `text.title`
+ * (near-black) — overridden locally via `className`, not by changing
+ * `Button` itself. Also corrected the wrapping card's own radius: this
+ * component was floated at `radius.xxxl` (18px, `FileUploadDropzone`'s
+ * card value) by copy-paste rather than verified independently — the real
+ * bound value on this node is a plain 16px, i.e. the existing
+ * `radius.2xl`, no new token involved.
  * reasonable generalization of the same visual language).
  */
 export function FileUploadProgressList({
@@ -117,10 +136,10 @@ export function FileUploadProgressList({
   return (
     <div className={className}>
       <div className="flex flex-col gap-[var(--spacing-8)] px-[var(--spacing-8)] text-center">
-        <h2 className="m-0 font-editorial text-headline-sm font-semibold text-[var(--color-text-title)]">
+        <h2 className="m-0 font-editorial text-headline-lg font-semibold tracking-[-1.5px] text-[var(--color-text-title)]">
           {heading}
         </h2>
-        <p className="m-0 text-body-sm text-[var(--color-text-secondary)]">{subheading}</p>
+        <p className="m-0 text-body-md text-[var(--color-text-secondary)]">{subheading}</p>
       </div>
 
       <Accordion type="multiple" defaultValue={groups.map((g) => g.id)} className="mt-[var(--spacing-24)]">
@@ -147,7 +166,7 @@ export function FileUploadProgressList({
                   )}
                 </span>
               </AccordionTrigger>
-              <AccordionContent className="flex flex-col gap-[var(--spacing-4)] pb-[var(--spacing-8)]">
+              <AccordionContent className="flex flex-col gap-[var(--spacing-4)] pb-[var(--spacing-16)] pt-[var(--spacing-8)]">
                 {group.files.map((file) => (
                   <FileRow key={file.id} file={file} onRemove={() => onRemoveFile?.(group.id, file.id)} />
                 ))}
@@ -158,7 +177,13 @@ export function FileUploadProgressList({
       </Accordion>
 
       <div className="mt-[var(--spacing-24)] flex items-center justify-end gap-[var(--spacing-16)]">
-        <Button type="button" variant="ghost" size="sm" onClick={onCancel}>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          className="text-[var(--color-text-title)]"
+          onClick={onCancel}
+        >
           {cancelLabel}
         </Button>
         <Button
@@ -167,11 +192,13 @@ export function FileUploadProgressList({
           disabled={primaryActionDisabled || primaryActionLoading}
           onClick={onPrimaryAction}
         >
-          {primaryActionLoading && (
+          {primaryActionLoading ? (
             <span
               aria-hidden="true"
               className="size-3.5 animate-spin rounded-full border-2 border-[var(--color-button-disabled-text)] border-t-transparent"
             />
+          ) : (
+            <PlusIcon className="size-3.5" aria-hidden="true" />
           )}
           {primaryActionLoading ? "Creating Project…" : primaryActionLabel}
         </Button>

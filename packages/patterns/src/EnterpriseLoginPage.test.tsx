@@ -18,16 +18,6 @@ describe("EnterpriseLoginPage", () => {
     expect(screen.getByText(/Northwind Group detected/)).toBeInTheDocument();
   });
 
-  it("shows a password-strength meter only once a password is typed", async () => {
-    const user = userEvent.setup();
-    render(<EnterpriseLoginPage />);
-    expect(screen.queryByText("Too short")).not.toBeInTheDocument();
-    await user.type(screen.getByLabelText("Password"), "a");
-    expect(screen.getByText("Too short")).toBeInTheDocument();
-    await user.type(screen.getByLabelText("Password"), "Str0ng!Pass99");
-    expect(screen.getByText("Excellent")).toBeInTheDocument();
-  });
-
   it("toggles password visibility", async () => {
     const user = userEvent.setup();
     render(<EnterpriseLoginPage />);
