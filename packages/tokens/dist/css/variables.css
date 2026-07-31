@@ -583,6 +583,9 @@
   --input-selection-border-width-sm: 1.143px;
   --input-selection-border-width-md: 1.5px;
   --input-selection-border-width-lg: 2px;
+  --input-checkbox-selected-border-width-sm: 1.143px;
+  --input-checkbox-selected-border-width-md: 1.329px;
+  --input-checkbox-selected-border-width-lg: 1.518px;
   --input-radio-dot-size-sm: 8px;
   --input-radio-dot-size-md: 9.333px;
   --input-radio-dot-size-lg: 10.667px;
@@ -630,6 +633,8 @@
   --duration-slow: 400ms;
   --duration-skeleton-pulse: 2000ms;
   --duration-toast: 6000ms;
+  --duration-hero-rotate: 60000ms;
+  --duration-hero-glimmer: 3000ms;
   --easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --easing-enter: cubic-bezier(0, 0, 0.2, 1);
   --easing-exit: cubic-bezier(0.4, 0, 1, 1);
@@ -724,7 +729,8 @@
   --color-input-search-focused-border: #F2CCD8;
   --color-input-radio-checkbox-selected: #000000;
   --color-input-radio-checkbox-selected-text: #FFFFFF;
-  --color-input-radio-checkbox-disabled-border: #D9DEE0;
+  --color-input-radio-checkbox-disabled-border: #DFDFDF;
+  --color-input-radio-checkbox-disabled-fill: #BFBFBF;
   --color-badge-default-bg: #191919;
   --color-badge-default-text: #FFFFFF;
   --color-badge-gray-bg: #EFEFEF;
@@ -921,6 +927,7 @@
   --color-input-radio-checkbox-selected: #FFFFFF;
   --color-input-radio-checkbox-selected-text: #000000;
   --color-input-radio-checkbox-disabled-border: #2C343B;
+  --color-input-radio-checkbox-disabled-fill: #4C4C4C;
   --color-badge-default-bg: #3D3039;
   --color-badge-default-text: #F9F3F7;
   --color-badge-gray-bg: #262626;
@@ -1109,5 +1116,44 @@
   .lumen-toast-progress {
     animation: none;
     width: 100%;
+  }
+}
+
+/* EnterpriseLoginPage hero illustration ambient motion — direct user request,
+   no Figma motion source (see motion.json's hero-rotate/hero-glimmer). A
+   full, smooth, constant-speed clockwise rotation (linear timing, not an
+   ease — an eased continuous spin visibly speeds up/slows down at the loop
+   boundary, which reads as a stutter rather than "smooth"), plus a handful
+   of staggered sparkle-dot twinkles layered over the illustration. */
+@keyframes lumen-hero-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.lumen-hero-rotate {
+  animation: lumen-hero-rotate var(--duration-hero-rotate) linear infinite;
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lumen-hero-rotate {
+    animation: none;
+  }
+}
+
+@keyframes lumen-hero-glimmer {
+  0%, 100% { opacity: 0; transform: scale(0.6); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+.lumen-hero-glimmer {
+  animation: lumen-hero-glimmer var(--duration-hero-glimmer) var(--easing-skeleton-pulse) infinite;
+  animation-delay: var(--lumen-glimmer-delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lumen-hero-glimmer {
+    animation: none;
+    opacity: 0;
   }
 }

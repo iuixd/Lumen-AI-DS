@@ -6,7 +6,7 @@ const meta = {
   component: EnterpriseLoginPage,
   parameters: { layout: "fullscreen" },
   args: {
-    userName: "Priya",
+    userName: "johndoe@company.com",
     orgName: "Northwind Group",
     lastSignIn: "Last signed in 3 days ago · Bengaluru, IN · Chrome on macOS",
     recentWorkspaces: [

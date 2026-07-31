@@ -27,9 +27,21 @@ import { cn } from "../../lib/cn"
  *
  * | size | default | hover | focused | error (primary) | error (search) |
  * |------|---------|-------|---------|------------------|-----------------|
- * | sm   | 1px     | 2px   | 2.5px   | 1px              | 2px             |
- * | md   | 1.5px   | 1.5px | 2.5px   | 1px (shrinks!)   | 2px             |
+ * | sm   | 1px     | 2px   | 2.5px   | 2px              | 2px             |
+ * | md   | 1.5px   | 1.5px | 2.5px   | 2px              | 2px             |
  * | lg   | 2px     | 2px   | 2.5px   | 2px              | 2px             |
+ *
+ * Error corrected 2026-07-31 (same day, direct user report: "Input error
+ * state border should be 2px as in Figma Design"): a fresh re-pull of all
+ * three `State=Error` symbols (Figma had reorganized again since the
+ * initial sync) shows Error is now uniformly `border-2` at every size —
+ * previously sm/md were 1px (md's had actually *shrunk* from its own 1.5px
+ * default). Also newly visible in that same fresh pull, NOT yet acted on
+ * pending explicit scope confirmation: Error's padding-x is 2px larger
+ * than each size's own default (12/16/18 vs. 10/14/18), and its text has
+ * switched from Regular weight/placeholder-text color to a SemiBold
+ * weight at a new `input/primary/text` (`#111`) color — neither requested
+ * yet, flagged here rather than silently folded into this border fix.
  *
  * `size` (`sm`/`md`/`lg`, default `md`) replaces the retired primitive's
  * single fixed height — deliberately reintroducing a prop name the
@@ -102,10 +114,10 @@ const inputVariants = cva(
       }
     },
     compoundVariants: [
-      { size: "sm", variant: "primary", class: "hover:border-2" },
+      { size: "sm", variant: "primary", class: "hover:border-2 aria-invalid:border-2" },
       { size: "sm", variant: "search", class: "hover:border-2 aria-invalid:border-2" },
       { size: "md", variant: "search", class: "hover:border-2 aria-invalid:border-2" },
-      { size: "md", variant: "primary", class: "aria-invalid:border" }
+      { size: "md", variant: "primary", class: "aria-invalid:border-2" }
     ],
     defaultVariants: { size: "md", variant: "primary" }
   }

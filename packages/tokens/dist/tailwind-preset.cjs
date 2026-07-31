@@ -276,6 +276,7 @@ module.exports = {
   "input-radio-checkbox-selected": "var(--color-input-radio-checkbox-selected)",
   "input-radio-checkbox-selected-text": "var(--color-input-radio-checkbox-selected-text)",
   "input-radio-checkbox-disabled-border": "var(--color-input-radio-checkbox-disabled-border)",
+  "input-radio-checkbox-disabled-fill": "var(--color-input-radio-checkbox-disabled-fill)",
   "badge-default-text": "var(--color-badge-default-text)",
   "badge-gray-bg": "var(--color-badge-gray-bg)",
   "badge-gray-text": "var(--color-badge-gray-text)",

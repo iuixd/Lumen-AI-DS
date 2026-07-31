@@ -5,8 +5,8 @@ import { EnterpriseLoginPage } from "./EnterpriseLoginPage";
 
 describe("EnterpriseLoginPage", () => {
   it("renders the sign-in screen by default with the greeting and both fields", () => {
-    render(<EnterpriseLoginPage userName="Priya" />);
-    expect(screen.getByRole("heading", { name: "Welcome back, Priya." })).toBeInTheDocument();
+    render(<EnterpriseLoginPage userName="JohnDoe" />);
+    expect(screen.getByRole("heading", { name: "Welcome back, John Doe!" })).toBeInTheDocument();
     expect(screen.getByLabelText("Work email")).toBeInTheDocument();
     expect(screen.getByLabelText("Password")).toBeInTheDocument();
   });

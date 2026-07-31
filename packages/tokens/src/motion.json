@@ -14,6 +14,16 @@
       "value": 6000,
       "usage": "Toast auto-dismiss delay and progress-bar countdown.",
       "_comment": "Direct user request ('show the toaster message for 6 seconds and automatically closed after 6 seconds'), not Figma-sourced — get_motion_context on node 1475:5100 returns no keyframe data; the Toast frame is a static mockup with 3 snapshot instances at different progress-bar fill widths illustrating the concept, not an animated prototype."
+    },
+    "hero-rotate": {
+      "value": 60000,
+      "usage": "EnterpriseLoginPage hero illustration's ambient background spin — one full 0deg->360deg clockwise rotation, linear timing.",
+      "_comment": "Direct user request ('subtle rotating animation... expert level recommendation', approved with 'figma doesn't have the animation background, please go ahead'), then corrected same day per explicit follow-up ('rotate the dotted SVG smoothly clockwise... I don't see the smooth rotation') from an initial small oscillating -3deg/+3deg wobble to this full continuous spin — the wobble had been chosen to avoid sweeping gaps past the image's own bounding box (a landscape ~824x580 dot cloud bled across a portrait panel), but that risk doesn't actually apply here: the panel's own background (`--color-primary-900`) already matches the illustration's transparent negative space, and the static (pre-animation) crop already leaves areas of the panel uncovered by the image with no visible seam — a full rotation sweeps that same already-invisible boundary around instead of introducing a new one. Linear (not eased) timing is deliberate: an eased continuous loop visibly speeds up/slows down at the seam, which reads as a stutter, not \"smooth\"."
+    },
+    "hero-glimmer": {
+      "value": 3000,
+      "usage": "EnterpriseLoginPage hero illustration's sparkle-dot twinkle — one full fade-in/fade-out cycle per dot.",
+      "_comment": "Same request/approval as hero-rotate, same no-Figma-source caveat. Reuses the existing `stagger.skeleton-step-*` fractions (already generic 0/0.075/0.15/0.225/0.3-of-loop offsets, not skeleton-specific in shape) to stagger 5 sparkle dots rather than defining a new stagger set."
     }
   },
   "easing": {
