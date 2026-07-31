@@ -16,8 +16,7 @@ import {
   FingerprintPatternIcon,
   KeyIcon,
   ScanQrCodeIcon,
-  CheckCircleFilledIcon,
-  CircleAlertIcon
+  CheckCircleFilledIcon
 } from "@lumen/ui";
 
 export interface EnterpriseLoginWorkspace {
@@ -145,6 +144,28 @@ function detectOrgHint(email: string): string {
  * `onVerifyMfaCode` props instead and does nothing on its own if they're
  * omitted, the same "call the prop, don't fake a backend" contract
  * `AuthForm.onSubmit` already uses.
+ *
+ * Corrected 2026-07-31 (direct user report: "Sign-in error pattern does not
+ * match the Figma design"): re-checked the actual login frame (node
+ * `1524:2213`) and it has no error state placed in it at all — the
+ * password-error treatment in the prototype (a bordered, icon'd alert box)
+ * has zero Figma evidence. The canonical `Input` component (node
+ * `1262:1181`) does document a real `State=Error` variant, verified
+ * directly on the `Type=Bordered, Size=sm, Icon=No` instance (node
+ * `1265:2100`): a plain red border, `input.primary-error-border`
+ * (`#DA1E28`), already exactly what this component's `aria-invalid` prop
+ * already produced via `Input`'s own error styling — no change needed
+ * there. There is no error *message* treatment in Figma at all for this
+ * field. A bare red border with no text fails WCAG 3.3.1 (errors can't be
+ * conveyed by color alone), so rather than either inventing a new banner
+ * or shipping something inaccessible, the message now reuses this design
+ * system's own established inline-field-error convention (`FormField`'s
+ * `error` prop: plain `role="alert"` text, `text-label-md`,
+ * `status.error`, no box or icon) instead of the prototype's boxed alert —
+ * a deliberate Figma-plus-accessibility deviation from the prototype, not
+ * an invented look, and placed directly under the password field (where
+ * `FormField` already places its own field-level errors) instead of
+ * floating separately near the submit button.
  */
 export function EnterpriseLoginPage({
   logo,
@@ -695,7 +716,12 @@ function SignInScreen({
               {showPassword ? <EyeOffIcon className="size-4" /> : <EyeIcon className="size-4" />}
             </button>
           </div>
-          {password.length > 0 && (
+          {error && (
+            <p role="alert" className="m-0 text-label-md text-[var(--color-status-error)]">
+              {error}
+            </p>
+          )}
+          {!error && password.length > 0 && (
             <div className="flex items-center gap-[var(--spacing-10)]">
               <span className="h-1 flex-1 overflow-hidden rounded-[var(--radius-pill)] bg-[var(--color-background-subtle)]">
                 <span
@@ -723,16 +749,6 @@ function SignInScreen({
             Remember this device for 30 days
           </label>
         </div>
-
-        {error && (
-          <div
-            role="alert"
-            className="flex gap-[var(--spacing-10)] rounded-[var(--radius-lg)] border border-[var(--color-status-error-border)] bg-[var(--color-status-error-subtle)] p-[var(--spacing-12)] px-[var(--spacing-14)]"
-          >
-            <CircleAlertIcon className="mt-0.5 size-4 shrink-0 text-[var(--color-status-error)]" aria-hidden="true" />
-            <span className="text-body-sm text-[var(--color-text-title)]">{error}</span>
-          </div>
-        )}
 
         <Button
           type="submit"
