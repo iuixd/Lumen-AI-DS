@@ -39,10 +39,18 @@ describe("AIResponseCard", () => {
     expect(screen.getByText("$420K")).toBeInTheDocument();
   });
 
-  it("renders the first section's code block", () => {
-    render(<AIResponseCard sections={baseSections} />);
-    expect(screen.getByText("SELECT")).toBeInTheDocument();
-  });
+  it(
+    "renders the first section's code block",
+    async () => {
+      render(<AIResponseCard sections={baseSections} />);
+      // CodeBlock highlights via Shiki, which resolves asynchronously (unlike
+      // the previous prism-react-renderer implementation's synchronous render)
+      // and can take longer than testing-library's default 1000ms find timeout
+      // on Shiki's first, cold-start highlight call in a test-file run.
+      expect(await screen.findByText("SELECT", {}, { timeout: 10000 })).toBeInTheDocument();
+    },
+    15000
+  );
 
   it("hides the expand control when there is only one section", () => {
     render(<AIResponseCard sections={baseSections} />);
