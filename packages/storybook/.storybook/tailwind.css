@@ -3,9 +3,6 @@
    must load separately rather than through the design system's own font
    stack. */
 @import url("https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap");
-/* Storybook-chrome-only typeface for the Docs page code blocks
-   (.docblock-source) — matches the "Tokyo Night" reference screenshot. */
-@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap");
 /* Product-preview family used by the canonical AppShell for both interface
    copy and the Lumen mark (2026-07-27: `brand` moved off Inter onto
    Instrument Sans — see typography.json's `_comment` — so one import now
@@ -134,139 +131,22 @@ html:not([data-theme="dark"]) body {
   color: #ffffff !important;
 }
 
-/* `.docblock-source` is the MDX-authored fenced-code-block card (e.g. the
-   "pnpm add ..." / import snippets on the Introduction page) — Storybook
-   gives it a default `box-shadow` + 4px radius; flatten it to match the
-   outlined, 16px-radius look used for `.sbdocs-preview`/`.docblock-argstable`
-   above. `!important` for the same reason as those — Storybook's own
-   injected <style> tag can load after this stylesheet. */
-.docblock-source {
-  border-radius: 16px !important;
-  box-shadow: none !important;
-  overflow: hidden !important;
-}
-
-/* Storybook otherwise supplies a separate near-black color for expanded
-   source blocks. Keep every dark Docs surface on the same standard color.
-   `color` here only reaches plain/unhighlighted text — Prism's own
-   `.token.*` spans (keyword/string/function/punctuation) carry their own,
-   more specific color rules that this doesn't override, and those were
-   tuned for a white background: `.token.function`/`.token.punctuation` in
-   particular are a near-black gray that goes illegible once the card
-   behind them turns dark. Fixed explicitly per token class below instead
-   of trying to flatten everything through inheritance.
-   `> div:last-child` is the Copy button's own wrapper div (a second,
-   unstyled hashed-class sibling next to the code's scroll-area div) — its
-   hardcoded white background was left showing through .docblock-source's
-   rounded corner as a stray white fleck once everything around it went
-   dark, hence targeting it structurally like `.docs-story > div:last-child`
-   above rather than by its unstable `.css-xxxx` class name. */
-[data-preview-theme="dark"] .docblock-source,
-[data-preview-theme="dark"] .docblock-source pre,
-[data-preview-theme="dark"] .docblock-source button,
-[data-preview-theme="dark"] .docblock-source > div:last-child {
-  background: var(--lumen-storybook-dark-background) !important;
-  color: #c0caf5 !important;
-}
-
-/* Storybook's built-in copy-to-clipboard button (the same "Copy button's
-   own wrapper div" referenced above) ships with no hover/focus affordance
-   at all — the block above only fixes its base color so it blends into the
-   dark card instead of showing a stray white fleck. Add the missing
-   interactive surface here, GitHub-style (idle state blends into the card;
-   hover/focus reveals a subtle surface — GitHub's own copy button in
-   rendered code blocks behaves the same way), using Lumen's own neutral
-   token in light mode and the same Tokyo Night text color already used for
-   dark-mode code (translucent, tying the hover surface to the established
-   dark palette instead of introducing an unrelated color). Storybook's own
-   click-to-copy handling and its icon swap to a checkmark on success are
-   unchanged — only the idle/hover/focus colors are themed here. */
-.docblock-source > div:last-child button {
-  border-radius: 6px !important;
-  transition:
-    background-color 0.15s ease,
-    color 0.15s ease !important;
-}
-
-.docblock-source > div:last-child button:hover,
-.docblock-source > div:last-child button:focus-visible {
-  background: var(--color-neutral-50) !important;
-}
-
-[data-preview-theme="dark"] .docblock-source > div:last-child button:hover,
-[data-preview-theme="dark"] .docblock-source > div:last-child button:focus-visible {
-  background: rgba(192, 202, 245, 0.12) !important;
-}
-
-/* Code-block text only (not the card background/border above, which stays
-   as-is). Roboto Mono at normal weight with Chrome's forced grayscale
-   antialiasing reads as thin on Windows (it bypasses ClearType) — restoring
-   native font smoothing plus a heavier, ligature-font-style monospace stack
-   fixes legibility independent of the color choice. Font size/line-height
-   here override Storybook's own default docs theme (13px/19px, not a Lumen
-   token — this is Storybook chrome, like `.sbdocs-wrapper h1` above). */
-.sbdocs-wrapper pre,
-.sbdocs-wrapper pre code {
-  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", Consolas, monospace !important;
-  font-weight: 700 !important;
-  font-size: 16px !important;
-  line-height: 24px !important;
-  color: #001080 !important;
-  -webkit-font-smoothing: auto !important;
-}
-
-/* VS Code "Light+" token colors (the default light theme). */
-.sbdocs-wrapper pre .token.keyword {
-  color: #0000ff !important;
-}
-
-.sbdocs-wrapper pre .token.string {
-  color: #a31515 !important;
-}
-
-.sbdocs-wrapper pre .token.function {
-  color: #795e26 !important;
-}
-
-.sbdocs-wrapper pre .token.imports.maybe-class-name {
-  color: #267f99 !important;
-}
-
-/* "Tokyo Night" token colors (the reference screenshot's theme) for dark
-   mode — light mode keeps the VS Code "Light+" colors above unchanged. */
-[data-preview-theme="dark"] .sbdocs-wrapper pre,
-[data-preview-theme="dark"] .sbdocs-wrapper pre code {
-  color: #c0caf5 !important;
-}
-
-[data-preview-theme="dark"] .sbdocs-wrapper pre .token.keyword {
-  color: #bb9af7 !important;
-}
-
-[data-preview-theme="dark"] .sbdocs-wrapper pre .token.string {
-  color: #9ece6a !important;
-}
-
-[data-preview-theme="dark"] .sbdocs-wrapper pre .token.function {
-  color: #7aa2f7 !important;
-}
-
-[data-preview-theme="dark"] .sbdocs-wrapper pre .token.imports.maybe-class-name {
-  color: #c0caf5 !important;
-}
-
-[data-preview-theme="dark"] .sbdocs-wrapper pre .token.punctuation {
-  color: #c0caf5 !important;
-}
-
-[data-preview-theme="dark"] .sbdocs-wrapper pre .token.number {
-  color: #ff9e64 !important;
-}
-
-[data-preview-theme="dark"] .sbdocs-wrapper pre .token.comment {
-  color: #565f89 !important;
-  font-style: italic;
-}
+/* Code-block rendering (`.docblock-source`'s MDX fenced blocks, and the
+   `<pre class="prismjs">` panel revealed by a Canvas story's "Show code"
+   toggle) intentionally carries NO custom styling here — reverted
+   2026-08-01 at direct user request ("reset the code block style to
+   Storybook default theme and styles") after a background-color fix
+   exposed that this file's own "VS Code Light+"/"Tokyo Night" `.token.*`
+   palette only ever covered a handful of token types (keyword/string/
+   function/imports.maybe-class-name); every other type Storybook's real
+   Prism grammar produces (`.token.tag`, `.token.attr-name`, `.token.punctuation`
+   in JSX, `.token.plain-text`, ...) was left on Storybook's own built-in
+   theme, which is why the whole thing only ever looked coherent by
+   accident, on Storybook's own unconditional dark backdrop. Rather than
+   keep extending this partial palette token-by-token, Storybook's default
+   Docs code-block theme is left untouched and consistent in both light and
+   dark mode. `.sbdocs-preview`'s own background/border (Canvas card chrome,
+   not the code text inside it) is unrelated and unchanged above. */
 
 [data-preview-theme="dark"] .sbdocs-preview > div:first-child button,
 [data-preview-theme="dark"] .sbdocs-preview > div:first-child svg {

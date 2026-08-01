@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState, type ReactNode } from "react";
-import type { Language } from "prism-react-renderer";
+import type { BundledLanguage } from "shiki";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../components/collapsible/Collapsible";
 import { Skeleton } from "../components/skeleton/Skeleton";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../components/tooltip/Tooltip";
@@ -78,7 +78,7 @@ export interface AIResponseCardSection {
   };
   code?: {
     code: string;
-    language?: Language;
+    language?: BundledLanguage;
   };
 }
 

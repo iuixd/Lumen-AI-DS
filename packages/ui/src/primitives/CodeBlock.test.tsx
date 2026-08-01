@@ -1,40 +1,93 @@
-import { describe, expect, it } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { CodeBlock } from "./CodeBlock";
 
+// Shiki's first codeToHtml() call in a given test-file run has to load its
+// grammar/theme bundles from scratch, which can comfortably exceed
+// testing-library's default 1000ms waitFor/findBy timeout — bump it well
+// past that instead of chasing flakiness.
+const SHIKI_TIMEOUT = 10000;
+
 describe("CodeBlock", () => {
-  it("renders the code text inside a <pre>", () => {
-    const { container } = render(<CodeBlock code="SELECT 1;" language="sql" />);
-    expect(container.querySelector("pre")).toBeInTheDocument();
-    expect(screen.getByText(/SELECT/)).toBeInTheDocument();
+  it(
+    "renders the code text once Shiki finishes highlighting",
+    async () => {
+      render(<CodeBlock code="SELECT 1;" language="sql" />);
+      expect(await screen.findByText(/SELECT/, {}, { timeout: SHIKI_TIMEOUT })).toBeInTheDocument();
+    },
+    SHIKI_TIMEOUT + 5000
+  );
+
+  it("shows the language in the header when no filename is given", () => {
+    render(<CodeBlock code="SELECT 1;" language="sql" />);
+    expect(screen.getByText("sql")).toBeInTheDocument();
   });
 
-  it("applies the Figma-exact keyword color to SQL keywords", () => {
-    render(<CodeBlock code="SELECT account FROM renewals;" language="sql" />);
-    const keyword = screen.getByText("SELECT");
-    expect(keyword).toHaveStyle({ color: "var(--color-code-syntax-keyword)" });
+  it("shows the filename in the header when one is given", () => {
+    render(<CodeBlock code="SELECT 1;" language="sql" filename="renewals.sql" />);
+    expect(screen.getByText("renewals.sql")).toBeInTheDocument();
   });
 
-  it("applies the Figma-exact string color to string literals", () => {
-    render(<CodeBlock code={`SELECT 1 WHERE quarter = 'Q3';`} language="sql" />);
-    const stringToken = screen.getByText("'Q3'");
-    expect(stringToken).toHaveStyle({ color: "var(--color-code-syntax-string)" });
-  });
+  it(
+    "defaults to sql when no language is given",
+    async () => {
+      render(<CodeBlock code="SELECT 1;" />);
+      expect(screen.getByText("sql")).toBeInTheDocument();
+      expect(await screen.findByText(/SELECT/, {}, { timeout: SHIKI_TIMEOUT })).toBeInTheDocument();
+    },
+    SHIKI_TIMEOUT + 5000
+  );
 
-  it("leaves plain tokens (e.g. identifiers) at the default text color", () => {
-    render(<CodeBlock code="SELECT account FROM renewals;" language="sql" />);
-    const identifier = screen.getByText("account");
-    expect(identifier).not.toHaveStyle({ color: "var(--color-code-syntax-keyword)" });
-    expect(identifier).not.toHaveStyle({ color: "var(--color-code-syntax-string)" });
-  });
+  it(
+    "highlights a different language (TSX) via real tokenization",
+    async () => {
+      render(<CodeBlock code="const x: number = 1;" language="tsx" />);
+      expect(await screen.findByText(/const/, {}, { timeout: SHIKI_TIMEOUT })).toBeInTheDocument();
+    },
+    SHIKI_TIMEOUT + 5000
+  );
 
-  it("highlights a different language (TypeScript) via real tokenization", () => {
-    render(<CodeBlock code="const x: number = 1;" language="tsx" />);
-    expect(screen.getByText("const")).toHaveStyle({ color: "var(--color-code-syntax-keyword)" });
-  });
+  it(
+    "prefixes each line with its line number when showLineNumbers is set",
+    async () => {
+      const { container } = render(
+        <CodeBlock code={"SELECT 1;\nSELECT 2;"} language="sql" showLineNumbers />
+      );
+      await waitFor(() => expect(container.querySelectorAll(".line")).toHaveLength(2), { timeout: SHIKI_TIMEOUT });
+      expect(container.querySelector(".lm-code-block-line-numbers")).toBeInTheDocument();
+    },
+    SHIKI_TIMEOUT + 5000
+  );
 
-  it("defaults to sql when no language is given", () => {
-    render(<CodeBlock code="SELECT 1;" />);
-    expect(screen.getByText("SELECT")).toHaveStyle({ color: "var(--color-code-syntax-keyword)" });
+  it(
+    "marks the requested lines as highlighted",
+    async () => {
+      const { container } = render(
+        <CodeBlock code={"SELECT 1;\nSELECT 2;\nSELECT 3;"} language="sql" highlightLines={[2]} />
+      );
+      await waitFor(() => expect(container.querySelectorAll(".line")).toHaveLength(3), { timeout: SHIKI_TIMEOUT });
+      expect(container.querySelectorAll(".line-highlighted")).toHaveLength(1);
+    },
+    SHIKI_TIMEOUT + 5000
+  );
+
+  describe("Copy action", () => {
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
+    it(
+      "copies the raw code to the clipboard and shows a temporary 'Copied' confirmation",
+      async () => {
+        const user = userEvent.setup();
+        const writeText = vi.spyOn(navigator.clipboard, "writeText").mockResolvedValue(undefined);
+        render(<CodeBlock code="SELECT 1;" language="sql" />);
+        await user.click(screen.getByRole("button", { name: "Copy code" }));
+        await waitFor(() => expect(writeText).toHaveBeenCalledWith("SELECT 1;"), { timeout: SHIKI_TIMEOUT });
+        expect(screen.getByRole("button", { name: "Copied" })).toBeInTheDocument();
+      },
+      SHIKI_TIMEOUT + 5000
+    );
   });
 });

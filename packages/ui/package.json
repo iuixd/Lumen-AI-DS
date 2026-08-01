@@ -52,11 +52,11 @@
     "embla-carousel-react": "^8.6.0",
     "input-otp": "^1.4.2",
     "lucide-react": "^1.25.0",
-    "prism-react-renderer": "^2.4.1",
     "react-day-picker": "^10.0.1",
     "react-hook-form": "^7.82.0",
     "react-resizable-panels": "^4.12.2",
     "recharts": "^2.15.4",
+    "shiki": "^1.24.0",
     "tailwind-merge": "^2.5.2",
     "vaul": "^1.1.2",
     "zod": "^4.4.3"
