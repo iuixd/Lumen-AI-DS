@@ -28,10 +28,9 @@ separate "Sky" collection exists), so `sky` was renamed to `blue` to match exact
 **Same-day correction:** that same Variables-panel screenshot also showed `sand`,
 `lemon-green`, `japonica`, and `forest` are not current Figma collections at all, despite an
 older in-repo comment claiming they were — they had zero consumers anywhere in the codebase and
-were deleted outright. `purple`, `deep-purple`, `pink`, and `cobalt` are in the same situation
-but still back real Badge/toaster semantic tokens, so they're kept for now and marked "PENDING
-REPLACEMENT" below (and in their own primitive `_comment`) until real Figma-backed values are
-supplied — do not treat their current hex values as Figma-sourced.
+were deleted outright. `purple`, `deep-purple`, `pink`, and `cobalt` looked like the same
+situation at the time (still backing real Badge/toaster semantic tokens), so all four were
+marked "PENDING REPLACEMENT" pending real Figma-backed values.
 
 **Second same-day correction:** the user then flagged `icon-gray` as also not a real Figma
 collection. Unlike the families above, this one had a real fix available immediately — its
@@ -39,6 +38,30 @@ collection. Unlike the families above, this one had a real fix available immedia
 so the family was deleted and its two consumers (`icon.nav-default`/`icon.nav-hover`, dark
 theme) were repointed straight at `nightshade` instead of left flagged. It no longer appears
 below.
+
+**Third same-day correction:** the user pasted the actual raw `Default.tokens.json` Primitives
+export, which resolved the four pending families definitively. `purple`, `deep-purple`, and
+`pink` turned out to be real — every existing value matched exactly, plus new `900`/`950` steps
+this file was missing, now added. Their PENDING REPLACEMENT flags are removed. `cobalt` was
+confirmed genuinely absent (this dump includes every other unusual hue but not it) and, per the
+user's explicit instruction, deleted outright — its 3 consumers (none used by any actual
+component) were repointed to `blue.50`/`blue.800`, finally resolving a gap already flagged in
+`semantic/color.json`'s own comments: the Light theme export's `bg.badge` had always resolved to
+`Blue/50`, just left unrepointed while `cobalt`'s status was unclear. The same dump also showed
+`primary.10` and `neutral.250`/`neutral.850` aren't real either (unconsumed, deleted) and
+evidenced two new real `nightshade` steps (`100`, `500`, both added) while leaving
+`nightshade.350`/`850` unconfirmed (kept, flagged — see the palette note below).
+
+**Fourth correction (2026-08-03):** a second Primitives export confirmed `nightshade`'s alpha
+tints are scoped to its `500` step, not `600` as an earlier, more partial Alpha export had
+claimed — renamed `nightshade.600-a8..a80` → `500-a8..a80` (zero consumers, straight swap). A
+third export consistently omitted any `-300-`/`-400-` Alpha entries across every family. Unlike
+every deletion above, `primary.300-a20`/`primary.300-a40`/`blue.300-a60` were all actively
+consumed (dark-mode `Button` secondary bg/border, dark `background.info`) — removed at explicit
+user instruction and repointed to the closest standardized `500-a*` step instead
+(`500-a40`/`500-a60` are exact matches; `500-a24`, for the 20%-original background, is a
+documented judgment call between two equidistant standardized options, not a further-evidenced
+value).
 
 ## Color — semantic roles
 
