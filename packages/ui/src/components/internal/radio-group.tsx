@@ -2,19 +2,34 @@
 
 import * as React from "react"
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group"
-import { DotIcon } from "../../icons/generated/DotIcon"
 
 import { cn } from "../../lib/cn"
 
 /**
  * Adapted from shadcn/ui's RadioGroup (new-york style) — internal to
  * @lumen/ui, exported publicly as plain `RadioGroup` (no collision:
- * Lumen's own primitive is named `Radio`, singular). Changes:
- * - imports resolve via this repo's existing relative-import convention
- * - lucide-react's `Circle` (rendered with `fill-primary`) replaced with
- *   Lumen's own generated `DotIcon`, a stroke-based icon — recolored via
- *   `text-primary` (sets `currentColor`) instead of `fill-primary`
- * - bare `shadow` dropped — no shadow precedent on Lumen's own `Radio.tsx`
+ * Lumen's own primitive is named `Radio`, singular).
+ *
+ * Redesigned 2026-08-03, direct user report against Storybook screenshots
+ * ("RadioGroup under Composite radio buttons not using the primitive radio
+ * component" / "Radio buttons not matching the primitive component") — a
+ * first color-only pass wasn't enough, since the *structure* diverged too:
+ * shadcn's original rendered a fixed 1px border plus lucide's `Circle` icon
+ * (`fill-primary`) as the selected mark. `Radio.tsx` (this repo's own,
+ * already Figma-sourced primitive) renders its selected dot as a plain
+ * filled circle `<span>` sized off `--input-radio-dot-size-*`, not an icon,
+ * and its ring off `--input-indicator-size-*`/`--input-selection-border-
+ * width-*` (18.667px / 1.5px at md) rather than a flat 16px/1px guess. This
+ * component now reuses those exact `md`-size tokens so the two components
+ * render identically at their default size — same source of truth,
+ * `packages/tokens/src/input.json`, not a second hand-tuned copy.
+ * Simplification flagged, not silently dropped: `Radio.tsx` also has a
+ * `size` prop (sm/md/lg) and a separate, larger `control-size` hit-target
+ * wrapper around its visible ring (Figma's two-layer geometry, the same
+ * simplification already flagged on `checkbox.tsx`); `RadioGroupItem` has
+ * neither here, since Radix's `Item` is itself the interactive `role=radio`
+ * element, and no `size` prop was requested — it renders the `md` ring
+ * geometry only, sized to Radix's default hit target.
  */
 const RadioGroup = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Root>,
@@ -32,14 +47,29 @@ const RadioGroupItem = React.forwardRef<
     <RadioGroupPrimitive.Item
       ref={ref}
       className={cn(
-        "aspect-square h-4 w-4 rounded-full border border-primary text-primary focus:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
+        "group relative inline-flex shrink-0 items-center justify-center rounded-full border-solid bg-[var(--color-input-primary-bg)]",
+        "size-[var(--input-indicator-size-md)] [border-width:var(--input-selection-border-width-md)]",
+        "border-[color:var(--color-input-primary-border)] hover:border-[color:var(--color-input-primary-hover-border)]",
+        "data-[state=checked]:border-[color:var(--color-input-radio-checkbox-selected)]",
+        "focus-visible:outline-none",
+        "disabled:cursor-not-allowed disabled:border-[color:var(--color-input-radio-checkbox-disabled-border)] disabled:opacity-50",
         className
       )}
       {...props}
     >
-      <RadioGroupPrimitive.Indicator className="flex items-center justify-center">
-        <DotIcon className="h-3.5 w-3.5 text-primary" />
-      </RadioGroupPrimitive.Indicator>
+      <RadioGroupPrimitive.Indicator
+        className={cn(
+          "pointer-events-none rounded-full bg-[var(--color-input-radio-checkbox-selected)]",
+          "size-[var(--input-radio-dot-size-md)]"
+        )}
+      />
+      <span
+        aria-hidden="true"
+        className={cn(
+          "pointer-events-none absolute inset-0 rounded-full border-solid border-[var(--color-input-primary-focused-border)] opacity-0 group-focus-visible:opacity-100",
+          "[border-radius:var(--input-focus-radius-md)] [border-width:var(--input-focus-width-md)]"
+        )}
+      />
     </RadioGroupPrimitive.Item>
   )
 })
