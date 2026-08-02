@@ -3438,10 +3438,10 @@ owns each toast's auto-dismiss lifecycle. Source:
 
 ```text
 color.toast.title-text     (new)
-color.toast.info-accent    (new — exact Figma sky.500, distinct from the
-                             generic status.info, which does not match this
-                             frame's evidenced color; see semantic/color.json's
-                             _toastComment)
+color.toast.info-accent    (new — exact Figma blue.500, #2563EB; kept as a
+                             distinct Toast-scoped token even though
+                             status.info now resolves to this same value
+                             — see semantic/color.json's _toastComment)
 color.status.warning       (reused, exact)
 color.status.error         (reused, exact)
 color.status.success       (reused — not Figma-evidenced for Toast)
@@ -3511,13 +3511,17 @@ Recorded rather than silently closed — see `docs/figma-sync.md`:
 - **`success`/`neutral` tones have no Figma instance in this node.** They
   keep their pre-existing generic colors and render no default icon, rather
   than an invented Figma-styled treatment.
-- **`status.info`/`status.info-subtle` mismatch, not repointed.** This
-  frame's evidenced info color (sky.500, #2563EB) does not match the
-  existing generic `status.info` (blue.500, #0E17FF) — a gap
-  `docs/figma-sync.md` §18 already flagged as unresolved. This sync adds
-  the exact value as `toast.info-accent` (Toast-scoped) rather than
-  repointing the shared `status.info` token, which has other consumers
-  outside this sync's unit.
+- **`status.info`/`status.info-subtle` mismatch — resolved 2026-08-02.**
+  At the time of this sync, this frame's evidenced info color (then named
+  `sky.500`, #2563EB) didn't match the existing generic `status.info`
+  (the old, stale `blue.500`, #0E17FF) — a gap `docs/figma-sync.md` §18
+  flagged as unresolved, so the value was added as its own Toast-scoped
+  `toast.info-accent` rather than repointing the shared token. A later
+  same-day Figma token refresh renamed `sky`→`blue` (the real Figma name)
+  and repointed `status.info`/`status.info-subtle` to this exact ramp —
+  `status.info` and `toast.info-accent` now both resolve to `#2563EB`.
+  `toast.info-accent` is kept as its own token rather than collapsed into
+  `status.info`, since no existing consumer was repointed.
 - **Drop shadow bypasses Tailwind's `shadow-[...]` arbitrary-value
   utility.** `shadow-[var(--shadow-toast-default)]` compiles to a shadow
   *color* hint (`--tw-shadow-color`), not the full shadow value, so nothing
