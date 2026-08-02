@@ -50,7 +50,8 @@ component) were repointed to `blue.50`/`blue.800`, finally resolving a gap alrea
 `Blue/50`, just left unrepointed while `cobalt`'s status was unclear. The same dump also showed
 `primary.10` and `neutral.250`/`neutral.850` aren't real either (unconsumed, deleted) and
 evidenced two new real `nightshade` steps (`100`, `500`, both added) while leaving
-`nightshade.350`/`850` unconfirmed (kept, flagged — see the palette note below).
+`nightshade.350`/`850` unconfirmed at the time (kept, flagged — see the fifth correction below
+for how this was resolved).
 
 **Fourth correction (2026-08-03):** a second Primitives export confirmed `nightshade`'s alpha
 tints are scoped to its `500` step, not `600` as an earlier, more partial Alpha export had
@@ -62,6 +63,12 @@ user instruction and repointed to the closest standardized `500-a*` step instead
 (`500-a40`/`500-a60` are exact matches; `500-a24`, for the 20%-original background, is a
 documented judgment call between two equidistant standardized options, not a further-evidenced
 value).
+
+**Fifth correction (2026-08-03):** the user reported that Figma itself had consolidated away
+`nightshade.350`/`850` and directed remapping their 3 consumers to match — `background.code`
+(was `350`) now aliases `nightshade.300`; `background.brand-tint`/`border.toaster` (were `850`)
+now alias `nightshade.900`. Both primitive steps are deleted; `nightshade` no longer carries a
+pending-replacement note below.
 
 ## Color — semantic roles
 

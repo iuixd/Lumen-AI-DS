@@ -35,8 +35,7 @@ const PALETTE_FAMILIES = [
 ];
 
 const FAMILY_NOTES: Record<string, string> = {
-  overlay: "translucent black/white steps, not a hue ramp — backs bg.hover/bg.pressed/bg.overlay.",
-  nightshade: "350/850 steps are PENDING REPLACEMENT — absent from the latest Figma Primitives dump, see primitives/color.json comment."
+  overlay: "translucent black/white steps, not a hue ramp — backs bg.hover/bg.pressed/bg.overlay."
 };
 
 function kebabColorKey(key: string) {
