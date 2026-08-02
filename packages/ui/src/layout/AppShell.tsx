@@ -113,7 +113,7 @@ export function AppShell({
   const mainContent = (
     <>
       {tabletHeader && (
-        <header className="hidden h-[var(--spacing-52)] shrink-0 items-center border-b border-[var(--color-app-shell-border-default)] bg-[var(--color-app-shell-surface)] tablet:flex desktop:hidden">
+        <header className="hidden h-[var(--size-header-h)] shrink-0 items-center border-b border-[var(--color-app-shell-border-default)] bg-[var(--color-app-shell-surface)] tablet:flex desktop:hidden">
           {tabletHeader}
         </header>
       )}
@@ -148,7 +148,7 @@ export function AppShell({
       {mobileStatusBar && <div className="shrink-0 tablet:hidden">{mobileStatusBar}</div>}
       {mobileHeader && <header className="shrink-0 tablet:hidden">{mobileHeader}</header>}
       {header && (
-        <header className="hidden h-[var(--spacing-52)] shrink-0 items-center border-b border-[var(--color-app-shell-border-default)] bg-[var(--color-app-shell-surface)] desktop:flex">
+        <header className="hidden h-[var(--size-header-h)] shrink-0 items-center border-b border-[var(--color-app-shell-border-default)] bg-[var(--color-app-shell-surface)] desktop:flex">
           {header}
         </header>
       )}
@@ -203,7 +203,7 @@ export function AppShell({
           <>
             <div className="flex min-w-0 flex-1 flex-col overflow-hidden">{mainContent}</div>
             {assistant && (
-              <aside className="hidden w-[var(--spacing-304)] shrink-0 desktop:block">
+              <aside className="hidden w-[var(--size-ai-panel-w)] shrink-0 desktop:block">
                 {assistant}
               </aside>
             )}

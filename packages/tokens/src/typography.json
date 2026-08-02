@@ -57,31 +57,41 @@
       "fontSize": 60,
       "lineHeight": 72,
       "weight": 600,
-      "usage": "Page hero, marketing headlines (Figma H1)"
+      "usage": "Page hero, marketing headlines (Figma H1)",
+      "mobile": { "fontSize": 48, "lineHeight": 58 },
+      "_comment": "mobile override added 2026-08-02 from a fresh Variables export's responsive Typography collection (Desktop/Tablet/Mobile modes) — Tablet is identical to Desktop for this tier (no override needed), Mobile differs. See build.mjs for how `mobile`/`tablet` override keys are emitted (same mechanism as the existing per-tier `dark` override, generalized to a `@media` block using breakpoint.json's approved thresholds)."
     },
     "display-md": {
       "fontSize": 50,
       "lineHeight": 60,
       "weight": 600,
-      "usage": "Section hero, key messages (Figma H2)"
+      "usage": "Section hero, key messages (Figma H2)",
+      "mobile": { "fontSize": 40, "lineHeight": 48 },
+      "_comment": "mobile override added 2026-08-02, same source/rationale as display-lg above."
     },
     "display-sm": {
       "fontSize": 40,
       "lineHeight": 50,
       "weight": 600,
-      "usage": "Sub-hero, feature highlights (Figma H3)"
+      "usage": "Sub-hero, feature highlights (Figma H3)",
+      "mobile": { "fontSize": 32, "lineHeight": 40 },
+      "_comment": "mobile override added 2026-08-02, same source/rationale as display-lg above."
     },
     "headline-lg": {
       "fontSize": 32,
       "lineHeight": 42,
       "weight": 600,
-      "usage": "Page titles, major sections (Figma H4)"
+      "usage": "Page titles, major sections (Figma H4)",
+      "mobile": { "fontSize": 28, "lineHeight": 36 },
+      "_comment": "mobile override added 2026-08-02, same source/rationale as display-lg above."
     },
     "headline-md": {
       "fontSize": 24,
       "lineHeight": 32,
       "weight": 600,
-      "usage": "Section titles, card titles (Figma H5)"
+      "usage": "Section titles, card titles (Figma H5)",
+      "mobile": { "fontSize": 20, "lineHeight": 28 },
+      "_comment": "mobile override added 2026-08-02, same source/rationale as display-lg above. headline-sm (Figma H6) was checked and has NO variance across Desktop/Tablet/Mobile — no override added there."
     },
     "headline-sm": {
       "fontSize": 20,
@@ -307,7 +317,10 @@
       "lineHeight": 18,
       "weight": 600,
       "letterSpacing": 0,
-      "usage": "AIButton label, size=sm (Figma node 1034:4459, exact bound Button/XSmall variable)"
+      "usage": "AIButton label, size=sm (Figma node 1034:4459, exact bound Button/XSmall variable)",
+      "tablet": { "fontSize": 11, "lineHeight": 18 },
+      "mobile": { "fontSize": 11, "lineHeight": 18 },
+      "_comment": "tablet/mobile overrides added 2026-08-02 from a fresh Variables export's responsive Typography collection — this tier's Desktop value (12/18) exactly matched the export's 'Button XSmall' Desktop reading, confirming the mapping; XSmall's Tablet and Mobile values (both 11/18, identical to each other) are applied here. Figma's own 'Button Small' (13/20 Desktop) and 'Button Large' (16/24 Desktop) tiers have no confident match against any existing key in this file (this repo's legacy button-sm/button-xs are close-but-not-exact at 12/20 and 11/18) and were deliberately left unmapped rather than guessed — flagged in docs/changelog.md."
     },
     "standard-button-md": {
       "fontSize": 14,
@@ -321,14 +334,20 @@
       "lineHeight": 28,
       "weight": 600,
       "letterSpacing": 0,
-      "usage": "AIButton label, size=lg (Figma node 1034:4459) — no distinct Button/Large variable exists in Figma; the Large instance's own label literally binds to Button/XLarge, so this tier now matches xl exactly, by direct user confirmation rather than inference"
+      "usage": "AIButton label, size=lg (Figma node 1034:4459) — no distinct Button/Large variable exists in Figma; the Large instance's own label literally binds to Button/XLarge, so this tier now matches xl exactly, by direct user confirmation rather than inference",
+      "tablet": { "fontSize": 16, "lineHeight": 28 },
+      "mobile": { "fontSize": 16, "lineHeight": 28 },
+      "_comment": "tablet/mobile overrides added 2026-08-02, mirroring standard-button-xl below (same rationale this tier already follows at Desktop)."
     },
     "standard-button-xl": {
       "fontSize": 18,
       "lineHeight": 28,
       "weight": 600,
       "letterSpacing": 0,
-      "usage": "AIButton label, size=xl (Figma node 1034:4459, exact bound Button/XLarge variable)"
+      "usage": "AIButton label, size=xl (Figma node 1034:4459, exact bound Button/XLarge variable)",
+      "tablet": { "fontSize": 16, "lineHeight": 28 },
+      "mobile": { "fontSize": 16, "lineHeight": 28 },
+      "_comment": "tablet/mobile overrides added 2026-08-02 from a fresh Variables export's responsive Typography collection — Figma's 'Button XLarge' Tablet and Mobile values (both 16/28, identical to each other, differing only from Desktop's 18/28)."
     },
     "app-nav": {
       "fontSize": 13,

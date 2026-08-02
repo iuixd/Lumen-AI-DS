@@ -233,7 +233,7 @@ describe("AppShell", () => {
     expect(screen.getByText("Tablet header").parentElement).toHaveClass(
       "tablet:flex",
       "desktop:hidden",
-      "h-[var(--spacing-52)]"
+      "h-[var(--size-header-h)]"
     );
     expect(screen.getByText("Mobile status").parentElement).toHaveClass("tablet:hidden");
     expect(screen.getByText("Mobile header").parentElement).toHaveClass("tablet:hidden");
@@ -278,7 +278,7 @@ describe("AppShell", () => {
     expect(screen.queryByRole("separator")).not.toBeInTheDocument();
     expect(screen.getByText("Assistant").parentElement).toHaveClass(
       "hidden",
-      "w-[var(--spacing-304)]",
+      "w-[var(--size-ai-panel-w)]",
       "desktop:block"
     );
   });

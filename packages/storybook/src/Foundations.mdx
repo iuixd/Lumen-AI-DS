@@ -1,0 +1,98 @@
+import { Meta, Canvas } from "@storybook/blocks";
+import * as FoundationsStories from "./Foundations.stories";
+
+<Meta of={FoundationsStories} />
+
+# Foundations
+
+The current state of `@lumen/tokens` — colors, typography, radius, motion, and size. Every
+swatch/value below renders from the real generated CSS variables (`@lumen/tokens/css`), not a
+hardcoded copy, so this page can't drift silently from the token source files. Each section
+below is a real Storybook story (not raw MDX content) specifically so the toolbar's light/dark
+toggle actually reaches it — see `Foundations.stories.tsx`'s own comment for why that
+distinction matters in this Storybook setup. Use Storybook's viewport toolbar to see the
+responsive typography overrides below 1024px (tablet) and 768px (mobile).
+
+## Color — primitive palettes
+
+<Canvas of={FoundationsStories.Palettes} />
+
+Every family is a real `@lumen/tokens` primitive ramp, rendered from `colorPrimitives`
+directly — nothing hand-copied. `lumen-dark`/`nightshade`/`icon-gray` and the full `blue` ramp
+were all added 2026-08-02. An older, differently-valued `blue` ramp (500 = `#0E17FF`) occupied
+that name at the time, so the new ramp was added under a placeholder name (`sky`) — once the
+old ramp's last two consumers (`status.info-subtle`) were repointed and it was deleted, a
+screenshot of Figma's own Variables panel confirmed the canonical name really is "Blue" (no
+separate "Sky" collection exists), so `sky` was renamed to `blue` to match exactly.
+
+**Same-day correction:** that same Variables-panel screenshot also showed `sand`,
+`lemon-green`, `japonica`, and `forest` are not current Figma collections at all, despite an
+older in-repo comment claiming they were — they had zero consumers anywhere in the codebase and
+were deleted outright. `purple`, `deep-purple`, `pink`, and `cobalt` are in the same situation
+but still back real Badge/toaster semantic tokens, so they're kept for now and marked "PENDING
+REPLACEMENT" below (and in their own primitive `_comment`) until real Figma-backed values are
+supplied — do not treat their current hex values as Figma-sourced.
+
+**Second same-day correction:** the user then flagged `icon-gray` as also not a real Figma
+collection. Unlike the families above, this one had a real fix available immediately — its
+`default`/`hover` values turned out to be exact duplicates of `nightshade.400`/`nightshade.300`,
+so the family was deleted and its two consumers (`icon.nav-default`/`icon.nav-hover`, dark
+theme) were repointed straight at `nightshade` instead of left flagged. It no longer appears
+below.
+
+## Color — semantic roles
+
+<Canvas of={FoundationsStories.ColorRoles} />
+
+`status.info` was corrected 2026-08-02 to alias the real evidenced `#2563EB` (uniform across
+both themes) — previously it aliased the old, stale `blue.500` (`#0E17FF`), which didn't match
+any evidenced Figma value.
+
+## Font families
+
+<Canvas of={FoundationsStories.FontFamilies} />
+
+`interface` is the default UI face and is what the type-scale samples below render in.
+Individual components may override to `font-editorial` (Source Serif Pro) for specific serif
+headings (e.g. `EnterpriseLoginPage`'s hero) — that pairing is a component-level decision, not
+encoded in the generic scale tokens themselves.
+
+## Typography
+
+Sizes shown are the **desktop** (default) values — the tiers marked "responsive" also carry
+`tablet`/`mobile` overrides emitted as `@media` blocks; resize the viewport or check
+`packages/tokens/src/typography.json` for the exact per-breakpoint numbers.
+
+<Canvas of={FoundationsStories.Typography} />
+
+## Radius
+
+<Canvas of={FoundationsStories.Radius} />
+
+`radius.xl` was corrected 2026-08-02 from 12px to 10px, matching the already-correct
+`button`/`input`/`app-search` component-scoped radius tokens.
+
+## Motion durations
+
+<Canvas of={FoundationsStories.Motion} />
+
+`instant`/`fast`/`moderate`/`slow` are Figma-evidenced as of 2026-08-02 (`slow` was corrected
+400ms→300ms; `slower` is new, with no consumer yet). Easing is now partially evidenced too:
+`standard`/`enter`/`exit` turned out to be exact matches for Figma's `ease-in-out`/`ease-out`/
+`ease-in` (kept under their existing names); `linear`/`spring` are new. `emphasized` remains
+genuinely provisional — Figma has no matching curve for it.
+
+## Size (component-scale dimensions)
+
+<Canvas of={FoundationsStories.Size} />
+
+The "declared only" tokens have no existing component API to attach to yet (`Avatar` has no
+size variant, icon sizing is ad hoc across the codebase) — adopting them into components is
+tracked as follow-up work, not part of this token sync.
+
+## Opacity
+
+<Canvas of={FoundationsStories.Opacity} />
+
+A generic 12-step primitive scale (`opacity.0` through `opacity.100`), added 2026-08-02 —
+distinct from `motion.opacity`'s two skeleton-animation-specific keys. No consumer yet.
