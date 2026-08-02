@@ -301,10 +301,10 @@
       "table-bg": "nightshade.950",
       "table-header-bg": "nightshade.900",
       "table-text": "nightshade.50",
-      "code": "nightshade.350",
+      "code": "nightshade.300",
       "disabled": "nightshade.900",
       "avatar": "neutral.800",
-      "brand-tint": "nightshade.850",
+      "brand-tint": "nightshade.900",
       "status-success": "app-shell.dark.success-bg",
       "status-warning": "app-shell.dark.warning-bg",
       "info": "blue.500-a60"
@@ -339,7 +339,7 @@
       "input": "lumen-gray.500",
       "brand": "app-shell.dark.brand-stroke",
       "separator": "lumen-dark.700",
-      "toaster": "nightshade.850",
+      "toaster": "nightshade.900",
       "active": "primary.200",
       "selected": "primary.300"
     },

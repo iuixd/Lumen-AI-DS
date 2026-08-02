@@ -298,13 +298,11 @@
   --color-nightshade-100: #E1DBDF;
   --color-nightshade-200: #C9C2C7;
   --color-nightshade-300: #B8ACB3;
-  --color-nightshade-350: #B2A4AC;
   --color-nightshade-400: #A8939F;
   --color-nightshade-500: #917D89;
   --color-nightshade-600: #7A6674;
   --color-nightshade-700: #594D54;
   --color-nightshade-800: #3D3039;
-  --color-nightshade-850: #2D1A26;
   --color-nightshade-900: #231C24;
   --color-nightshade-950: #17101A;
   --color-nightshade-500-a8: #917d8914;
@@ -1084,10 +1082,10 @@
   --color-background-table-bg: #17101A;
   --color-background-table-header-bg: #231C24;
   --color-background-table-text: #F9F3F7;
-  --color-background-code: #B2A4AC;
+  --color-background-code: #B8ACB3;
   --color-background-disabled: #231C24;
   --color-background-avatar: #262626;
-  --color-background-brand-tint: #2D1A26;
+  --color-background-brand-tint: #231C24;
   --color-background-status-success: rgba(11, 138, 62, 0.15);
   --color-background-status-warning: rgba(201, 122, 46, 0.15);
   --color-background-info: #2563eb99;
@@ -1118,7 +1116,7 @@
   --color-border-input: #A4B3B7;
   --color-border-brand: #594D54;
   --color-border-separator: #151116;
-  --color-border-toaster: #2D1A26;
+  --color-border-toaster: #231C24;
   --color-border-active: #E599B1;
   --color-border-selected: #D8668A;
   --color-icon-brand: #E599B1;
