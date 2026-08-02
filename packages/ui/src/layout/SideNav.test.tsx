@@ -149,9 +149,9 @@ describe("SideNav", () => {
     const restore = mockDesktop(true);
     try {
       const { rerender, container } = render(<SideNav nav={nav} expanded />);
-      expect(container.firstElementChild).toHaveClass("w-[var(--spacing-224)]");
+      expect(container.firstElementChild).toHaveClass("w-[var(--size-nav-expanded)]");
       rerender(<SideNav nav={nav} expanded={false} />);
-      expect(container.firstElementChild).toHaveClass("w-[var(--spacing-64)]");
+      expect(container.firstElementChild).toHaveClass("w-[var(--size-nav-collapsed)]");
     } finally {
       restore();
     }

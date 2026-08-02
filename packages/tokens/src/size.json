@@ -1,0 +1,15 @@
+{
+  "_comment": "New file added 2026-08-02 from a fresh Variables export's 'Size' primitive group — component-scale dimensions (nav rail widths, header/footer heights, icon/avatar sizes, minimum touch target). Every value here already existed as a generic `spacing.space.N` key (confirmed by exploring existing consumers before adding this file) — these are named, component-scoped aliases of those same numbers, following the same precedent as `radius.json`'s `app-search`/`button` aliasing an already-existing primitive rather than a new value. `header-h`/`nav-expanded`/`nav-collapsed`/`ai-panel-w` are wired into `AppShell.tsx`/`SideNav.tsx`, which previously referenced the generic `--spacing-N` variable directly by number at exactly one call site each. `footer-h`/`icon-sm/md/lg`/`avatar-sm/md/lg`/`touch-target` are declared here but NOT yet wired into any component: AppShell's footer wrapper has no height class to repoint, Avatar has no size variant/prop at all, icon sizing is ~15+ scattered hardcoded Tailwind classes (`size-4`, `size-6`, etc.) with no central prop, and there is no existing touch-target enforcement anywhere — adopting those is a component refactor, not a token sync, and is out of scope here (see docs/changelog.md's [Unreleased] entry for this sync).",
+  "header-h": { "value": 52 },
+  "nav-expanded": { "value": 224 },
+  "nav-collapsed": { "value": 64 },
+  "ai-panel-w": { "value": 304 },
+  "footer-h": { "value": 40 },
+  "icon-sm": { "value": 16 },
+  "icon-md": { "value": 20 },
+  "icon-lg": { "value": 24 },
+  "avatar-sm": { "value": 28 },
+  "avatar-md": { "value": 32 },
+  "avatar-lg": { "value": 40 },
+  "touch-target": { "value": 44 }
+}

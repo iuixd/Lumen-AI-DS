@@ -1,10 +1,11 @@
 {
-  "_comment": "Motion tokens. `docs/design-tokens.md` §6 and `docs/accessibility.md` §3.6 have listed Motion/Duration/* and Motion/Easing/* as required token categories since before this file existed, but no source file implemented them — this file closes that gap. Added 2026-07-28 during the ContentState sync (Figma node 1174:1355), whose Loading variant is the first shipped component with real, Figma-authored keyframe data. Sourcing: `duration.slow` (2000ms) and the `skeleton-pulse` group are exact, read from that node's animation via get_motion_context — a 2s looping opacity track on every skeleton bar, easing easeInOut between the dimmed and full stops, with each bar's dip offset along the timeline to produce a staggered wave. The remaining duration steps and every easing curve have NO Figma source: Figma publishes no motion variable collection, so they are conventional Material-style values recorded here as PROVISIONAL, and exist so components stop reaching for raw ms/cubic-bezier literals. Do not treat them as design-approved; reconcile them if a motion collection is ever published. Every consumer must pair these with a prefers-reduced-motion branch per docs/accessibility.md §3.6 — the tokens carry no reduced-motion behavior of their own.",
+  "_comment": "Motion tokens. `docs/design-tokens.md` §6 and `docs/accessibility.md` §3.6 have listed Motion/Duration/* and Motion/Easing/* as required token categories since before this file existed, but no source file implemented them — this file closes that gap. Added 2026-07-28 during the ContentState sync (Figma node 1174:1355), whose Loading variant is the first shipped component with real, Figma-authored keyframe data. Sourcing: `duration.slow` (2000ms) and the `skeleton-pulse` group are exact, read from that node's animation via get_motion_context — a 2s looping opacity track on every skeleton bar, easing easeInOut between the dimmed and full stops, with each bar's dip offset along the timeline to produce a staggered wave. 2026-08-02 update: a fresh Variables export now publishes a real `Motion/Duration` primitive scale (instant/fast/base/slow/slower = 0/100/200/300/500ms) — the first actual Figma evidence for the generic step-based durations below (distinct from the Figma-node-specific `skeleton-pulse`/`toast`/`hero-*` entries further down, which remain sourced as before). `instant`/`fast` were already exact matches (0/100ms) and are no longer provisional. `moderate` (200ms) matches Figma's `base` step exactly — kept under its existing, already-consumed name rather than renamed, since it's the same value just a different label. `slow` is corrected 400->300ms to match Figma's real `Duration/slow`. `slower` (500ms) is new, with no consumer yet. A second fresh export, same day, now also publishes real `Motion/Easing` primitives — `standard`/`enter`/`exit` turned out to be EXACT matches for Figma's `ease-in-out`/`ease-out`/`ease-in` respectively (kept under their existing, already-consumed names). `linear` and `spring` are new tokens with no consumer yet. `emphasized` remains genuinely provisional — no matching Figma curve.",
   "duration": {
-    "instant": { "value": 0, "usage": "No transition. Reduced-motion fallback." },
-    "fast": { "value": 100, "usage": "Hover, focus, and other immediate affordance feedback. Provisional." },
-    "moderate": { "value": 200, "usage": "Enter/exit of small surfaces — popovers, tooltips, toasts. Provisional." },
-    "slow": { "value": 400, "usage": "Larger surfaces — drawers, modals, panel resize. Provisional." },
+    "instant": { "value": 0, "usage": "No transition. Reduced-motion fallback. Figma-evidenced 2026-08-02, exact." },
+    "fast": { "value": 100, "usage": "Hover, focus, and other immediate affordance feedback. Figma-evidenced 2026-08-02, exact." },
+    "moderate": { "value": 200, "usage": "Enter/exit of small surfaces — popovers, tooltips, toasts. Figma-evidenced 2026-08-02 (matches Figma's own 'base' step name, kept as 'moderate' here for existing consumers)." },
+    "slow": { "value": 300, "usage": "Larger surfaces — drawers, modals, panel resize. Corrected 2026-08-02 from 400ms to match Figma's real 'Duration/slow' value." },
+    "slower": { "value": 500, "usage": "Reserved for the largest surface transitions. Added 2026-08-02 from a fresh Variables export; no consumer yet." },
     "skeleton-pulse": {
       "value": 2000,
       "usage": "One full loop of the ContentState loading skeleton's opacity wave.",
@@ -27,10 +28,12 @@
     }
   },
   "easing": {
-    "standard": { "value": "cubic-bezier(0.4, 0, 0.2, 1)", "usage": "Default for state changes. Provisional — no Figma source." },
-    "enter": { "value": "cubic-bezier(0, 0, 0.2, 1)", "usage": "Elements entering the viewport. Provisional — no Figma source." },
-    "exit": { "value": "cubic-bezier(0.4, 0, 1, 1)", "usage": "Elements leaving the viewport. Provisional — no Figma source." },
-    "emphasized": { "value": "cubic-bezier(0.2, 0, 0, 1)", "usage": "Large or attention-carrying transitions. Provisional — no Figma source." },
+    "standard": { "value": "cubic-bezier(0.4, 0, 0.2, 1)", "usage": "Default for state changes. Figma-evidenced 2026-08-02 — exact match for the Primitives export's 'Motion/Easing/ease-in-out' (kept under this file's existing, already-consumed name rather than renamed)." },
+    "enter": { "value": "cubic-bezier(0, 0, 0.2, 1)", "usage": "Elements entering the viewport. Figma-evidenced 2026-08-02 — exact match for 'Motion/Easing/ease-out'." },
+    "exit": { "value": "cubic-bezier(0.4, 0, 1, 1)", "usage": "Elements leaving the viewport. Figma-evidenced 2026-08-02 — exact match for 'Motion/Easing/ease-in'." },
+    "emphasized": { "value": "cubic-bezier(0.2, 0, 0, 1)", "usage": "Large or attention-carrying transitions. Still provisional — no matching Figma Easing primitive; Figma's closest curve ('spring', see below) is a distinctly different overshoot shape, not this one under another name." },
+    "linear": { "value": "linear", "usage": "No acceleration — already used raw (not via this token) by the hero-rotate keyframe. Figma-evidenced 2026-08-02, added for completeness/consistency." },
+    "spring": { "value": "cubic-bezier(0.175, 0.885, 0.32, 1.275)", "usage": "Overshoot/bounce transitions. Figma-evidenced 2026-08-02 ('Motion/Easing/spring'); no consumer yet." },
     "skeleton-pulse": {
       "value": "ease-in-out",
       "usage": "Segment easing between the ContentState skeleton's full and dimmed opacity stops.",

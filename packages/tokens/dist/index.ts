@@ -3,12 +3,16 @@ export const colorPrimitives = {
   "neutral.50": "#EFEFEF",
   "neutral.100": "#DFDFDF",
   "neutral.200": "#BFBFBF",
+  "neutral.250": "#B2B2B2",
   "neutral.300": "#9F9F9F",
   "neutral.400": "#7F7F7F",
   "neutral.500": "#5E5E5E",
   "neutral.600": "#4C4C4C",
   "neutral.700": "#393939",
   "neutral.800": "#262626",
+  "neutral.850": "#2B2F2F",
+  "neutral.900": "#191919",
+  "neutral.950": "#111111",
   "neutral.transparent": "#00000000",
   "neutral.white": "#FFFFFF",
   "neutral.black": "#000000",
@@ -18,7 +22,15 @@ export const colorPrimitives = {
   "neutral.white-a56": "#ffffff8f",
   "neutral.white-a72": "#ffffffb8",
   "neutral.white-a80": "#ffffffcc",
+  "neutral.500-a8": "#5e5e5e14",
+  "neutral.500-a16": "#5e5e5e29",
+  "neutral.500-a24": "#5e5e5e3d",
+  "neutral.500-a40": "#5e5e5e66",
+  "neutral.500-a60": "#5e5e5e99",
+  "neutral.500-a80": "#5e5e5ecc",
   "badge.default-bg": "#191919",
+  "primary.10": "#F5EFF3",
+  "primary.25": "#FFF5F8",
   "primary.50": "#F9E6EC",
   "primary.100": "#F2CCD8",
   "primary.200": "#E599B1",
@@ -29,12 +41,15 @@ export const colorPrimitives = {
   "primary.700": "#720024",
   "primary.800": "#4C0018",
   "primary.900": "#310010",
-  "primary.500-a10": "#be003c1a",
+  "primary.950": "#22000B",
+  "primary.500-a8": "#be003c14",
   "primary.500-a16": "#be003c29",
   "primary.500-a24": "#be003c3d",
   "primary.500-a60": "#be003c99",
-  "primary.300-a24": "#d8668a3d",
+  "primary.300-a20": "#d8668a33",
   "primary.300-a40": "#d8668a66",
+  "primary.500-a40": "#be003c66",
+  "primary.500-a80": "#be003ccc",
   "lumen-gray.50": "#F6F8F8",
   "lumen-gray.100": "#EDF0F1",
   "lumen-gray.200": "#DBE1E2",
@@ -44,6 +59,14 @@ export const colorPrimitives = {
   "lumen-gray.600": "#838F92",
   "lumen-gray.700": "#626B6E",
   "lumen-gray.800": "#424849",
+  "lumen-gray.900": "#2B2F2F",
+  "lumen-gray.950": "#1E2021",
+  "lumen-gray.500-a8": "#a4b3b714",
+  "lumen-gray.500-a16": "#a4b3b729",
+  "lumen-gray.500-a24": "#a4b3b73d",
+  "lumen-gray.500-a40": "#a4b3b766",
+  "lumen-gray.500-a60": "#a4b3b799",
+  "lumen-gray.500-a80": "#a4b3b7cc",
   "red.50": "#FCE9EA",
   "red.100": "#F8D2D4",
   "red.200": "#F0A5A9",
@@ -53,6 +76,14 @@ export const colorPrimitives = {
   "red.600": "#AE1820",
   "red.700": "#831218",
   "red.800": "#570C10",
+  "red.900": "#39080A",
+  "red.950": "#270507",
+  "red.500-a8": "#da1e2814",
+  "red.500-a16": "#da1e2829",
+  "red.500-a24": "#da1e283d",
+  "red.500-a40": "#da1e2866",
+  "red.500-a60": "#da1e2899",
+  "red.500-a80": "#da1e28cc",
   "green.50": "#E6F7E6",
   "green.100": "#CCEDCC",
   "green.200": "#99DC99",
@@ -62,15 +93,14 @@ export const colorPrimitives = {
   "green.600": "#008600",
   "green.700": "#006400",
   "green.800": "#004300",
-  "blue.50": "#E7E8FF",
-  "blue.100": "#CFD1FF",
-  "blue.200": "#9FA2FF",
-  "blue.300": "#6E74FF",
-  "blue.400": "#3E45FF",
-  "blue.500": "#0E17FF",
-  "blue.600": "#0B12CC",
-  "blue.700": "#080E99",
-  "blue.800": "#060966",
+  "green.900": "#002C00",
+  "green.950": "#001E00",
+  "green.500-a8": "#00a70014",
+  "green.500-a16": "#00a70029",
+  "green.500-a24": "#00a7003d",
+  "green.500-a40": "#00a70066",
+  "green.500-a60": "#00a70099",
+  "green.500-a80": "#00a700cc",
   "orange.50": "#FFF3EA",
   "orange.100": "#FFE6D5",
   "orange.200": "#FFCDAA",
@@ -80,6 +110,14 @@ export const colorPrimitives = {
   "orange.600": "#CC6922",
   "orange.700": "#994F1A",
   "orange.800": "#663411",
+  "orange.900": "#42220B",
+  "orange.950": "#2E1708",
+  "orange.500-a8": "#ff832b14",
+  "orange.500-a16": "#ff832b29",
+  "orange.500-a24": "#ff832b3d",
+  "orange.500-a40": "#ff832b66",
+  "orange.500-a60": "#ff832b99",
+  "orange.500-a80": "#ff832bcc",
   "yellow.50": "#FFFCE6",
   "yellow.100": "#FFF7CC",
   "yellow.200": "#FFF099",
@@ -89,6 +127,14 @@ export const colorPrimitives = {
   "yellow.600": "#CCAD00",
   "yellow.700": "#998200",
   "yellow.800": "#665700",
+  "yellow.900": "#423900",
+  "yellow.950": "#2E2700",
+  "yellow.500-a8": "#ffd90014",
+  "yellow.500-a16": "#ffd90029",
+  "yellow.500-a24": "#ffd9003d",
+  "yellow.500-a40": "#ffd90066",
+  "yellow.500-a60": "#ffd90099",
+  "yellow.500-a80": "#ffd900cc",
   "purple.50": "#F7E6FF",
   "purple.100": "#EECCFF",
   "purple.200": "#DD99FF",
@@ -98,6 +144,14 @@ export const colorPrimitives = {
   "purple.600": "#8800CC",
   "purple.700": "#660099",
   "purple.800": "#440066",
+  "purple.900": "#2C0042",
+  "purple.950": "#1F002E",
+  "purple.500-a8": "#aa00ff14",
+  "purple.500-a16": "#aa00ff29",
+  "purple.500-a24": "#aa00ff3d",
+  "purple.500-a40": "#aa00ff66",
+  "purple.500-a60": "#aa00ff99",
+  "purple.500-a80": "#aa00ffcc",
   "pink.50": "#FFE8F5",
   "pink.100": "#FFD0E9",
   "pink.200": "#FFA1D4",
@@ -107,6 +161,12 @@ export const colorPrimitives = {
   "pink.600": "#CC1076",
   "pink.700": "#990C58",
   "pink.800": "#66083B",
+  "pink.500-a8": "#ff149314",
+  "pink.500-a16": "#ff149329",
+  "pink.500-a24": "#ff14933d",
+  "pink.500-a40": "#ff149366",
+  "pink.500-a60": "#ff149399",
+  "pink.500-a80": "#ff1493cc",
   "light-blue.50": "#E6F8FF",
   "light-blue.100": "#CCF0FF",
   "light-blue.200": "#99E1FF",
@@ -116,6 +176,14 @@ export const colorPrimitives = {
   "light-blue.600": "#0091CC",
   "light-blue.700": "#006D99",
   "light-blue.800": "#004866",
+  "light-blue.900": "#002F42",
+  "light-blue.950": "#00202E",
+  "light-blue.500-a8": "#00b5ff14",
+  "light-blue.500-a16": "#00b5ff29",
+  "light-blue.500-a24": "#00b5ff3d",
+  "light-blue.500-a40": "#00b5ff66",
+  "light-blue.500-a60": "#00b5ff99",
+  "light-blue.500-a80": "#00b5ffcc",
   "teal.50": "#E6F3F3",
   "teal.100": "#CCE6E6",
   "teal.200": "#99CCCC",
@@ -125,24 +193,14 @@ export const colorPrimitives = {
   "teal.600": "#006666",
   "teal.700": "#004D4D",
   "teal.800": "#003333",
-  "sand.50": "#F5F4F1",
-  "sand.100": "#EAE7E2",
-  "sand.200": "#D5CFC5",
-  "sand.300": "#C0B8A9",
-  "sand.400": "#ABA08C",
-  "sand.500": "#96886F",
-  "sand.600": "#786D59",
-  "sand.700": "#5A5243",
-  "sand.800": "#3C362C",
-  "lemon-green.50": "#F7FFE6",
-  "lemon-green.100": "#EFFECC",
-  "lemon-green.200": "#DEFC9A",
-  "lemon-green.300": "#CEFB67",
-  "lemon-green.400": "#BDF935",
-  "lemon-green.500": "#ADF802",
-  "lemon-green.600": "#8AC602",
-  "lemon-green.700": "#689501",
-  "lemon-green.800": "#456301",
+  "teal.900": "#002121",
+  "teal.950": "#001717",
+  "teal.500-a8": "#00808014",
+  "teal.500-a16": "#00808029",
+  "teal.500-a24": "#0080803d",
+  "teal.500-a40": "#00808066",
+  "teal.500-a60": "#00808099",
+  "teal.500-a80": "#008080cc",
   "cobalt.50": "#EBF1FF",
   "cobalt.100": "#E3EEFF",
   "cobalt.200": "#99BCEF",
@@ -152,15 +210,6 @@ export const colorPrimitives = {
   "cobalt.600": "#0046AF",
   "cobalt.700": "#003A8C",
   "cobalt.800": "#002356",
-  "japonica.50": "#FCF2EF",
-  "japonica.100": "#F7E4DD",
-  "japonica.200": "#F0C9BC",
-  "japonica.300": "#E8AD9A",
-  "japonica.400": "#E19279",
-  "japonica.500": "#D97757",
-  "japonica.600": "#AE5F46",
-  "japonica.700": "#824734",
-  "japonica.800": "#573023",
   "deep-purple.50": "#F0EBF9",
   "deep-purple.100": "#EDE7F6",
   "deep-purple.200": "#BFAEE0",
@@ -170,17 +219,31 @@ export const colorPrimitives = {
   "deep-purple.600": "#4527A0",
   "deep-purple.700": "#311B92",
   "deep-purple.800": "#261547",
-  "forest.50": "#E8F5EF",
-  "forest.100": "#E3F5EC",
-  "forest.200": "#99CAB1",
-  "forest.300": "#66AF8B",
-  "forest.400": "#339564",
-  "forest.500": "#007A3D",
-  "forest.600": "#005E2E",
-  "forest.700": "#004723",
-  "forest.800": "#003118",
+  "deep-purple.500-a8": "#5e35b114",
+  "deep-purple.500-a16": "#5e35b129",
+  "deep-purple.500-a24": "#5e35b13d",
+  "deep-purple.500-a40": "#5e35b166",
+  "deep-purple.500-a60": "#5e35b199",
+  "deep-purple.500-a80": "#5e35b1cc",
   "chat.input-bg": "#2B2F2F",
-  "sky.500": "#2563EB",
+  "blue.50": "#EAF0FD",
+  "blue.100": "#D3E0FB",
+  "blue.200": "#A8C1F7",
+  "blue.300": "#7CA1F3",
+  "blue.400": "#5182EF",
+  "blue.500": "#2563EB",
+  "blue.600": "#1E4FBC",
+  "blue.700": "#163B8D",
+  "blue.800": "#0F285E",
+  "blue.900": "#040642",
+  "blue.950": "#03042E",
+  "blue.300-a60": "#7CA1F399",
+  "blue.500-a8": "#2563eb14",
+  "blue.500-a16": "#2563eb29",
+  "blue.500-a24": "#2563eb3d",
+  "blue.500-a40": "#2563eb66",
+  "blue.500-a60": "#2563eb99",
+  "blue.500-a80": "#2563ebcc",
   "button.light.accent-on-action": "#FFF5F8",
   "button.dark.accent-on-action": "#FFF5F8",
   "button.dark.disabled-on-action": "#A7A4A7",
@@ -226,10 +289,62 @@ export const colorPrimitives = {
   "app-shell.dark.brand-stroke": "#594D54",
   "code.bg": "#111111",
   "code.syntax-keyword": "#F8A6C9",
-  "code.syntax-string": "#83D197"
+  "code.syntax-string": "#83D197",
+  "lumen-dark.50": "#E9E9EA",
+  "lumen-dark.100": "#D3D2D3",
+  "lumen-dark.200": "#A7A4A7",
+  "lumen-dark.300": "#7B777C",
+  "lumen-dark.400": "#4F4950",
+  "lumen-dark.600": "#1C161D",
+  "lumen-dark.700": "#151116",
+  "lumen-dark.800": "#0E0B0E",
+  "lumen-dark.Default": "#231C24",
+  "lumen-dark.500-a8": "#231c2414",
+  "lumen-dark.500-a16": "#231c2429",
+  "lumen-dark.500-a24": "#231c243d",
+  "lumen-dark.500-a40": "#231c2466",
+  "lumen-dark.500-a60": "#231c2499",
+  "lumen-dark.500-a80": "#231c24cc",
+  "nightshade.50": "#F9F3F7",
+  "nightshade.200": "#C9C2C7",
+  "nightshade.300": "#B8ACB3",
+  "nightshade.350": "#B2A4AC",
+  "nightshade.400": "#A8939F",
+  "nightshade.600": "#7A6674",
+  "nightshade.700": "#594D54",
+  "nightshade.800": "#3D3039",
+  "nightshade.850": "#2D1A26",
+  "nightshade.900": "#231C24",
+  "nightshade.950": "#17101A",
+  "nightshade.600-a8": "#7a667414",
+  "nightshade.600-a16": "#7a667429",
+  "nightshade.600-a24": "#7a66743d",
+  "nightshade.600-a40": "#7a667466",
+  "nightshade.600-a60": "#7a667499",
+  "nightshade.600-a80": "#7a6674cc",
+  "accent.purple": "#B48EE0",
+  "overlay.black-4": "#0000000a",
+  "overlay.black-5": "#0000000d",
+  "overlay.black-8": "#00000014",
+  "overlay.black-10": "#0000001a",
+  "overlay.black-15": "#00000026",
+  "overlay.black-30": "#0000004d",
+  "overlay.black-50": "#00000080",
+  "overlay.black-70": "#000000b3",
+  "overlay.white-6": "#ffffff0f",
+  "overlay.white-10": "#ffffff1a",
+  "overlay.transparent": "#00000000",
+  "status.green": "#0B8A3E",
+  "status.green-light": "#78E6A0",
+  "status.green-tint": "#E5F9EC",
+  "status.amber": "#C97A2E",
+  "status.amber-light": "#F5B46E",
+  "status.amber-tint": "#FFF4E1",
+  "status.green-15": "#0B8A3E26",
+  "status.amber-15": "#C97A2E26"
 } as const;
 export const semanticColor = {
-  "_comment": "Semantic tokens reference primitives by dot-path. Consumed by scripts/build.mjs to emit CSS variables that swap by [data-theme]. The Figma source (Lumen-AI-Design-System) defines only one mode per variable collection — there is no Figma-authored dark theme. The 'dark' block below is a manual, documented mapping onto the same primitive ramps, carried over from the previous system. light.brand.hover/pressed are sourced from the actual Primary-button Hover/Active instance fills on the 'Buttons' page (node 475:7210, formerly 466:4365) — trust those over the page's '04 Design Tokens' documentation table, which has a stale/mismatched hover value (a copy-paste artifact, same pattern seen on the Colors page). light.brand.pressed was updated again when that page's own instances were updated: the real Active fill is primary.900 (#310010), one step darker than the primary.800 previously read — see primitives/color.json's note on primary.900. light.brand.border/subtle-pressed are new tokens sourced from that same refresh (button border color at rest, and outlined/text-button active-state fill). dark.brand.border/subtle-pressed have no Figma source (same caveat as the rest of the dark block) — mirrored onto the ramp by position rather than invented outright: border sits one step lighter than dark's subtle, same relative distance light.border sits darker than light.subtle. status.{success,warning,error}-text/-border are sourced from the Button component-set's own Success/Error/Warning State instances (node 475:7210) — exact bound-variable fallback values matched existing primitives exactly (surface = the existing -subtle step, text = the family's 700 step, border = the family's 200 step), so no new primitives were needed. Their dark values have no Figma source (Figma specs no dark mode for these states) and were derived with the same ramp-mirroring rule already used for status.success/-subtle: dark index = 8 minus the light index on each family's 9-step (50-800) ramp. brand.border-strong is sourced from the Split Button's Outline type (node 555:300) default-state border color (`--button/border/secondary/default`, #E599B1 = primary.200) — a step darker than the existing brand.border (primary.100). brand.solid-active (added 2026-07-16) is sourced from a direct re-verification of the core Button component-set's `Type=Secondary, State=Active` and `Type=Outline, State=Active` instances (node 475:7210, nodes 538:1262/806:5989) — both bind to `--button/surface/secondary/active` (#4C0018 = primary.800) with white text and no border, confirming the `[Unreleased]` speculation this token now replaces (\"Secondary's Active/Pressed fill may have changed to a solid primary.800 background with white text\"). Distinct from brand.pressed (primary.900, Primary/Raised's own solid-fill active state) — Figma specs a one-step-lighter tier specifically for the bordered/outlined types' active state, not a reuse of Primary's. dark.brand.solid-active has no Figma source (same caveat as the rest of the dark block); placed at primary.700, one step past dark.brand.border-strong (primary.600), to stay dark enough for the same unconditional white text Primary/Raised already use in dark mode (dark.brand.default is only primary.300) while remaining a distinct, deeper tier. dark.brand.border-strong has no Figma source and was placed one step lighter than dark.brand.border (primary.700), the same relative-distance mirroring already documented above for brand.border/subtle-pressed. light.segment.* (added for the new SegmentedControl primitive, sourced from the Buttons page's 'AI ButtonGroup Component Library' section, node 958:5058 'Segmented Control Group' via get_design_context on 2026-07-16) are aliases onto existing primitives with zero new hex values: surface=#EDF0F1, surface-selected=white, border-selected=#C8D1D4, text=#626B6E, and text-selected=#4C0018 matched lumen-gray.100/neutral.white/lumen-gray.300/lumen-gray.700/primary.800 exactly. dark.segment.* has no Figma source (same caveat as the rest of the dark block) and was derived with the same 8-minus-light-index mirroring rule used for status.*, applied to lumen-gray's own 9-step (50-800) ramp; surface-selected mirrors background.default's own established white-to-neutral.800 pairing. light.border.subtle and light.text.secondary (added for the appshell-desktop-closed-light reference screen, Lumen-AI-Design-System node 1197:1652, via get_variable_defs on 2026-07-20) are new tiers distinct from the existing border.default/text.muted: `stroke/subtle` (#EDF0F1) and `text/secondary` (#626B6E) both appeared alongside `stroke/default`/`text/muted` as separate bound variables in the same frame, not substitutes for them. Both alias lumen-gray (a different family from border.default's neutral) with zero new hex values: border.subtle=lumen-gray.100, text.secondary=lumen-gray.700 — the same two steps already confirmed for light.segment.surface/text above. dark.border.subtle/text.secondary have no Figma source (same caveat as the rest of the dark block) and use the same 8-minus-light-index mirroring already applied to light.segment.* on lumen-gray's own ramp: border.subtle mirrors to lumen-gray.700, text.secondary mirrors to lumen-gray.100. light.background.nav-active (same source/session) is `bg/nav-active` (#EDF0F1) from the NavigationRail's active-item state — also lumen-gray.100, but kept as its own token rather than reused as border.subtle since the two express different purposes (a fill vs. a border) that happen to share a value; dark.background.nav-active mirrors to lumen-gray.700, same rule. light.text.link-subtle, light.background.badge, light.background.prompt, and light.border.table (added 2026-07-20, sourced from the canonical 'AppShell' page, node 1007:3700, Breakpoint=Desktop/Theme=Light instance 1127:4196, via get_variable_defs — the authoritative AppShell composition; the previously-sourced 1197:1652 turned out to be one example instance living inside this same canvas, not the canonical source) are new: `text/link` (#2563EB) is a genuine naming collision with the existing text.link token (which means brand crimson, primary.500, and is consumed by the standalone `TextLink` component) — not the same color, so it is NOT reused or overwritten; instead it's added as the distinct `text.link-subtle` token (aliasing the new `sky.500` primitive — see primitives/color.json, only one step evidenced) for the muted inline-navigational-link look breadcrumbs/footer links use in this AppShell context. `background.badge` (#EBF1FF) aliases the existing cobalt.50 exactly. `background.prompt` (#424849) aliases the existing lumen-gray.800 exactly. `border.table` (#DBE1E2) aliases the existing lumen-gray.200 exactly — despite the Figma variable's name, it's used here as the AI response bubble's border, not a literal table. `status/danger` (#DA1E28) was also found in this same source but needed no new token — it's an exact value match for the already-existing status.error (red.500), just an alternate name Figma uses in this context; not added as a duplicate. dark.text.link-subtle/background.badge/background.prompt/border.table have no Figma source (same caveat as the rest of the dark block); text.link-subtle has no ramp to mirror (sky is a single-step primitive) so the light value is reused unchanged pending real dark evidence; background.badge/background.prompt/border.table use the same 8-minus-light-index mirroring already established for their source families (cobalt.50→cobalt.700 has no established precedent in this file, so background.badge dark uses cobalt.700 as the mirrored step; lumen-gray.800→lumen-gray.0 doesn't exist, so background.prompt dark reuses lumen-gray.700 as the nearest available darker-ramp-end mirror; lumen-gray.200→lumen-gray.600 follows the same rule as border.subtle/nav-active above). light.border.input (same source/session) is `stroke/input` (#C8D1D4) — needed for the new `AIPanel`'s text input (and, not yet built, the Header's SearchBar) — aliases lumen-gray.300 exactly; dark.border.input mirrors to lumen-gray.500 by the same rule. light.button.secondary-* and light.button.outline-hover-*/outline-focus-border (re-sourced 2026-07-24, via get_variable_defs on the canonical Button component-set, node 1174:1349, requested to bring the newly-promoted shadcn-sourced `Button` component in line with Figma) replace stale values from before this component was last touched: Secondary is now a translucent brand-tinted fill (`btn/secondary/bg` #be003c1a, `/border` #be003c3d, `/hover-bg` and `/hover-border` #be003c29 — all primary.500 at 10%/24%/16% alpha, added as new `primary.500-a10`/`500-a16`/`500-a24` primitives since no existing token held a translucent value), not the previously-coded solid neutral-white/gray combination; secondary-on-action/hover-on-action are primary.600/primary.800 (#980030/#4C0018), not app-shell text tokens. outline-hover-bg is the same #be003c29 (primary.500-a16) translucent tint (previously primary.100, a solid swatch); outline-hover-on-action is primary.800 (previously primary.500); outline-focus-border is primary.200 (previously primary.300, a drift from the button's own focus-ring color — every variant's focused-border bound variable in this component resolves to the same #e599b1/primary.200, matching the existing top-level `button.focus-ring` token exactly). Primary/Ghost/Destructive/Disabled were re-verified against the same node's bound variables and already matched exactly — no changes needed there. dark.button.secondary-*/outline-hover-*/ghost-hover-bg (updated same day, follow-up request) ARE Figma-sourced after all — the `Theme` variant property (Light/Dark) visible on this component only has Light instances actually built (confirmed via get_metadata: all 20 child symbols under node 1174:1349 are `Theme=Light`, none `Theme=Dark`), which is a red herring: Lumen's Figma file resolves dark mode through Figma's variable *mode* system instead, the same mechanism this repo's own `[data-theme]` CSS-variable swap mirrors — the identical bound variables on the identical node resolve to different hex values depending on which mode is active for the viewer's current selection, with no separate variant instance needed. Re-querying `get_variable_defs` on the same node while the user's live Figma selection was set to dark mode returned genuinely different, authoritative values: `btn/secondary/bg` #d8668a3d (primary.300 ~24% alpha), `btn/secondary/border` #d8668a66 (primary.300 ~40% alpha), `btn/secondary/on-action` #f2ccd8 (primary.100), `btn/secondary/hover-bg`/`btn/outline/hover-bg`/`btn/ghost/hover-bg` #be003c99 (primary.500 ~60% alpha, identical across all three), `btn/secondary/hover-on-action`/`btn/outline/hover-on-action` #f9e6ec (primary.50), `btn/secondary/hover-border` #be003c29 (primary.500 ~16%, same primitive already added for light). New primitives added: `primary.500-a60`, `primary.300-a24`, `primary.300-a40`. Primary/Ghost-on-action/Destructive/Disabled dark values were cross-checked against this same authoritative pull and already matched exactly (e.g. `btn/primary/hover-bg` #cb3363 = primary.400, `btn/disabled/bg` #231c24, `btn/disabled/on-action` #a7a4a7, `btn/danger/hover-bg` #e14b53 = red.400, `btn/ghost/on-action` #f5eff3 — all already correct) — no changes needed there. `Accent`/`Link` remain unimplemented (no authored visual states in either mode). dark.app-shell.text-link (fixed 2026-07-24, follow-up to the AppShell button-token investigation above) changed from primary.200 (#E599B1) to primary.300 (#D8668A), matching dark.text.link (the standalone `TextLink` component's own color) exactly — found while investigating a user report that `PageHeader`'s breadcrumb links didn't match `TextLink`. Unlike the button case, this wasn't a silent CSS-variable shadowing bug (app-shell.text-link and text.link are two independently-defined tokens, not one redirected to the other) — just an unexplained one-step drift with no documented rationale for being different on purpose, so it was aligned rather than left standing. light.app-shell.text-link already matched light.text.link exactly (both primary.500) and was left unchanged.",
+  "_comment": "Semantic tokens reference primitives by dot-path. Consumed by scripts/build.mjs to emit CSS variables that swap by [data-theme]. The Figma source (Lumen-AI-Design-System) defines only one mode per variable collection — there is no Figma-authored dark theme. The 'dark' block below is a manual, documented mapping onto the same primitive ramps, carried over from the previous system. light.brand.hover/pressed are sourced from the actual Primary-button Hover/Active instance fills on the 'Buttons' page (node 475:7210, formerly 466:4365) — trust those over the page's '04 Design Tokens' documentation table, which has a stale/mismatched hover value (a copy-paste artifact, same pattern seen on the Colors page). light.brand.pressed was updated again when that page's own instances were updated: the real Active fill is primary.900 (#310010), one step darker than the primary.800 previously read — see primitives/color.json's note on primary.900. light.brand.border/subtle-pressed are new tokens sourced from that same refresh (button border color at rest, and outlined/text-button active-state fill). dark.brand.border/subtle-pressed have no Figma source (same caveat as the rest of the dark block) — mirrored onto the ramp by position rather than invented outright: border sits one step lighter than dark's subtle, same relative distance light.border sits darker than light.subtle. status.{success,warning,error}-text/-border are sourced from the Button component-set's own Success/Error/Warning State instances (node 475:7210) — exact bound-variable fallback values matched existing primitives exactly (surface = the existing -subtle step, text = the family's 700 step, border = the family's 200 step), so no new primitives were needed. Their dark values have no Figma source (Figma specs no dark mode for these states) and were derived with the same ramp-mirroring rule already used for status.success/-subtle: dark index = 8 minus the light index on each family's 9-step (50-800) ramp. brand.border-strong is sourced from the Split Button's Outline type (node 555:300) default-state border color (`--button/border/secondary/default`, #E599B1 = primary.200) — a step darker than the existing brand.border (primary.100). brand.solid-active (added 2026-07-16) is sourced from a direct re-verification of the core Button component-set's `Type=Secondary, State=Active` and `Type=Outline, State=Active` instances (node 475:7210, nodes 538:1262/806:5989) — both bind to `--button/surface/secondary/active` (#4C0018 = primary.800) with white text and no border, confirming the `[Unreleased]` speculation this token now replaces (\"Secondary's Active/Pressed fill may have changed to a solid primary.800 background with white text\"). Distinct from brand.pressed (primary.900, Primary/Raised's own solid-fill active state) — Figma specs a one-step-lighter tier specifically for the bordered/outlined types' active state, not a reuse of Primary's. dark.brand.solid-active has no Figma source (same caveat as the rest of the dark block); placed at primary.700, one step past dark.brand.border-strong (primary.600), to stay dark enough for the same unconditional white text Primary/Raised already use in dark mode (dark.brand.default is only primary.300) while remaining a distinct, deeper tier. dark.brand.border-strong has no Figma source and was placed one step lighter than dark.brand.border (primary.700), the same relative-distance mirroring already documented above for brand.border/subtle-pressed. light.segment.* (added for the new SegmentedControl primitive, sourced from the Buttons page's 'AI ButtonGroup Component Library' section, node 958:5058 'Segmented Control Group' via get_design_context on 2026-07-16) are aliases onto existing primitives with zero new hex values: surface=#EDF0F1, surface-selected=white, border-selected=#C8D1D4, text=#626B6E, and text-selected=#4C0018 matched lumen-gray.100/neutral.white/lumen-gray.300/lumen-gray.700/primary.800 exactly. dark.segment.* has no Figma source (same caveat as the rest of the dark block) and was derived with the same 8-minus-light-index mirroring rule used for status.*, applied to lumen-gray's own 9-step (50-800) ramp; surface-selected mirrors background.default's own established white-to-neutral.800 pairing. light.border.subtle and light.text.secondary (added for the appshell-desktop-closed-light reference screen, Lumen-AI-Design-System node 1197:1652, via get_variable_defs on 2026-07-20) are new tiers distinct from the existing border.default/text.muted: `stroke/subtle` (#EDF0F1) and `text/secondary` (#626B6E) both appeared alongside `stroke/default`/`text/muted` as separate bound variables in the same frame, not substitutes for them. Both alias lumen-gray (a different family from border.default's neutral) with zero new hex values: border.subtle=lumen-gray.100, text.secondary=lumen-gray.700 — the same two steps already confirmed for light.segment.surface/text above. dark.border.subtle/text.secondary have no Figma source (same caveat as the rest of the dark block) and use the same 8-minus-light-index mirroring already applied to light.segment.* on lumen-gray's own ramp: border.subtle mirrors to lumen-gray.700, text.secondary mirrors to lumen-gray.100. light.background.nav-active (same source/session) is `bg/nav-active` (#EDF0F1) from the NavigationRail's active-item state — also lumen-gray.100, but kept as its own token rather than reused as border.subtle since the two express different purposes (a fill vs. a border) that happen to share a value; dark.background.nav-active mirrors to lumen-gray.700, same rule. light.text.link-subtle, light.background.badge, light.background.prompt, and light.border.table (added 2026-07-20, sourced from the canonical 'AppShell' page, node 1007:3700, Breakpoint=Desktop/Theme=Light instance 1127:4196, via get_variable_defs — the authoritative AppShell composition; the previously-sourced 1197:1652 turned out to be one example instance living inside this same canvas, not the canonical source) are new: `text/link` (#2563EB) is a genuine naming collision with the existing text.link token (which means brand crimson, primary.500, and is consumed by the standalone `TextLink` component) — not the same color, so it is NOT reused or overwritten; instead it's added as the distinct `text.link-subtle` token (aliasing the new `blue.500` primitive — see primitives/color.json, only one step evidenced) for the muted inline-navigational-link look breadcrumbs/footer links use in this AppShell context. `background.badge` (#EBF1FF) aliases the existing cobalt.50 exactly. `background.prompt` (#424849) aliases the existing lumen-gray.800 exactly. `border.table` (#DBE1E2) aliases the existing lumen-gray.200 exactly — despite the Figma variable's name, it's used here as the AI response bubble's border, not a literal table. `status/danger` (#DA1E28) was also found in this same source but needed no new token — it's an exact value match for the already-existing status.error (red.500), just an alternate name Figma uses in this context; not added as a duplicate. dark.text.link-subtle/background.badge/background.prompt/border.table have no Figma source (same caveat as the rest of the dark block); text.link-subtle has no ramp to mirror (blue is a single-step primitive) so the light value is reused unchanged pending real dark evidence; background.badge/background.prompt/border.table use the same 8-minus-light-index mirroring already established for their source families (cobalt.50→cobalt.700 has no established precedent in this file, so background.badge dark uses cobalt.700 as the mirrored step; lumen-gray.800→lumen-gray.0 doesn't exist, so background.prompt dark reuses lumen-gray.700 as the nearest available darker-ramp-end mirror; lumen-gray.200→lumen-gray.600 follows the same rule as border.subtle/nav-active above). light.border.input (same source/session) is `stroke/input` (#C8D1D4) — needed for the new `AIPanel`'s text input (and, not yet built, the Header's SearchBar) — aliases lumen-gray.300 exactly; dark.border.input mirrors to lumen-gray.500 by the same rule. light.button.secondary-* and light.button.outline-hover-*/outline-focus-border (re-sourced 2026-07-24, via get_variable_defs on the canonical Button component-set, node 1174:1349, requested to bring the newly-promoted shadcn-sourced `Button` component in line with Figma) replace stale values from before this component was last touched: Secondary is now a translucent brand-tinted fill (`btn/secondary/bg` #be003c1a, `/border` #be003c3d, `/hover-bg` and `/hover-border` #be003c29 — all primary.500 at 10%/24%/16% alpha, added as new `primary.500-a10`/`500-a16`/`500-a24` primitives since no existing token held a translucent value), not the previously-coded solid neutral-white/gray combination; secondary-on-action/hover-on-action are primary.600/primary.800 (#980030/#4C0018), not app-shell text tokens. outline-hover-bg is the same #be003c29 (primary.500-a16) translucent tint (previously primary.100, a solid swatch); outline-hover-on-action is primary.800 (previously primary.500); outline-focus-border is primary.200 (previously primary.300, a drift from the button's own focus-ring color — every variant's focused-border bound variable in this component resolves to the same #e599b1/primary.200, matching the existing top-level `button.focus-ring` token exactly). Primary/Ghost/Destructive/Disabled were re-verified against the same node's bound variables and already matched exactly — no changes needed there. dark.button.secondary-*/outline-hover-*/ghost-hover-bg (updated same day, follow-up request) ARE Figma-sourced after all — the `Theme` variant property (Light/Dark) visible on this component only has Light instances actually built (confirmed via get_metadata: all 20 child symbols under node 1174:1349 are `Theme=Light`, none `Theme=Dark`), which is a red herring: Lumen's Figma file resolves dark mode through Figma's variable *mode* system instead, the same mechanism this repo's own `[data-theme]` CSS-variable swap mirrors — the identical bound variables on the identical node resolve to different hex values depending on which mode is active for the viewer's current selection, with no separate variant instance needed. Re-querying `get_variable_defs` on the same node while the user's live Figma selection was set to dark mode returned genuinely different, authoritative values: `btn/secondary/bg` #d8668a3d (primary.300 ~24% alpha), `btn/secondary/border` #d8668a66 (primary.300 ~40% alpha), `btn/secondary/on-action` #f2ccd8 (primary.100), `btn/secondary/hover-bg`/`btn/outline/hover-bg`/`btn/ghost/hover-bg` #be003c99 (primary.500 ~60% alpha, identical across all three), `btn/secondary/hover-on-action`/`btn/outline/hover-on-action` #f9e6ec (primary.50), `btn/secondary/hover-border` #be003c29 (primary.500 ~16%, same primitive already added for light). New primitives added: `primary.500-a60`, `primary.300-a24`, `primary.300-a40`. Primary/Ghost-on-action/Destructive/Disabled dark values were cross-checked against this same authoritative pull and already matched exactly (e.g. `btn/primary/hover-bg` #cb3363 = primary.400, `btn/disabled/bg` #231c24, `btn/disabled/on-action` #a7a4a7, `btn/danger/hover-bg` #e14b53 = red.400, `btn/ghost/on-action` #f5eff3 — all already correct) — no changes needed there. `Accent`/`Link` remain unimplemented (no authored visual states in either mode). dark.app-shell.text-link (fixed 2026-07-24, follow-up to the AppShell button-token investigation above) changed from primary.200 (#E599B1) to primary.300 (#D8668A), matching dark.text.link (the standalone `TextLink` component's own color) exactly — found while investigating a user report that `PageHeader`'s breadcrumb links didn't match `TextLink`. Unlike the button case, this wasn't a silent CSS-variable shadowing bug (app-shell.text-link and text.link are two independently-defined tokens, not one redirected to the other) — just an unexplained one-step drift with no documented rationale for being different on purpose, so it was aligned rather than left standing. light.app-shell.text-link already matched light.text.link exactly (both primary.500) and was left unchanged.",
   "_appShellComment": "Exception to the legacy dark-theme note above: the app-shell group and the dark Badge roles are sourced directly from the canonical AppShell light/dark variants at Figma node 1007:3700, verified 2026-07-22. Unrelated dark mappings remain provisional. Re-verified 2026-07-27 against the live Desktop/Dark AppShell instance (`get_variable_defs` on the Header instance 1166:4932 and the AIPanel instance 1166:4827, both children of symbol 1127:4197) after a user report that dark theme didn't match — found and fixed 4 real value drifts: `dark.app-shell.assistant-icon-bg` was `primary.900` (#310010), now `neutral.black` (#000000, matching `icon/primary-bg`); `dark.app-shell.assistant-icon` was `primary.500` (#BE003C), now `app-shell.dark.toggle-off-action` (#C9C2C7, matching `icon/primary-icon` — reusing the existing toggle-off primitive rather than inventing a new one, since the hex is identical); `dark.app-shell.chat-response-bg` was `app-shell.dark.surface` (#231C24, solid), now the new `app-shell.dark.chat-response-bg` primitive (`rgba(255,255,255,0.1)`, matching `bg/chat-response` = #ffffff1a) — a genuinely different technique (translucent overlay, not a solid fill), not just a wrong shade; `dark.app-shell.text-link` was `primary.300` (#D8668A, deliberately set 2026-07-24 to match `TextLink`'s own dark color after a breadcrumb-mismatch investigation), now `primary.200` (#E599B1) per this fresh, independent Figma reading — user-directed to follow Figma over the prior investigation's conclusion; `TextLink`'s own dark color was not re-verified against this same node in this pass, so a residual mismatch between `app-shell.text-link` and `text.link` may now exist and is flagged, not resolved, pending a dedicated check. Follow-up same day (user: 'TextLink color is incorrect in dark mode, not reused the TextLink component' / 'Robo icon color in dark mode is incorrect' / 'check all font size'), from a fresh `get_design_context` pull of the same dark AIPanel instance (1166:4827): `button.light/dark.link-on-action` (used by AIPanel's 'Show sources' follow-up, a `Button` with `variant=\"link\"`) tracked its own independent value that only coincidentally matched `text.link` in light mode (both `primary.500`) — dark had drifted to `primary.500` (#BE003C) while `text.link.dark` (the actual `TextLink` component's color) is `primary.300` (#D8668A). Per direct user instruction to make this reuse `TextLink`'s own color rather than Figma's literal per-instance variable binding (which reuses the unrelated `btn/secondary/on-action` variable for this text, resolving to `primary.100`/#F2CCD8 in dark — a Figma-authoring shortcut, not genuine link-button evidence, since Figma has never authored a dedicated link-button variable), `button.dark.link-on-action` changed from `primary.500` to `primary.300`, matching `text.link.dark` exactly (`button.light.link-on-action` unchanged at `primary.500`, already matching `text.link.light`). This build's resolver only resolves semantic references to primitives, not other semantic tokens, so this is a same-primitive value match documented as an intentional pairing rather than a live alias — if `text.link` changes in either theme, `button.link-on-action` must be updated to match by hand. New `app-shell.light/dark.bot-icon` token added for `AIPanel`'s bot avatar (previously bound to `app-shell.text-body`, which only coincidentally matched light mode's asset color `#424849`/lumen-gray.800 — dark mode's actual asset color, confirmed by downloading the dark Bot Icon SVG directly, is `#A8939F`, matching `app-shell.dark.text-placeholder`, not `text-body`'s `#F9F3F7`): light aliases `lumen-gray.800` (unchanged value, now under its own correctly-scoped name instead of borrowing `text-body`), dark aliases `app-shell.dark.text-placeholder`.",
   "_buttonComment": "Exception to the legacy dark-theme note above: the complete button group is sourced directly from the Light and Dark variants at Figma node 1027:3733, re-verified across all 48 variant/state/theme combinations on 2026-07-23. All 12 Hover instances were re-extracted individually; their exact surface, foreground, and border bindings are represented below. Link is not a standard Button style in the current component set. Corrected 2026-07-29 (fresh get_variable_defs/get_design_context pull on the canonical collection, node 1174:1349, at direct user request to re-audit 'all new updated button tokens'): light.button.ghost-on-action was app-shell.light.text-heading (a generic dark-neutral role), Figma's real bound btn/ghost/on-action is #BE003C = primary.500 — the same crimson every other variant's text uses; the previous value was a wiring gap, not a real Figma-authored difference. light.button.ghost-hover-bg was lumen-gray.200 (gray), Figma's real bound btn/ghost/hover-bg is #F9E6EC = primary.50 (a light pink), not gray. Dark values for both were not re-verified in this pass (this node's Theme property only has Light instances built, same caveat as the rest of this file) and are left unchanged, pending dedicated dark evidence. Also confirmed exact and unchanged in this pass: Primary/Secondary/Outline/Destructive background, text, and hover colors; all disabled colors; the shared focus-ring color. Accent/Link remain declared-but-unbuilt in this collection — unchanged gap, not new.",
   "_inputComment": "Exception to the legacy dark-theme note above: the dark Input primary and search base roles are sourced directly from the canonical desktop dark AppShell at Figma node 1127:4197, verified 2026-07-22. Default-state background, border, placeholder, and search-icon values are exact; hover, focus, error, Radio, and Checkbox dark mappings remain provisional until dedicated dark component states are published. Corrected 2026-07-27 (user report: dark theme not matching Figma), re-verified via `get_variable_defs` on the same symbol's actual Header (1166:4932) and AIPanel (1166:4827) instances rather than the bare frame: `dark.input.primary-border` was `app-shell.dark.border` (#3D3039), Figma's `input/primary/border` is actually #7A6674 — realiased to the existing `app-shell.dark.text-muted` primitive (same hex, no new value needed) rather than `border`. `dark.input.search-icon` was `app-shell.dark.text-placeholder` (#A8939F), Figma's `input/search/icon` is #C9C2C7 — realiased to `app-shell.dark.toggle-off-action` (same hex already used for the toggle's off-state icon). `search-bg`/`search-border` were not re-verified against a dark search-input instance in this pass (no dark Header pull performed) and remain as previously sourced. Corrected again same day (user report, with screenshots: dark-mode Focused border showed a saturated red/crimson glow, not matching Figma): `dark.input.primary-focused-border`/`dark.input.search-focused-border` were `primary.700` (#720024, an unevidenced placeholder value from before Input's Hover/Focused/Error states were properly wired up) — re-verified directly via `get_design_context` on node `1265:2098` ('Type=Bordered, State=Focused, Icon=No, Size=sm'), whose bound variables resolve to dark-mode values on this exact node (Figma resolves dark mode via variable modes on the same node, not separate instances): `input/primary/focused-border` = `#E599B1` (`primary.200`). Both tokens corrected to `primary.200`; `hover`/`error` dark values were not re-verified in this pass and remain as previously sourced.",
@@ -241,7 +356,8 @@ export const semanticColor = {
   "_authHeroComment": "light/dark.auth-hero.* (added 2026-07-30, for the new `EnterpriseLoginPage` pattern) has no Figma source at all — the source is a Claude Design prototype (`Enterprise Login.dc.html`, project 57d6beaf-33bb-4013-bb17-464a1ab3d649), not Figma Dev Mode, so none of this file's usual get_variable_defs/get_design_context provenance applies; treat as provisional pending a real Figma source, same caveat this file already applies to the undocumented dark block. The prototype's dark hero panel used seven distinct raw rgba(255,255,255,X) opacities (.80/.72/.56/.44/.32/.20/.18) with no corresponding tokens; .18 and .20 (both hairline-border uses) were consolidated to one step rather than adding a near-duplicate, giving six new alpha primitives (neutral.white-a32/-a40/-a48/-a56/-a72/-a80 — see primitives/color.json) and this six-key semantic group aliasing them 1:1, plus `text-title` (solid neutral.white, not translucent) and `status-dot` (green.300, the closest existing ramp step to the prototype's raw #4ADE80 — no new green primitive added). Two of the six were computed, not carried over literally, after a WCAG contrast pass against the primary.900 panel background (see primitives/color.json's own per-token comments for the exact before/after ratios): `badge-border` raised from the prototype's literal ~.18/.20 to .40 to clear 1.4.11's 3:1 non-text-UI-boundary threshold (the badge pill border is load-bearing — it's how the pill's boundary reads against the panel, not decorative), and `text-caption` raised from .44 to .48 to clear 1.4.3's 4.5:1 normal-text threshold (that caption's real rendered size, 11px, is well under the large-text exemption). `divider` (.32) was deliberately left at the prototype's literal value with no contrast floor applied — it renders two decorative, non-essential separators (the eyebrow-label rule, the status-row's mid dot) that carry no unique information on their own and should be marked `aria-hidden` in the component, not held to text or UI-boundary contrast minimums. Identical in light and dark theme on purpose: this is a fixed dark marketing surface that doesn't participate in the app's own theme toggle, the same rationale already established for the crimson button backgrounds. The prototype's other raw colors needed no new tokens at all: its error alert used `var(--color-border-error, #E5484D)`/`var(--color-background-error, rgba(229,72,77,.08))` as fallbacks for tokens that don't exist in this system — resolved to the existing `status.error`/`status.error-subtle` instead of adding the fallback hex as real tokens. Its password-strength 5-step ramp (raw `--color-border-strong`, `#E5484D`, `#E8A33D`, `#3E9C6E`, `#2F8F63`) was remapped entirely onto existing tokens/primitives with no new hex: border.strong (unchanged, already a token), status.error, status.warning, forest.400, and forest.600 — chosen for closeness in hue/lightness, not exact matches, since there is no Figma authority to reconcile against.",
   "_radioCheckboxDisabledComment": "light.input.radio-checkbox-disabled-border/-fill (corrected/added 2026-07-31, direct user request to rewrite Checkbox against its canonical Figma collection, node 1278:2207): a fresh `get_design_context` pull on `State=Disabled` at every size shows a bound border color of #dfdfdf and a fill of #bfbfbf. `radio-checkbox-disabled-border` had been aliasing `input.light.disabled-border` (#D9DEE0) — close but not an exact match, from a different, unrelated Input-collection primitive rather than this component's own bound variable — realiased to `neutral.100` (#DFDFDF, exact). `radio-checkbox-disabled-fill` is new (`neutral.200`, #BFBFBF, exact) — Disabled has no fill role at all before this. dark.input.radio-checkbox-disabled-fill has no Figma source (this collection publishes Light only, same caveat as the rest of this file's dark block) and is mirrored onto `neutral.600` (#4C4C4C) by the same 8-minus-light-index ramp-position rule already used elsewhere in this file (light index 2 on neutral's 9-step 50-800 ramp mirrors to index 6); dark.input.radio-checkbox-disabled-border is left unchanged (already an independent, if likewise unverified, dark value).",
   "_neutralButtonComment": "light/dark.button.neutral-* (added 2026-07-31 for Button's new `neutral` variant, at direct user request against the Figma `Button` component set's new `Style=Neutral` variant, node 1174:1349, Default/Hover/Focused/Disabled states 1540:2550/2944/2950/2958). Light values map onto already-existing primitives exactly, no new hex introduced: border #dbe1e2 = lumen-gray.200, on-action #262626 = neutral.800 (the same primitive light.text.title already resolves to), hover-bg #efefef = neutral.50. Hover only changes bg — Figma's Hover state binds the same border/text variables as Default, no color shift on either. Focused/Disabled need no dedicated tokens: Focused's ring is the existing global `button.focus-ring` (primary.200, #e599b1, exact match) every variant already shares, and Disabled's bg/text (#dfdfdf/#7f7f7f) already match this group's existing global `disabled-bg`/`disabled-on-action` (neutral.100/neutral.400) exactly, applied uniformly by Button's base classes. dark.button.neutral-* has no Figma source (same caveat as the rest of this file's dark block) and mirrors this theme's existing border.default/text.title/background.subtle dark values (neutral.600/neutral.white/neutral.700) rather than inventing new hex.",
-  "_toastComment": "light.toast.* (added 2026-07-29, sourced from the 'Toast' frame at node 1475:5100 — 3 instances: 1475:5099 Default/Info, 1475:5101 Variant2/Warning, 1475:5115 Variant3/Error — via get_design_context and get_variable_defs) are new component-scoped roles. `title-text` aliases lumen-gray.800 (#424849, this frame's `text/body`) — the same recurring naming collision already resolved for ContentState/EmptyState (differs from the generic text.body role, neutral.700/#393939), so it gets its own component-scoped alias rather than repointing a shared token. `info-accent` aliases the existing single-step `sky.500` primitive (#2563EB), an exact match for both this frame's `icon/toast-info-icon` and its own `status/info` variable — used for the Info tone's icon, left accent border, and progress bar. Warning and Error tones reuse the already-existing generic `status.warning` (orange.500/#FF832B) and `status.error` (red.500/#DA1E28) exactly, no new tokens needed. Also NOT changed: the generic `status.info`/`status.info-subtle` tokens currently alias `blue.500` (#0E17FF), which does not match this frame's evidenced info color — `docs/figma-sync.md` §18 already flagged this as an unresolved gap needing a specific node pointer; this sync supplies that evidence but scopes the fix to Toast's own `toast.info-accent` rather than repointing the shared `status.info` token and its other consumers, which is a larger change than this sync's unit. dark.toast.title-text has no Figma source (this frame publishes Light only, same caveat as the rest of the dark block) and is mirrored by position on lumen-gray's 9-step ramp using the rule already established for text.secondary/text.tertiary: dark index = 8 minus the light index, so lumen-gray.800 (index 8) mirrors to lumen-gray.50 (index 0). dark.toast.info-accent has no ramp to mirror (sky is a single-step primitive, same situation as text.link-subtle) so the light value is reused unchanged pending real dark evidence. `bg/toaster-bg` (#FFFFFF) and `stroke/toaster` (#DFDFDF) needed no new tokens: they are exact matches for the existing generic `background.raised` (neutral.white light) and `border.default` (neutral.100, #DFDFDF) roles, reused as-is.",
+  "_toastComment": "light.toast.* (added 2026-07-29, sourced from the 'Toast' frame at node 1475:5100 — 3 instances: 1475:5099 Default/Info, 1475:5101 Variant2/Warning, 1475:5115 Variant3/Error — via get_design_context and get_variable_defs) are new component-scoped roles. `title-text` aliases lumen-gray.800 (#424849, this frame's `text/body`) — the same recurring naming collision already resolved for ContentState/EmptyState (differs from the generic text.body role, neutral.700/#393939), so it gets its own component-scoped alias rather than repointing a shared token. `info-accent` aliases the existing single-step `blue.500` primitive (#2563EB), an exact match for both this frame's `icon/toast-info-icon` and its own `status/info` variable — used for the Info tone's icon, left accent border, and progress bar. Warning and Error tones reuse the already-existing generic `status.warning` (orange.500/#FF832B) and `status.error` (red.500/#DA1E28) exactly, no new tokens needed. Also NOT changed: the generic `status.info`/`status.info-subtle` tokens currently alias `blue.500` (#0E17FF), which does not match this frame's evidenced info color — `docs/figma-sync.md` §18 already flagged this as an unresolved gap needing a specific node pointer; this sync supplies that evidence but scopes the fix to Toast's own `toast.info-accent` rather than repointing the shared `status.info` token and its other consumers, which is a larger change than this sync's unit. dark.toast.title-text has no Figma source (this frame publishes Light only, same caveat as the rest of the dark block) and is mirrored by position on lumen-gray's 9-step ramp using the rule already established for text.secondary/text.tertiary: dark index = 8 minus the light index, so lumen-gray.800 (index 8) mirrors to lumen-gray.50 (index 0). dark.toast.info-accent has no ramp to mirror (blue is a single-step primitive, same situation as text.link-subtle) so the light value is reused unchanged pending real dark evidence. `bg/toaster-bg` (#FFFFFF) and `stroke/toaster` (#DFDFDF) needed no new tokens: they are exact matches for the existing generic `background.raised` (neutral.white light) and `border.default` (neutral.100, #DFDFDF) roles, reused as-is.",
+  "_figmaRefresh20260802Comment": "A fresh full Variables export (Primitives/Default + Lumen-Theme Light+Dark + Typography Desktop/Tablet/Mobile) landed 2026-08-02. Three targeted fixes applied here, all re-verified directly against the export rather than inferred: (1) `status.info` (light AND dark) now aliases the new `blue.500` primitive (#2563EB) instead of `blue.500`/`blue.300` — the export shows this color is uniform/non-theme-adaptive, and it's the exact gap `_toastComment` above and `docs/figma-sync.md` §18 already flagged as unresolved. `status.info-subtle` was initially left unchanged pending a dedicated pass (light's `bg/info`, #EAF0FD, is an exact `blue.50` match; dark's `bg/info` is a translucent 60%-alpha tint, not a simple ramp step, so the two sides didn't obviously resolve the same way) — resolved same-day, on direct user request that colors match Figma exactly: `info-subtle` now follows the same light-`.50`/dark-`.800` pattern every sibling status pair already uses (`success-subtle`/`warning-subtle`/`error-subtle`), i.e. `blue.50` (light) / `blue.800` (dark), rather than inventing a translucency-based rule for this one pair alone. With this fixed, the legacy `blue` primitive family (#0E17FF) has zero remaining consumers and was deleted outright — see 'blue' family's own former comment, now removed, and `blue`'s comment for the resolution record. (2) `button.secondary-bg` (light) and `button.secondary-bg` (dark) now point at the renamed `primary.500-a8`/`primary.300-a20` primitives (previously `500-a10`/`300-a24`) — see `primitives/color.json`'s own comment on those keys for the correction rationale. (3) The large new semantic vocabulary this same export introduces (new `bg`/`text`/`stroke`/`icon` roles) has been added below, aliasing existing or newly-added primitives with zero invented hex values — see `docs/changelog.md`'s `[Unreleased]` entry for the full list. Two items remain deliberately flagged and unresolved rather than guessed: `background.badge` (existing token, light value `cobalt.50`/#EBF1FF) was NOT repointed even though this export's own `bg.badge` reads `Blue/50`/#EAF0FD (now `blue.50`) — close but not identical, and I'm not certain the two represent the same design concept without a dedicated check. `icon.primary-icon` (new) and the pre-existing `icon.primary` now both resolve to `primary.500` under different names — a real naming near-duplicate in Figma's own export, not a code mistake; both are kept distinct since I don't know which callers expect which name.",
   "light": {
     "background": {
       "default": "neutral.white",
@@ -251,7 +367,24 @@ export const semanticColor = {
       "nav-active": "lumen-gray.100",
       "badge": "cobalt.50",
       "prompt": "lumen-gray.800",
-      "app": "lumen-gray.50"
+      "app": "lumen-gray.50",
+      "hover": "overlay.black-4",
+      "pressed": "overlay.black-8",
+      "overlay": "overlay.black-50",
+      "chat-input": "lumen-gray.900",
+      "chat-response": "lumen-gray.50",
+      "toaster-bg": "neutral.white",
+      "toaster-systeminfo-bg": "deep-purple.700",
+      "table-bg": "neutral.white",
+      "table-header-bg": "lumen-gray.50",
+      "table-text": "neutral.900",
+      "code": "neutral.950",
+      "disabled": "neutral.100",
+      "avatar": "neutral.500",
+      "brand-tint": "primary.25",
+      "status-success": "app-shell.light.status-success-bg",
+      "status-warning": "app-shell.light.status-warning-bg",
+      "info": "blue.50"
     },
     "text": {
       "title": "neutral.800",
@@ -260,12 +393,19 @@ export const semanticColor = {
       "muted": "neutral.500",
       "inverse": "neutral.white",
       "link": "primary.500",
-      "link-subtle": "sky.500",
+      "link-subtle": "blue.500",
       "disabled": "neutral.300",
       "secondary": "lumen-gray.700",
       "brand": "primary.800",
       "primary": "app-shell.light.text-primary",
-      "heading": "app-shell.light.text-heading"
+      "heading": "app-shell.light.text-heading",
+      "placeholder": "neutral.400",
+      "on-brand": "neutral.white",
+      "success": "green.500",
+      "success-muted": "green.500",
+      "warning": "orange.500",
+      "danger": "red.500",
+      "badge": "teal.500"
     },
     "border": {
       "default": "neutral.100",
@@ -274,13 +414,35 @@ export const semanticColor = {
       "subtle": "lumen-gray.100",
       "table": "lumen-gray.200",
       "input": "lumen-gray.300",
-      "brand": "primary.100"
+      "brand": "primary.100",
+      "separator": "neutral.100",
+      "toaster": "neutral.100",
+      "active": "primary.500",
+      "selected": "primary.500"
     },
     "icon": {
       "brand": "primary.800",
       "default": "neutral.800",
       "primary-bg": "app-shell.light.assistant-icon-bg",
-      "primary": "primary.500"
+      "primary": "primary.500",
+      "secondary": "lumen-gray.600",
+      "lumen-bg": "lumen-gray.100",
+      "nav": "lumen-gray.700",
+      "on-brand": "neutral.white",
+      "inactive": "lumen-gray.300",
+      "nav-default": "lumen-gray.600",
+      "nav-hover": "lumen-gray.900",
+      "nav-selected": "lumen-gray.900",
+      "theme-toggle": "lumen-gray.900",
+      "primary-icon": "primary.500",
+      "info-bg": "light-blue.50",
+      "info-icon": "light-blue.500",
+      "error-bg": "red.50",
+      "error-icon": "red.500",
+      "success-bg": "green.50",
+      "success-icon": "green.500",
+      "warning-bg": "orange.50",
+      "warning-icon": "orange.500"
     },
     "input": {
       "primary-placeholder-text": "neutral.400",
@@ -336,7 +498,7 @@ export const semanticColor = {
       "accent-on-action": "button.light.accent-on-action",
       "accent-hover-bg": "primary.700",
       "accent-hover-on-action": "button.light.accent-on-action",
-      "secondary-bg": "primary.500-a10",
+      "secondary-bg": "primary.500-a8",
       "secondary-on-action": "primary.500",
       "secondary-border": "primary.500-a24",
       "secondary-hover-bg": "primary.500-a16",
@@ -396,7 +558,7 @@ export const semanticColor = {
     },
     "toast": {
       "title-text": "lumen-gray.800",
-      "info-accent": "sky.500"
+      "info-accent": "blue.500"
     },
     "auth-hero": {
       "text-title": "app-shell.dark.text-heading",
@@ -473,7 +635,24 @@ export const semanticColor = {
       "nav-active": "lumen-gray.700",
       "badge": "cobalt.700",
       "prompt": "lumen-gray.700",
-      "app": "neutral.800"
+      "app": "neutral.800",
+      "hover": "overlay.white-6",
+      "pressed": "overlay.white-10",
+      "overlay": "overlay.black-70",
+      "chat-input": "neutral.black",
+      "chat-response": "overlay.white-10",
+      "toaster-bg": "nightshade.950",
+      "toaster-systeminfo-bg": "deep-purple.300",
+      "table-bg": "nightshade.950",
+      "table-header-bg": "nightshade.900",
+      "table-text": "nightshade.50",
+      "code": "nightshade.350",
+      "disabled": "nightshade.900",
+      "avatar": "neutral.800",
+      "brand-tint": "nightshade.850",
+      "status-success": "app-shell.dark.success-bg",
+      "status-warning": "app-shell.dark.warning-bg",
+      "info": "blue.300-a60"
     },
     "text": {
       "title": "neutral.white",
@@ -482,27 +661,56 @@ export const semanticColor = {
       "muted": "neutral.400",
       "inverse": "neutral.800",
       "link": "primary.300",
-      "link-subtle": "sky.500",
+      "link-subtle": "blue.500",
       "disabled": "neutral.500",
       "secondary": "lumen-gray.100",
       "brand": "primary.200",
       "primary": "app-shell.dark.text-primary",
-      "heading": "app-shell.dark.text-heading"
+      "heading": "app-shell.dark.text-heading",
+      "placeholder": "nightshade.400",
+      "on-brand": "neutral.white",
+      "success": "app-shell.dark.success",
+      "success-muted": "app-shell.dark.success-muted",
+      "warning": "status.amber-light",
+      "danger": "red.300",
+      "badge": "neutral.black"
     },
     "border": {
       "default": "neutral.600",
       "strong": "neutral.400",
-      "focus": "primary.300",
+      "focus": "accent.purple",
       "subtle": "lumen-gray.700",
       "table": "lumen-gray.600",
       "input": "lumen-gray.500",
-      "brand": "app-shell.dark.brand-stroke"
+      "brand": "app-shell.dark.brand-stroke",
+      "separator": "lumen-dark.700",
+      "toaster": "nightshade.850",
+      "active": "primary.200",
+      "selected": "primary.300"
     },
     "icon": {
       "brand": "primary.200",
       "default": "neutral.white",
       "primary-bg": "neutral.black",
-      "primary": "app-shell.dark.toggle-off-action"
+      "primary": "app-shell.dark.toggle-off-action",
+      "secondary": "nightshade.300",
+      "lumen-bg": "nightshade.800",
+      "nav": "nightshade.300",
+      "on-brand": "neutral.white",
+      "inactive": "nightshade.200",
+      "nav-default": "nightshade.400",
+      "nav-hover": "nightshade.300",
+      "nav-selected": "neutral.white",
+      "theme-toggle": "neutral.white",
+      "primary-icon": "nightshade.200",
+      "info-bg": "light-blue.900",
+      "info-icon": "light-blue.500",
+      "error-bg": "red.900",
+      "error-icon": "red.500",
+      "success-bg": "green.900",
+      "success-icon": "green.500",
+      "warning-bg": "orange.900",
+      "warning-icon": "orange.500"
     },
     "input": {
       "primary-placeholder-text": "app-shell.dark.text-placeholder",
@@ -558,7 +766,7 @@ export const semanticColor = {
       "accent-on-action": "button.dark.accent-on-action",
       "accent-hover-bg": "primary.400",
       "accent-hover-on-action": "button.dark.accent-on-action",
-      "secondary-bg": "primary.300-a24",
+      "secondary-bg": "primary.300-a20",
       "secondary-on-action": "primary.100",
       "secondary-border": "primary.300-a40",
       "secondary-hover-bg": "primary.500-a60",
@@ -606,7 +814,7 @@ export const semanticColor = {
       "error-subtle": "red.800",
       "error-text": "red.100",
       "error-border": "red.600",
-      "info": "blue.300",
+      "info": "blue.500",
       "info-subtle": "blue.800"
     },
     "segment": {
@@ -618,7 +826,7 @@ export const semanticColor = {
     },
     "toast": {
       "title-text": "lumen-gray.50",
-      "info-accent": "sky.500"
+      "info-accent": "blue.500"
     },
     "auth-hero": {
       "text-title": "app-shell.dark.text-heading",
@@ -777,31 +985,56 @@ export const typography = {
       "fontSize": 60,
       "lineHeight": 72,
       "weight": 600,
-      "usage": "Page hero, marketing headlines (Figma H1)"
+      "usage": "Page hero, marketing headlines (Figma H1)",
+      "mobile": {
+        "fontSize": 48,
+        "lineHeight": 58
+      },
+      "_comment": "mobile override added 2026-08-02 from a fresh Variables export's responsive Typography collection (Desktop/Tablet/Mobile modes) — Tablet is identical to Desktop for this tier (no override needed), Mobile differs. See build.mjs for how `mobile`/`tablet` override keys are emitted (same mechanism as the existing per-tier `dark` override, generalized to a `@media` block using breakpoint.json's approved thresholds)."
     },
     "display-md": {
       "fontSize": 50,
       "lineHeight": 60,
       "weight": 600,
-      "usage": "Section hero, key messages (Figma H2)"
+      "usage": "Section hero, key messages (Figma H2)",
+      "mobile": {
+        "fontSize": 40,
+        "lineHeight": 48
+      },
+      "_comment": "mobile override added 2026-08-02, same source/rationale as display-lg above."
     },
     "display-sm": {
       "fontSize": 40,
       "lineHeight": 50,
       "weight": 600,
-      "usage": "Sub-hero, feature highlights (Figma H3)"
+      "usage": "Sub-hero, feature highlights (Figma H3)",
+      "mobile": {
+        "fontSize": 32,
+        "lineHeight": 40
+      },
+      "_comment": "mobile override added 2026-08-02, same source/rationale as display-lg above."
     },
     "headline-lg": {
       "fontSize": 32,
       "lineHeight": 42,
       "weight": 600,
-      "usage": "Page titles, major sections (Figma H4)"
+      "usage": "Page titles, major sections (Figma H4)",
+      "mobile": {
+        "fontSize": 28,
+        "lineHeight": 36
+      },
+      "_comment": "mobile override added 2026-08-02, same source/rationale as display-lg above."
     },
     "headline-md": {
       "fontSize": 24,
       "lineHeight": 32,
       "weight": 600,
-      "usage": "Section titles, card titles (Figma H5)"
+      "usage": "Section titles, card titles (Figma H5)",
+      "mobile": {
+        "fontSize": 20,
+        "lineHeight": 28
+      },
+      "_comment": "mobile override added 2026-08-02, same source/rationale as display-lg above. headline-sm (Figma H6) was checked and has NO variance across Desktop/Tablet/Mobile — no override added there."
     },
     "headline-sm": {
       "fontSize": 20,
@@ -1027,7 +1260,16 @@ export const typography = {
       "lineHeight": 18,
       "weight": 600,
       "letterSpacing": 0,
-      "usage": "AIButton label, size=sm (Figma node 1034:4459, exact bound Button/XSmall variable)"
+      "usage": "AIButton label, size=sm (Figma node 1034:4459, exact bound Button/XSmall variable)",
+      "tablet": {
+        "fontSize": 11,
+        "lineHeight": 18
+      },
+      "mobile": {
+        "fontSize": 11,
+        "lineHeight": 18
+      },
+      "_comment": "tablet/mobile overrides added 2026-08-02 from a fresh Variables export's responsive Typography collection — this tier's Desktop value (12/18) exactly matched the export's 'Button XSmall' Desktop reading, confirming the mapping; XSmall's Tablet and Mobile values (both 11/18, identical to each other) are applied here. Figma's own 'Button Small' (13/20 Desktop) and 'Button Large' (16/24 Desktop) tiers have no confident match against any existing key in this file (this repo's legacy button-sm/button-xs are close-but-not-exact at 12/20 and 11/18) and were deliberately left unmapped rather than guessed — flagged in docs/changelog.md."
     },
     "standard-button-md": {
       "fontSize": 14,
@@ -1041,14 +1283,32 @@ export const typography = {
       "lineHeight": 28,
       "weight": 600,
       "letterSpacing": 0,
-      "usage": "AIButton label, size=lg (Figma node 1034:4459) — no distinct Button/Large variable exists in Figma; the Large instance's own label literally binds to Button/XLarge, so this tier now matches xl exactly, by direct user confirmation rather than inference"
+      "usage": "AIButton label, size=lg (Figma node 1034:4459) — no distinct Button/Large variable exists in Figma; the Large instance's own label literally binds to Button/XLarge, so this tier now matches xl exactly, by direct user confirmation rather than inference",
+      "tablet": {
+        "fontSize": 16,
+        "lineHeight": 28
+      },
+      "mobile": {
+        "fontSize": 16,
+        "lineHeight": 28
+      },
+      "_comment": "tablet/mobile overrides added 2026-08-02, mirroring standard-button-xl below (same rationale this tier already follows at Desktop)."
     },
     "standard-button-xl": {
       "fontSize": 18,
       "lineHeight": 28,
       "weight": 600,
       "letterSpacing": 0,
-      "usage": "AIButton label, size=xl (Figma node 1034:4459, exact bound Button/XLarge variable)"
+      "usage": "AIButton label, size=xl (Figma node 1034:4459, exact bound Button/XLarge variable)",
+      "tablet": {
+        "fontSize": 16,
+        "lineHeight": 28
+      },
+      "mobile": {
+        "fontSize": 16,
+        "lineHeight": 28
+      },
+      "_comment": "tablet/mobile overrides added 2026-08-02 from a fresh Variables export's responsive Typography collection — Figma's 'Button XLarge' Tablet and Mobile values (both 16/28, identical to each other, differing only from Desktop's 18/28)."
     },
     "app-nav": {
       "fontSize": 13,
@@ -1367,7 +1627,7 @@ export const spacing = {
   }
 } as const;
 export const radius = {
-  "_comment": "Sourced from Figma 'Lumen-AI-Design-System' file, page 'Design Tokens' > '05 Radius' (fileKey GJBYRm6ySR7XIECFcHMgy2, node 511:78). pill=100 was added from the Badge component collection at node 1079:893, where it is bound as radius/pill. chat-bubble=18 was added 2026-07-26 from the AIPanel component (node 1079:3141), the User Prompt/Bot Response bubbles' three rounded corners — no existing step matches 18px (2xl=16 and 3xl=24 are the nearest neighbors). button=10 was added 2026-07-29, re-verified via a fresh `get_variable_defs`/`get_design_context` pull on the canonical Button collection (node 1174:1349): its own bound `radius/xl` variable resolves to 10px, not the documented 8px (Lg) this component previously shipped with, and not the 12px the same-named `Xl` step in the generic Radius scale documents either — treated as the Button component's own real, current value (direct user confirmation to update the codebase to match), not a correction to the generic Xl step, which is left alone pending a dedicated foundation-level re-audit.",
+  "_comment": "Sourced from Figma 'Lumen-AI-Design-System' file, page 'Design Tokens' > '05 Radius' (fileKey GJBYRm6ySR7XIECFcHMgy2, node 511:78). pill=100 was added from the Badge component collection at node 1079:893, where it is bound as radius/pill. chat-bubble=18 was added 2026-07-26 from the AIPanel component (node 1079:3141), the User Prompt/Bot Response bubbles' three rounded corners — no existing step matches 18px (2xl=16 and 3xl=24 are the nearest neighbors). button=10 was added 2026-07-29, re-verified via a fresh `get_variable_defs`/`get_design_context` pull on the canonical Button collection (node 1174:1349): its own bound `radius/xl` variable resolves to 10px, not the documented 8px (Lg) this component previously shipped with, and not the 12px the same-named `Xl` step in the generic Radius scale documented at the time either — treated then as the Button component's own real, current value, not a correction to the generic Xl step, pending a dedicated foundation-level re-audit. 2026-08-02: that re-audit arrived via a fresh Variables export of the generic Radius primitive scale itself — its `xl` step is genuinely 10px, not 12px, so the generic scale below is corrected to agree with `button`/`input` (all three were the same value all along; the generic scale documentation was the stale one).",
   "none": {
     "value": 0
   },
@@ -1394,10 +1654,16 @@ export const radius = {
     "_comment": "Sourced 2026-07-31 from the canonical Input component collection (node 1262:1181), re-verified across every Type=Bordered/Size/State/Icon combination via `get_design_context`: every one binds the same `radius/xl` variable, resolving to 10px — the same value as `button` above, but a distinct component-scoped step per this file's own established precedent of keeping component-scoped and generic-scale steps separate even when they coincide in value."
   },
   "pill": {
-    "value": 100
+    "value": 100,
+    "_comment": "FLAGGED 2026-08-02, not changed: a fresh Variables export of the generic Radius primitive scale shows its own `pill` step is 999, not 100. This repo's existing `pill`=100 was sourced directly from the Badge component (node 1079:893, its own bound `radius/pill` variable) — a real, independent component-level reading, not necessarily the same bound variable as the generic scale's. Left unchanged pending a dedicated check of whether Badge's binding actually differs from the generic scale or whether this is the same variable read two different ways; both values fully round any pill-shaped element under ~200px tall in practice, so there's no visible regression risk either way."
   },
   "xl": {
-    "value": 12
+    "value": 10,
+    "_comment": "Corrected 2026-08-02 from 12 to 10, per a fresh Variables export of the generic Radius primitive scale — now agrees with the component-scoped `button`/`input`/`app-search` steps above, which had already independently arrived at 10px."
+  },
+  "xxl": {
+    "value": 14,
+    "_comment": "Added 2026-08-02 from the same fresh Radius primitive scale export — a new generic step between `xl`(10) and `2xl`(16), distinct from both. Figma's own short-form naming for this scale is xs/s/m/l/xl/xxl/xxxl/pill, mapped onto this file's existing xs/sm/md/lg/xl/2xl/3xl long-form names; `xxl`(14) has no existing long-form counterpart, so it's kept under Figma's own short name rather than invented a `2.5xl`. Figma's own `xxxl`=18 already exactly matches this file's pre-existing `xxxl`/`chat-bubble` steps (both independently component-sourced) — confirms those were real generic-scale values all along, not coincidental."
   },
   "2xl": {
     "value": 16
@@ -1684,23 +1950,27 @@ export const input = {
   }
 } as const;
 export const motion = {
-  "_comment": "Motion tokens. `docs/design-tokens.md` §6 and `docs/accessibility.md` §3.6 have listed Motion/Duration/* and Motion/Easing/* as required token categories since before this file existed, but no source file implemented them — this file closes that gap. Added 2026-07-28 during the ContentState sync (Figma node 1174:1355), whose Loading variant is the first shipped component with real, Figma-authored keyframe data. Sourcing: `duration.slow` (2000ms) and the `skeleton-pulse` group are exact, read from that node's animation via get_motion_context — a 2s looping opacity track on every skeleton bar, easing easeInOut between the dimmed and full stops, with each bar's dip offset along the timeline to produce a staggered wave. The remaining duration steps and every easing curve have NO Figma source: Figma publishes no motion variable collection, so they are conventional Material-style values recorded here as PROVISIONAL, and exist so components stop reaching for raw ms/cubic-bezier literals. Do not treat them as design-approved; reconcile them if a motion collection is ever published. Every consumer must pair these with a prefers-reduced-motion branch per docs/accessibility.md §3.6 — the tokens carry no reduced-motion behavior of their own.",
+  "_comment": "Motion tokens. `docs/design-tokens.md` §6 and `docs/accessibility.md` §3.6 have listed Motion/Duration/* and Motion/Easing/* as required token categories since before this file existed, but no source file implemented them — this file closes that gap. Added 2026-07-28 during the ContentState sync (Figma node 1174:1355), whose Loading variant is the first shipped component with real, Figma-authored keyframe data. Sourcing: `duration.slow` (2000ms) and the `skeleton-pulse` group are exact, read from that node's animation via get_motion_context — a 2s looping opacity track on every skeleton bar, easing easeInOut between the dimmed and full stops, with each bar's dip offset along the timeline to produce a staggered wave. 2026-08-02 update: a fresh Variables export now publishes a real `Motion/Duration` primitive scale (instant/fast/base/slow/slower = 0/100/200/300/500ms) — the first actual Figma evidence for the generic step-based durations below (distinct from the Figma-node-specific `skeleton-pulse`/`toast`/`hero-*` entries further down, which remain sourced as before). `instant`/`fast` were already exact matches (0/100ms) and are no longer provisional. `moderate` (200ms) matches Figma's `base` step exactly — kept under its existing, already-consumed name rather than renamed, since it's the same value just a different label. `slow` is corrected 400->300ms to match Figma's real `Duration/slow`. `slower` (500ms) is new, with no consumer yet. A second fresh export, same day, now also publishes real `Motion/Easing` primitives — `standard`/`enter`/`exit` turned out to be EXACT matches for Figma's `ease-in-out`/`ease-out`/`ease-in` respectively (kept under their existing, already-consumed names). `linear` and `spring` are new tokens with no consumer yet. `emphasized` remains genuinely provisional — no matching Figma curve.",
   "duration": {
     "instant": {
       "value": 0,
-      "usage": "No transition. Reduced-motion fallback."
+      "usage": "No transition. Reduced-motion fallback. Figma-evidenced 2026-08-02, exact."
     },
     "fast": {
       "value": 100,
-      "usage": "Hover, focus, and other immediate affordance feedback. Provisional."
+      "usage": "Hover, focus, and other immediate affordance feedback. Figma-evidenced 2026-08-02, exact."
     },
     "moderate": {
       "value": 200,
-      "usage": "Enter/exit of small surfaces — popovers, tooltips, toasts. Provisional."
+      "usage": "Enter/exit of small surfaces — popovers, tooltips, toasts. Figma-evidenced 2026-08-02 (matches Figma's own 'base' step name, kept as 'moderate' here for existing consumers)."
     },
     "slow": {
-      "value": 400,
-      "usage": "Larger surfaces — drawers, modals, panel resize. Provisional."
+      "value": 300,
+      "usage": "Larger surfaces — drawers, modals, panel resize. Corrected 2026-08-02 from 400ms to match Figma's real 'Duration/slow' value."
+    },
+    "slower": {
+      "value": 500,
+      "usage": "Reserved for the largest surface transitions. Added 2026-08-02 from a fresh Variables export; no consumer yet."
     },
     "skeleton-pulse": {
       "value": 2000,
@@ -1726,19 +1996,27 @@ export const motion = {
   "easing": {
     "standard": {
       "value": "cubic-bezier(0.4, 0, 0.2, 1)",
-      "usage": "Default for state changes. Provisional — no Figma source."
+      "usage": "Default for state changes. Figma-evidenced 2026-08-02 — exact match for the Primitives export's 'Motion/Easing/ease-in-out' (kept under this file's existing, already-consumed name rather than renamed)."
     },
     "enter": {
       "value": "cubic-bezier(0, 0, 0.2, 1)",
-      "usage": "Elements entering the viewport. Provisional — no Figma source."
+      "usage": "Elements entering the viewport. Figma-evidenced 2026-08-02 — exact match for 'Motion/Easing/ease-out'."
     },
     "exit": {
       "value": "cubic-bezier(0.4, 0, 1, 1)",
-      "usage": "Elements leaving the viewport. Provisional — no Figma source."
+      "usage": "Elements leaving the viewport. Figma-evidenced 2026-08-02 — exact match for 'Motion/Easing/ease-in'."
     },
     "emphasized": {
       "value": "cubic-bezier(0.2, 0, 0, 1)",
-      "usage": "Large or attention-carrying transitions. Provisional — no Figma source."
+      "usage": "Large or attention-carrying transitions. Still provisional — no matching Figma Easing primitive; Figma's closest curve ('spring', see below) is a distinctly different overshoot shape, not this one under another name."
+    },
+    "linear": {
+      "value": "linear",
+      "usage": "No acceleration — already used raw (not via this token) by the hero-rotate keyframe. Figma-evidenced 2026-08-02, added for completeness/consistency."
+    },
+    "spring": {
+      "value": "cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+      "usage": "Overshoot/bounce transitions. Figma-evidenced 2026-08-02 ('Motion/Easing/spring'); no consumer yet."
     },
     "skeleton-pulse": {
       "value": "ease-in-out",
@@ -1886,6 +2164,84 @@ export const iconButton = {
     "value": 18
   }
 } as const;
+export const size = {
+  "_comment": "New file added 2026-08-02 from a fresh Variables export's 'Size' primitive group — component-scale dimensions (nav rail widths, header/footer heights, icon/avatar sizes, minimum touch target). Every value here already existed as a generic `spacing.space.N` key (confirmed by exploring existing consumers before adding this file) — these are named, component-scoped aliases of those same numbers, following the same precedent as `radius.json`'s `app-search`/`button` aliasing an already-existing primitive rather than a new value. `header-h`/`nav-expanded`/`nav-collapsed`/`ai-panel-w` are wired into `AppShell.tsx`/`SideNav.tsx`, which previously referenced the generic `--spacing-N` variable directly by number at exactly one call site each. `footer-h`/`icon-sm/md/lg`/`avatar-sm/md/lg`/`touch-target` are declared here but NOT yet wired into any component: AppShell's footer wrapper has no height class to repoint, Avatar has no size variant/prop at all, icon sizing is ~15+ scattered hardcoded Tailwind classes (`size-4`, `size-6`, etc.) with no central prop, and there is no existing touch-target enforcement anywhere — adopting those is a component refactor, not a token sync, and is out of scope here (see docs/changelog.md's [Unreleased] entry for this sync).",
+  "header-h": {
+    "value": 52
+  },
+  "nav-expanded": {
+    "value": 224
+  },
+  "nav-collapsed": {
+    "value": 64
+  },
+  "ai-panel-w": {
+    "value": 304
+  },
+  "footer-h": {
+    "value": 40
+  },
+  "icon-sm": {
+    "value": 16
+  },
+  "icon-md": {
+    "value": 20
+  },
+  "icon-lg": {
+    "value": 24
+  },
+  "avatar-sm": {
+    "value": 28
+  },
+  "avatar-md": {
+    "value": 32
+  },
+  "avatar-lg": {
+    "value": 40
+  },
+  "touch-target": {
+    "value": 44
+  }
+} as const;
+export const opacity = {
+  "0": {
+    "value": 0
+  },
+  "5": {
+    "value": 0.05
+  },
+  "10": {
+    "value": 0.1
+  },
+  "20": {
+    "value": 0.2
+  },
+  "30": {
+    "value": 0.3
+  },
+  "40": {
+    "value": 0.4
+  },
+  "50": {
+    "value": 0.5
+  },
+  "60": {
+    "value": 0.6
+  },
+  "70": {
+    "value": 0.7
+  },
+  "80": {
+    "value": 0.8
+  },
+  "90": {
+    "value": 0.9
+  },
+  "100": {
+    "value": 1
+  },
+  "_comment": "New file added 2026-08-02 from a fresh Variables export's generic 'Opacity' primitive collection (12 steps, 0-100). Distinct from `motion.opacity`, which holds two component-scoped keys (`skeleton-pulse-from`/`skeleton-pulse-to`) for one specific animation, not this generic scale. No consumer yet — kept as a foundational primitive per the same convention already established for other unconsumed-but-Figma-evidenced additions in this sync (see docs/changelog.md)."
+} as const;
 
 export type ColorPrimitive = keyof typeof colorPrimitives;
 export type SpacingLayoutKey = keyof typeof spacing.layout;
@@ -1898,3 +2254,5 @@ export type EasingKey = keyof typeof motion.easing;
 export type ContentStateToken = Exclude<keyof typeof contentState, "_comment">;
 export type ToastToken = Exclude<keyof typeof toast, "_comment">;
 export type IconButtonToken = Exclude<keyof typeof iconButton, "_comment">;
+export type SizeToken = Exclude<keyof typeof size, "_comment">;
+export type OpacityToken = Exclude<keyof typeof opacity, "_comment">;

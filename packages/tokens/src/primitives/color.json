@@ -1,5 +1,5 @@
 {
-  "_comment": "Sourced from Figma 'Lumen-AI-Design-System' file, page 'Design Tokens' > '01 Colors' (fileKey GJBYRm6ySR7XIECFcHMgy2, node 426:4396). Every family uses a 9-step ramp: 50/100/200/300/400/500/600/700/800, where 500 is the Figma 'Default' step. Read swatch fill colors, not the printed hex labels — several 'Default' rows in the source file have mislabeled caption text (a copy/paste artifact) though the swatches themselves render correctly. 'cobalt', 'japonica', 'deep-purple', and 'forest' were added from a later Figma Variables publish (get_variable_defs on node 426:4396) alongside the originally-documented 14 families — verified via the Variables export rather than canvas swatches, each a full 50-800 ramp matching this same step convention. That same publish also exposed 'Gray'/'Foundation' variable collections that duplicate 'neutral' step-for-step and a 'Lumen Crimson' collection duplicating 'primary' step-for-step — those are unresolved naming collisions (not value conflicts) pending a canonical-name decision, not reflected here.",
+  "_comment": "Sourced from Figma 'Lumen-AI-Design-System' file, page 'Design Tokens' > '01 Colors' (fileKey GJBYRm6ySR7XIECFcHMgy2, node 426:4396). Every family uses a 9-step ramp: 50/100/200/300/400/500/600/700/800, where 500 is the Figma 'Default' step. Read swatch fill colors, not the printed hex labels — several 'Default' rows in the source file have mislabeled caption text (a copy/paste artifact) though the swatches themselves render correctly. CORRECTION 2026-08-02: an earlier version of this comment claimed 'cobalt', 'japonica', 'deep-purple', 'forest', 'purple', 'pink', 'sand', and 'lemon-green' were all verified via a Figma Variables export — a live screenshot of Figma's actual Variables panel today shows most of these are not current Figma collections at all. 'japonica' and 'sand'/'lemon-green' (fully unconsumed) were deleted outright. 'cobalt', 'deep-purple', 'purple', and 'pink' are still consumed by semantic/color.json's Badge and toaster-systeminfo-bg roles, so they're kept for now but flagged PENDING REPLACEMENT on each family's own `_comment` — treat their hex values as unverified legacy, not Figma-sourced, until real values are supplied. That same publish also exposed 'Gray'/'Foundation' variable collections that duplicate 'neutral' step-for-step and a 'Lumen Crimson' collection duplicating 'primary' step-for-step — those are unresolved naming collisions (not value conflicts) pending a canonical-name decision, not reflected here. 2026-08-02: a fresh full Variables export (Primitives/Default + Lumen-Theme Light+Dark + Typography Desktop/Tablet/Mobile modes) added 900/950 tail steps to most existing 9-step ramps (exact matches for 50-800 on every family re-verified), plus two entirely new families ('lumen-dark', 'nightshade' below) that back most of the Dark theme's semantic aliases in semantic/color.json — see that file's own updated comment for the full list of newly-added semantic roles this unblocks. A third claimed family, 'icon-gray' (default/hover/selected), was removed the same day once the user reported it wasn't a real Figma collection either — its 'default'/'hover' values were exact duplicates of 'nightshade.400'/'nightshade.300', so its two consumers (icon.nav-default/nav-hover, dark theme) were repointed straight at nightshade instead.",
   "neutral": {
     "transparent": { "value": "#00000000" },
     "white": { "value": "#FFFFFF" },
@@ -18,14 +18,26 @@
     "500": { "value": "#5E5E5E" },
     "600": { "value": "#4C4C4C" },
     "700": { "value": "#393939" },
-    "800": { "value": "#262626" }
+    "800": { "value": "#262626" },
+    "250": { "value": "#B2B2B2", "_comment": "Added 2026-08-02 from a fresh Variables export — an extra step between 200/300, exact." },
+    "850": { "value": "#2B2F2F", "_comment": "Added 2026-08-02 from a fresh Variables export — an extra step between 800/900, exact." },
+    "900": { "value": "#191919", "_comment": "Added 2026-08-02 from a fresh Variables export, exact." },
+    "950": { "value": "#111111", "_comment": "Added 2026-08-02 from a fresh Variables export, exact." },
+    "500-a8": { "value": "#5e5e5e14", "_comment": "Added 2026-08-02 from a fresh Primitives/Alpha export ('Neutral-500-8'), part of a systematic 8/16/24/40/60/80% tint set. No consumer yet." },
+    "500-a16": { "value": "#5e5e5e29" },
+    "500-a24": { "value": "#5e5e5e3d" },
+    "500-a40": { "value": "#5e5e5e66" },
+    "500-a60": { "value": "#5e5e5e99" },
+    "500-a80": { "value": "#5e5e5ecc" }
   },
   "badge": {
     "_comment": "Exact Badge-only primitive sourced from Lumen-AI-Design-System node 1079:893. No existing documented color-ramp step matches #191919.",
     "default-bg": { "value": "#191919" }
   },
   "primary": {
-    "_comment": "This is also the brand ramp — primary.500 (#BE003C) is the Lumen brand color, shown separately as 'Brand Color' in the source file. The 9-step 50-800 ramp is from the Colors page; primary.900 (#310010) isn't part of that documented ramp — it's read directly off the Buttons page's own Primary/Raised/Icon-only 'Active' instance fills (node 475:7210), a step darker than 800, so it's kept here rather than invented as an extrapolation.",
+    "_comment": "This is also the brand ramp — primary.500 (#BE003C) is the Lumen brand color, shown separately as 'Brand Color' in the source file. The 9-step 50-800 ramp is from the Colors page; primary.900 (#310010) isn't part of that documented ramp — it's read directly off the Buttons page's own Primary/Raised/Icon-only 'Active' instance fills (node 475:7210), a step darker than 800, so it's kept here rather than invented as an extrapolation. primary.10 and primary.950 added 2026-08-02 from a fresh Variables export (exact). That same export corrected the two translucent alpha steps below: 500-a10 (10%) and 300-a24 (24%) were re-verified against a fresh get_variable_defs pull and are actually 500-a8 (8%) and 300-a20 (20%) — renamed and re-pointed at their two consumers in semantic/color.json (light.button.secondary-bg, dark.button.secondary-bg) rather than left as a silently-wrong value under the old name.",
+    "10": { "value": "#F5EFF3" },
+    "25": { "value": "#FFF5F8", "_comment": "Added 2026-08-02 — not present in the fresh Primitives-collection dump itself, but its exact hex is directly evidenced by the Light theme export's own resolved `bg/brand-tint` value (aliasData targetVariableName 'Primary/25'), so it's added from that resolved value rather than guessed." },
     "50": { "value": "#F9E6EC" },
     "100": { "value": "#F2CCD8" },
     "200": { "value": "#E599B1" },
@@ -36,12 +48,15 @@
     "700": { "value": "#720024" },
     "800": { "value": "#4C0018" },
     "900": { "value": "#310010" },
-    "500-a10": { "value": "#be003c1a", "_comment": "primary.500 at ~10% alpha — sourced from the Button component's `btn/secondary/bg` bound variable, Light mode (Lumen-AI-Design-System node 1174:1349, via get_variable_defs on 2026-07-24), the Secondary variant's translucent brand-tinted fill." },
+    "950": { "value": "#22000B" },
+    "500-a8": { "value": "#be003c14", "_comment": "primary.500 at ~8% alpha — sourced from the Button component's `btn/secondary/bg` bound variable, Light mode (Lumen-AI-Design-System node 1174:1349). Renamed 2026-08-02 from the previous '500-a10' (10%) after a fresh get_variable_defs re-pull showed the real value is 8%, not 10% — the original 2026-07-24 sync had over-rounded." },
     "500-a16": { "value": "#be003c29", "_comment": "primary.500 at ~16% alpha — sourced from the same Button node's Light-mode `btn/secondary/hover-bg`/`btn/outline/hover-bg` bound variables, and (separately) the Dark-mode `btn/secondary/hover-border` bound variable — same value resolved in both modes." },
     "500-a24": { "value": "#be003c3d", "_comment": "primary.500 at ~24% alpha — sourced from the same Button node's Light-mode `btn/secondary/border` bound variable." },
     "500-a60": { "value": "#be003c99", "_comment": "primary.500 at ~60% alpha — sourced from the same Button node's Dark-mode `btn/secondary/hover-bg`, `btn/outline/hover-bg`, and `btn/ghost/hover-bg` bound variables (identical value in all three), via get_variable_defs on 2026-07-24 with the user's live selection set to a dark-mode instance." },
-    "300-a24": { "value": "#d8668a3d", "_comment": "primary.300 at ~24% alpha — sourced from the same Button node's Dark-mode `btn/secondary/bg` bound variable." },
-    "300-a40": { "value": "#d8668a66", "_comment": "primary.300 at ~40% alpha — sourced from the same Button node's Dark-mode `btn/secondary/border` bound variable." }
+    "300-a20": { "value": "#d8668a33", "_comment": "primary.300 at ~20% alpha — sourced from the same Button node's Dark-mode `btn/secondary/bg` bound variable. Renamed 2026-08-02 from the previous '300-a24' (24%) after a fresh get_variable_defs re-pull showed the real value is 20%, not 24%." },
+    "300-a40": { "value": "#d8668a66", "_comment": "primary.300 at ~40% alpha — sourced from the same Button node's Dark-mode `btn/secondary/border` bound variable." },
+    "500-a40": { "value": "#be003c66", "_comment": "Added 2026-08-02 from a fresh Primitives/Alpha export ('Primary-500-40'), filling a gap in the existing 500-a8/16/24/60 set. No consumer yet." },
+    "500-a80": { "value": "#be003ccc", "_comment": "Added 2026-08-02 from the same export ('Primary-500-80'). No consumer yet." }
   },
   "lumen-gray": {
     "50": { "value": "#F6F8F8" },
@@ -52,7 +67,15 @@
     "500": { "value": "#A4B3B7" },
     "600": { "value": "#838F92" },
     "700": { "value": "#626B6E" },
-    "800": { "value": "#424849" }
+    "800": { "value": "#424849" },
+    "900": { "value": "#2B2F2F", "_comment": "Added 2026-08-02 from a fresh Variables export, exact." },
+    "950": { "value": "#1E2021", "_comment": "Added 2026-08-02 from a fresh Variables export, exact." },
+    "500-a8": { "value": "#a4b3b714", "_comment": "Added 2026-08-02 from a fresh Primitives/Alpha export ('Lumen Gray-500-8'), part of a systematic 8/16/24/40/60/80% tint set. No consumer yet." },
+    "500-a16": { "value": "#a4b3b729" },
+    "500-a24": { "value": "#a4b3b73d" },
+    "500-a40": { "value": "#a4b3b766" },
+    "500-a60": { "value": "#a4b3b799" },
+    "500-a80": { "value": "#a4b3b7cc" }
   },
   "red": {
     "50": { "value": "#FCE9EA" },
@@ -63,7 +86,15 @@
     "500": { "value": "#DA1E28" },
     "600": { "value": "#AE1820" },
     "700": { "value": "#831218" },
-    "800": { "value": "#570C10" }
+    "800": { "value": "#570C10" },
+    "900": { "value": "#39080A", "_comment": "Added 2026-08-02 from a fresh Variables export, exact." },
+    "950": { "value": "#270507", "_comment": "Added 2026-08-02 from a fresh Variables export, exact." },
+    "500-a8": { "value": "#da1e2814", "_comment": "Added 2026-08-02 from a fresh Primitives/Alpha export ('Red-500-8'), part of a systematic 8/16/24/40/60/80% tint set. No consumer yet." },
+    "500-a16": { "value": "#da1e2829" },
+    "500-a24": { "value": "#da1e283d" },
+    "500-a40": { "value": "#da1e2866" },
+    "500-a60": { "value": "#da1e2899" },
+    "500-a80": { "value": "#da1e28cc" }
   },
   "green": {
     "50": { "value": "#E6F7E6" },
@@ -74,18 +105,15 @@
     "500": { "value": "#00A700" },
     "600": { "value": "#008600" },
     "700": { "value": "#006400" },
-    "800": { "value": "#004300" }
-  },
-  "blue": {
-    "50": { "value": "#E7E8FF" },
-    "100": { "value": "#CFD1FF" },
-    "200": { "value": "#9FA2FF" },
-    "300": { "value": "#6E74FF" },
-    "400": { "value": "#3E45FF" },
-    "500": { "value": "#0E17FF" },
-    "600": { "value": "#0B12CC" },
-    "700": { "value": "#080E99" },
-    "800": { "value": "#060966" }
+    "800": { "value": "#004300" },
+    "900": { "value": "#002C00", "_comment": "Added 2026-08-02 from a fresh Variables export, exact." },
+    "950": { "value": "#001E00", "_comment": "Added 2026-08-02 from a fresh Variables export, exact." },
+    "500-a8": { "value": "#00a70014", "_comment": "Added 2026-08-02 from a fresh Primitives/Alpha export ('Green-500-8'), part of a systematic 8/16/24/40/60/80% tint set. No consumer yet." },
+    "500-a16": { "value": "#00a70029" },
+    "500-a24": { "value": "#00a7003d" },
+    "500-a40": { "value": "#00a70066" },
+    "500-a60": { "value": "#00a70099" },
+    "500-a80": { "value": "#00a700cc" }
   },
   "orange": {
     "50": { "value": "#FFF3EA" },
@@ -96,7 +124,15 @@
     "500": { "value": "#FF832B" },
     "600": { "value": "#CC6922" },
     "700": { "value": "#994F1A" },
-    "800": { "value": "#663411" }
+    "800": { "value": "#663411" },
+    "900": { "value": "#42220B", "_comment": "Added 2026-08-02 from a fresh Variables export, exact." },
+    "950": { "value": "#2E1708", "_comment": "Added 2026-08-02 from a fresh Variables export, exact." },
+    "500-a8": { "value": "#ff832b14", "_comment": "Added 2026-08-02 from a fresh Primitives/Alpha export ('Orange-500-8'), part of a systematic 8/16/24/40/60/80% tint set. No consumer yet." },
+    "500-a16": { "value": "#ff832b29" },
+    "500-a24": { "value": "#ff832b3d" },
+    "500-a40": { "value": "#ff832b66" },
+    "500-a60": { "value": "#ff832b99" },
+    "500-a80": { "value": "#ff832bcc" }
   },
   "yellow": {
     "50": { "value": "#FFFCE6" },
@@ -107,9 +143,18 @@
     "500": { "value": "#FFD900" },
     "600": { "value": "#CCAD00" },
     "700": { "value": "#998200" },
-    "800": { "value": "#665700" }
+    "800": { "value": "#665700" },
+    "900": { "value": "#423900", "_comment": "Added 2026-08-02 from a fresh Variables export, exact." },
+    "950": { "value": "#2E2700", "_comment": "Added 2026-08-02 from a fresh Variables export, exact." },
+    "500-a8": { "value": "#ffd90014", "_comment": "Added 2026-08-02 from a fresh Primitives/Alpha export ('Yellow-500-8'), part of a systematic 8/16/24/40/60/80% tint set. No consumer yet." },
+    "500-a16": { "value": "#ffd90029" },
+    "500-a24": { "value": "#ffd9003d" },
+    "500-a40": { "value": "#ffd90066" },
+    "500-a60": { "value": "#ffd90099" },
+    "500-a80": { "value": "#ffd900cc" }
   },
   "purple": {
+    "_comment": "PENDING REPLACEMENT — flagged 2026-08-02: a live screenshot of Figma's Variables panel shows this family is not a current Figma collection, contradicting this file's older top-level claim that it was one of the 'originally-documented 14 families' verified against Figma. Still consumed by semantic/color.json's badge.purple-bg/text roles. Kept in place (not deleted) until the user supplies the real Figma-backed values for those consumers — do not treat these hex values as Figma-sourced in the meantime. Distinct from the new, confirmed 'accent.purple' single swatch added the same day.",
     "50": { "value": "#F7E6FF" },
     "100": { "value": "#EECCFF" },
     "200": { "value": "#DD99FF" },
@@ -118,9 +163,18 @@
     "500": { "value": "#AA00FF" },
     "600": { "value": "#8800CC" },
     "700": { "value": "#660099" },
-    "800": { "value": "#440066" }
+    "800": { "value": "#440066" },
+    "900": { "value": "#2C0042", "_comment": "Added 2026-08-02 from a fresh Variables export, exact." },
+    "950": { "value": "#1F002E", "_comment": "Added 2026-08-02 from a fresh Variables export, exact." },
+    "500-a8": { "value": "#aa00ff14", "_comment": "Added 2026-08-02 from a fresh Primitives/Alpha export ('Purple-500-8'), part of a systematic 8/16/24/40/60/80% tint set. No consumer yet." },
+    "500-a16": { "value": "#aa00ff29" },
+    "500-a24": { "value": "#aa00ff3d" },
+    "500-a40": { "value": "#aa00ff66" },
+    "500-a60": { "value": "#aa00ff99" },
+    "500-a80": { "value": "#aa00ffcc" }
   },
   "pink": {
+    "_comment": "PENDING REPLACEMENT — flagged 2026-08-02: a live screenshot of Figma's Variables panel shows this family is not a current Figma collection, contradicting this file's older top-level claim that it was one of the 'originally-documented 14 families' verified against Figma. Still consumed by semantic/color.json's badge.pink-bg/text roles. Kept in place (not deleted) until the user supplies the real Figma-backed values for those consumers — do not treat these hex values as Figma-sourced in the meantime.",
     "50": { "value": "#FFE8F5" },
     "100": { "value": "#FFD0E9" },
     "200": { "value": "#FFA1D4" },
@@ -129,7 +183,13 @@
     "500": { "value": "#FF1493" },
     "600": { "value": "#CC1076" },
     "700": { "value": "#990C58" },
-    "800": { "value": "#66083B" }
+    "800": { "value": "#66083B" },
+    "500-a8": { "value": "#ff149314", "_comment": "Added 2026-08-02 from a fresh Primitives/Alpha export ('Pink-500-8'), part of a systematic 8/16/24/40/60/80% tint set. No consumer yet." },
+    "500-a16": { "value": "#ff149329" },
+    "500-a24": { "value": "#ff14933d" },
+    "500-a40": { "value": "#ff149366" },
+    "500-a60": { "value": "#ff149399" },
+    "500-a80": { "value": "#ff1493cc" }
   },
   "light-blue": {
     "50": { "value": "#E6F8FF" },
@@ -140,7 +200,15 @@
     "500": { "value": "#00B5FF" },
     "600": { "value": "#0091CC" },
     "700": { "value": "#006D99" },
-    "800": { "value": "#004866" }
+    "800": { "value": "#004866" },
+    "900": { "value": "#002F42", "_comment": "Added 2026-08-02 from a fresh Variables export, exact." },
+    "950": { "value": "#00202E", "_comment": "Added 2026-08-02 from a fresh Variables export, exact." },
+    "500-a8": { "value": "#00b5ff14", "_comment": "Added 2026-08-02 from a fresh Primitives/Alpha export ('Light Blue-500-8'), part of a systematic 8/16/24/40/60/80% tint set. No consumer yet." },
+    "500-a16": { "value": "#00b5ff29" },
+    "500-a24": { "value": "#00b5ff3d" },
+    "500-a40": { "value": "#00b5ff66" },
+    "500-a60": { "value": "#00b5ff99" },
+    "500-a80": { "value": "#00b5ffcc" }
   },
   "teal": {
     "50": { "value": "#E6F3F3" },
@@ -151,31 +219,18 @@
     "500": { "value": "#008080" },
     "600": { "value": "#006666" },
     "700": { "value": "#004D4D" },
-    "800": { "value": "#003333" }
-  },
-  "sand": {
-    "50": { "value": "#F5F4F1" },
-    "100": { "value": "#EAE7E2" },
-    "200": { "value": "#D5CFC5" },
-    "300": { "value": "#C0B8A9" },
-    "400": { "value": "#ABA08C" },
-    "500": { "value": "#96886F" },
-    "600": { "value": "#786D59" },
-    "700": { "value": "#5A5243" },
-    "800": { "value": "#3C362C" }
-  },
-  "lemon-green": {
-    "50": { "value": "#F7FFE6" },
-    "100": { "value": "#EFFECC" },
-    "200": { "value": "#DEFC9A" },
-    "300": { "value": "#CEFB67" },
-    "400": { "value": "#BDF935" },
-    "500": { "value": "#ADF802" },
-    "600": { "value": "#8AC602" },
-    "700": { "value": "#689501" },
-    "800": { "value": "#456301" }
+    "800": { "value": "#003333" },
+    "900": { "value": "#002121", "_comment": "Added 2026-08-02 from a fresh Variables export, exact." },
+    "950": { "value": "#001717", "_comment": "Added 2026-08-02 from a fresh Variables export, exact." },
+    "500-a8": { "value": "#00808014", "_comment": "Added 2026-08-02 from a fresh Primitives/Alpha export ('Teal-500-8'), part of a systematic 8/16/24/40/60/80% tint set. No consumer yet." },
+    "500-a16": { "value": "#00808029" },
+    "500-a24": { "value": "#0080803d" },
+    "500-a40": { "value": "#00808066" },
+    "500-a60": { "value": "#00808099" },
+    "500-a80": { "value": "#008080cc" }
   },
   "cobalt": {
+    "_comment": "PENDING REPLACEMENT — flagged 2026-08-02: a live screenshot of Figma's Variables panel shows this family is not a current Figma collection, contradicting this file's older top-level claim that it was 'verified via Variables export'. Still consumed by semantic/color.json's badge.default-bg (gray badge) and badge (light) roles. Kept in place (not deleted) until the user supplies the real Figma-backed values for those consumers — do not treat these hex values as Figma-sourced in the meantime.",
     "50": { "value": "#EBF1FF" },
     "100": { "value": "#E3EEFF" },
     "200": { "value": "#99BCEF" },
@@ -186,18 +241,8 @@
     "700": { "value": "#003A8C" },
     "800": { "value": "#002356" }
   },
-  "japonica": {
-    "50": { "value": "#FCF2EF" },
-    "100": { "value": "#F7E4DD" },
-    "200": { "value": "#F0C9BC" },
-    "300": { "value": "#E8AD9A" },
-    "400": { "value": "#E19279" },
-    "500": { "value": "#D97757" },
-    "600": { "value": "#AE5F46" },
-    "700": { "value": "#824734" },
-    "800": { "value": "#573023" }
-  },
   "deep-purple": {
+    "_comment": "PENDING REPLACEMENT — flagged 2026-08-02: a live screenshot of Figma's Variables panel shows this family is not a current Figma collection, contradicting this file's older top-level claim that it was 'verified via Variables export'. Still consumed by semantic/color.json's badge.deep-purple-bg/text and toaster-systeminfo-bg roles. Kept in place (not deleted) until the user supplies the real Figma-backed values for those consumers — do not treat these hex values as Figma-sourced in the meantime.",
     "50": { "value": "#F0EBF9" },
     "100": { "value": "#EDE7F6" },
     "200": { "value": "#BFAEE0" },
@@ -206,26 +251,38 @@
     "500": { "value": "#5E35B1" },
     "600": { "value": "#4527A0" },
     "700": { "value": "#311B92" },
-    "800": { "value": "#261547" }
-  },
-  "forest": {
-    "50": { "value": "#E8F5EF" },
-    "100": { "value": "#E3F5EC" },
-    "200": { "value": "#99CAB1" },
-    "300": { "value": "#66AF8B" },
-    "400": { "value": "#339564" },
-    "500": { "value": "#007A3D" },
-    "600": { "value": "#005E2E" },
-    "700": { "value": "#004723" },
-    "800": { "value": "#003118" }
+    "800": { "value": "#261547" },
+    "500-a8": { "value": "#5e35b114", "_comment": "Added 2026-08-02 from a fresh Primitives/Alpha export ('Deep Purple-500-8'), part of a systematic 8/16/24/40/60/80% tint set. No consumer yet." },
+    "500-a16": { "value": "#5e35b129" },
+    "500-a24": { "value": "#5e35b13d" },
+    "500-a40": { "value": "#5e35b166" },
+    "500-a60": { "value": "#5e35b199" },
+    "500-a80": { "value": "#5e35b1cc" }
   },
   "chat": {
     "_comment": "Exact chat-bubble-only primitive sourced from Lumen-AI-Design-System node 1412:3030 ('AI Conversation Components'), the `bg/chat-input` bound variable (verified via get_variable_defs 2026-07-26). Light mode only — this frame has no dark-mode instance/evidence.",
     "input-bg": { "value": "#2B2F2F" }
   },
-  "sky": {
-    "_comment": "Added 2026-07-20, sourced from the canonical 'AppShell' page (node 1007:3700, Breakpoint=Desktop/Theme=Light instance 1127:4196) via get_variable_defs: the `text/link` variable (#2563EB) used for breadcrumb and footer inline links in that context. Only this one step is evidenced — no full 50-800 ramp was found for this family, unlike every other family in this file. Do not assume or invent the missing steps.",
-    "500": { "value": "#2563EB" }
+  "blue": {
+    "_comment": "Added 2026-07-20 under the name 'sky', sourced from the canonical 'AppShell' page (node 1007:3700, Breakpoint=Desktop/Theme=Light instance 1127:4196) via get_variable_defs: the `text/link` variable (#2563EB) used for breadcrumb and footer inline links in that context. Only the 500 step was evidenced then. This file already had an older, differently-valued 'blue' family (500=#0E17FF) at the time, so the new ramp was added under a placeholder name ('sky') rather than colliding with it. Full ramp added 2026-08-02 from a fresh Variables export's 'Blue' family (50-950), which resolves 500 to this exact same #2563EB. That same day, the old #0E17FF 'blue' family's only two consumers (`status.info-subtle`) were repointed here and the old family was deleted, freeing the real name — but the placeholder 'sky' name was mistakenly kept a little longer. RENAMED 'sky' -> 'blue' the same day, once a live screenshot of Figma's own Variables panel confirmed the canonical group name is 'Blue' (11 variables) — there is no 'Sky' collection in Figma at all. Every reference across semantic/color.json and Storybook was updated in the same pass; do not reintroduce a 'sky' key. This is also the color that resolves 'status.info' in the Light+Dark theme export uniformly (non-theme-adaptive) and 'toast.info-accent' in semantic/color.json, closing the drift figma-sync.md's manifest previously flagged.",
+    "50": { "value": "#EAF0FD" },
+    "100": { "value": "#D3E0FB" },
+    "200": { "value": "#A8C1F7" },
+    "300": { "value": "#7CA1F3" },
+    "400": { "value": "#5182EF" },
+    "500": { "value": "#2563EB" },
+    "600": { "value": "#1E4FBC" },
+    "700": { "value": "#163B8D" },
+    "800": { "value": "#0F285E" },
+    "900": { "value": "#040642" },
+    "950": { "value": "#03042E" },
+    "300-a60": { "value": "#7CA1F399", "_comment": "blue.300 at ~60% alpha — sourced from the Dark theme's bg.info role. Figma's own variable label on this binding reads 'Blue/400-60', but the swatch hex (#7CA1F3) is exactly blue.300, not blue.400 (#5182EF) — trusted the swatch over the label per this file's own established rule (see the top-level _comment). CONFIRMED 2026-08-02 by a fresh Primitives/Alpha export's own 'Blue-400-60' entry, whose resolved swatch is this exact hex/alpha — the mislabeling is on Figma's side, not a misreading here." },
+    "500-a8": { "value": "#2563eb14", "_comment": "blue.500 at ~8% alpha — added 2026-08-02 from a fresh Primitives/Alpha export ('Blue-500-8'), part of a systematic 8/16/24/40/60/80% tint set added across most families this same pass. No consumer yet." },
+    "500-a16": { "value": "#2563eb29" },
+    "500-a24": { "value": "#2563eb3d" },
+    "500-a40": { "value": "#2563eb66" },
+    "500-a60": { "value": "#2563eb99" },
+    "500-a80": { "value": "#2563ebcc" }
   },
   "button": {
     "_comment": "Exact component-only colors from the final Button variant collection (Lumen-AI-Design-System node 1027:3733). Added only where no existing primitive is an exact value match.",
@@ -295,5 +352,72 @@
     "bg": { "value": "#111111" },
     "syntax-keyword": { "value": "#F8A6C9" },
     "syntax-string": { "value": "#83D197" }
+  },
+  "lumen-dark": {
+    "_comment": "New family added 2026-08-02 from a fresh Variables export. Backs most of the Dark theme's bg/border roles (bg.app, bg.surface, disabled fills, etc. in semantic/color.json) — previously those aliased 'neutral'/'lumen-gray' steps or raw hex as an approximation; this is the real, distinct ramp Figma actually binds them to.",
+    "50": { "value": "#E9E9EA" },
+    "100": { "value": "#D3D2D3" },
+    "200": { "value": "#A7A4A7" },
+    "300": { "value": "#7B777C" },
+    "400": { "value": "#4F4950" },
+    "600": { "value": "#1C161D" },
+    "700": { "value": "#151116" },
+    "800": { "value": "#0E0B0E" },
+    "Default": { "value": "#231C24" },
+    "500-a8": { "value": "#231c2414", "_comment": "Added 2026-08-02 from a fresh Primitives/Alpha export ('Lumen Dark-500-8') — this family has no separate numeric '500' step, and #231C24 is exactly the 'Default' value above, so '500' here corresponds to 'Default'. Part of a systematic 8/16/24/40/60/80% tint set. No consumer yet." },
+    "500-a16": { "value": "#231c2429" },
+    "500-a24": { "value": "#231c243d" },
+    "500-a40": { "value": "#231c2466" },
+    "500-a60": { "value": "#231c2499" },
+    "500-a80": { "value": "#231c24cc" }
+  },
+  "nightshade": {
+    "_comment": "New family added 2026-08-02 from a fresh Variables export. Backs most of the Dark theme's text/stroke/icon roles (text.primary/heading/body/secondary/tertiary/muted, border.default/subtle, icon.default/secondary, etc.) — a distinct ramp from 'lumen-gray'/'neutral' with its own step set (50/200/300/350/400/600/700/800/850/900/950, no 100/500).",
+    "50": { "value": "#F9F3F7" },
+    "200": { "value": "#C9C2C7" },
+    "300": { "value": "#B8ACB3" },
+    "350": { "value": "#B2A4AC" },
+    "400": { "value": "#A8939F" },
+    "600": { "value": "#7A6674" },
+    "700": { "value": "#594D54" },
+    "800": { "value": "#3D3039" },
+    "850": { "value": "#2D1A26" },
+    "900": { "value": "#231C24" },
+    "950": { "value": "#17101A" },
+    "600-a8": { "value": "#7a667414", "_comment": "Added 2026-08-02 from a fresh Primitives/Alpha export ('Nightshade-600-8') — this family's alpha set is scoped to its 600 step, not 500 (which this family doesn't have). Part of a systematic 8/16/24/40/60/80% tint set. No consumer yet." },
+    "600-a16": { "value": "#7a667429" },
+    "600-a24": { "value": "#7a66743d" },
+    "600-a40": { "value": "#7a667466" },
+    "600-a60": { "value": "#7a667499" },
+    "600-a80": { "value": "#7a6674cc" }
+  },
+  "accent": {
+    "_comment": "New family added 2026-08-02 from a fresh Variables export (Primitives/Default collection, 'Accent/Purple'). This is the same value the Dark-theme export's own `stroke/focus` variable resolves to ('Brand in light, accent purple in dark') — used to correct `dark.border.focus` in semantic/color.json, previously `primary.300` (#D8668A), an unevidenced placeholder.",
+    "purple": { "value": "#B48EE0" }
+  },
+  "overlay": {
+    "_comment": "New family added 2026-08-02 from a fresh Variables export — translucent black/white steps used by the new semantic bg.hover/bg.pressed/bg.overlay roles (see semantic/color.json). Distinct from the existing neutral.white-a* series (those are Enterprise Login prototype-specific, no Figma source); these are the real Figma 'Overlay' collection. `transparent` added same day after Figma's own Variables panel showed this collection has 11 members, not the 10 originally added — fully transparent black, alpha 0, matching `neutral.transparent`'s existing value exactly (kept as its own entry per this collection's own naming, not deduplicated against the unrelated `neutral` family).",
+    "black-4": { "value": "#0000000a" },
+    "black-5": { "value": "#0000000d" },
+    "black-8": { "value": "#00000014" },
+    "black-10": { "value": "#0000001a" },
+    "black-15": { "value": "#00000026" },
+    "black-30": { "value": "#0000004d" },
+    "black-50": { "value": "#00000080" },
+    "black-70": { "value": "#000000b3" },
+    "white-6": { "value": "#ffffff0f" },
+    "white-10": { "value": "#ffffff1a" },
+    "transparent": { "value": "#00000000" }
+  },
+  "status": {
+    "_comment": "New family added 2026-08-02 from a fresh Variables export's 'Status' primitive group — used by the new semantic text.warning (dark) role and other status-tint aliasing. Distinct from the per-status-family ramps (green/orange/red/etc.) above; these are the specific named swatches Figma groups under 'Status'.",
+    "green": { "value": "#0B8A3E" },
+    "green-light": { "value": "#78E6A0" },
+    "green-tint": { "value": "#E5F9EC" },
+    "amber": { "value": "#C97A2E" },
+    "amber-light": { "value": "#F5B46E" },
+    "amber-tint": { "value": "#FFF4E1" },
+    "green-15": { "value": "#0B8A3E26" },
+    "amber-15": { "value": "#C97A2E26" }
   }
 }

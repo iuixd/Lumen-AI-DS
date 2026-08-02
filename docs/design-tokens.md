@@ -608,17 +608,20 @@ had been listed as required here (and in `docs/accessibility.md` §3.6) since
 before any source file backed it, which is why `Accordion` and the other
 shadcn-sourced components ship with their enter/exit transitions disabled.
 
-Read that file's own `_comment` before relying on any value. Only the
-`skeleton-pulse` group is Figma-sourced (exact keyframe data from node
-`1174:1355` via `get_motion_context`); Figma publishes no motion variable
-collection, so every other duration and easing step is a conventional
-placeholder marked provisional, present so components stop reaching for raw
-`ms`/`cubic-bezier` literals. The file also carries a `stagger` group and an
-`opacity` group beyond the four-and-four listed above, and the token build
-emits the `lumen-skeleton-pulse` keyframes plus its `prefers-reduced-motion`
-fallback into `dist/css/variables.css` alongside the variables. These tokens
-carry no reduced-motion behavior of their own — every consumer must pair
-them with a `prefers-reduced-motion` branch per `docs/accessibility.md` §3.6.
+Read that file's own `_comment` before relying on any value. As of 2026-08-02,
+`instant`/`fast`/`moderate`/`slow` above are Figma-evidenced (a fresh Variables
+export publishes a real `Motion/Duration` primitive scale); `slow` was
+corrected 400ms→300ms to match, and a `slower` (500ms) step was added.
+`skeleton-pulse` remains separately Figma-sourced (exact keyframe data from
+node `1174:1355` via `get_motion_context`). Every easing curve (Standard/
+Enter/Exit/Emphasized) still has no Figma source — Figma publishes no Easing
+variable collection — and remains a conventional placeholder marked
+provisional. The file also carries a `stagger` group and an `opacity` group
+beyond the four-and-four listed above, and the token build emits the
+`lumen-skeleton-pulse` keyframes plus its `prefers-reduced-motion` fallback
+into `dist/css/variables.css` alongside the variables. These tokens carry no
+reduced-motion behavior of their own — every consumer must pair them with a
+`prefers-reduced-motion` branch per `docs/accessibility.md` §3.6.
 
 ## Z-index
 

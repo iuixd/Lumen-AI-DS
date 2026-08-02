@@ -120,7 +120,7 @@ export function SideNav({
         className={cn(
           "hidden shrink-0 flex-col gap-[var(--spacing-2)] overflow-hidden border-x border-[var(--color-app-shell-border-default)] bg-[var(--color-app-shell-nav-bg)] px-[var(--spacing-12)] pb-[var(--spacing-12)] pt-[var(--spacing-13)] tablet:flex",
           "transition-[width] duration-[var(--duration-moderate)] ease-[var(--easing-standard)]",
-          visuallyExpanded ? "w-[var(--spacing-224)]" : "w-[var(--spacing-64)]",
+          visuallyExpanded ? "w-[var(--size-nav-expanded)]" : "w-[var(--size-nav-collapsed)]",
           className
         )}
       >

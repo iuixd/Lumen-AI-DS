@@ -28,6 +28,8 @@ const motion = JSON.parse(readFileSync(path.join(srcDir, "motion.json"), "utf8")
 const contentState = JSON.parse(readFileSync(path.join(srcDir, "content-state.json"), "utf8"));
 const toast = JSON.parse(readFileSync(path.join(srcDir, "toast.json"), "utf8"));
 const iconButton = JSON.parse(readFileSync(path.join(srcDir, "icon-button.json"), "utf8"));
+const size = JSON.parse(readFileSync(path.join(srcDir, "size.json"), "utf8"));
+const opacity = JSON.parse(readFileSync(path.join(srcDir, "opacity.json"), "utf8"));
 
 function kebab(str) {
   return String(str).replace(/[._]/g, "-");
@@ -157,6 +159,15 @@ css += "\n  /* IconButton component geometry */\n";
 for (const [key, value] of Object.entries(flattenValueTokens(iconButton))) {
   css += `  --icon-button-${kebab(key)}: ${value}px;\n`;
 }
+css += "\n  /* Size — component-scale dimensions (nav, header/footer, icon, avatar, touch target) */\n";
+for (const [key, value] of Object.entries(flattenValueTokens(size))) {
+  css += `  --size-${kebab(key)}: ${value}px;\n`;
+}
+css += "\n  /* generic Opacity primitive scale (distinct from motion.opacity's skeleton-specific keys) */\n";
+for (const [key, val] of Object.entries(opacity)) {
+  if (key.startsWith("_")) continue;
+  css += `  --opacity-${kebab(key)}: ${val.value};\n`;
+}
 
 // :root carries the light theme as the default — every consuming app gets
 // correct colors with zero setup. [data-theme="dark"] below overrides them.
@@ -176,23 +187,46 @@ for (const [group, groupTokens] of Object.entries(semanticColor.dark)) {
     css += `  --color-${group}-${kebab(name)}: ${resolved};\n`;
   }
 }
-// Typography is fixed across themes by default (only colors vary) — a scale
-// entry can opt into a per-theme override via its own "dark" key. Emitted
-// here rather than a separate block so it lives alongside every other
-// [data-theme="dark"] override.
-const darkTypographyEntries = Object.entries(typography.scale).filter(([, val]) => val.dark);
-if (darkTypographyEntries.length > 0) {
-  css += "\n  /* typography: dark-only overrides */\n";
-  for (const [key, val] of darkTypographyEntries) {
-    if (val.dark.fontSize !== undefined) css += `  --text-${key}-size: ${val.dark.fontSize}px;\n`;
-    if (val.dark.lineHeight !== undefined)
-      css += `  --text-${key}-line-height: ${val.dark.lineHeight}${typeof val.dark.lineHeight === "number" ? "px" : ""};\n`;
-    if (val.dark.weight !== undefined) css += `  --text-${key}-weight: ${val.dark.weight};\n`;
-    if (val.dark.letterSpacing !== undefined)
-      css += `  --text-${key}-letter-spacing: ${val.dark.letterSpacing}px;\n`;
+// Typography is fixed across themes/breakpoints by default (only colors vary
+// by theme) — a scale entry can opt into a per-variant override via a
+// sibling "dark"/"tablet"/"mobile" key. This one helper emits the
+// `--text-*` declarations for whichever variant is requested; the caller
+// wraps the result in the right selector ([data-theme="dark"] for "dark",
+// an @media block for "tablet"/"mobile" — see below).
+function typographyOverrideDeclarations(variantKey) {
+  const entries = Object.entries(typography.scale).filter(([, val]) => val[variantKey]);
+  if (entries.length === 0) return "";
+  let block = `\n  /* typography: ${variantKey} overrides */\n`;
+  for (const [key, val] of entries) {
+    const v = val[variantKey];
+    if (v.fontSize !== undefined) block += `  --text-${key}-size: ${v.fontSize}px;\n`;
+    if (v.lineHeight !== undefined)
+      block += `  --text-${key}-line-height: ${v.lineHeight}${typeof v.lineHeight === "number" ? "px" : ""};\n`;
+    if (v.weight !== undefined) block += `  --text-${key}-weight: ${v.weight};\n`;
+    if (v.letterSpacing !== undefined) block += `  --text-${key}-letter-spacing: ${v.letterSpacing}px;\n`;
   }
+  return block;
 }
+css += typographyOverrideDeclarations("dark");
 css += "}\n";
+
+// Responsive typography: reuses breakpoint.json's already-approved
+// thresholds (mobile <768, tablet 768-1023, desktop >=1024 — NOT Figma's
+// raw reference-frame widths of 390/768/1440, which are canvas sizes, not
+// approved transition points) as the only breakpoint vocabulary. CSS media
+// conditions can't reference custom properties, so the pixel values are
+// inlined here from breakpoint.json's already-parsed JS data. :root above
+// keeps emitting the desktop value unconditionally as the default, so a
+// scale entry with no tablet/mobile override is unaffected — this is
+// additive, not a rewrite of the existing typography emission.
+const tabletOverrides = typographyOverrideDeclarations("tablet");
+if (tabletOverrides) {
+  css += `\n@media (min-width: ${breakpoint.tablet.value}px) and (max-width: ${breakpoint.desktop.value - 1}px) {\n  :root {${tabletOverrides}  }\n}\n`;
+}
+const mobileOverrides = typographyOverrideDeclarations("mobile");
+if (mobileOverrides) {
+  css += `\n@media (max-width: ${breakpoint.tablet.value - 1}px) {\n  :root {${mobileOverrides}  }\n}\n`;
+}
 
 // ---- Motion keyframes ----
 // The only rule set this file emits that isn't a custom-property declaration.
@@ -417,6 +451,8 @@ export const motion = ${JSON.stringify(motion, null, 2)} as const;
 export const contentState = ${JSON.stringify(contentState, null, 2)} as const;
 export const toast = ${JSON.stringify(toast, null, 2)} as const;
 export const iconButton = ${JSON.stringify(iconButton, null, 2)} as const;
+export const size = ${JSON.stringify(size, null, 2)} as const;
+export const opacity = ${JSON.stringify(opacity, null, 2)} as const;
 
 export type ColorPrimitive = keyof typeof colorPrimitives;
 export type SpacingLayoutKey = keyof typeof spacing.layout;
@@ -429,6 +465,8 @@ export type EasingKey = keyof typeof motion.easing;
 export type ContentStateToken = Exclude<keyof typeof contentState, "_comment">;
 export type ToastToken = Exclude<keyof typeof toast, "_comment">;
 export type IconButtonToken = Exclude<keyof typeof iconButton, "_comment">;
+export type SizeToken = Exclude<keyof typeof size, "_comment">;
+export type OpacityToken = Exclude<keyof typeof opacity, "_comment">;
 `;
 writeFileSync(path.join(distDir, "index.ts"), indexTs);
 
