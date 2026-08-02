@@ -29,7 +29,6 @@ const PALETTE_FAMILIES = [
   "purple",
   "deep-purple",
   "pink",
-  "cobalt",
   "lumen-dark",
   "nightshade",
   "overlay"
@@ -37,10 +36,7 @@ const PALETTE_FAMILIES = [
 
 const FAMILY_NOTES: Record<string, string> = {
   overlay: "translucent black/white steps, not a hue ramp — backs bg.hover/bg.pressed/bg.overlay.",
-  purple: "PENDING REPLACEMENT — not a current Figma collection, see primitives/color.json comment.",
-  "deep-purple": "PENDING REPLACEMENT — not a current Figma collection, see primitives/color.json comment.",
-  pink: "PENDING REPLACEMENT — not a current Figma collection, see primitives/color.json comment.",
-  cobalt: "PENDING REPLACEMENT — not a current Figma collection, see primitives/color.json comment."
+  nightshade: "350/850 steps are PENDING REPLACEMENT — absent from the latest Figma Primitives dump, see primitives/color.json comment."
 };
 
 function kebabColorKey(key: string) {

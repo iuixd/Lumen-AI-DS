@@ -1,5 +1,5 @@
 {
-  "_comment": "Sourced from Figma 'Lumen-AI-Design-System' file, page 'Design Tokens' > '01 Colors' (fileKey GJBYRm6ySR7XIECFcHMgy2, node 426:4396). Every family uses a 9-step ramp: 50/100/200/300/400/500/600/700/800, where 500 is the Figma 'Default' step. Read swatch fill colors, not the printed hex labels — several 'Default' rows in the source file have mislabeled caption text (a copy/paste artifact) though the swatches themselves render correctly. CORRECTION 2026-08-02: an earlier version of this comment claimed 'cobalt', 'japonica', 'deep-purple', 'forest', 'purple', 'pink', 'sand', and 'lemon-green' were all verified via a Figma Variables export — a live screenshot of Figma's actual Variables panel today shows most of these are not current Figma collections at all. 'japonica' and 'sand'/'lemon-green' (fully unconsumed) were deleted outright. 'cobalt', 'deep-purple', 'purple', and 'pink' are still consumed by semantic/color.json's Badge and toaster-systeminfo-bg roles, so they're kept for now but flagged PENDING REPLACEMENT on each family's own `_comment` — treat their hex values as unverified legacy, not Figma-sourced, until real values are supplied. That same publish also exposed 'Gray'/'Foundation' variable collections that duplicate 'neutral' step-for-step and a 'Lumen Crimson' collection duplicating 'primary' step-for-step — those are unresolved naming collisions (not value conflicts) pending a canonical-name decision, not reflected here. 2026-08-02: a fresh full Variables export (Primitives/Default + Lumen-Theme Light+Dark + Typography Desktop/Tablet/Mobile modes) added 900/950 tail steps to most existing 9-step ramps (exact matches for 50-800 on every family re-verified), plus two entirely new families ('lumen-dark', 'nightshade' below) that back most of the Dark theme's semantic aliases in semantic/color.json — see that file's own updated comment for the full list of newly-added semantic roles this unblocks. A third claimed family, 'icon-gray' (default/hover/selected), was removed the same day once the user reported it wasn't a real Figma collection either — its 'default'/'hover' values were exact duplicates of 'nightshade.400'/'nightshade.300', so its two consumers (icon.nav-default/nav-hover, dark theme) were repointed straight at nightshade instead.",
+  "_comment": "Sourced from Figma 'Lumen-AI-Design-System' file, page 'Design Tokens' > '01 Colors' (fileKey GJBYRm6ySR7XIECFcHMgy2, node 426:4396). Every family uses a 9-step ramp: 50/100/200/300/400/500/600/700/800, where 500 is the Figma 'Default' step. Read swatch fill colors, not the printed hex labels — several 'Default' rows in the source file have mislabeled caption text (a copy/paste artifact) though the swatches themselves render correctly. CORRECTION 2026-08-02: an earlier version of this comment claimed 'cobalt', 'japonica', 'deep-purple', 'forest', 'purple', 'pink', 'sand', and 'lemon-green' were all verified via a Figma Variables export — a live screenshot of Figma's actual Variables panel today shows most of these are not current Figma collections at all. 'japonica' and 'sand'/'lemon-green' (fully unconsumed) were deleted outright. 'cobalt', 'deep-purple', 'purple', and 'pink' are still consumed by semantic/color.json's Badge and toaster-systeminfo-bg roles, so they're kept for now but flagged PENDING REPLACEMENT on each family's own `_comment` — treat their hex values as unverified legacy, not Figma-sourced, until real values are supplied. That same publish also exposed 'Gray'/'Foundation' variable collections that duplicate 'neutral' step-for-step and a 'Lumen Crimson' collection duplicating 'primary' step-for-step — those are unresolved naming collisions (not value conflicts) pending a canonical-name decision, not reflected here. 2026-08-02: a fresh full Variables export (Primitives/Default + Lumen-Theme Light+Dark + Typography Desktop/Tablet/Mobile modes) added 900/950 tail steps to most existing 9-step ramps (exact matches for 50-800 on every family re-verified), plus two entirely new families ('lumen-dark', 'nightshade' below) that back most of the Dark theme's semantic aliases in semantic/color.json — see that file's own updated comment for the full list of newly-added semantic roles this unblocks. A third claimed family, 'icon-gray' (default/hover/selected), was removed the same day once the user reported it wasn't a real Figma collection either — its 'default'/'hover' values were exact duplicates of 'nightshade.400'/'nightshade.300', so its two consumers (icon.nav-default/nav-hover, dark theme) were repointed straight at nightshade instead. FINAL RECONCILIATION 2026-08-02, against the actual raw 'Default.tokens.json' Primitives/Default export the user pasted directly (not a screenshot): this is authoritative and resolves the pending flags. 'purple', 'deep-purple', and 'pink' ARE real Figma collections after all (present under those exact names, values matching what was already here) — their PENDING REPLACEMENT flags are removed; 'deep-purple'/'pink' also gained real 900/950 steps this export evidences that weren't here before. 'cobalt' is also absent from this comprehensive dump (which does include every other unusual hue — Deep Purple, Pink, Purple, Teal, Light Blue — so its absence is a real signal, not an export-scope gap); the user confirmed removing it outright rather than leaving it flagged. Its 3 consumers in semantic/color.json (light.background.badge, dark.background.badge, light.app-shell.badge-bg — none consumed by any actual UI component) were repointed to `blue`, resolving a gap semantic/color.json's own comment had already flagged: the Light theme export's own `bg.badge` variable was already known to resolve to `Blue/50` (#EAF0FD), left unrepointed at the time only because it looked 'close but not identical' to `cobalt.50` — with cobalt now confirmed fake, `blue.50` is the real answer. Dark mirrors to `blue.800`, following this file's own established X.50-light/X.800-dark 'subtle' pairing convention used by every other status-subtle pair. 'primary.10' (#F5EFF3) and 'neutral.250'/'neutral.850' are also absent from this export's otherwise-complete Primary/Neutral collections and had zero consumers anywhere in the codebase, so all three were deleted outright. 'nightshade.350'/'nightshade.850' are likewise absent from this export's complete Nightshade collection, but ARE consumed (background.code, background.brand-tint, border.toaster, dark theme) — kept but flagged PENDING REPLACEMENT rather than deleted. Two real new nightshade steps this export evidences were added: '100' (#E1DBDF) and '500' (#917D89). A new 'status.info' primitive (#0B8A3E) was also added from this export's 'Status' collection — flagged as it's byte-identical to 'status.green', likely a Figma-side copy/paste artifact; not wired to anything, and distinct from the unrelated semantic 'status.info' token (which resolves to blue.500).",
   "neutral": {
     "transparent": { "value": "#00000000" },
     "white": { "value": "#FFFFFF" },
@@ -19,8 +19,6 @@
     "600": { "value": "#4C4C4C" },
     "700": { "value": "#393939" },
     "800": { "value": "#262626" },
-    "250": { "value": "#B2B2B2", "_comment": "Added 2026-08-02 from a fresh Variables export — an extra step between 200/300, exact." },
-    "850": { "value": "#2B2F2F", "_comment": "Added 2026-08-02 from a fresh Variables export — an extra step between 800/900, exact." },
     "900": { "value": "#191919", "_comment": "Added 2026-08-02 from a fresh Variables export, exact." },
     "950": { "value": "#111111", "_comment": "Added 2026-08-02 from a fresh Variables export, exact." },
     "500-a8": { "value": "#5e5e5e14", "_comment": "Added 2026-08-02 from a fresh Primitives/Alpha export ('Neutral-500-8'), part of a systematic 8/16/24/40/60/80% tint set. No consumer yet." },
@@ -35,9 +33,8 @@
     "default-bg": { "value": "#191919" }
   },
   "primary": {
-    "_comment": "This is also the brand ramp — primary.500 (#BE003C) is the Lumen brand color, shown separately as 'Brand Color' in the source file. The 9-step 50-800 ramp is from the Colors page; primary.900 (#310010) isn't part of that documented ramp — it's read directly off the Buttons page's own Primary/Raised/Icon-only 'Active' instance fills (node 475:7210), a step darker than 800, so it's kept here rather than invented as an extrapolation. primary.10 and primary.950 added 2026-08-02 from a fresh Variables export (exact). That same export corrected the two translucent alpha steps below: 500-a10 (10%) and 300-a24 (24%) were re-verified against a fresh get_variable_defs pull and are actually 500-a8 (8%) and 300-a20 (20%) — renamed and re-pointed at their two consumers in semantic/color.json (light.button.secondary-bg, dark.button.secondary-bg) rather than left as a silently-wrong value under the old name.",
-    "10": { "value": "#F5EFF3" },
-    "25": { "value": "#FFF5F8", "_comment": "Added 2026-08-02 — not present in the fresh Primitives-collection dump itself, but its exact hex is directly evidenced by the Light theme export's own resolved `bg/brand-tint` value (aliasData targetVariableName 'Primary/25'), so it's added from that resolved value rather than guessed." },
+    "_comment": "This is also the brand ramp — primary.500 (#BE003C) is the Lumen brand color, shown separately as 'Brand Color' in the source file. The 9-step 50-800 ramp is from the Colors page; primary.900 (#310010) wasn't part of that documented ramp — originally read off the Buttons page's own Primary/Raised/Icon-only 'Active' instance fills (node 475:7210) as an extrapolation, later directly confirmed exact by a full Primitives/Default Variables export. primary.950 added 2026-08-02 from that same export (exact). That same export corrected the two translucent alpha steps below: 500-a10 (10%) and 300-a24 (24%) were re-verified against a fresh get_variable_defs pull and are actually 500-a8 (8%) and 300-a20 (20%) — renamed and re-pointed at their two consumers in semantic/color.json (light.button.secondary-bg, dark.button.secondary-bg) rather than left as a silently-wrong value under the old name. A 'primary.10' (#F5EFF3) step was added the same day but later deleted once a raw Default.tokens.json Primitives dump showed the real 'Primary' collection runs 25→950 with no '10' step — it had zero consumers, so no replacement was needed. REMOVED 2026-08-03: '300-a20'/'300-a40' were deleted at explicit user instruction after three consecutive Default.tokens.json 'Alpha' collection exports consistently omitted any '-300-'/'-400-' entries, only ever exposing the systematic 8/16/24/40/60/80% tint set at the '500' step (matching the standardized pattern already established for every other family). `dark.button.secondary-border` (was `300-a40`, exactly 40%) repoints to `500-a40`, an exact match. `dark.button.secondary-bg` (was `300-a20`, 20%) repoints to `500-a24` — the standardized set has no 20% step, and 20 is numerically equidistant between the 16/24 steps; 24 was chosen as the closer proportional match (20/16=1.25x vs 24/20=1.2x), not a further-evidenced value.",
+    "25": { "value": "#FFF5F8", "_comment": "Added 2026-08-02 — not present in the fresh Primitives-collection dump itself at the time, but its exact hex was directly evidenced by the Light theme export's own resolved `bg/brand-tint` value (aliasData targetVariableName 'Primary/25'). Since directly confirmed exact by a raw Default.tokens.json Primitives/Default dump." },
     "50": { "value": "#F9E6EC" },
     "100": { "value": "#F2CCD8" },
     "200": { "value": "#E599B1" },
@@ -51,11 +48,9 @@
     "950": { "value": "#22000B" },
     "500-a8": { "value": "#be003c14", "_comment": "primary.500 at ~8% alpha — sourced from the Button component's `btn/secondary/bg` bound variable, Light mode (Lumen-AI-Design-System node 1174:1349). Renamed 2026-08-02 from the previous '500-a10' (10%) after a fresh get_variable_defs re-pull showed the real value is 8%, not 10% — the original 2026-07-24 sync had over-rounded." },
     "500-a16": { "value": "#be003c29", "_comment": "primary.500 at ~16% alpha — sourced from the same Button node's Light-mode `btn/secondary/hover-bg`/`btn/outline/hover-bg` bound variables, and (separately) the Dark-mode `btn/secondary/hover-border` bound variable — same value resolved in both modes." },
-    "500-a24": { "value": "#be003c3d", "_comment": "primary.500 at ~24% alpha — sourced from the same Button node's Light-mode `btn/secondary/border` bound variable." },
+    "500-a24": { "value": "#be003c3d", "_comment": "primary.500 at ~24% alpha — originally sourced from the Button node's Light-mode `btn/secondary/border` bound variable. Since 2026-08-03 also consumed by `dark.button.secondary-bg` (repointed from the removed `300-a20`) as the closest standardized match — see this family's own top-level comment." },
     "500-a60": { "value": "#be003c99", "_comment": "primary.500 at ~60% alpha — sourced from the same Button node's Dark-mode `btn/secondary/hover-bg`, `btn/outline/hover-bg`, and `btn/ghost/hover-bg` bound variables (identical value in all three), via get_variable_defs on 2026-07-24 with the user's live selection set to a dark-mode instance." },
-    "300-a20": { "value": "#d8668a33", "_comment": "primary.300 at ~20% alpha — sourced from the same Button node's Dark-mode `btn/secondary/bg` bound variable. Renamed 2026-08-02 from the previous '300-a24' (24%) after a fresh get_variable_defs re-pull showed the real value is 20%, not 24%." },
-    "300-a40": { "value": "#d8668a66", "_comment": "primary.300 at ~40% alpha — sourced from the same Button node's Dark-mode `btn/secondary/border` bound variable." },
-    "500-a40": { "value": "#be003c66", "_comment": "Added 2026-08-02 from a fresh Primitives/Alpha export ('Primary-500-40'), filling a gap in the existing 500-a8/16/24/60 set. No consumer yet." },
+    "500-a40": { "value": "#be003c66", "_comment": "primary.500 at ~40% alpha — added 2026-08-02 from a fresh Primitives/Alpha export ('Primary-500-40'). Since 2026-08-03 also consumed by `dark.button.secondary-border` (repointed from the removed `300-a40`, an exact 40% match)." },
     "500-a80": { "value": "#be003ccc", "_comment": "Added 2026-08-02 from the same export ('Primary-500-80'). No consumer yet." }
   },
   "lumen-gray": {
@@ -154,7 +149,7 @@
     "500-a80": { "value": "#ffd900cc" }
   },
   "purple": {
-    "_comment": "PENDING REPLACEMENT — flagged 2026-08-02: a live screenshot of Figma's Variables panel shows this family is not a current Figma collection, contradicting this file's older top-level claim that it was one of the 'originally-documented 14 families' verified against Figma. Still consumed by semantic/color.json's badge.purple-bg/text roles. Kept in place (not deleted) until the user supplies the real Figma-backed values for those consumers — do not treat these hex values as Figma-sourced in the meantime. Distinct from the new, confirmed 'accent.purple' single swatch added the same day.",
+    "_comment": "CONFIRMED 2026-08-02: a live screenshot of Figma's Variables panel initially suggested this wasn't a current Figma collection, and it was briefly flagged PENDING REPLACEMENT — a subsequent raw Default.tokens.json Primitives/Default export directly confirmed 'Purple' IS a real collection, with every value below (including 900/950) matching exactly. Flag removed. Distinct from the separate, also-confirmed 'accent.purple' single swatch.",
     "50": { "value": "#F7E6FF" },
     "100": { "value": "#EECCFF" },
     "200": { "value": "#DD99FF" },
@@ -174,7 +169,7 @@
     "500-a80": { "value": "#aa00ffcc" }
   },
   "pink": {
-    "_comment": "PENDING REPLACEMENT — flagged 2026-08-02: a live screenshot of Figma's Variables panel shows this family is not a current Figma collection, contradicting this file's older top-level claim that it was one of the 'originally-documented 14 families' verified against Figma. Still consumed by semantic/color.json's badge.pink-bg/text roles. Kept in place (not deleted) until the user supplies the real Figma-backed values for those consumers — do not treat these hex values as Figma-sourced in the meantime.",
+    "_comment": "CONFIRMED 2026-08-02: a live screenshot of Figma's Variables panel initially suggested this wasn't a current Figma collection, and it was briefly flagged PENDING REPLACEMENT — a subsequent raw Default.tokens.json Primitives/Default export directly confirmed 'Pink' IS a real collection, with 50-800 matching exactly and evidencing two new steps (900/950) this file was missing. Flag removed.",
     "50": { "value": "#FFE8F5" },
     "100": { "value": "#FFD0E9" },
     "200": { "value": "#FFA1D4" },
@@ -184,6 +179,8 @@
     "600": { "value": "#CC1076" },
     "700": { "value": "#990C58" },
     "800": { "value": "#66083B" },
+    "900": { "value": "#420526", "_comment": "Added 2026-08-02, confirmed exact by a raw Default.tokens.json Primitives/Default dump." },
+    "950": { "value": "#2E041B", "_comment": "Added 2026-08-02, confirmed exact by a raw Default.tokens.json Primitives/Default dump." },
     "500-a8": { "value": "#ff149314", "_comment": "Added 2026-08-02 from a fresh Primitives/Alpha export ('Pink-500-8'), part of a systematic 8/16/24/40/60/80% tint set. No consumer yet." },
     "500-a16": { "value": "#ff149329" },
     "500-a24": { "value": "#ff14933d" },
@@ -229,20 +226,8 @@
     "500-a60": { "value": "#00808099" },
     "500-a80": { "value": "#008080cc" }
   },
-  "cobalt": {
-    "_comment": "PENDING REPLACEMENT — flagged 2026-08-02: a live screenshot of Figma's Variables panel shows this family is not a current Figma collection, contradicting this file's older top-level claim that it was 'verified via Variables export'. Still consumed by semantic/color.json's badge.default-bg (gray badge) and badge (light) roles. Kept in place (not deleted) until the user supplies the real Figma-backed values for those consumers — do not treat these hex values as Figma-sourced in the meantime.",
-    "50": { "value": "#EBF1FF" },
-    "100": { "value": "#E3EEFF" },
-    "200": { "value": "#99BCEF" },
-    "300": { "value": "#669AE8" },
-    "400": { "value": "#3379E0" },
-    "500": { "value": "#0057D8" },
-    "600": { "value": "#0046AF" },
-    "700": { "value": "#003A8C" },
-    "800": { "value": "#002356" }
-  },
   "deep-purple": {
-    "_comment": "PENDING REPLACEMENT — flagged 2026-08-02: a live screenshot of Figma's Variables panel shows this family is not a current Figma collection, contradicting this file's older top-level claim that it was 'verified via Variables export'. Still consumed by semantic/color.json's badge.deep-purple-bg/text and toaster-systeminfo-bg roles. Kept in place (not deleted) until the user supplies the real Figma-backed values for those consumers — do not treat these hex values as Figma-sourced in the meantime.",
+    "_comment": "CONFIRMED 2026-08-02: a live screenshot of Figma's Variables panel initially suggested this wasn't a current Figma collection, and it was briefly flagged PENDING REPLACEMENT — a subsequent raw Default.tokens.json Primitives/Default export directly confirmed 'Deep Purple' IS a real collection, with 50-800 matching exactly and evidencing two new steps (900/950) this file was missing. Flag removed.",
     "50": { "value": "#F0EBF9" },
     "100": { "value": "#EDE7F6" },
     "200": { "value": "#BFAEE0" },
@@ -252,6 +237,8 @@
     "600": { "value": "#4527A0" },
     "700": { "value": "#311B92" },
     "800": { "value": "#261547" },
+    "900": { "value": "#1B0E33", "_comment": "Added 2026-08-02, confirmed exact by a raw Default.tokens.json Primitives/Default dump." },
+    "950": { "value": "#110920", "_comment": "Added 2026-08-02, confirmed exact by a raw Default.tokens.json Primitives/Default dump." },
     "500-a8": { "value": "#5e35b114", "_comment": "Added 2026-08-02 from a fresh Primitives/Alpha export ('Deep Purple-500-8'), part of a systematic 8/16/24/40/60/80% tint set. No consumer yet." },
     "500-a16": { "value": "#5e35b129" },
     "500-a24": { "value": "#5e35b13d" },
@@ -264,7 +251,7 @@
     "input-bg": { "value": "#2B2F2F" }
   },
   "blue": {
-    "_comment": "Added 2026-07-20 under the name 'sky', sourced from the canonical 'AppShell' page (node 1007:3700, Breakpoint=Desktop/Theme=Light instance 1127:4196) via get_variable_defs: the `text/link` variable (#2563EB) used for breadcrumb and footer inline links in that context. Only the 500 step was evidenced then. This file already had an older, differently-valued 'blue' family (500=#0E17FF) at the time, so the new ramp was added under a placeholder name ('sky') rather than colliding with it. Full ramp added 2026-08-02 from a fresh Variables export's 'Blue' family (50-950), which resolves 500 to this exact same #2563EB. That same day, the old #0E17FF 'blue' family's only two consumers (`status.info-subtle`) were repointed here and the old family was deleted, freeing the real name — but the placeholder 'sky' name was mistakenly kept a little longer. RENAMED 'sky' -> 'blue' the same day, once a live screenshot of Figma's own Variables panel confirmed the canonical group name is 'Blue' (11 variables) — there is no 'Sky' collection in Figma at all. Every reference across semantic/color.json and Storybook was updated in the same pass; do not reintroduce a 'sky' key. This is also the color that resolves 'status.info' in the Light+Dark theme export uniformly (non-theme-adaptive) and 'toast.info-accent' in semantic/color.json, closing the drift figma-sync.md's manifest previously flagged.",
+    "_comment": "Added 2026-07-20 under the name 'sky', sourced from the canonical 'AppShell' page (node 1007:3700, Breakpoint=Desktop/Theme=Light instance 1127:4196) via get_variable_defs: the `text/link` variable (#2563EB) used for breadcrumb and footer inline links in that context. Only the 500 step was evidenced then. This file already had an older, differently-valued 'blue' family (500=#0E17FF) at the time, so the new ramp was added under a placeholder name ('sky') rather than colliding with it. Full ramp added 2026-08-02 from a fresh Variables export's 'Blue' family (50-950), which resolves 500 to this exact same #2563EB. That same day, the old #0E17FF 'blue' family's only two consumers (`status.info-subtle`) were repointed here and the old family was deleted, freeing the real name — but the placeholder 'sky' name was mistakenly kept a little longer. RENAMED 'sky' -> 'blue' the same day, once a live screenshot of Figma's own Variables panel confirmed the canonical group name is 'Blue' (11 variables) — there is no 'Sky' collection in Figma at all. Every reference across semantic/color.json and Storybook was updated in the same pass; do not reintroduce a 'sky' key. This is also the color that resolves 'status.info' in the Light+Dark theme export uniformly (non-theme-adaptive) and 'toast.info-accent' in semantic/color.json, closing the drift figma-sync.md's manifest previously flagged. REMOVED 2026-08-03: '300-a60' (previously the mislabeled 'Blue/400-60' swatch, actual hex blue.300 at 60%) was deleted at explicit user instruction after three consecutive Default.tokens.json 'Alpha' collection exports consistently omitted any '-300-'/'-400-' entries, only ever exposing the systematic 8/16/24/40/60/80% tint set at the '500' step. `dark.background.info` (the sole consumer) repoints to `500-a60` — an exact 60% match, no rounding needed.",
     "50": { "value": "#EAF0FD" },
     "100": { "value": "#D3E0FB" },
     "200": { "value": "#A8C1F7" },
@@ -276,12 +263,11 @@
     "800": { "value": "#0F285E" },
     "900": { "value": "#040642" },
     "950": { "value": "#03042E" },
-    "300-a60": { "value": "#7CA1F399", "_comment": "blue.300 at ~60% alpha — sourced from the Dark theme's bg.info role. Figma's own variable label on this binding reads 'Blue/400-60', but the swatch hex (#7CA1F3) is exactly blue.300, not blue.400 (#5182EF) — trusted the swatch over the label per this file's own established rule (see the top-level _comment). CONFIRMED 2026-08-02 by a fresh Primitives/Alpha export's own 'Blue-400-60' entry, whose resolved swatch is this exact hex/alpha — the mislabeling is on Figma's side, not a misreading here." },
     "500-a8": { "value": "#2563eb14", "_comment": "blue.500 at ~8% alpha — added 2026-08-02 from a fresh Primitives/Alpha export ('Blue-500-8'), part of a systematic 8/16/24/40/60/80% tint set added across most families this same pass. No consumer yet." },
     "500-a16": { "value": "#2563eb29" },
     "500-a24": { "value": "#2563eb3d" },
     "500-a40": { "value": "#2563eb66" },
-    "500-a60": { "value": "#2563eb99" },
+    "500-a60": { "value": "#2563eb99", "_comment": "blue.500 at ~60% alpha. Since 2026-08-03 also consumed by `dark.background.info` (repointed from the removed `300-a60`, an exact 60% match) — see this family's own top-level comment." },
     "500-a80": { "value": "#2563ebcc" }
   },
   "button": {
@@ -372,24 +358,26 @@
     "500-a80": { "value": "#231c24cc" }
   },
   "nightshade": {
-    "_comment": "New family added 2026-08-02 from a fresh Variables export. Backs most of the Dark theme's text/stroke/icon roles (text.primary/heading/body/secondary/tertiary/muted, border.default/subtle, icon.default/secondary, etc.) — a distinct ramp from 'lumen-gray'/'neutral' with its own step set (50/200/300/350/400/600/700/800/850/900/950, no 100/500).",
+    "_comment": "New family added 2026-08-02 from a fresh Variables export. Backs most of the Dark theme's text/stroke/icon roles (text.primary/heading/body/secondary/tertiary/muted, border.default/subtle, icon.default/secondary, etc.) — a distinct ramp from 'lumen-gray'/'neutral'. A raw Default.tokens.json Primitives/Default dump later confirmed a complete 50-950 (11-step) collection and evidenced two steps this file was missing, '100' (#E1DBDF) and '500' (#917D89), now added below. That same dump does NOT include '350'/'850' — both are still kept (consumed by background.code/background.brand-tint/border.toaster, dark theme) but flagged PENDING REPLACEMENT rather than deleted. A second raw Default.tokens.json export's Alpha collection confirmed this family's alpha tints are scoped to '500' (matching the now-confirmed '500' step), not '600' as an earlier partial Alpha export had claimed — renamed accordingly, see the '500-a8' entry's own comment.",
     "50": { "value": "#F9F3F7" },
+    "100": { "value": "#E1DBDF", "_comment": "Added 2026-08-02, confirmed exact by a raw Default.tokens.json Primitives/Default dump." },
     "200": { "value": "#C9C2C7" },
     "300": { "value": "#B8ACB3" },
-    "350": { "value": "#B2A4AC" },
+    "350": { "value": "#B2A4AC", "_comment": "PENDING REPLACEMENT — flagged 2026-08-02: absent from a raw Default.tokens.json Primitives/Default dump's otherwise-complete Nightshade collection. Still consumed by semantic/color.json's background.code role (dark theme) — kept until a real replacement value is confirmed." },
     "400": { "value": "#A8939F" },
+    "500": { "value": "#917D89", "_comment": "Added 2026-08-02, confirmed exact by a raw Default.tokens.json Primitives/Default dump." },
     "600": { "value": "#7A6674" },
     "700": { "value": "#594D54" },
     "800": { "value": "#3D3039" },
-    "850": { "value": "#2D1A26" },
+    "850": { "value": "#2D1A26", "_comment": "PENDING REPLACEMENT — flagged 2026-08-02: absent from a raw Default.tokens.json Primitives/Default dump's otherwise-complete Nightshade collection. Still consumed by semantic/color.json's background.brand-tint and border.toaster roles (dark theme) — kept until a real replacement value is confirmed." },
     "900": { "value": "#231C24" },
     "950": { "value": "#17101A" },
-    "600-a8": { "value": "#7a667414", "_comment": "Added 2026-08-02 from a fresh Primitives/Alpha export ('Nightshade-600-8') — this family's alpha set is scoped to its 600 step, not 500 (which this family doesn't have). Part of a systematic 8/16/24/40/60/80% tint set. No consumer yet." },
-    "600-a16": { "value": "#7a667429" },
-    "600-a24": { "value": "#7a66743d" },
-    "600-a40": { "value": "#7a667466" },
-    "600-a60": { "value": "#7a667499" },
-    "600-a80": { "value": "#7a6674cc" }
+    "500-a8": { "value": "#917d8914", "_comment": "Added 2026-08-02, replacing an earlier '600-a8..a80' set. A second raw Default.tokens.json Primitives/Default export's own Alpha collection showed this family's real alpha tints are scoped to its '500' step ('Nightshade-500-8'..'-80', #917D89), not '600' as an earlier partial Alpha export had suggested — that earlier claim also predated '500' being a confirmed step in this family at all. No consumer yet." },
+    "500-a16": { "value": "#917d8929" },
+    "500-a24": { "value": "#917d893d" },
+    "500-a40": { "value": "#917d8966" },
+    "500-a60": { "value": "#917d8999" },
+    "500-a80": { "value": "#917d89cc" }
   },
   "accent": {
     "_comment": "New family added 2026-08-02 from a fresh Variables export (Primitives/Default collection, 'Accent/Purple'). This is the same value the Dark-theme export's own `stroke/focus` variable resolves to ('Brand in light, accent purple in dark') — used to correct `dark.border.focus` in semantic/color.json, previously `primary.300` (#D8668A), an unevidenced placeholder.",
@@ -410,7 +398,7 @@
     "transparent": { "value": "#00000000" }
   },
   "status": {
-    "_comment": "New family added 2026-08-02 from a fresh Variables export's 'Status' primitive group — used by the new semantic text.warning (dark) role and other status-tint aliasing. Distinct from the per-status-family ramps (green/orange/red/etc.) above; these are the specific named swatches Figma groups under 'Status'.",
+    "_comment": "New family added 2026-08-02 from a fresh Variables export's 'Status' primitive group — used by the new semantic text.warning (dark) role and other status-tint aliasing. Distinct from the per-status-family ramps (green/orange/red/etc.) above; these are the specific named swatches Figma groups under 'Status'. NOTE: a raw Default.tokens.json Primitives/Default export's Status collection also has an 'Info' entry (#0B8A3E), byte-identical to 'green' below — deliberately NOT added as a token here, both because it looks like a Figma-side copy/paste artifact (not an intentional distinct color) and because flattening it as `status.info` would collide with the unrelated, already-load-bearing semantic `status.info` token (blue.500, #2563EB) at the same generated `--color-status-info` CSS variable name. Documented here rather than added.",
     "green": { "value": "#0B8A3E" },
     "green-light": { "value": "#78E6A0" },
     "green-tint": { "value": "#E5F9EC" },
