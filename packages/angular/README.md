@@ -2,11 +2,18 @@
 
 Angular (standalone components) implementation of Lumen's component
 specifications. This is Lumen's second non-React framework package — see
-`docs/roadmap.md` Phase 13 — following `@lumen/web-components`. It ships
-`LumenButtonComponent`, `LumenSplitButtonComponent`,
-`LumenFilterChipComponent`, `LumenChoiceChipComponent`, and
-`LumenAIButtonComponent`. Its standard Button matches the final cross-framework
-Figma contract at node `1027:3733`; see `docs/changelog.md` `[Unreleased]`.
+`docs/roadmap.md` Phase 13 — following `@lumen/web-components`, and ships
+the same 9 components that package does: `LumenButtonComponent`,
+`LumenSplitButtonComponent`, `LumenFilterChipComponent`,
+`LumenChoiceChipComponent`, `LumenAIButtonComponent`,
+`LumenSegmentedControlComponent` (+ `LumenSegmentedControlOptionComponent`),
+`LumenKPICardComponent`, `LumenFooterComponent`, and
+`LumenThemeToggleComponent` — see `docs/component-architecture.md` §13 for
+the full Figma/React/Web-Components/Angular mapping.
+
+**Known drift, unreconciled**: `@lumen/ui`'s `Button` was later rewritten on
+a shadcn-sourced base with a different variant/size contract — see "Why
+`LumenButtonComponent` doesn't match React's `Button` right now" below.
 
 ## Angular version
 
@@ -51,12 +58,23 @@ Icon content uses Angular's native content-projection selectors, not React's
 
 ### `LumenButtonComponent` (`<lumen-button>`)
 
-Final Figma node `1027:3733` contract: `variant` is `primary | accent |
-secondary | outline | ghost | destructive` (default `primary`) and
-`size` is `sm | md | lg | xl` (30px, 34px, 38px, and 42px; default `md`).
-`disabled` is boolean (default `false`). Leading and trailing icons use the
-`[iconStart]` and `[iconEnd]` projection selectors. The standard Button has
-no status, pill, icon-only, or loading inputs.
+Final Figma node `1027:3733` contract, as of 2026-07-20: `variant` is
+`primary | accent | secondary | outline | ghost | destructive` (default
+`primary`) and `size` is `sm | md | lg | xl` (30px, 34px, 38px, and 42px;
+default `md`). `disabled` is boolean (default `false`). Leading and
+trailing icons use the `[iconStart]` and `[iconEnd]` projection selectors.
+The standard Button has no status, pill, icon-only, or loading inputs.
+
+**Why this doesn't match React's `Button` right now**: `@lumen/ui`'s
+`Button` was rewritten after 2026-07-20 on a shadcn-sourced base
+(`docs/shadcn-integration.md`) — new variant names
+(`default|destructive|outline|secondary|ghost|link|neutral`, no
+`primary`/`accent`), a new size scale (`default|sm|lg|icon`, not
+`sm|md|lg|xl`), no `iconStart`/`iconEnd` inputs (icons pass as projected
+content directly), and native `disabled` instead of `aria-disabled`.
+`LumenButtonComponent` here still implements the contract described above,
+not React's current one. Tracked in `docs/roadmap.md` Phase 13 as an open
+deliverable, not yet migrated.
 
 ### `LumenSplitButtonComponent` (`<lumen-split-button>`)
 
@@ -96,6 +114,47 @@ secondary | ghost | outline | destructive`, default `primary`) and `size`
 the `[icon]` `TemplateRef` input (same pattern as `LumenFilterChipComponent`).
 The React-only capability lookup and split composition are documented in
 `docs/component-specifications.md` §46.
+
+### `LumenSegmentedControlComponent` / `LumenSegmentedControlOptionComponent`
+
+Mirrors `SegmentedControl.tsx`/`SegmentedControlOption` — see
+`docs/component-specifications.md` §59. A single-choice, tab-like control
+(`role="radiogroup"`/`role="radio"`), distinct from a group of joined
+`LumenButtonComponent`s.
+
+`LumenSegmentedControlComponent`: `value` (string, default `""`), `size`
+(`sm | md | lg`, default `md`), `disabled` (boolean, default `false`),
+`ariaLabel` (bound from an `aria-label` attribute — required, since the
+control has no visible label of its own), and a `(valueChange)` output.
+
+`LumenSegmentedControlOptionComponent`: `value` (string, required) and
+`disabled` (boolean, default `false`). Its `size` and `selected` state are
+read live from the injected parent rather than pushed down as separate
+`@Input()`s — the parent's own change-detection fan-out already covers
+both, avoiding a second, redundant input path (see the component's own doc
+comment).
+
+### `LumenKPICardComponent`
+
+Mirrors `KPICard.tsx`. `label` (string), `value` (string), `delta`
+(optional string, e.g. `"+12%"`), `deltaTone` (`success | warning | error`,
+default `success`).
+
+### `LumenFooterComponent`
+
+Mirrors `Footer.tsx`. `version` (optional string), `statusLabel` (optional
+string), `statusTone` (`success | warning | error`, default `success`).
+
+### `LumenThemeToggleComponent`
+
+Mirrors `ThemeToggle.tsx`. `checked` (boolean, default `false` — reflects
+the current theme, checked = dark) and `disabled` (boolean, default
+`false`), plus a `(checkedChange)` output. Toggling does **not** set
+`data-theme` itself — the host application must subscribe to
+`(checkedChange)` and apply it (see `packages/tokens/README.md`'s theming
+section). `aria-label` is read directly off the host element (same pattern
+`LumenButtonComponent` uses) rather than a separate `@Input()`, so a plain
+`aria-label="…"` attribute on the host works without a binding.
 
 ## Why classic `@Input()` decorators, not signal `input()`
 

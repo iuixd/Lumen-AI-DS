@@ -569,10 +569,17 @@ Elevation/Lg
 Elevation/Xl
 ```
 
-Elevation tokens should define complete shadow values, not only blur radius.
-The Split Button AI dropdown binds `shadow.menu-default` to the published
-two-layer menu shadow: `0 1px 4px rgb(0 0 0 / 6%)` plus
-`0 4px 16px rgb(0 0 0 / 12%)`.
+**Partially implemented.** `packages/tokens/src/shadow.json` is real and
+Figma-sourced — it defines complete shadow values (not only blur radius), as
+required below — but it ships component-scoped shadows (`button`, `menu`,
+`toast`) plus a single generic `elevation.sm` step, not the full
+None/Sm/Md/Lg/Xl generic scale listed above. `Md`/`Lg`/`Xl` remain
+unpublished by Figma and are a tracked gap, not yet a placeholder value —
+don't invent them. The Split Button AI dropdown binds `shadow.menu-default`
+to the published two-layer menu shadow: `0 1px 4px rgb(0 0 0 / 6%)` plus
+`0 4px 16px rgb(0 0 0 / 12%)`; `Toast`, `Button`, and several shadcn-sourced
+components (`Card`, `Popover`, `DropdownMenu`, `Command`) bind their own
+shadows the same way.
 
 ## Opacity
 
@@ -806,6 +813,19 @@ packages/tokens/
 └── README.md
 ```
 
+This section describes the *general shape* any token-codegen implementation
+should follow; it predates, and doesn't literally match, this repo's actual
+structure. `packages/tokens/src/` is flat per-domain JSON files (no
+`themes/light.json`/`dark.json` split — light/dark live side by side inside
+each file's own semantic-color entries; no `components/` subfolder), and the
+real generated outputs are `dist/css/variables.css`, `dist/tailwind-
+preset.cjs`, and `dist/index.ts` — see `packages/tokens/README.md` for the
+current, authoritative file list and consumption instructions. Likewise, the
+CSS example below uses illustrative `--lumen-*` names; this repo's real
+variables drop that prefix (`--spacing-16`, `--radius-lg`, `--color-button-
+primary-bg`, etc.) — see the "Naming convention" section above for the real
+rule and `dist/css/variables.css` for the actual compiled output.
+
 ### CSS example
 
 ```css
@@ -818,6 +838,12 @@ packages/tokens/
   /* Semantic color overrides generated from the Dark Figma mode */
 }
 ```
+
+A consuming app switches to dark mode by setting `data-theme="dark"` on any
+ancestor element (typically the document root) — `@lumen/ui`'s
+`ThemeToggle` component does exactly this. There is no separate dark
+stylesheet to swap in; every token resolves through the one imported
+`variables.css`.
 
 ### Component rule
 

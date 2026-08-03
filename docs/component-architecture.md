@@ -43,10 +43,21 @@ Component Specifications   (docs/component-specifications.md — anatomy, varian
     ↓                        dependencies, expressed independent of any framework)
 Framework Packages
     ├── React            (@lumen/ui, @lumen/patterns — reference implementation)
-    ├── Web Components     (@lumen/web-components — proof of concept, Button only)
-    ├── Angular           (@lumen/angular — proof of concept, Button only, Angular 20 LTS)
+    ├── Web Components     (@lumen/web-components — 9 components, see §13 mapping table)
+    ├── Angular           (@lumen/angular — same 9 components, Angular 20 LTS)
     └── Vue                (not yet built)
 ```
+
+`@lumen/web-components` and `@lumen/angular` started as Button-only proofs
+of concept and have since grown to 9 components each (Button, AIButton,
+SplitButton, FilterChip, ChoiceChip, SegmentedControl, KPICard, Footer,
+ThemeToggle — see §13's mapping table for the per-component Figma/React/WC/
+Angular breakdown). **Known drift**: `@lumen/ui`'s `Button` was later
+rewritten on a shadcn-sourced base with a different variant/size contract;
+the Web Components and Angular `lumen-button`/`LumenButtonComponent` still
+implement the pre-rewrite contract and have not been migrated — see §13's
+Button row for the specifics before assuming the three are prop-for-prop
+identical.
 
 The shared layers (tokens through component specifications) define the design language and the component contract once. Each framework package implements that same contract using framework-native APIs and idioms — a `variant` or `loading` property means the same thing everywhere, but a React package exposes it as a typed prop, an Angular package as an `@Input()`, and a Web Components package as an HTML attribute.
 
@@ -424,6 +435,9 @@ packages/
 │   │   ├── primitives/
 │   │   ├── composite/
 │   │   ├── layout/
+│   │   ├── components/     # shadcn/ui-adopted components (see docs/roadmap.md Phase 15
+│   │   │                   # and docs/shadcn-integration.md) — components/internal/ holds
+│   │   │                   # their generated, unbridged source
 │   │   ├── hooks/
 │   │   ├── utilities/
 │   │   └── index.ts
@@ -432,8 +446,8 @@ packages/
 │
 ├── patterns/            # React composed enterprise patterns (current)
 │
-├── web-components/       # Lit — proof of concept (Button only)
-├── angular/                # standalone components, Angular 20 LTS — proof of concept (Button only)
+├── web-components/       # Lit — 9 components (see §13 mapping table)
+├── angular/                # standalone components, Angular 20 LTS — same 9 components
 ├── vue/                     # future — implements the same component specs
 │
 └── storybook/
@@ -1000,7 +1014,8 @@ Example — three framework packages now ship Button, so it gets three rows, not
 Figma: Button
 Framework: React
 Code: Button
-Source: packages/ui/src/primitives/Button.tsx
+Source: packages/ui/src/components/button/Button.tsx (public wrapper) /
+        packages/ui/src/components/internal/button.tsx (shadcn-sourced implementation)
 Storybook: Components/Primitives/Button
 
 Figma: Button
@@ -1016,7 +1031,7 @@ Source: packages/angular/src/button/lumen-button.ts
 Storybook: not covered — see packages/angular/README.md
 ```
 
-Figma and code variant names should match unless a documented platform constraint requires an explicit mapping. All three rows above match each other, the real shipped behavior, and `docs/component-specifications.md` §5 — that spec was reconciled against the real implementation on 2026-07-12, see `docs/roadmap.md` Phase 13 Findings for the history.
+Figma and code variant names should match unless a documented platform constraint requires an explicit mapping. All three rows above matched each other, the real shipped behavior, and `docs/component-specifications.md` §5 as of the 2026-07-12 reconciliation recorded in `docs/roadmap.md` Phase 13 Findings — **but no longer do**. `@lumen/ui`'s `Button` was subsequently rewritten on a shadcn-sourced base (see `docs/shadcn-integration.md`) with a different variant/size contract: `default | destructive | outline | secondary | ghost | link | neutral` (no `primary`/`accent`), sizes `default | sm | lg | icon` (not `sm | md | lg | xl`), no dedicated `iconStart`/`iconEnd` props (icons pass as plain children), and native `disabled` (not `aria-disabled`). The Web Components and Angular rows above still implement the pre-rewrite contract (`primary | accent | secondary | outline | ghost | destructive`, `sm | md | lg | xl`, `icon-start`/`icon-end` slot props, `aria-disabled`) and have not been migrated — this is a real, tracked drift, not a mapping error. `docs/component-specifications.md` §5 itself was never updated after the React rewrite either, so it still describes the pre-rewrite contract that Web Components/Angular match, not React's current one. Do not treat any single one of these three as "the" contract until this is reconciled — see `docs/roadmap.md` Phase 13 for tracking.
 
 As of 2026-07-14, `SplitButton`, `FilterChip`, `ChoiceChip`, and `AIButton`
 also ship as three-row (React/Web Components/Angular) mappings, same
@@ -1068,6 +1083,17 @@ Figma: Footer                   Node: 1197:1652 (1102:6529)
 React: Footer                          packages/ui/src/layout/Footer.tsx
 Web Components: lumen-footer           packages/web-components/src/footer/lumen-footer.ts
 Angular: LumenFooterComponent          packages/angular/src/footer/lumen-footer.ts
+```
+
+`SegmentedControl` also ships as a three-row mapping (React/Web Components/
+Angular) but had never been added to this table — a documentation gap found
+during an August 2026 doc-accuracy audit, not a missing implementation:
+
+```text
+Figma: Segmented Control Group   Node: 958:5058 ("AI ButtonGroup Component Library" section)
+React: SegmentedControl                        packages/ui/src/primitives/SegmentedControl.tsx
+Web Components: lumen-segmented-control        packages/web-components/src/segmented-control/lumen-segmented-control.ts
+Angular: LumenSegmentedControlComponent        packages/angular/src/segmented-control/lumen-segmented-control.ts
 
 Figma: Page Header               Node: 1197:1652 (1102:6519)
 React: PageHeader                      packages/ui/src/composite/PageHeader.tsx

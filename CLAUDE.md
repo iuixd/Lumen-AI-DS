@@ -24,9 +24,11 @@ primitives, and enterprise patterns. Tokens are derived from the
 for exactly which nodes and what's still provisional. Published as six
 packages:
 
-- `@lumen/tokens` — color, typography, spacing, radius. No shadow/elevation
-  tier (not defined in the current Figma source). Generated from JSON in
-  `packages/tokens/src/*.json` via `packages/tokens/scripts/build.mjs`.
+- `@lumen/tokens` — color, typography, spacing, radius, and a partial
+  shadow/elevation set (Figma-sourced component shadows — button, menu,
+  toast — plus one `elevation.sm` step; a full generic elevation scale is
+  still incomplete). Generated from JSON in `packages/tokens/src/*.json` via
+  `packages/tokens/scripts/build.mjs`.
 - `@lumen/ui` — React + TypeScript + Tailwind primitives, composite
   components, and layout primitives, all built on `@lumen/tokens`. This is
   Lumen's React framework package — see `docs/component-architecture.md`
@@ -37,18 +39,29 @@ packages:
   make `@lumen/ui` any less canonical for React consumers. Vue is the only
   planned framework package not yet built.
 - `@lumen/patterns` — composed enterprise-SaaS screen patterns (CRUD list,
-  settings, auth, dashboard) built entirely from `@lumen/ui`.
+  settings, auth, dashboard, enterprise login, data-extraction onboarding)
+  built entirely from `@lumen/ui`.
 - `@lumen/web-components` — framework-agnostic custom elements built with
-  Lit, implementing the same component specifications as `@lumen/ui`.
-  Proof-of-concept package, currently Button only — see
-  `packages/web-components/README.md`.
+  Lit, implementing the same component specifications as `@lumen/ui`. Ships
+  9 components (Button, AIButton, SplitButton, FilterChip, ChoiceChip,
+  SegmentedControl, KPICard, Footer, ThemeToggle) — see
+  `packages/web-components/README.md`. **Known drift, not yet reconciled**:
+  `@lumen/ui`'s `Button` was later rewritten on a shadcn-sourced base with a
+  different variant/size contract (`default|destructive|outline|secondary|
+  ghost|link|neutral`, no dedicated icon-slot props); this package's
+  `lumen-button` still implements the original contract
+  (`primary|accent|secondary|outline|ghost|destructive`, `icon-start`/
+  `icon-end`) and has not been migrated — do not assume the two are
+  prop-for-prop identical without checking both source files first.
 - `@lumen/angular` — Angular standalone components targeting Angular 20 LTS
   (not the latest major — see the package README for the TypeScript-version
-  reason), implementing the same component specifications. Proof-of-concept
-  package, currently Button only — see `packages/angular/README.md`,
-  including a documented Vitest/JIT testing constraint that shaped an
-  implementation choice (classic `@Input()` decorators, not signal
-  `input()`) worth reading before adding more components to this package.
+  reason), implementing the same component specifications. Ships the same 9
+  components as `@lumen/web-components` (same names/behavior contract) — see
+  `packages/angular/README.md`, including a documented Vitest/JIT testing
+  constraint that shaped an implementation choice (classic `@Input()`
+  decorators, not signal `input()`). Its `LumenButtonComponent` has the same
+  pre-shadcn-rewrite contract drift against `@lumen/ui`'s `Button` described
+  above.
 
 `packages/storybook` is the live showcase of `@lumen/tokens`, `@lumen/ui`,
 and `@lumen/patterns` — one page per component with controls and
@@ -143,10 +156,10 @@ Minimum required behavior when synchronizing a Figma change:
 
 Start with `docs/figma-source.md` (canonical file/node and authority order),
 then `docs/figma-sync.md` (the sync procedure itself). Known gaps between
-the current Figma file and this repo (dark-theme semantic colors, no
-shadow/elevation scale, icon set sourced from an unrelated older library, no
-linked component library) are tracked in `docs/figma-sync.md` — read it
-before closing any of them.
+the current Figma file and this repo (dark-theme semantic colors, no full
+generic elevation scale beyond the component shadows already sourced, icon
+set sourced from an unrelated older library, no linked component library)
+are tracked in `docs/figma-sync.md` — read it before closing any of them.
 
 ## Repo map
 
@@ -154,8 +167,8 @@ before closing any of them.
 packages/tokens/         design tokens (source of truth: src/*.json)
 packages/ui/             React components (primitives, composite, layout) + colocated *.stories.tsx
 packages/patterns/       composed enterprise screen patterns + colocated *.stories.tsx / *.mdx
-packages/web-components/ Lit custom elements — proof of concept, Button only
-packages/angular/        Angular standalone components — proof of concept, Button only
+packages/web-components/ Lit custom elements — 9 components, see package README for React-Button-parity drift
+packages/angular/        Angular standalone components — 9 components, see package README for React-Button-parity drift
 packages/storybook/      the showcase app — Storybook config only, no component source, React only
 docs/               governance system: figma sync, tokens, components,
                     accessibility, Storybook, release process, doc style —

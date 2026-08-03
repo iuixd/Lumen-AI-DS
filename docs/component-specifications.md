@@ -346,7 +346,23 @@ this section still describes the Figma-side variant/color contract, which
 the live component's `--color-button-*` tokens implement under those
 different names; it was not rewritten to match React's exact prop values.
 `Accent` remains declared in Figma with no built visual states in either
-mode, same as before.
+mode, same as before. React also added a `neutral` variant (2026-07-31, for
+Figma's own `Style=Neutral`) with no equivalent in this list.
+
+**"Synchronized across React, Web Components, Angular" is now stale** (added
+during an August 2026 doc-accuracy audit — not corrected in place above to
+preserve the historical sync record). It held as of the 2026-07-12
+reconciliation this Status line describes, but React's `Button` was
+subsequently rewritten on the shadcn base referenced in the naming note
+above, which changed more than variant names: sizes are now `default | sm |
+lg | icon` (not `sm | md | lg | xl`), there are no dedicated
+`iconStart`/`iconEnd` props (icons pass as plain children), and disabled
+uses the native `disabled` attribute (not `aria-disabled`). Web Components'
+`lumen-button` and Angular's `LumenButtonComponent` still implement the
+pre-rewrite contract this section describes — they have not been migrated,
+so this section is currently a better match for **them** than for React's
+live component. See `docs/component-architecture.md` §13's Button row for
+the full breakdown and `docs/roadmap.md` Phase 13 for tracking.
 
 ## Purpose
 
@@ -4584,8 +4600,9 @@ Header.
 ## Known limitations
 
 - No cross-framework equivalent — `@lumen/web-components`/`@lumen/angular`
-  have no header/brand-mark component yet (both Button-only proofs of
-  concept).
+  have no header/brand-mark component (neither package has an `AppShell`/
+  `SideNav`-equivalent host for one yet, unlike their other 9 shipped
+  components).
 
 ## Change history
 
@@ -4593,3 +4610,196 @@ Header.
   (a plain crimson square with a literal "L" character) used in
   `AppShell.stories.tsx`'s `Brand` mockup and demonstrated as `SideNav`'s
   example custom `workspace.logo`, at direct user request.
+
+---
+
+# 59. Segmented Control
+
+## Status
+
+Baseline specification, added August 2026 during a documentation-accuracy
+audit — the component had shipped in all three frameworks since 2026-07-16
+without ever being added here.
+
+## Figma source
+
+- Node: `958:5058` ("Segmented Control Group", Buttons page's "AI
+  ButtonGroup Component Library" section — "Tone Selector" example)
+- Size rows verified separately: node `958:5090` (`sm`/`md`/`lg` ×
+  "Concise"/"Detailed" instances)
+- Last synchronized: 2026-07-16
+
+## Purpose
+
+A single-choice, tab-like control for switching between a small set of
+mutually exclusive options, presented as a padded track where the selected
+segment lifts onto its own elevated pill.
+
+## When to use
+
+- Choosing exactly one option from 2-5 closely related choices where all
+  options should stay visible at once (e.g. a density or view-mode toggle).
+
+## When not to use
+
+- Joining full `Button`s with shared borders as a single control — use
+  `ButtonGroup` instead.
+- Switching between tab panels with their own distinct content — use
+  `Tabs`, which carries different accessibility semantics
+  (`role="tablist"`/`role="tab"`) than this component's
+  `role="radiogroup"`/`role="radio"` (WAI-ARIA APG Radio Group pattern,
+  chosen because this is a single-choice value picker, not a panel
+  switcher).
+- More than ~5 options, or options whose full label text doesn't fit a
+  compact pill — use `Select` instead.
+
+## Anatomy
+
+```text
+SegmentedControl (role="radiogroup")
+├── Track (padded container)
+└── SegmentedControlOption × N (role="radio")
+    └── Label (or icon + label)
+```
+
+## Variants
+
+None — no `variant` property. Every option is either selected or not.
+
+## Sizes
+
+```text
+Sm (28px height, Spacing/12 option padding, button-sm type — 12/20)
+Md (36px height, Spacing/16 option padding, button-md type — 14/22) — default
+Lg (48px height, Spacing/20 option padding, button-lg type — 16/24)
+```
+
+Figma specs `lg` at 44px; rounded up to the nearest existing spacing token
+(`Spacing/48`, no `Spacing/44` exists) — the same treatment already applied
+to `SplitButton`'s small dropdown segment. Container padding is likewise
+rounded from Figma's exact 3px to `Spacing/4`.
+
+## States
+
+```text
+Default (unselected)
+Selected
+Hover
+Disabled (group-level or per-option)
+Focus (visible ring on the focused option only — roving tabindex, not every option)
+```
+
+## Properties
+
+Property contract (framework-neutral):
+
+```text
+SegmentedControl:
+  aria-label     string, required (the control has no visible label of its own)
+  size           "sm" | "md" | "lg", default "md"
+  value           string (controlled)
+  defaultValue    string (uncontrolled)
+  onValueChange   (value: string) => void
+  disabled        boolean (disables every option)
+
+SegmentedControlOption:
+  value      string, required
+  disabled   boolean (disables just this option)
+```
+
+## Reference implementation (React)
+
+```ts
+export interface SegmentedControlProps {
+  "aria-label": string;
+  size?: "sm" | "md" | "lg";
+  defaultValue?: string;
+  value?: string;
+  onValueChange?: (value: string) => void;
+  disabled?: boolean;
+  children: ReactNode;
+  className?: string;
+}
+```
+
+Source: `packages/ui/src/primitives/SegmentedControl.tsx`.
+
+## Behavior
+
+- Controlled/uncontrolled like other single-value inputs in this package —
+  `value`/`onValueChange` for controlled, `defaultValue` for uncontrolled,
+  via React context shared with child `SegmentedControlOption`s.
+- Left/right arrow keys move focus and selection between options (roving
+  tabindex — only the selected option is in the tab order; arrow keys
+  activate the next/previous non-disabled option immediately, matching the
+  WAI-ARIA APG Radio Group pattern's expected keyboard behavior).
+- Clicking a disabled option (group- or option-level) does nothing.
+
+## Content
+
+Keep option labels short enough to fit a compact pill at every supported
+size; this is not a component for long or wrapping text.
+
+## Tokens
+
+```text
+Radius/xl (track), Radius/lg (selected pill)
+Spacing/2 (gap between options), Spacing/4 (track padding)
+Spacing/12, /16, /20 (option padding by size)
+Spacing/28, /36, /48 (control height by size)
+button-sm/button-md/button-lg (option label type by size)
+Color/Segment/Surface, Color/Segment/Surface-Selected
+Color/Segment/Text, Color/Segment/Text-Selected
+Color/Segment/Border-Selected
+Color/Border/Focus (focus ring)
+```
+
+## Accessibility
+
+- `role="radiogroup"` on the container, `role="radio"`/`aria-checked` on
+  each option — a native `<button>` under the hood, not a native radio
+  input, so `aria-checked` (not the `checked` DOM property) carries state.
+- Roving `tabIndex` (`0` on the selected option, `-1` on the rest) so the
+  whole control is one stop in the page's tab order, per the APG pattern.
+- The container requires a caller-supplied `aria-label` (TypeScript-enforced
+  required prop) since the control has no visible label of its own.
+- Disabled options get both `disabled` (native, keeps them out of the tab
+  order and un-clickable) and `aria-disabled` for redundancy with
+  assistive tech that reads the ARIA attribute directly.
+
+## Storybook
+
+`Primitives/SegmentedControl`: Playground, Sizes (sm/md/lg), Disabled
+(group-level and per-option).
+
+## Testing
+
+`packages/ui/src/primitives/SegmentedControl.test.tsx`: renders options,
+selects on click, arrow-key navigation (both directions, wrapping at the
+ends), controlled vs. uncontrolled value, disabled group, disabled
+individual option.
+
+## Code mapping
+
+| Framework | Export | Source |
+| --- | --- | --- |
+| React | `SegmentedControl`, `SegmentedControlOption` | `packages/ui/src/primitives/SegmentedControl.tsx` |
+| Web Components | `lumen-segmented-control`, `lumen-segmented-control-option` | `packages/web-components/src/segmented-control/lumen-segmented-control.ts`, `lumen-segmented-control-option.ts` |
+| Angular | `LumenSegmentedControlComponent`, `LumenSegmentedControlOptionComponent` (selectors `lumen-segmented-control`, `lumen-segmented-control-option`) | `packages/angular/src/segmented-control/lumen-segmented-control.ts`, `lumen-segmented-control-option.ts` |
+
+Storybook coverage for the Web Components/Angular rows: not covered, same
+open decision noted in each package's README as every other component they
+ship.
+
+## Known limitations
+
+- `lg`'s 44px Figma spec is rounded up to 48px (no 44px spacing token
+  exists) — a visual approximation, not an exact match.
+
+## Change history
+
+- 2026-07-16: implemented in React, Web Components, and Angular, sourced
+  from node `958:5058` (sizes from `958:5090`) — never added to this file
+  at the time.
+- 2026-08: this specification entry added retroactively during a
+  documentation-accuracy audit; no code changed.

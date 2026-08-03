@@ -1,12 +1,22 @@
 # @lumen/web-components
 
 Web Components implementation of Lumen's component specifications, built with
-[Lit](https://lit.dev). This is the Phase 13 (`docs/roadmap.md`) proof of
+[Lit](https://lit.dev). Started as the Phase 13 (`docs/roadmap.md`) proof of
 concept validating that the framework-agnostic contract in
-`docs/component-specifications.md` can be implemented outside React — it
-ships `<lumen-button>`, `<lumen-split-button>`, `<lumen-filter-chip>`,
-`<lumen-choice-chip>`, and `<lumen-ai-button>`, matching `@lumen/ui`'s
-2026-07-14 Figma sync (see `docs/changelog.md` `[Unreleased]`).
+`docs/component-specifications.md` can be implemented outside React, and has
+since grown into a real 9-component package: `<lumen-button>`,
+`<lumen-split-button>`, `<lumen-filter-chip>`, `<lumen-choice-chip>`,
+`<lumen-ai-button>`, `<lumen-segmented-control>` (+
+`<lumen-segmented-control-option>`), `<lumen-kpi-card>`, `<lumen-footer>`,
+and `<lumen-theme-toggle>` — see `docs/component-architecture.md` §13 for
+the full Figma/React/Web-Components/Angular mapping.
+
+**Known drift, unreconciled**: `@lumen/ui`'s `Button` was later rewritten on
+a shadcn-sourced base with a different variant/size contract (see
+"History" below) — `<lumen-button>` here still implements the earlier,
+reconciled-as-of-2026-07-20 contract documented in the property table below,
+not React's current one. Don't assume the two match without checking
+`packages/ui/src/components/internal/button.tsx` directly.
 
 ## Why Web Components first
 
@@ -123,6 +133,55 @@ icons (Figma swaps the glyph per action, e.g. a wand for Rewrite).
 The React-only capability lookup and split composition are documented in
 `docs/component-specifications.md` §46.
 
+### `<lumen-segmented-control>` / `<lumen-segmented-control-option>`
+
+Mirrors `SegmentedControl.tsx`/`SegmentedControlOption`
+(`packages/ui/src/primitives/SegmentedControl.tsx`) — see
+`docs/component-specifications.md` §59. A single-choice, tab-like control
+(`role="radiogroup"`/`role="radio"`), distinct from a group of joined
+`<lumen-button>`s.
+
+| Element | Property (attribute) | Type | Default | Notes |
+| --- | --- | --- | --- | --- |
+| `<lumen-segmented-control>` | `value` | string | `""` | Currently-selected option's value. |
+| | `size` | `sm \| md \| lg` | `md` | 28/36/48px. |
+| | `disabled` | boolean | `false` | Disables every option. |
+| `<lumen-segmented-control-option>` | `value` | string | `""` | Required — matched against the parent's `value`. |
+| | `size` | `sm \| md \| lg` | `md` | Should match the parent's `size`. |
+| | `selected` | boolean | `false` | Reflects whether this option is the active one. |
+| | `disabled` | boolean | `false` | Disables just this option. |
+
+### `<lumen-kpi-card>`
+
+Mirrors `KPICard.tsx` (`packages/ui/src/primitives/KPICard.tsx`).
+
+| Property (attribute) | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `label` | string | `""` | The metric's name. |
+| `value` | string | `""` | The metric's current value, preformatted (e.g. `"$42.1k"`). |
+| `delta` | string | `undefined` | Optional preformatted change indicator (e.g. `"+12%"`). |
+| `delta-tone` | `success \| warning \| error` (property `deltaTone`) | `"success"` | Color of the delta text. |
+
+### `<lumen-footer>`
+
+Mirrors `Footer.tsx` (`packages/ui/src/layout/Footer.tsx`).
+
+| Property (attribute) | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `version` | string | `undefined` | Optional version/build label. |
+| `status-label` | string | `undefined` | Optional status text (e.g. `"All systems operational"`). |
+| `status-tone` | `success \| warning \| error` | `"success"` | Color of the status indicator dot/text. |
+
+### `<lumen-theme-toggle>`
+
+Mirrors `ThemeToggle.tsx` (`packages/ui/src/primitives/ThemeToggle.tsx`).
+
+| Property (attribute) | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `checked` | boolean | `false` | Reflects the current theme (checked = dark). Toggling fires a bubbling `lumen-change` `CustomEvent<{ checked: boolean }>` but does **not** set `data-theme` itself — the host page must listen for that event and apply it (see `packages/tokens/README.md`'s theming section). |
+| `aria-label` | string \| null | `null` | Overrides the default accessible name. |
+| `disabled` | boolean | `false` | |
+
 ## History: the spec discrepancy this package surfaced
 
 Building this package originally surfaced that §5 (Button) of
@@ -139,7 +198,17 @@ That discrepancy has since been reconciled — `docs/component-specifications.md
 extension match this package too. See `docs/roadmap.md` Phase 13 Findings
 for the full record. The older API described in that history was subsequently
 superseded by final Figma node `1027:3733`; React, Web Components, and Angular
-now implement the same final contract. Kept here as history, not a live issue.
+implemented the same final contract as of 2026-07-20.
+
+**This is no longer fully true.** `@lumen/ui`'s `Button` was rewritten again
+after that reconciliation, on a shadcn-sourced base (`docs/shadcn-
+integration.md`) — new variant names (`default|destructive|outline|
+secondary|ghost|link|neutral`, no `primary`/`accent`), a new size scale
+(`default|sm|lg|icon`, not `sm|md|lg|xl`), no `iconStart`/`iconEnd` props,
+native `disabled` instead of `aria-disabled`. `<lumen-button>` here still
+implements the 2026-07-20 contract described in the property table above —
+it has not been migrated to match React's current one. Tracked in
+`docs/roadmap.md` Phase 13 as an open deliverable; not yet scheduled.
 
 ## Testing
 

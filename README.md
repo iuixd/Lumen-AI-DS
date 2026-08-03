@@ -40,14 +40,17 @@ Use Storybook to:
 
 | Package                 | Contents                                                                                                                                                                                               | Current delivery model                          |
 | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------- |
-| `@lumen/tokens`         | Color, typography, spacing, and radius tokens. Generated CSS variables, a Tailwind preset, and typed TypeScript exports.                                                                               | Built output consumed from this repository      |
+| `@lumen/tokens`         | Color, typography, spacing, radius, motion, and a partial shadow/elevation tier. Generated CSS variables, a Tailwind preset, and typed TypeScript exports.                                             | Built output consumed from this repository      |
 | `@lumen/ui`             | React, TypeScript, and Tailwind primitives, composite components, and layout primitives. Lumen's React framework package — see [Architecture](#architecture).                                          | TypeScript source consumed from this repository |
-| `@lumen/patterns`       | Composed enterprise screens built from `@lumen/ui`, including CRUD, settings, authentication, and dashboard patterns.                                                                                  | TypeScript source consumed from this repository |
-| `@lumen/web-components` | Framework-agnostic custom elements built with Lit, including the final standard Button contract.                                                                                                       | TypeScript source consumed from this repository |
-| `@lumen/angular`        | Angular standalone components targeting Angular 20 LTS, including the final standard Button contract.                                                                                                  | TypeScript source consumed from this repository |
+| `@lumen/patterns`       | Composed enterprise screens built from `@lumen/ui`, including CRUD, settings, authentication, dashboard, enterprise-login, and data-extraction-onboarding patterns.                                    | TypeScript source consumed from this repository |
+| `@lumen/web-components` | Framework-agnostic custom elements built with Lit — 9 components (Button, AIButton, SplitButton, FilterChip, ChoiceChip, SegmentedControl, KPICard, Footer, ThemeToggle).                              | TypeScript source consumed from this repository |
+| `@lumen/angular`        | Angular standalone components targeting Angular 20 LTS — the same 9 components as `@lumen/web-components`.                                                                                             | TypeScript source consumed from this repository |
+| `@lumen/create-app`     | Private CLI scaffolder (`pnpm create:react`) generating a React + Vite app under `apps/<name>`, wired to the packages above via `workspace:*` — see [Create a React application](#create-a-react-application). | Private; never published                        |
 | `@lumen/storybook`      | Interactive component and pattern documentation with controls, usage code, themes, and accessibility tooling. React components only — `@lumen/web-components` and `@lumen/angular` aren't covered yet. | Private; deployed as static documentation       |
 
-Lumen does not currently define an elevation or shadow token tier because it is not present in the approved Figma foundation source. See [Figma synchronization](docs/figma-sync.md) for verified sources and provisional areas.
+`@lumen/web-components`'s and `@lumen/angular`'s Button implementations currently lag `@lumen/ui`'s: React's `Button` was rewritten on a shadcn-sourced base with a different variant/size contract after the other two packages' Button was last synced — see each package's README for the specifics before assuming prop-for-prop parity.
+
+Lumen's shadow/elevation token tier is partial — real, Figma-sourced component shadows (button, menu, toast) plus one generic `elevation.sm` step exist, but a full generic elevation scale doesn't yet. See [Figma synchronization](docs/figma-sync.md) for verified sources and provisional areas.
 
 ## Architecture
 

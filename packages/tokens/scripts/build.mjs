@@ -453,6 +453,7 @@ export const toast = ${JSON.stringify(toast, null, 2)} as const;
 export const iconButton = ${JSON.stringify(iconButton, null, 2)} as const;
 export const size = ${JSON.stringify(size, null, 2)} as const;
 export const opacity = ${JSON.stringify(opacity, null, 2)} as const;
+export const gradient = ${JSON.stringify(gradient, null, 2)} as const;
 
 export type ColorPrimitive = keyof typeof colorPrimitives;
 export type SpacingLayoutKey = keyof typeof spacing.layout;

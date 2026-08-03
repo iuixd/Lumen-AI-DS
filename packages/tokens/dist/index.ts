@@ -2243,6 +2243,13 @@ export const opacity = {
   },
   "_comment": "New file added 2026-08-02 from a fresh Variables export's generic 'Opacity' primitive collection (12 steps, 0-100). Distinct from `motion.opacity`, which holds two component-scoped keys (`skeleton-pulse-from`/`skeleton-pulse-to`) for one specific animation, not this generic scale. No consumer yet — kept as a foundational primitive per the same convention already established for other unconsumed-but-Figma-evidenced additions in this sync (see docs/changelog.md)."
 } as const;
+export const gradient = {
+  "_comment": "Gradient fills. Stored as raw CSS `linear-gradient()` values rather than composed from primitive color references (like divider.json's raw rgba values) because a gradient's stop percentages and angle are inseparable from its color stops — there's no clean primitive/semantic split to make here, only one consumer exists so far, and Tailwind's arbitrary-value `bg-[...]` utility needs the full literal string. Reconcile into a more structured shape if a second gradient consumer appears.",
+  "upload-header": {
+    "value": "linear-gradient(34.16deg, #BE003C 23.237%, #F4754D 104.77%)",
+    "_comment": "Sourced from FileUploadDropzone's card header banner (Lumen-AI-Design-System node 1511:2703, 'Upload Component' section), read via get_design_context on 2026-07-30. First stop (#BE003C) is the existing primary.500 primitive; second stop (#F4754D, a coral) has no existing match in any color ramp and is recorded here as a literal, not promoted to a new named primitive since gradients aren't referenced elsewhere yet."
+  }
+} as const;
 
 export type ColorPrimitive = keyof typeof colorPrimitives;
 export type SpacingLayoutKey = keyof typeof spacing.layout;
