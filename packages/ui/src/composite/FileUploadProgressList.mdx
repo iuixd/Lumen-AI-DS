@@ -5,20 +5,35 @@ import * as FileUploadProgressListStories from "./FileUploadProgressList.stories
 
 # FileUploadProgressList
 
-The accordion-grouped, per-file upload progress view that follows `FileUploadDropzone` once
-files are selected. Files are pre-grouped by the caller (e.g. by document type) into
-`FileUploadGroupData[]`; each group renders as an `Accordion` item with a folder-style header,
-an aggregate progress bar while any file in it is still uploading, and a removable row per file.
+The flat, per-file upload progress view that follows `FileUploadDropzone` once files are
+selected. Redesigned 2026-08-03: an earlier version grouped files into collapsible `Accordion`
+sections by category (Documents/Images/Other); a fresh Figma pull (fileKey
+`GJBYRm6ySR7XIECFcHMgy2`, nodes `1565:3140`/`1565:3298`/`1565:3337`) confirmed all three states
+render one flat, ungrouped list instead — the grouping was removed to match exactly.
+
+Heading/subheading are computed from `files`/`primaryActionLoading` when not explicitly passed:
+"Uploading files", "Files uploaded successfully" (with a live file count), or "Creating your
+project" — matching Figma's three real copy pairs.
 
 <Canvas of={FileUploadProgressListStories.Uploading} />
 
-## Complete
+## Uploaded
 
-<Canvas of={FileUploadProgressListStories.Complete} />
+<Canvas of={FileUploadProgressListStories.Uploaded} />
 
-## Creating Project
+## Creating project (rows locked)
 
-<Canvas of={FileUploadProgressListStories.CreatingProject} />
+<Canvas of={FileUploadProgressListStories.CreatingProjectDisabled} />
+
+## Errors and partial success
+
+Zero Figma source for any error state — built from the interaction spec only.
+
+<Canvas of={FileUploadProgressListStories.MixedErrorsPartialSuccess} />
+
+## Project-creation failure
+
+<Canvas of={FileUploadProgressListStories.ProjectCreationFailed} />
 
 ## Live progress
 
@@ -28,14 +43,15 @@ an aggregate progress bar while any file in it is still uploading, and a removab
 
 | Prop | Type | Notes |
 |---|---|---|
-| `groups` | `FileUploadGroupData[]` | `{ id, name, files: FileUploadFile[] }` |
-| `FileUploadFile` | — | `{ id, name, sizeLabel, status: "uploading" \| "uploaded" \| "error", progress? }` |
-| `onRemoveFile` | `(groupId, fileId) => void` | Called from each row's remove button |
+| `files` | `FileUploadFile[]` | `{ id, name, sizeLabel, status: "uploading" \| "uploaded" \| "error", progress?, errorType?, errorMessage?, onRetry? }` |
+| `onRemoveFile` | `(fileId) => void` | Called from each row's remove button. Locked (button `disabled`) while `primaryActionLoading` |
 | `cancelLabel` / `onCancel` | `string` / `() => void` | Footer's ghost button |
 | `primaryActionLabel` / `onPrimaryAction` | `string` / `() => void` | Footer's primary button, default label "Create Project" |
-| `primaryActionLoading` | `boolean` | Shows the disabled "Creating Project…" state |
+| `primaryActionLoading` | `boolean` | Shows the disabled "Creating Project…" state and dims/locks every row |
 | `primaryActionDisabled` | `boolean` | |
+| `primaryActionErrorMessage` | `string` | Renders a `role="alert"` banner above the footer — e.g. project-creation failure |
+| `heading` / `subheading` | `string` | Override the computed per-state defaults |
 
 This component doesn't drive progress itself — pass already-computed `progress`/`status` per
-file and update `groups` from wherever the real (or simulated) upload lives. See
+file and update `files` from wherever the real (or simulated) upload lives. See
 `DataExtractionOnboardingPage` for a full example wired to a timer-driven simulation.

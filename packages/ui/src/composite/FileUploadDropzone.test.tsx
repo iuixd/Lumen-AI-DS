@@ -41,6 +41,44 @@ describe("FileUploadDropzone", () => {
     expect(onFilesSelected).toHaveBeenCalledWith([file]);
   });
 
+  it("animates the header graphic when the dropzone is hovered, and reverts on mouse-leave", () => {
+    render(<FileUploadDropzone />);
+    const dropzone = screen.getByRole("button", { name: /Click to upload/ });
+    const arrowGlyph = screen.getByTestId("header-upload-arrow-glyph");
+    const tray = screen.getByTestId("header-upload-tray");
+    const pdfFile = screen.getByTestId("header-pdf-file");
+    const imageFile = screen.getByTestId("header-image-file");
+
+    // The tray/bracket is its own element (a separate, Figma-sourced asset
+    // from the arrow glyph) and never carries a translate class at all.
+    expect(tray.className).not.toContain("translate");
+    expect(arrowGlyph.className).toContain("translate-y-0");
+    expect(pdfFile.className).toContain("translate-x-0");
+    expect(pdfFile.className).toContain("rotate-[-19deg]");
+    expect(imageFile.className).toContain("translate-x-0");
+    expect(imageFile.className).toContain("rotate-[23deg]");
+
+    fireEvent.mouseEnter(dropzone);
+    expect(arrowGlyph.className).toContain("-translate-y-1.5");
+    expect(tray.className).not.toContain("translate");
+    // Icons converge toward each other on hover: PDF (left) pushes further
+    // left, image (right) pushes further right, each easing back toward
+    // level rotation.
+    expect(pdfFile.className).toContain("-translate-y-1.5");
+    expect(pdfFile.className).toContain("-translate-x-1.5");
+    expect(pdfFile.className).toContain("rotate-[-9deg]");
+    expect(imageFile.className).toContain("-translate-y-1.5");
+    expect(imageFile.className).toContain("translate-x-1.5");
+    expect(imageFile.className).toContain("rotate-[13deg]");
+
+    fireEvent.mouseLeave(dropzone);
+    expect(arrowGlyph.className).toContain("translate-y-0");
+    expect(pdfFile.className).toContain("translate-x-0");
+    expect(pdfFile.className).toContain("rotate-[-19deg]");
+    expect(imageFile.className).toContain("translate-x-0");
+    expect(imageFile.className).toContain("rotate-[23deg]");
+  });
+
   it("does not call onFilesSelected when disabled", () => {
     const onFilesSelected = vi.fn();
     render(<FileUploadDropzone disabled onFilesSelected={onFilesSelected} />);

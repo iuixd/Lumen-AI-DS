@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { act, fireEvent, screen, renderHook } from "@testing-library/react";
+import { act, fireEvent, screen, renderHook, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ToastProvider, useToast, type ToastItem } from "./Toast";
 
@@ -73,7 +73,7 @@ describe("Toast", () => {
       result.current.push({ title: "Files uploaded!", tone: "celebration", variant: "solid" });
     });
     const status = screen.getByRole("status");
-    expect(status).toHaveStyle({ background: "var(--color-deep-purple-700)" });
+    expect(status).toHaveStyle({ background: "var(--color-background-toaster-systeminfo-bg)" });
     expect(status.style.borderLeftWidth).toBe("");
   });
 
@@ -87,7 +87,9 @@ describe("Toast", () => {
     const closeButton = screen.getByRole("button", { name: "Dismiss notification" });
     expect(closeButton).toBeInTheDocument();
     await user.click(closeButton);
-    expect(screen.queryByText("Dismiss me")).not.toBeInTheDocument();
+    // Dismiss now defers the actual unmount by `--duration-moderate` (200ms)
+    // to let the exit fade play, rather than removing the toast instantly.
+    await waitFor(() => expect(screen.queryByText("Dismiss me")).not.toBeInTheDocument());
   });
 
   describe("auto-dismiss timing", () => {
@@ -112,6 +114,11 @@ describe("Toast", () => {
 
       act(() => {
         vi.advanceTimersByTime(1);
+      });
+      // Exit-fade defer: the toast unmounts `--duration-moderate` (200ms)
+      // after the dismiss timer fires, not on the same tick.
+      act(() => {
+        vi.advanceTimersByTime(200);
       });
       expect(screen.queryByText("Times out")).not.toBeInTheDocument();
     });
@@ -144,6 +151,9 @@ describe("Toast", () => {
       act(() => {
         vi.advanceTimersByTime(1);
       });
+      act(() => {
+        vi.advanceTimersByTime(200);
+      });
       expect(screen.queryByText("Hover pauses me")).not.toBeInTheDocument();
     });
 
@@ -163,6 +173,9 @@ describe("Toast", () => {
       fireEvent.blur(status);
       act(() => {
         vi.advanceTimersByTime(6000);
+      });
+      act(() => {
+        vi.advanceTimersByTime(200);
       });
       expect(screen.queryByText("Focus pauses me")).not.toBeInTheDocument();
     });

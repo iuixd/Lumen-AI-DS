@@ -796,11 +796,25 @@ module.exports = {
       "fontWeight": "var(--text-body-sm-weight)"
     }
   ],
+  "body-sm-medium": [
+    "var(--text-body-sm-medium-size)",
+    {
+      "lineHeight": "var(--text-body-sm-medium-line-height)",
+      "fontWeight": "var(--text-body-sm-medium-weight)"
+    }
+  ],
   "body-xs": [
     "var(--text-body-xs-size)",
     {
       "lineHeight": "var(--text-body-xs-line-height)",
       "fontWeight": "var(--text-body-xs-weight)"
+    }
+  ],
+  "body-xs-medium": [
+    "var(--text-body-xs-medium-size)",
+    {
+      "lineHeight": "var(--text-body-xs-medium-line-height)",
+      "fontWeight": "var(--text-body-xs-medium-weight)"
     }
   ],
   "input-md": [

@@ -6,7 +6,7 @@ import * as DataExtractionOnboardingPageStories from "./DataExtractionOnboarding
 # DataExtractionOnboardingPage
 
 The full, click-through data-extraction onboarding journey: enterprise login → file upload
-(click-to-browse, drag-and-drop onto the card, or drop anywhere on the page) → grouped
+(click-to-browse, drag-and-drop onto the card, or drop anywhere on the page) → flat
 per-file upload progress → Create Project. Every step is real, functional interaction — the
 Storybook canvas below is live, not a static mock.
 
@@ -19,7 +19,7 @@ Storybook canvas below is live, not a static mock.
 ## How it's composed
 
 This pattern's own code is small: a 3-step state machine (`"login" | "upload" | "progress"`),
-file-category grouping, a timer-driven progress simulation, the full-viewport drag mask, and the
+a timer-driven progress simulation over a flat file list, the full-viewport drag mask, and the
 fade/slide transition between steps. Everything visual is three independently-documented,
 independently-reusable pieces:
 
@@ -32,15 +32,14 @@ independently-reusable pieces:
 | Prop | Type | Notes |
 |---|---|---|
 | `loginProps` | `Omit<EnterpriseLoginPageProps, "onComplete" \| "initialScreen">` | Passed straight through to the login step |
-| `onProjectCreated` | `(files: File[]) => void \| Promise<void>` | Called when "Create Project" is clicked and every file has finished uploading |
-| `categorizeFile` | `(file: File) => string` | Determines the group a file lands in; defaults to a Documents/Images/Other split by extension |
+| `onProjectCreated` | `(files: File[]) => void \| Promise<void>` | Called when "Create Project" is clicked and every file has finished uploading. Rejecting surfaces the "creation failed"/"Try again" recovery state |
 | `initialStep` | `"login" \| "upload" \| "progress"` | Preview/test entry point — defaults to `"login"` |
 
 ## What's real vs. simulated
 
-The state machine, the drag-and-drop handling (both on the card and anywhere on the page), the
-file grouping, and the step transitions are real. The upload **progress** is not — there is no
-backend here, the same "call the prop, don't fake a backend" contract every pattern in this repo
-uses. Progress advances on a client-side timer alone; wire a real upload API into
-`FileUploadProgressList`'s `groups` (via your own state) if you build a product screen on top of
-this, and call `onProjectCreated` to hand off the real files once you do.
+The state machine, the drag-and-drop handling (both on the card and anywhere on the page), and
+the step transitions are real. The upload **progress** is not — there is no backend here, the
+same "call the prop, don't fake a backend" contract every pattern in this repo uses. Progress
+advances on a client-side timer alone; wire a real upload API into `FileUploadProgressList`'s
+`files` (via your own state) if you build a product screen on top of this, and call
+`onProjectCreated` to hand off the real files once you do.

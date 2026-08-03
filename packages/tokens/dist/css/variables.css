@@ -508,9 +508,15 @@
   --text-body-sm-size: 14px;
   --text-body-sm-line-height: 22px;
   --text-body-sm-weight: 400;
+  --text-body-sm-medium-size: 14px;
+  --text-body-sm-medium-line-height: 22px;
+  --text-body-sm-medium-weight: 500;
   --text-body-xs-size: 12px;
   --text-body-xs-line-height: 20px;
   --text-body-xs-weight: 400;
+  --text-body-xs-medium-size: 12px;
+  --text-body-xs-medium-line-height: 20px;
+  --text-body-xs-medium-weight: 500;
   --text-input-md-size: 16px;
   --text-input-md-line-height: 18px;
   --text-input-md-weight: 400;

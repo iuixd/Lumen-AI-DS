@@ -30,6 +30,56 @@ import { CircleCheckIcon } from "../icons/generated/CircleCheckIcon";
  * no keyframe data, confirming it's a static mockup (three snapshot
  * instances at different progress-bar widths illustrating the concept), not
  * an animated prototype.
+ *
+ * Mount/unmount animation added 2026-08-03 for `DataExtractionOnboardingPage`'s
+ * interaction redesign — previously an instant array push/filter, no
+ * transition either way. Entrance slides up 16px + fades in
+ * (`--duration-moderate`/`--easing-enter`, close to the spec's 220ms ask —
+ * no exact 220ms token exists). Exit only fades (no slide direction was
+ * specified for dismissal, so none was invented) and defers the actual
+ * `toasts` array removal by `--duration-moderate` via a `removingIds` set,
+ * since React can't animate an unmount otherwise. Auto-dismiss stays at the
+ * existing system-wide 6s (`motion.duration.toast`) rather than forking a
+ * per-flow 4s override — flagged, not silently decided, during planning.
+ *
+ * Corrected 2026-08-03 for pixel-perfect fidelity against a direct re-pull
+ * of node `1519:6185` (`get_design_context` + `get_variable_defs`, per
+ * direct user request: "match the uploaded confirmation toast notification
+ * to the Figma design with 100% pixel-perfect accuracy"). The `solid`
+ * variant had been built as a re-colored copy of the `card` variant's box
+ * model (32px/24px padding, absolutely-positioned close button, 16px
+ * icon-title gap, the shared 28px `--toast-icon-size`, `text-input-lg`
+ * `font-bold` = 16/26/700) — none of that matches this node, which is
+ * structurally simpler: one flex row (`px-24 py-12`, `gap-32` between the
+ * icon+title group and the close button, `gap-8` between icon and title),
+ * a 24px icon (not the shared 28px token — scoped locally rather than
+ * changing `--toast-icon-size`, which the `card` variant still correctly
+ * uses), and 14px/26px/weight-600 title text (no existing typography tier
+ * matches that exact combination, so it's a scoped literal rather than a
+ * new one-off token for a single consumer). `celebration`'s accent color
+ * now resolves through the real semantic token Figma names
+ * (`--color-background-toaster-systeminfo-bg`) instead of the primitive
+ * it happened to alias (`--color-deep-purple-700`) — same value in light
+ * mode, but now theme-reactive. One literal Figma quirk deliberately not
+ * reproduced: the source node's outer frame carries a stray `pl-[2px]`
+ * (residue from a shared master component whose `card`-equivalent variant
+ * uses that inset for a left accent stripe) with no visible effect in the
+ * reference screenshot — copying it would only shift content 2px for no
+ * evidenced reason. `card` variant is unchanged; it has its own,
+ * previously-correct Figma source and this fidelity pass didn't touch it.
+ *
+ * Corrected same-day, direct user report with a screenshot ("Confirmation
+ * toaster width is not matching the Figma Design"): the fixed-width fix
+ * above still left `solid` on the shared `--toast-width` (450px), stretched
+ * far past its actual content — missed because the earlier re-pull of
+ * `1519:6185` was read for spacing/typography/color, not layout sizing.
+ * Its own markup is `w-full`/`size-full` inside a "hug contents"
+ * auto-layout frame in Figma, not a fixed pixel width at all — the fixed
+ * 450px genuinely belongs to `card`'s own, differently-sized Figma frame
+ * (`1475:5100`). `solid` now hugs its content (`w-fit`), capped at the
+ * same `--toast-width` as a ceiling so a pathologically long
+ * caller-supplied title still wraps/truncates instead of stretching
+ * edge-to-edge, rather than reusing it as a fixed size.
  */
 export interface ToastItem {
   id: string;
@@ -81,7 +131,11 @@ const accentVar: Record<Tone, string> = {
   success: "var(--color-status-success)",
   warning: "var(--color-status-warning)",
   error: "var(--color-status-error)",
-  celebration: "var(--color-deep-purple-700)"
+  // The exact semantic token Figma cites (`bg/toaster-systeminfo-bg`, node
+  // `1519:6185`) rather than the primitive it happened to alias
+  // (`deep-purple.700`) — theme-reactive (dark theme resolves to a
+  // different, lighter value), where the raw primitive wasn't.
+  celebration: "var(--color-background-toaster-systeminfo-bg)"
 };
 
 const defaultIcon: Partial<Record<Tone, ReactNode>> = {
@@ -93,7 +147,15 @@ const defaultIcon: Partial<Record<Tone, ReactNode>> = {
 
 const DISMISS_LABEL = "Dismiss notification";
 
-function ToastCard({ toast, onDismiss }: { toast: ToastItem; onDismiss: (id: string) => void }) {
+function ToastCard({
+  toast,
+  onDismiss,
+  isRemoving
+}: {
+  toast: ToastItem;
+  onDismiss: (id: string) => void;
+  isRemoving?: boolean;
+}) {
   const tone = toast.tone ?? "neutral";
   const variant = toast.variant ?? "card";
   const durationMs: number = motion.duration.toast.value;
@@ -105,6 +167,12 @@ function ToastCard({ toast, onDismiss }: { toast: ToastItem; onDismiss: (id: str
   const startedAtRef = useRef(0);
   const timerRef = useRef<ReturnType<typeof setTimeout>>();
   const [paused, setPaused] = useState(false);
+  const [entered, setEntered] = useState(false);
+
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => setEntered(true));
+    return () => cancelAnimationFrame(raf);
+  }, []);
 
   const clearTimer = useCallback(() => {
     if (timerRef.current) clearTimeout(timerRef.current);
@@ -153,10 +221,22 @@ function ToastCard({ toast, onDismiss }: { toast: ToastItem; onDismiss: (id: str
       onFocus={pause}
       onBlur={resume}
       className={cn(
-        "relative w-[var(--toast-width)] overflow-hidden rounded-[var(--radius-lg)] border",
+        "relative overflow-hidden rounded-[var(--radius-lg)] border transition-[opacity,transform] duration-[var(--duration-moderate)] motion-reduce:transition-none",
+        // `solid` hugs its content (Figma's own node is `w-full`/`size-full`
+        // inside a "hug contents" auto-layout frame, not a fixed pixel
+        // width — the fixed-width `card` variant's own frame genuinely is
+        // that size). Capped at the same `--toast-width` so a pathologically
+        // long caller-supplied title still wraps/truncates instead of
+        // stretching edge-to-edge.
+        isSolid ? "w-fit max-w-[var(--toast-width)]" : "w-[var(--toast-width)]",
         isSolid
           ? "border-transparent text-[var(--color-neutral-white)]"
-          : "border-[var(--color-border-default)] bg-[var(--color-background-raised)]"
+          : "border-[var(--color-border-default)] bg-[var(--color-background-raised)]",
+        isRemoving
+          ? "ease-[var(--easing-exit)] opacity-0"
+          : entered
+            ? "ease-[var(--easing-enter)] translate-y-0 opacity-100"
+            : "ease-[var(--easing-enter)] translate-y-[var(--spacing-16)] opacity-0"
       )}
       style={{
         background: isSolid ? accent : undefined,
@@ -174,54 +254,81 @@ function ToastCard({ toast, onDismiss }: { toast: ToastItem; onDismiss: (id: str
         boxShadow: "var(--shadow-toast-default)"
       }}
     >
-      <div className="flex flex-col gap-[var(--spacing-8)] px-[var(--spacing-32)] py-[var(--spacing-24)] pr-[var(--spacing-40)]">
-        <div className="flex items-center gap-[var(--spacing-16)]">
-          {icon && (
-            <span
-              aria-hidden
-              className="size-[var(--toast-icon-size)] shrink-0"
-              style={{ color: isSolid ? "var(--color-neutral-white)" : accent }}
+      {isSolid ? (
+        // Matches Lumen-AI-Design-System node `1519:6185` ("Toast",
+        // type="SystemInfo") exactly: a single flex row (icon, title,
+        // close button, `gap-32`) at `px-24 py-12` — structurally
+        // different from the card variant below (no absolutely-positioned
+        // close button, no icon-aligned description indent), since this
+        // node has no description in its Figma source. A description is
+        // still rendered below the row if a caller passes one, since
+        // dropping caller-supplied content silently would be worse than
+        // an un-Figma-sourced fallback — flagged as exactly that.
+        <div className="flex w-full flex-col gap-[var(--spacing-8)] px-[var(--spacing-24)] py-[var(--spacing-12)]">
+          <div className="flex w-full items-center gap-[var(--spacing-32)]">
+            <div className="flex min-w-0 flex-1 items-center gap-[var(--spacing-8)]">
+              {icon && (
+                <span aria-hidden className="size-6 shrink-0 text-[var(--color-neutral-white)]">
+                  {icon}
+                </span>
+              )}
+              <p className="min-w-0 flex-1 truncate text-[14px] font-semibold leading-[26px] text-[var(--color-neutral-white)]">
+                {toast.title}
+              </p>
+            </div>
+            <button
+              type="button"
+              aria-label={DISMISS_LABEL}
+              onClick={() => onDismiss(toast.id)}
+              className="flex size-[var(--toast-close-size)] shrink-0 items-center justify-center text-[var(--color-neutral-white-a72)] hover:text-[var(--color-neutral-white)]"
             >
-              {icon}
-            </span>
+              <CloseFilledIcon className="size-full" />
+            </button>
+          </div>
+          {toast.description && (
+            <p
+              className="text-body-sm text-[var(--color-neutral-white-a72)]"
+              style={icon ? { paddingLeft: "calc(24px + var(--spacing-8))" } : undefined}
+            >
+              {toast.description}
+            </p>
           )}
-          <p
-            className={cn(
-              "min-w-0 flex-1 text-input-lg",
-              isSolid ? "font-bold text-[var(--color-neutral-white)]" : "text-[var(--color-toast-title-text)]"
-            )}
-          >
-            {toast.title}
-          </p>
         </div>
-        {toast.description && (
-          <p
-            className={cn(
-              "text-body-sm",
-              isSolid ? "text-[var(--color-neutral-white-a72)]" : "text-[var(--color-text-secondary)]"
+      ) : (
+        <>
+          <div className="flex flex-col gap-[var(--spacing-8)] px-[var(--spacing-32)] py-[var(--spacing-24)] pr-[var(--spacing-40)]">
+            <div className="flex items-center gap-[var(--spacing-16)]">
+              {icon && (
+                <span aria-hidden className="size-[var(--toast-icon-size)] shrink-0" style={{ color: accent }}>
+                  {icon}
+                </span>
+              )}
+              <p className="min-w-0 flex-1 text-input-lg text-[var(--color-toast-title-text)]">
+                {toast.title}
+              </p>
+            </div>
+            {toast.description && (
+              <p
+                className="text-body-sm text-[var(--color-text-secondary)]"
+                style={
+                  icon ? { paddingLeft: "calc(var(--toast-icon-size) + var(--spacing-16))" } : undefined
+                }
+              >
+                {toast.description}
+              </p>
             )}
-            style={
-              icon ? { paddingLeft: "calc(var(--toast-icon-size) + var(--spacing-16))" } : undefined
-            }
-          >
-            {toast.description}
-          </p>
-        )}
-      </div>
+          </div>
 
-      <button
-        type="button"
-        aria-label={DISMISS_LABEL}
-        onClick={() => onDismiss(toast.id)}
-        className={cn(
-          "absolute right-[var(--spacing-8)] top-[var(--spacing-8)] flex size-[var(--toast-close-size)] items-center justify-center",
-          isSolid
-            ? "text-[var(--color-neutral-white-a72)] hover:text-[var(--color-neutral-white)]"
-            : "text-[var(--color-text-secondary)] hover:text-[var(--color-toast-title-text)]"
-        )}
-      >
-        <CloseFilledIcon className="size-full" />
-      </button>
+          <button
+            type="button"
+            aria-label={DISMISS_LABEL}
+            onClick={() => onDismiss(toast.id)}
+            className="absolute right-[var(--spacing-8)] top-[var(--spacing-8)] flex size-[var(--toast-close-size)] items-center justify-center text-[var(--color-text-secondary)] hover:text-[var(--color-toast-title-text)]"
+          >
+            <CloseFilledIcon className="size-full" />
+          </button>
+        </>
+      )}
 
       <div
         aria-hidden
@@ -235,9 +342,43 @@ function ToastCard({ toast, onDismiss }: { toast: ToastItem; onDismiss: (id: str
   );
 }
 
-export function ToastProvider({ children }: { children: ReactNode }) {
+export interface ToastProviderProps {
+  children: ReactNode;
+  /**
+   * `"bottom-right"` (default) is this component's original, Figma-
+   * unevidenced position. `"bottom-center"` was added 2026-08-03 for
+   * `DataExtractionOnboardingPage`'s toast, which Figma (node `1565:3298`)
+   * places bottom-center — scoped to a prop rather than changing the
+   * shared default, since no other consumer of `ToastProvider` exists yet
+   * to have an opinion either way, but changing everyone's toast position
+   * as a side effect of one flow's Figma sync would be out of proportion.
+   */
+  position?: "bottom-right" | "bottom-center";
+}
+
+const positionClass: Record<NonNullable<ToastProviderProps["position"]>, string> = {
+  "bottom-right": "bottom-4 right-4",
+  "bottom-center": "bottom-[40px] left-1/2 -translate-x-1/2"
+};
+
+export function ToastProvider({ children, position = "bottom-right" }: ToastProviderProps) {
   const [toasts, setToasts] = useState<ToastItem[]>([]);
-  const dismiss = useCallback((id: string) => setToasts((t) => t.filter((x) => x.id !== id)), []);
+  // Exit animation needs the card to stay mounted for one more frame cycle
+  // after `dismiss` — React can't transition an unmount, so removal from
+  // `toasts` (below) is deferred by `--duration-moderate` while `removingIds`
+  // drives the exit classes on the still-mounted `ToastCard`.
+  const [removingIds, setRemovingIds] = useState<ReadonlySet<string>>(new Set());
+  const dismiss = useCallback((id: string) => {
+    setRemovingIds((prev) => new Set(prev).add(id));
+    setTimeout(() => {
+      setToasts((t) => t.filter((x) => x.id !== id));
+      setRemovingIds((prev) => {
+        const next = new Set(prev);
+        next.delete(id);
+        return next;
+      });
+    }, motion.duration.moderate.value);
+  }, []);
   const push = useCallback((toast: Omit<ToastItem, "id">) => {
     const id = crypto.randomUUID();
     setToasts((t) => [...t, { ...toast, id }]);
@@ -246,9 +387,9 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   return (
     <ToastContext.Provider value={{ toasts, push, dismiss }}>
       {children}
-      <div className={cn("fixed bottom-4 right-4 z-50 flex flex-col gap-2")}>
+      <div className={cn("fixed z-50 flex flex-col gap-2", positionClass[position])}>
         {toasts.map((t) => (
-          <ToastCard key={t.id} toast={t} onDismiss={dismiss} />
+          <ToastCard key={t.id} toast={t} onDismiss={dismiss} isRemoving={removingIds.has(t.id)} />
         ))}
       </div>
     </ToastContext.Provider>

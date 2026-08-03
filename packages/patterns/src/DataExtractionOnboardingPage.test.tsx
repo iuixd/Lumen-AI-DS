@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { act, render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { act, render, screen, fireEvent, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { DataExtractionOnboardingPage } from "./DataExtractionOnboardingPage";
 
@@ -25,12 +25,10 @@ describe("DataExtractionOnboardingPage", () => {
     await waitFor(() => expect(screen.getByRole("heading", { name: /Start by uploading/ })).toBeInTheDocument());
   });
 
-  it("groups selected files by category and advances to the progress step", () => {
+  it("renders selected files as a flat list and advances to the progress step", () => {
     render(<DataExtractionOnboardingPage initialStep="upload" />);
     selectFiles([makeFile("contract.pdf"), makeFile("signature.png", "image/png")]);
-    expect(screen.getByRole("heading", { name: "Group files by document type" })).toBeInTheDocument();
-    expect(screen.getByText("Documents")).toBeInTheDocument();
-    expect(screen.getByText("Images")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Uploading files" })).toBeInTheDocument();
     expect(screen.getByText("contract.pdf")).toBeInTheDocument();
     expect(screen.getByText("signature.png")).toBeInTheDocument();
   });
@@ -60,6 +58,8 @@ describe("DataExtractionOnboardingPage", () => {
 
       expect(screen.getByText("Uploaded")).toBeInTheDocument();
       expect(createProject).not.toBeDisabled();
+      expect(screen.getByRole("heading", { name: "Files uploaded successfully" })).toBeInTheDocument();
+      expect(screen.getByText("Review uploaded 1 files before creating project.")).toBeInTheDocument();
     });
 
     it("calls onProjectCreated with the selected files when Create Project is clicked", async () => {
@@ -77,6 +77,103 @@ describe("DataExtractionOnboardingPage", () => {
       });
       expect(onProjectCreated).toHaveBeenCalledWith([file]);
     });
+
+    it("keeps the 'Creating your project' screen visible even when onProjectCreated is omitted or resolves instantly", async () => {
+      render(<DataExtractionOnboardingPage initialStep="upload" />);
+      selectFiles([makeFile("contract.pdf")]);
+
+      await act(async () => {
+        await vi.advanceTimersByTimeAsync(3000);
+      });
+
+      await act(async () => {
+        fireEvent.click(screen.getByRole("button", { name: "Create Project" }));
+      });
+
+      // Without a minimum-visible-duration floor, createPhase would already
+      // have flipped past "creating" by this point since there's no real
+      // onProjectCreated to wait on — the exact bug reported.
+      expect(screen.getByRole("heading", { name: "Creating your project" })).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Creating Project…" })).toBeInTheDocument();
+
+      await act(async () => {
+        await vi.advanceTimersByTimeAsync(600);
+      });
+      // Stays on the "creating" screen after success too — there's no next
+      // screen for this pattern to move to, so reverting to the pre-click
+      // state would read as the click having silently failed.
+      expect(screen.getByRole("heading", { name: "Creating your project" })).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Creating Project…" })).toBeInTheDocument();
+    });
+
+    it("shows a recoverable error and 'Try again' when onProjectCreated rejects", async () => {
+      const onProjectCreated = vi.fn().mockRejectedValue(new Error("Network error"));
+      render(<DataExtractionOnboardingPage initialStep="upload" onProjectCreated={onProjectCreated} />);
+      selectFiles([makeFile("contract.pdf")]);
+
+      await act(async () => {
+        await vi.advanceTimersByTimeAsync(3000);
+      });
+      await act(async () => {
+        fireEvent.click(screen.getByRole("button", { name: "Create Project" }));
+      });
+
+      expect(screen.getByRole("alert")).toHaveTextContent("Network error");
+      expect(screen.getByRole("button", { name: "Try again" })).toBeInTheDocument();
+    });
+  });
+
+  it("asks for confirmation before removing a file, and keeps it if cancelled", async () => {
+    const user = userEvent.setup();
+    render(<DataExtractionOnboardingPage initialStep="upload" />);
+    selectFiles([makeFile("contract.pdf"), makeFile("signature.png", "image/png")]);
+
+    await user.click(screen.getByRole("button", { name: "Remove contract.pdf" }));
+    const dialog = screen.getByRole("dialog", { name: "Remove file?" });
+    expect(within(dialog).getByText("contract.pdf")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Keep file" }));
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(screen.getByText("contract.pdf")).toBeInTheDocument();
+    expect(screen.getByText("signature.png")).toBeInTheDocument();
+  });
+
+  it("removes a file once removal is confirmed, staying on the progress step if files remain", async () => {
+    const user = userEvent.setup();
+    render(<DataExtractionOnboardingPage initialStep="upload" />);
+    selectFiles([makeFile("contract.pdf"), makeFile("signature.png", "image/png")]);
+
+    await user.click(screen.getByRole("button", { name: "Remove contract.pdf" }));
+    await user.click(screen.getByRole("button", { name: "Remove file" }));
+
+    expect(screen.queryByText("contract.pdf")).not.toBeInTheDocument();
+    expect(screen.getByText("signature.png")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Uploading files" })).toBeInTheDocument();
+  });
+
+  it("returns to the upload step once the last file is removed", async () => {
+    const user = userEvent.setup();
+    render(<DataExtractionOnboardingPage initialStep="upload" />);
+    selectFiles([makeFile("contract.pdf")]);
+
+    await user.click(screen.getByRole("button", { name: "Remove contract.pdf" }));
+    await user.click(screen.getByRole("button", { name: "Remove file" }));
+
+    expect(screen.getByRole("heading", { name: /Start by uploading/ })).toBeInTheDocument();
+  });
+
+  it("shows the full-page drag mask even when the drag starts directly over the dropzone card, not just the page background", () => {
+    render(<DataExtractionOnboardingPage initialStep="upload" />);
+    const dropzone = screen.getByRole("button", { name: /drag and drop/i });
+    const dataTransfer = { types: ["Files"] };
+
+    expect(screen.getByTestId("drag-mask")).toHaveAttribute("aria-hidden", "true");
+
+    fireEvent.dragEnter(dropzone, { dataTransfer });
+    expect(screen.getByTestId("drag-mask")).toHaveAttribute("aria-hidden", "false");
+
+    fireEvent.dragLeave(dropzone, { dataTransfer });
+    expect(screen.getByTestId("drag-mask")).toHaveAttribute("aria-hidden", "true");
   });
 
   it("renders the upload and progress steps directly via initialStep, for preview/testing", () => {
