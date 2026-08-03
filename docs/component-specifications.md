@@ -504,14 +504,22 @@ iconStart renderable content (icon)
 iconEnd   renderable content (icon)
 ```
 
-Reference implementation — React (`@lumen/ui`, `packages/ui/src/primitives/Button.tsx`):
+Reference implementation — this interface is what `@lumen/web-components`'s
+`lumen-button` and `@lumen/angular`'s `LumenButtonComponent` currently
+implement (see their READMEs' property tables), **not** `@lumen/ui`'s
+current `Button` — see the "Synchronized across React, Web Components,
+Angular" note above this section for why. (This code sample previously
+cited `packages/ui/src/primitives/Button.tsx` as its source; that path no
+longer exists — `Button` moved to `packages/ui/src/components/button/
+Button.tsx` during the shadcn migration, and its real interface is shown in
+that file, not below.)
 
 ```ts
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps {
   variant?: "primary" | "accent" | "secondary" | "outline" | "ghost" | "destructive";
   size?: "sm" | "md" | "lg" | "xl";
-  iconStart?: React.ReactNode;
-  iconEnd?: React.ReactNode;
+  iconStart?: unknown; // icon slot/projection, framework-specific
+  iconEnd?: unknown;
 }
 ```
 
@@ -3550,9 +3558,10 @@ Recorded rather than silently closed — see `docs/figma-sync.md`:
 
 ## Known limitations
 
-- React only. `@lumen/web-components` and `@lumen/angular` are
-  Button-only proofs of concept; no Toast equivalent exists there — an
-  explicit deferral, not drift.
+- React only. `@lumen/web-components` and `@lumen/angular` ship 9
+  components each, but neither has grown a Toast/notification-level
+  composite yet — no equivalent exists there, an explicit deferral, not
+  drift.
 - No visual-regression coverage; the repo has no such tooling configured.
 - Not verified with a real screen reader.
 
@@ -3752,8 +3761,9 @@ the native `type="button"` default.
 
 ## Known limitations
 
-- React only. No `@lumen/web-components`/`@lumen/angular` equivalent —
-  both packages are Button-only proofs of concept.
+- React only. No `@lumen/web-components`/`@lumen/angular` equivalent — an
+  icon-only button variant isn't among either package's 9 shipped
+  components yet.
 - No Loading state (not evidenced).
 - No visual-regression coverage; the repo has no such tooling configured.
 
@@ -4444,8 +4454,8 @@ single `<SideNav>` instance.
 ## Known limitations
 
 - No cross-framework equivalent — `@lumen/web-components`/`@lumen/angular`
-  have no `AppShell`/navigation component yet (both Button-only proofs of
-  concept).
+  have no `AppShell`/navigation component among their 9 shipped components
+  yet.
 - No persisted collapse state across reloads — `expanded` is fully
   controlled by the consumer (e.g. `AppShell`'s `variant` prop);
   persistence, if wanted, is the consumer's responsibility.

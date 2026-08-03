@@ -620,10 +620,12 @@ Read that file's own `_comment` before relying on any value. As of 2026-08-02,
 export publishes a real `Motion/Duration` primitive scale); `slow` was
 corrected 400ms→300ms to match, and a `slower` (500ms) step was added.
 `skeleton-pulse` remains separately Figma-sourced (exact keyframe data from
-node `1174:1355` via `get_motion_context`). Every easing curve (Standard/
-Enter/Exit/Emphasized) still has no Figma source — Figma publishes no Easing
-variable collection — and remains a conventional placeholder marked
-provisional. The file also carries a `stagger` group and an `opacity` group
+node `1174:1355` via `get_motion_context`). As of the same 2026-08-02
+export, three of the four easing curves are also now Figma-evidenced:
+`standard`/`enter`/`exit` are exact matches for Figma's own `ease-in-out`/
+`ease-out`/`ease-in` (kept under their existing, already-consumed names).
+Only `emphasized` remains genuinely provisional — no matching Figma curve
+has been published for it. The file also carries a `stagger` group and an `opacity` group
 beyond the four-and-four listed above, and the token build emits the
 `lumen-skeleton-pulse` keyframes plus its `prefers-reduced-motion` fallback
 into `dist/css/variables.css` alongside the variables. These tokens carry no
@@ -754,7 +756,7 @@ Shared interaction roles are:
 | ----------------------- | ----------------------------------- | --------- | --------- |
 | Focus ring              | `--color-button-focus-ring`         | `#E599B1` | `#E599B1` |
 | Disabled background     | `--color-button-disabled-bg`        | `#DFDFDF` | `#231C24` |
-| Disabled action content | `--color-button-disabled-on-action` | `#7F7F7F` | `#7B777C` |
+| Disabled action content | `--color-button-disabled-on-action` | `#7F7F7F` | `#A7A4A7` |
 
 The older `--color-button-disabled-background`,
 `--color-button-disabled-border`, and `--color-button-disabled-text` roles

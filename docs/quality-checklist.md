@@ -159,8 +159,12 @@ Complete this section for each review.
 ## Naming
 
 - [ ] Figma tokens use slash-separated names.
-- [ ] Code tokens use the `--lumen-` prefix.
-- [ ] CSS custom properties use kebab-case.
+- [ ] CSS custom properties use kebab-case, unprefixed (e.g. `--spacing-16`,
+      `--color-button-primary-bg`) — matches this repo's actual generated
+      output; a `--lumen-` prefix was listed here as a requirement in an
+      earlier draft of this checklist but was never how tokens are actually
+      named (see `docs/design-tokens.md` §9). Do not fail a review over a
+      missing `--lumen-` prefix.
 - [ ] Token names describe semantics, not visual appearance.
 - [ ] Hex values do not appear in names.
 - [ ] Temporary names such as `New Color` are removed.
