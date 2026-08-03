@@ -82,7 +82,7 @@ The canonical design foundation is **Lumen AI Design System**, page **Design Tok
 ## Prerequisites
 
 - Node.js 22
-- pnpm 11.11.0, selected through Corepack
+- pnpm 11.19.0, selected through Corepack
 - React 18 or later when consuming `@lumen/ui` or `@lumen/patterns`
 
 Confirm the repository package-manager version:
@@ -91,29 +91,29 @@ Confirm the repository package-manager version:
 corepack pnpm --version
 ```
 
-The result must be `11.11.0`. Avoid using a globally installed incompatible pnpm version.
+The result must be `11.19.0`. Avoid using a globally installed incompatible pnpm version.
 
 Every root script that runs a nested `pnpm --filter`/`pnpm dlx` command (including
 `create:react`) invokes that nested call through `corepack` explicitly, so it resolves
-the pinned `11.11.0` regardless of what pnpm install, if any, is also on `PATH` —
+the pinned `11.19.0` regardless of what pnpm install, if any, is also on `PATH` —
 running any root script as `corepack pnpm <script>` is always safe.
 
 ### If `corepack pnpm --version` reports the wrong version
 
 Corepack auto-updates its own cached "known good" release for a package-manager major
 line by default. If that cache has moved ahead of this repository's exact pin, `corepack
-pnpm` can resolve the newer cached version instead of `11.11.0`, and pnpm refuses to
+pnpm` can resolve the newer cached version instead of `11.19.0`, and pnpm refuses to
 continue with an error like:
 
 ```text
-This project is configured to use 11.11.0 of pnpm. Your current pnpm is v11.12.0.
+This project is configured to use 11.19.0 of pnpm. Your current pnpm is v11.20.0.
 Corepack invoked pnpm with this version, and pnpm does not switch versions when
 running under corepack.
 ```
 
 This is a local Corepack resolution issue, not a problem with the repository's
 configuration. Try the following, in order, re-running `corepack pnpm --version` after
-each until it reports `11.11.0`:
+each until it reports `11.19.0`:
 
 1. Fetch and install the exact pinned version for local use:
 

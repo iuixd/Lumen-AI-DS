@@ -888,8 +888,9 @@ Page templates
 Automated releases
 Adoption analytics
 Advanced AI governance patterns
-First additional framework package (Web Components proof of concept)
-Angular and Vue framework packages
+Vue framework package (Web Components and Angular already shipped, 9
+  components each — see Phase 13 — this list predates that and was never
+  updated; only Vue remains not-yet-started)
 ```
 
 ---
