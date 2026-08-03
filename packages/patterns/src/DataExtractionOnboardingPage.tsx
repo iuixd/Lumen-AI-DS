@@ -5,21 +5,26 @@ import {
   LumenLogo,
   FileUploadDropzone,
   FileUploadProgressList,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  Button,
   cn,
-  type FileUploadGroupData,
   type FileUploadFile
 } from "@lumen/ui";
 import { EnterpriseLoginPage, type EnterpriseLoginPageProps } from "./EnterpriseLoginPage";
 
 type Step = "login" | "upload" | "progress";
+type CreateProjectPhase = "idle" | "creating" | "created" | "failed";
 
 export interface DataExtractionOnboardingPageProps {
   /** Passed straight through to the login screen (everything except `onComplete`/`initialScreen`, which this pattern owns). */
   loginProps?: Omit<EnterpriseLoginPageProps, "onComplete" | "initialScreen">;
-  /** Called once every selected file has finished (simulated) uploading and "Create Project" is clicked. Given the real `File[]` that were dropped/selected. */
+  /** Called once every selected file has finished (simulated) uploading and "Create Project" is clicked. Given the real `File[]` that were dropped/selected. Rejecting the returned promise surfaces the "creation failed" recovery state. */
   onProjectCreated?: (files: File[]) => void | Promise<void>;
-  /** Where to categorize a file for the grouped progress view. Defaults to a simple Documents/Images/Other split by extension. */
-  categorizeFile?: (file: File) => string;
   /** Preview/testing entry point — which step to render first. Defaults to `"login"`; a real integration should always start there. */
   initialStep?: Step;
   className?: string;
@@ -31,14 +36,36 @@ function formatFileSize(bytes: number): string {
   return `${(bytes / (1024 * 1024)).toFixed(1)}mb`;
 }
 
-function defaultCategorize(file: File): string {
-  const ext = file.name.split(".").pop()?.toLowerCase() ?? "";
-  if (["png", "jpg", "jpeg", "gif", "webp", "svg"].includes(ext)) return "Images";
-  if (["pdf", "doc", "docx", "txt", "md", "csv"].includes(ext)) return "Documents";
-  return "Other files";
+function fileIdOf(file: File): string {
+  return `${file.name}-${file.size}-${file.lastModified}`;
 }
 
-/** Fades and slides its children in whenever `stepKey` changes — the transition between onboarding steps. */
+function wait(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/**
+ * Floor on how long the "Creating your project" screen stays up. Without
+ * it, an `onProjectCreated` that resolves near-instantly (or is omitted
+ * entirely, e.g. while wiring this pattern up before a real backend
+ * exists) settles within the same microtask flush as the click — before
+ * the browser ever paints the loading state, so clicking "Create Project"
+ * visibly does nothing. `Promise.all` still waits for the real duration if
+ * `onProjectCreated` takes longer than this floor. No Figma/spec source
+ * for the exact value; picked to comfortably clear a single paint.
+ */
+const MIN_CREATING_DURATION_MS = 600;
+
+/**
+ * Fades and slides its children in whenever `stepKey` changes — the
+ * transition between onboarding steps. 300ms/12px-up matches the
+ * interaction spec's card-entrance ask exactly (`--duration-slow`).
+ * Switched from `--easing-emphasized` (provisional, no Figma source) to
+ * `--easing-enter` (a real, Figma-evidenced ease-out curve) 2026-08-03,
+ * since the spec explicitly asks for "ease-out only, no bounce" — this
+ * affects all three step transitions (login→upload, upload→progress,
+ * and re-entering upload on Cancel), not just new work.
+ */
 function StepTransition({ stepKey, children }: { stepKey: string; children: ReactNode }) {
   const [entered, setEntered] = useState(false);
   useEffect(() => {
@@ -49,8 +76,8 @@ function StepTransition({ stepKey, children }: { stepKey: string; children: Reac
   return (
     <div
       className={cn(
-        "transition-all duration-[var(--duration-slow)] ease-[var(--easing-emphasized)] motion-reduce:transition-none",
-        entered ? "translate-y-0 opacity-100" : "translate-y-[var(--spacing-8)] opacity-0"
+        "transition-all duration-[var(--duration-slow)] ease-[var(--easing-enter)] motion-reduce:transition-none",
+        entered ? "translate-y-0 opacity-100" : "translate-y-[var(--spacing-12)] opacity-0"
       )}
     >
       {children}
@@ -58,22 +85,53 @@ function StepTransition({ stepKey, children }: { stepKey: string; children: Reac
   );
 }
 
-/** Full-viewport "drop your files anywhere" overlay, shown while the user drags a file over the page during the upload step. */
-function DragMask({ visible }: { visible: boolean }) {
+/**
+ * Full-viewport "drop your files anywhere" overlay, shown while the user
+ * drags a file over the page during the upload step. Copy/color/no-icon
+ * are exact Figma matches (node `1565:3375`) — Figma has no icon in this
+ * state at all, so none is added here, even though the interaction spec
+ * asks for one; adding Figma-unsourced visual content would contradict
+ * the "match Figma exactly" instruction this redesign is built around.
+ *
+ * Reworked 2026-08-03 from a flat opacity crossfade into a scale-from-
+ * center reveal (`--duration-slow`/`--easing-enter`, ~300ms, within the
+ * spec's 250-350ms band) with its own inner text scale+fade (96%→100%,
+ * `--duration-moderate`=200ms, 50ms delay) — a simplified equivalent of
+ * "expand from the upload area," since a literal position-tracked/circular
+ * reveal has no existing primitive in this codebase to build on and would
+ * be a materially larger, separately-scoped engineering effort.
+ * `pulsing` briefly brightens the surface on drop, before the step
+ * transition takes over — the "drop confirmation" cue from the spec.
+ */
+function DragMask({ visible, pulsing }: { visible: boolean; pulsing?: boolean }) {
   return (
     <div
       aria-hidden={!visible}
-      className={cn(
-        "fixed inset-0 z-50 flex flex-col items-center justify-center gap-[var(--spacing-16)] bg-[var(--color-deep-purple-700)] px-[var(--spacing-32)] text-center transition-opacity duration-[var(--duration-moderate)] ease-[var(--easing-standard)] motion-reduce:transition-none",
-        visible ? "pointer-events-none opacity-100" : "pointer-events-none opacity-0"
-      )}
+      data-testid="drag-mask"
+      className="pointer-events-none fixed inset-0 z-50"
     >
-      <p className="m-0 font-editorial text-display-sm font-semibold text-[var(--color-neutral-white)]">
-        Drop your files like there's no limit!
-      </p>
-      <p className="m-0 text-body-lg font-medium text-[var(--color-deep-purple-200)]">
-        Upload files and folders by dropping them in this window
-      </p>
+      <div
+        className={cn(
+          "absolute inset-0 flex flex-col items-center justify-center gap-[var(--spacing-16)] bg-[var(--color-deep-purple-700)] px-[var(--spacing-32)] text-center transition-[transform,filter] duration-[var(--duration-slow)] ease-[var(--easing-enter)] motion-reduce:transition-none",
+          visible ? "scale-100" : "scale-0",
+          pulsing && "brightness-125"
+        )}
+        style={{ transformOrigin: "center" }}
+      >
+        <div
+          className={cn(
+            "flex flex-col items-center gap-[var(--spacing-16)] transition-all delay-[50ms] duration-[var(--duration-moderate)] ease-[var(--easing-enter)] motion-reduce:transition-none motion-reduce:delay-0",
+            visible ? "scale-100 opacity-100" : "scale-[0.96] opacity-0"
+          )}
+        >
+          <p className="m-0 font-editorial text-display-sm font-semibold text-[var(--color-neutral-white)]">
+            Drop your files like there's no limit!
+          </p>
+          <p className="m-0 text-body-lg font-medium text-[var(--color-deep-purple-200)]">
+            Upload files and folders by dropping them in this window
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
@@ -101,14 +159,22 @@ function OnboardingHeader({ logo, userName }: { logo: ReactNode; userName?: stri
 function UploadStep({
   onFilesSelected,
   logo,
-  userName
+  userName,
+  dimmed
 }: {
   onFilesSelected: (files: File[]) => void;
   logo: ReactNode;
   userName?: string;
+  /** Fades the page content to 15% while `DragMask` is visible on top — the spec's "fade existing interface" cue. */
+  dimmed?: boolean;
 }) {
   return (
-    <div className="flex min-h-screen flex-col bg-[var(--color-background-app)]">
+    <div
+      className={cn(
+        "flex min-h-screen flex-col bg-[var(--color-background-app)] transition-opacity duration-[var(--duration-slow)] ease-[var(--easing-enter)] motion-reduce:transition-none",
+        dimmed && "opacity-[0.15]"
+      )}
+    >
       <OnboardingHeader logo={logo} userName={userName} />
       <div className="flex flex-1 items-center justify-center px-[var(--spacing-32)] pb-[var(--spacing-32)]">
         <div className="w-full max-w-[500px]">
@@ -120,36 +186,40 @@ function UploadStep({
 }
 
 function ProgressStep({
-  groups,
+  files,
   onRemoveFile,
   onCancel,
   primaryActionLoading,
   primaryActionDisabled,
   onPrimaryAction,
   logo,
-  userName
+  userName,
+  createError
 }: {
-  groups: FileUploadGroupData[];
-  onRemoveFile: (groupId: string, fileId: string) => void;
+  files: FileUploadFile[];
+  onRemoveFile: (fileId: string) => void;
   onCancel: () => void;
   primaryActionLoading: boolean;
   primaryActionDisabled: boolean;
   onPrimaryAction: () => void;
   logo: ReactNode;
   userName?: string;
+  createError?: string | null;
 }) {
   return (
     <div className="flex min-h-screen flex-col bg-[var(--color-background-app)]">
       <OnboardingHeader logo={logo} userName={userName} />
-      <div className="flex flex-1 items-start justify-center px-[var(--spacing-32)] pb-[var(--spacing-32)]">
+      <div className="flex flex-1 items-center justify-center px-[var(--spacing-32)] pb-[var(--spacing-32)]">
         <div className="w-full max-w-[538px] rounded-[var(--radius-2xl)] border border-[var(--color-border-default)] bg-[var(--color-background-default)] p-[var(--spacing-40)]">
           <FileUploadProgressList
-            groups={groups}
+            files={files}
             onRemoveFile={onRemoveFile}
             onCancel={onCancel}
             primaryActionLoading={primaryActionLoading}
             primaryActionDisabled={primaryActionDisabled}
             onPrimaryAction={onPrimaryAction}
+            primaryActionErrorMessage={createError ?? undefined}
+            primaryActionLabel={createError ? "Try again" : undefined}
           />
         </div>
       </div>
@@ -160,13 +230,15 @@ function ProgressStep({
 function OnboardingFlow({
   loginProps,
   onProjectCreated,
-  categorizeFile = defaultCategorize,
   initialStep = "login"
 }: Omit<DataExtractionOnboardingPageProps, "className">) {
   const [step, setStep] = useState<Step>(initialStep);
-  const [groups, setGroups] = useState<FileUploadGroupData[]>([]);
-  const [creatingProject, setCreatingProject] = useState(false);
+  const [files, setFiles] = useState<FileUploadFile[]>([]);
+  const [createPhase, setCreatePhase] = useState<CreateProjectPhase>("idle");
+  const [createError, setCreateError] = useState<string | null>(null);
   const [isDraggingPage, setIsDraggingPage] = useState(false);
+  const [isDropping, setIsDropping] = useState(false);
+  const [confirmRemoveId, setConfirmRemoveId] = useState<string | null>(null);
   const pageDragCounter = useRef(0);
   const selectedFilesRef = useRef<File[]>([]);
   const progressTimerRef = useRef<ReturnType<typeof setInterval>>();
@@ -175,37 +247,26 @@ function OnboardingFlow({
 
   const logo = <LumenLogo className="h-[22px] w-[22px] shrink-0" title="Lumen" />;
 
-  const handleFilesSelected = useCallback(
-    (files: File[]) => {
-      if (files.length === 0) return;
-      selectedFilesRef.current = [...selectedFilesRef.current, ...files];
-      toastedRef.current = false;
+  const handleFilesSelected = useCallback((newFiles: File[]) => {
+    if (newFiles.length === 0) return;
+    selectedFilesRef.current = [...selectedFilesRef.current, ...newFiles];
+    toastedRef.current = false;
 
-      setGroups((prev) => {
-        const byName = new Map(prev.map((g) => [g.name, g]));
-        for (const file of files) {
-          const category = categorizeFile(file);
-          const existing = byName.get(category);
-          const entry: FileUploadFile = {
-            id: `${category}-${file.name}-${file.size}-${file.lastModified}`,
-            name: file.name,
-            sizeLabel: formatFileSize(file.size),
-            status: "uploading",
-            progress: 0
-          };
-          if (existing) {
-            existing.files = [...existing.files, entry];
-          } else {
-            byName.set(category, { id: category, name: category, files: [entry] });
-          }
-        }
-        return Array.from(byName.values());
-      });
+    setFiles((prev) => [
+      ...prev,
+      ...newFiles.map(
+        (file): FileUploadFile => ({
+          id: fileIdOf(file),
+          name: file.name,
+          sizeLabel: formatFileSize(file.size),
+          status: "uploading",
+          progress: 0
+        })
+      )
+    ]);
 
-      setStep("progress");
-    },
-    [categorizeFile]
-  );
+    setStep("progress");
+  }, []);
 
   // Simulated upload progress — advances every file that isn't done yet by a
   // random increment, so files finish at slightly different times rather
@@ -213,23 +274,21 @@ function OnboardingFlow({
   useEffect(() => {
     if (step !== "progress") return;
     progressTimerRef.current = setInterval(() => {
-      setGroups((prev) =>
-        prev.map((group) => ({
-          ...group,
-          files: group.files.map((file) =>
-            file.status === "uploading"
-              ? file.progress! + 12 + Math.random() * 18 >= 100
-                ? { ...file, status: "uploaded" as const, progress: 100 }
-                : { ...file, progress: file.progress! + 12 + Math.random() * 18 }
-              : file
-          )
-        }))
+      setFiles((prev) =>
+        prev.map((file) =>
+          file.status === "uploading"
+            ? file.progress! + 12 + Math.random() * 18 >= 100
+              ? { ...file, status: "uploaded" as const, progress: 100 }
+              : { ...file, progress: file.progress! + 12 + Math.random() * 18 }
+            : file
+        )
       );
     }, 220);
     return () => clearInterval(progressTimerRef.current);
   }, [step]);
 
-  const allUploaded = groups.length > 0 && groups.every((g) => g.files.every((f) => f.status === "uploaded"));
+  const allUploaded = files.length > 0 && files.every((f) => f.status === "uploaded");
+  const fileToRemove = files.find((f) => f.id === confirmRemoveId);
 
   useEffect(() => {
     if (allUploaded && !toastedRef.current) {
@@ -238,23 +297,57 @@ function OnboardingFlow({
     }
   }, [allUploaded, push]);
 
-  function handleRemoveFile(groupId: string, fileId: string) {
-    setGroups((prev) =>
-      prev
-        .map((g) => (g.id === groupId ? { ...g, files: g.files.filter((f) => f.id !== fileId) } : g))
-        .filter((g) => g.files.length > 0)
+  function handleRequestRemoveFile(fileId: string) {
+    setConfirmRemoveId(fileId);
+  }
+
+  function handleCancelRemoveFile() {
+    setConfirmRemoveId(null);
+  }
+
+  function handleConfirmRemoveFile() {
+    if (!confirmRemoveId) return;
+    const idToRemove = confirmRemoveId;
+    setConfirmRemoveId(null);
+
+    const remaining = files.filter((f) => f.id !== idToRemove);
+    setFiles(remaining);
+    selectedFilesRef.current = selectedFilesRef.current.filter(
+      (file) => fileIdOf(file) !== idToRemove
     );
+
+    // Deleting the last file leaves an empty, action-less progress card —
+    // send the user back to the upload step instead, per direct user bug
+    // report ("when user deletes the final file to make empty should take
+    // user back to the upload screen").
+    if (remaining.length === 0) {
+      setCreatePhase("idle");
+      setCreateError(null);
+      toastedRef.current = false;
+      setStep("upload");
+    }
   }
 
   async function handleCreateProject() {
-    setCreatingProject(true);
-    await onProjectCreated?.(selectedFilesRef.current);
-    setCreatingProject(false);
+    setCreateError(null);
+    setCreatePhase("creating");
+    try {
+      await Promise.all([
+        onProjectCreated?.(selectedFilesRef.current),
+        wait(MIN_CREATING_DURATION_MS)
+      ]);
+      setCreatePhase("created");
+    } catch (err) {
+      setCreatePhase("failed");
+      setCreateError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    }
   }
 
   function handleCancelUpload() {
-    setGroups([]);
+    setFiles([]);
     selectedFilesRef.current = [];
+    setCreatePhase("idle");
+    setCreateError(null);
     setStep("upload");
   }
 
@@ -286,6 +379,10 @@ function OnboardingFlow({
       if (!hasFiles(e)) return;
       e.preventDefault();
       pageDragCounter.current = 0;
+      // Brief "drop acknowledged" pulse (spec: 150ms) before the mask
+      // reverses and StepTransition crossfades in the progress card.
+      setIsDropping(true);
+      setTimeout(() => setIsDropping(false), 150);
       setIsDraggingPage(false);
       const files = e.dataTransfer?.files;
       if (files && files.length > 0) handleFilesSelected(Array.from(files));
@@ -311,24 +408,58 @@ function OnboardingFlow({
       )}
       {step === "upload" && (
         <StepTransition stepKey="upload">
-          <UploadStep onFilesSelected={handleFilesSelected} logo={logo} userName={loginProps?.userName} />
+          <UploadStep
+            onFilesSelected={handleFilesSelected}
+            logo={logo}
+            userName={loginProps?.userName}
+            dimmed={isDraggingPage}
+          />
         </StepTransition>
       )}
       {step === "progress" && (
         <StepTransition stepKey="progress">
           <ProgressStep
-            groups={groups}
-            onRemoveFile={handleRemoveFile}
+            files={files}
+            onRemoveFile={handleRequestRemoveFile}
             onCancel={handleCancelUpload}
-            primaryActionLoading={creatingProject}
+            primaryActionLoading={createPhase === "creating" || createPhase === "created"}
             primaryActionDisabled={!allUploaded}
             onPrimaryAction={handleCreateProject}
             logo={logo}
             userName={loginProps?.userName}
+            createError={createPhase === "failed" ? createError : null}
           />
         </StepTransition>
       )}
-      <DragMask visible={step === "upload" && isDraggingPage} />
+      <DragMask visible={step === "upload" && isDraggingPage} pulsing={isDropping} />
+      <Dialog
+        open={fileToRemove !== undefined}
+        onOpenChange={(open) => {
+          if (!open) handleCancelRemoveFile();
+        }}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Remove file?</DialogTitle>
+            <DialogDescription>
+              Remove <strong>{fileToRemove?.name}</strong> from this upload? This can&apos;t be
+              undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            {/* Not labeled "Cancel" — the progress step's own footer already has
+                a "Cancel" button (cancels the whole upload) mounted behind this
+                dialog, and a duplicate accessible name would be ambiguous for
+                screen-reader users navigating by name, not just in tests. */}
+            <Button type="button" variant="ghost" onClick={handleCancelRemoveFile}>
+              Keep file
+            </Button>
+            <Button type="button" variant="destructive" onClick={handleConfirmRemoveFile}>
+              Remove file
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
@@ -361,6 +492,58 @@ function OnboardingFlow({
  * client-side timer alone, which is why this component's docs call it a
  * demonstration of the *flow*, not a working uploader.
  *
+ * Corrected 2026-08-03 (direct user bug report: removing an uploaded file
+ * had no confirmation, and deleting the last remaining file left the
+ * progress card empty with no way back to the upload step): removing a
+ * file now asks for confirmation first — no Figma source exists for this
+ * dialog (the interaction spec covers removal only as a raw "remove"
+ * affordance, never a confirmation step). Confirming removal that empties
+ * the list now also resets `createPhase`/`createError`/the toast-shown
+ * flag and returns `step` to `"upload"`, the same reset `handleCancelUpload`
+ * already performs.
+ *
+ * Corrected again same-day (direct user report: "the modal overlay should
+ * use a black backdrop with a blur effect... users must not be able to
+ * interact with or scroll the content behind the overlay"): this
+ * confirmation dialog was first built on `@lumen/ui`'s lightweight `Modal`
+ * composite, which its own docblock already flags as "focus-trap-free... swap
+ * in Radix Dialog if strict focus trapping / portal behavior is required" —
+ * exactly this request. Rather than hand-rolling scroll-lock and focus-trap
+ * logic into `Modal` (duplicating what Radix already solves correctly, and
+ * what this repo's `Drawer`/`Sheet` already rely on for the same reason),
+ * switched to the already-existing, Radix-backed `Dialog` — its `modal`
+ * default (`true`) locks body scroll and traps focus/marks the rest of the
+ * page inert while open, for free. `Modal` itself is unchanged and still
+ * exported (had zero other consumers in this repo either way); the overlay
+ * color/blur fix lives in `Dialog`'s own `DialogOverlay`
+ * (`components/internal/dialog.tsx`), so it also applies to `CommandDialog`,
+ * `Dialog`'s only other consumer.
+ *
+ * Corrected again same-day (direct user report, with a reference
+ * screenshot of the intended "Creating your project" screen: "Clicking on
+ * Create Project should take user to the Creating Project screen"):
+ * `handleCreateProject` awaited `onProjectCreated` directly, so a call that
+ * resolves near-instantly (or is omitted, e.g. while wiring this pattern up
+ * before a real backend exists — the likely case behind this report) let
+ * `createPhase` flip `"creating"` -> `"created"` within the same microtask
+ * flush as the click, before the browser ever painted the loading screen —
+ * clicking "Create Project" visibly did nothing. See `MIN_CREATING_DURATION_MS`
+ * for the fix (a floor on how long "creating" stays up, via `Promise.all`).
+ *
+ * Corrected again same-day (direct user request: "Once user click the
+ * Create Project stay on that screen please"): `primaryActionLoading` was
+ * `createPhase === "creating"` only, so once `onProjectCreated` resolved
+ * and `createPhase` became `"created"`, the button re-enabled and the
+ * heading reverted to "Files uploaded successfully" — since this pattern
+ * has no next project-details/overview screen to move to (an explicit,
+ * already-documented scope boundary — `onProjectCreated` is the
+ * integration point, the parent app navigates away), reverting just read
+ * as the click having failed/undone itself. Now `primaryActionLoading` is
+ * true for both `"creating"` and `"created"`, so the flow stays on
+ * "Creating your project" once clicked, until the parent either navigates
+ * away (unmounting this component) or `onProjectCreated` rejects (the
+ * existing `"failed"` recovery path is unaffected).
+ *
  * Corrected 2026-07-31 (direct user request to standardize this pattern's
  * tokens alongside `EnterpriseLoginPage`'s own extensive same-day
  * correction pass — see that component's docblock for the full trail this
@@ -387,7 +570,7 @@ function OnboardingFlow({
  */
 export function DataExtractionOnboardingPage(props: DataExtractionOnboardingPageProps) {
   return (
-    <ToastProvider>
+    <ToastProvider position="bottom-center">
       <div className={props.className}>
         <OnboardingFlow {...props} />
       </div>

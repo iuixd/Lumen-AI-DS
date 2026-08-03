@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "The full, click-through data-extraction onboarding journey: enterprise login → file upload (click-to-browse, drag-and-drop onto the card, or drop anywhere on the page) → grouped per-file upload progress → Create Project. Sourced from the \"Upload Component\" Figma section (node `1524:4201`). Every step is real, functional interaction — try the passkey button (auto-succeeds in this demo), dropping a file anywhere on the page during the upload step, and Create Project once every file finishes."
+          "The full, click-through data-extraction onboarding journey: enterprise login → file upload (click-to-browse, drag-and-drop onto the card, or drop anywhere on the page) → flat per-file upload progress → Create Project. Sourced from the \"Upload Component\" Figma section (fileKey `GJBYRm6ySR7XIECFcHMgy2`, nodes `1565:3097`/`1565:3375`/`1565:3140`/`1565:3298`/`1565:3337`). Every step is real, functional interaction — try the passkey button (auto-succeeds in this demo), dropping a file anywhere on the page during the upload step, and Create Project once every file finishes."
       }
     }
   },
