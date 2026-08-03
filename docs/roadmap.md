@@ -1226,6 +1226,29 @@ targeting Angular 20 LTS (not latest 22 — see package README for the
 TypeScript-version reason). Vue framework package not yet started.
 The standard Button contract was replaced across React, Web Components, and
 Angular by the final Figma collection at node 1027:3733 on 2026-07-20.
+
+Since then, both packages grew well past "Button only": AIButton, SplitButton,
+FilterChip, and ChoiceChip shipped in all three frameworks 2026-07-14;
+SegmentedControl shipped 2026-07-16; KPICard, ThemeToggle, and Footer shipped
+2026-07-20. `@lumen/web-components` and `@lumen/angular` each now ship 9
+components — see `docs/component-architecture.md` §13 for the full
+Figma/React/WC/Angular mapping. This expansion was never recorded on this
+roadmap page at the time (corrected here during an August 2026
+documentation-accuracy audit; no code changed by that audit).
+
+**New, unreconciled discrepancy found by that same audit**: `@lumen/ui`'s
+`Button` was separately rewritten on a shadcn-sourced base (see
+`docs/shadcn-integration.md`) after the 2026-07-20 Button reconciliation
+below — new variant names (`default|destructive|outline|secondary|ghost|
+link|neutral`, no `primary`/`accent`), a new size scale (`default|sm|lg|
+icon`, not `sm|md|lg|xl`), no `iconStart`/`iconEnd` props, native `disabled`
+instead of `aria-disabled`. `@lumen/web-components`'s `lumen-button` and
+`@lumen/angular`'s `LumenButtonComponent` still implement the contract from
+the 2026-07-20 reconciliation and have not been migrated — this is exactly
+the failure mode Phase 13 exists to catch, now recurring for the same
+component. Not yet scheduled as a deliverable below; needs a decision on
+whether to migrate the two framework packages' Button to match, or keep them
+pinned to the pre-shadcn contract deliberately.
 ```
 
 ## Sequencing
@@ -1235,13 +1258,14 @@ This phase depends on Phases 0–8 (governance, foundations, primitive/composite
 ## Deliverables
 
 - [x] Decouple `docs/component-architecture.md` and `docs/component-specifications.md` from React so the component contract is framework-neutral and React is documented as the current reference implementation, not the definition.
-- [x] Build one additional framework package as a proof of concept: Web Components (chosen over Angular/Vue first because custom elements are natively consumable from both, reducing the total number of adapters ultimately needed, and validate the contract without committing to one framework's idioms). Shipped as `@lumen/web-components`, Button only, built with Lit. See `packages/web-components/README.md`.
+- [x] Build one additional framework package as a proof of concept: Web Components (chosen over Angular/Vue first because custom elements are natively consumable from both, reducing the total number of adapters ultimately needed, and validate the contract without committing to one framework's idioms). Shipped as `@lumen/web-components`, Button only at the time, built with Lit; grown to 9 components since — see "Status" above and `packages/web-components/README.md`.
 - [x] Attempt to validate that the Web Components package can implement the existing Button specification (§5 of `docs/component-specifications.md`) without requiring spec changes — **result: it could not**, because the spec itself doesn't match the real React implementation. See Findings below.
 - [ ] Decide Storybook strategy for multiple frameworks (separate Storybook instance per framework package vs. one canonical live-example framework with contract-only docs for the rest). Deliberately deferred — out of scope for a one-component proof of concept.
 - [ ] Update `docs/versioning-and-releases.md` so each framework package versions against a shared contract version rather than independently.
-- [x] Build the Angular framework package (Button only, proof of concept). Shipped as `@lumen/angular`, standalone components, Angular 20 LTS. See `packages/angular/README.md` — including a documented JIT/Vitest testing constraint that shaped an implementation choice (classic `@Input()` decorators, not signal `input()`).
+- [x] Build the Angular framework package (Button only at the time, proof of concept). Shipped as `@lumen/angular`, standalone components, Angular 20 LTS; grown to 9 components since — see "Status" above and `packages/angular/README.md`, including a documented JIT/Vitest testing constraint that shaped an implementation choice (classic `@Input()` decorators, not signal `input()`).
 - [ ] Build the Vue framework package.
 - [ ] Add a "Framework" column/section to every component specification's Code mapping once more than one framework package exists.
+- [ ] Reconcile the post-2026-07-20 Button contract drift: `@lumen/ui`'s `Button` was rewritten on a shadcn-sourced base with new variant/size names and no `iconStart`/`iconEnd`, but `@lumen/web-components`/`@lumen/angular`'s Button implementations were not updated to match — see the new Status paragraph above and `docs/component-architecture.md` §13's Button row.
 - [x] Reconcile `docs/component-specifications.md` §5 (Button) and `docs/component-architecture.md` §7 against the real `Button.tsx`/`Button.stories.tsx`/`Button.test.tsx` — done 2026-07-12, see Findings.
 
 ## Findings

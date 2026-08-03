@@ -23,6 +23,25 @@ Centers itself on `--color-background-subtle`.
 **DashboardPage** — KPI card grid (`Grid` of `Card`) plus a slot for charts or
 activity feed.
 
+**EnterpriseLoginPage** — multi-step enterprise sign-in flow: a marketing
+hero panel alongside SSO/passkey/email sign-in, MFA code entry, and a
+"Signed in" confirmation screen. Use for a B2B product's primary
+authentication entry point where SSO/passkey options and an org-detection
+hint (recognizing a work-email domain) matter; for a simple single-form
+sign-in/sign-up, use `AuthForm` instead. Fires `onComplete` when its
+internal state machine reaches "Signed in" — the integration point for
+routing into the rest of your app.
+
+**DataExtractionOnboardingPage** — a full, functional, click-through
+onboarding journey composing `EnterpriseLoginPage` with a file-upload
+dropzone, animated per-file upload progress, and a "Create Project" action,
+each step transitioning into the next. Use as the entry flow for any
+product where a user signs in and then uploads a batch of files before
+their workspace/project exists yet. `onProjectCreated` is the integration
+point (called with the real `File[]` once every file finishes and "Create
+Project" is clicked) — like every pattern in this package, upload progress
+itself is client-side-simulated, not a real network call.
+
 ## Required states for every list/detail screen
 
 Every screen that renders a collection or awaits a network response must

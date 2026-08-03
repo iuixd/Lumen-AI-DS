@@ -1,7 +1,7 @@
 {
   "name": "@lumen/web-components",
   "version": "0.1.0",
-  "description": "Lumen Web Components — framework-agnostic custom elements implementing the same component specifications as @lumen/ui. Proof-of-concept package; currently ships Button only. See docs/roadmap.md Phase 13.",
+  "description": "Lumen Web Components — framework-agnostic custom elements implementing the same component specifications as @lumen/ui. Ships 9 components (Button, AIButton, SplitButton, FilterChip, ChoiceChip, SegmentedControl, KPICard, Footer, ThemeToggle). See docs/roadmap.md Phase 13 and this package's README for a known Button-contract drift against @lumen/ui.",
   "license": "Apache-2.0",
   "type": "module",
   "main": "./src/index.ts",
