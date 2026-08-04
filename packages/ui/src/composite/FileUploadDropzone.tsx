@@ -1,4 +1,4 @@
-import { useRef, useState, type DragEvent } from "react";
+import { useEffect, useRef, useState, type DragEvent } from "react";
 import { cn } from "../lib/cn";
 import { UploadIcon } from "../icons/generated/UploadIcon";
 
@@ -167,6 +167,42 @@ export interface FileUploadDropzoneProps {
  * `--duration-moderate` (200ms) with `--easing-enter`, so the rotation
  * has room to actually read during the hover response instead of
  * snapping through it.
+ *
+ * Corrected 2026-08-04, direct user report against a fresh `get_design_context`
+ * pull on node `1511:2702` (fileKey `GJBYRm6ySR7XIECFcHMgy2`): two real,
+ * verified token deviations. (1) The dropzone's `UploadIcon` was using
+ * `--color-text-secondary` (`#626B6E`); Figma binds that glyph to the
+ * `icon/secondary` variable, `--color-icon-secondary` (`#838F92`) — a
+ * distinct token family this component was reaching past. (2) The header's
+ * own top corners had no radius and relied entirely on the outer card's
+ * `radius-xxxl` (18px) `overflow-hidden` clip; Figma explicitly rounds the
+ * header itself at `radius/2xl` (16px, node `1511:2703`), a real if subtle
+ * 2px difference at the top corners. Both fixed to the Figma-sourced tokens.
+ *
+ * Corrected same-day, direct user report with a screenshot surviving a hard
+ * refresh (ruling out a first, incorrect "stale Storybook iframe" diagnosis):
+ * the root container was `size-full` (forcing `height: 100%`) combined with
+ * `justify-center`. Figma's frame hugs its content (auto height) — this had
+ * no visible effect when a consumer's wrapper was itself auto-height (e.g.
+ * `DataExtractionOnboardingPage`'s `w-full max-w-[500px]` div, where
+ * percentage height on an auto-height parent computes as auto per spec, so
+ * `justify-center` had no extra space to distribute), but the Storybook
+ * Playground wrapper (`h-[560px]`) gives this component a real, definite
+ * height taller than its content, so `justify-center` split the leftover
+ * space into equal gaps above the header and below the dropzone. Changed to
+ * `w-full` (dropping the forced height) with no `justify-*` — the card now
+ * always hugs its content height regardless of the parent's height, matching
+ * Figma, instead of stretching-then-centering whenever it's given more room
+ * than it needs.
+ *
+ * Added 2026-08-04, direct user request for a subtle on-load animation —
+ * zero Figma source for this (this file has none anywhere), same
+ * disclosed-addition convention as this component's hover animations above.
+ * Reuses `DataExtractionOnboardingPage`'s `StepTransition` mount pattern
+ * verbatim for consistency across the flow: a `requestAnimationFrame`-gated
+ * `entered` boolean fades/rises the whole card in on mount (12px,
+ * `--duration-slow`/300ms, `--easing-enter`), `motion-reduce:transition-none`
+ * per this repo's existing convention.
  */
 export function FileUploadDropzone({
   heading = "Start by uploading 20+ files",
@@ -180,8 +216,14 @@ export function FileUploadDropzone({
 }: FileUploadDropzoneProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [isDropzoneHovered, setIsDropzoneHovered] = useState(false);
+  const [entered, setEntered] = useState(false);
   const dragCounter = useRef(0);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => setEntered(true));
+    return () => cancelAnimationFrame(raf);
+  }, []);
 
   function handleFiles(fileList: FileList | null) {
     if (!fileList || fileList.length === 0) return;
@@ -229,12 +271,13 @@ export function FileUploadDropzone({
   return (
     <div
       className={cn(
-        "flex size-full flex-col items-center justify-center gap-[var(--spacing-32)] overflow-hidden rounded-[var(--radius-xxxl)] border border-[var(--color-border-default)] bg-[var(--color-background-default)] pb-[var(--spacing-32)]",
+        "flex w-full flex-col items-center gap-[var(--spacing-32)] overflow-hidden rounded-[var(--radius-xxxl)] border border-[var(--color-border-default)] bg-[var(--color-background-default)] pb-[var(--spacing-32)] transition-all duration-[var(--duration-slow)] ease-[var(--easing-enter)] motion-reduce:transition-none",
+        entered ? "translate-y-0 opacity-100" : "translate-y-[var(--spacing-12)] opacity-0",
         className
       )}
     >
       <div
-        className="relative h-[150px] w-full shrink-0"
+        className="relative h-[150px] w-full shrink-0 rounded-t-[var(--radius-2xl)]"
         style={{ background: "var(--gradient-upload-header)" }}
         aria-hidden="true"
       >
@@ -326,7 +369,7 @@ export function FileUploadDropzone({
           }}
         />
         <UploadIcon
-          className="size-8 text-[var(--color-text-secondary)] transition-transform duration-[var(--duration-fast)] group-hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-y-0"
+          className="size-8 text-[var(--color-icon-secondary)] transition-transform duration-[var(--duration-fast)] group-hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-y-0"
           aria-hidden="true"
         />
         <div className="flex items-center gap-[var(--spacing-4)] text-body-md font-medium">
