@@ -23,7 +23,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {
   render: (args) => (
-    <div className="h-[560px] w-[500px]">
+    <div className="w-[500px]">
       <FileUploadDropzone {...args} />
     </div>
   )
@@ -37,7 +37,7 @@ export const CustomCopy: Story = {
     accept: "application/pdf"
   },
   render: (args) => (
-    <div className="h-[560px] w-[500px]">
+    <div className="w-[500px]">
       <FileUploadDropzone {...args} />
     </div>
   )
@@ -46,7 +46,7 @@ export const CustomCopy: Story = {
 export const Disabled: Story = {
   args: { disabled: true },
   render: (args) => (
-    <div className="h-[560px] w-[500px]">
+    <div className="w-[500px]">
       <FileUploadDropzone {...args} />
     </div>
   )
