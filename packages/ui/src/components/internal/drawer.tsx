@@ -7,12 +7,20 @@ import { cn } from "../../lib/cn"
  * Adapted from shadcn/ui's Drawer (built on `vaul`, not Radix — this repo's
  * only non-Radix overlay dependency) — internal to @lumen/ui. Changes:
  * - imports resolve via this repo's existing relative-import convention
- * - `bg-black/80` overlay replaced with `bg-black/40`, matching Modal.tsx's
- *   own existing scrim value (no Lumen scrim token exists yet)
+ * - `bg-black/80` overlay replaced with `bg-black/40`, matching the (now
+ *   retired) `Modal` composite's own scrim value at the time (no Lumen
+ *   scrim token existed yet)
  * - `rounded-t-[10px]` replaced with the bridged `--radius-lg` (8px, the
- *   same raised-surface radius Modal/Card/Command use)
+ *   same raised-surface radius Card/Command use)
  * - `text-lg font-semibold`/`text-sm` replaced with `title-sm`/`body-sm`,
  *   matching Sheet's own Title/Description precedent exactly
+ *
+ * Not re-audited 2026-08-05 when `Dialog`'s own overlay was corrected to a
+ * Figma-sourced purple-tinted scrim (`--color-modal-overlay`) and the
+ * unused `Modal` composite was retired — this component's overlay remains
+ * `black/40`, since no Drawer-specific Figma source was supplied in that
+ * pass. Flagged as a real, known divergence from `Dialog`, not an
+ * oversight.
  */
 
 const Drawer = ({ shouldScaleBackground = true, ...props }: React.ComponentProps<typeof DrawerPrimitive.Root>) => (

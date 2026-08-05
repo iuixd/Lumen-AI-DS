@@ -219,6 +219,7 @@ module.exports = {
   "deep-purple-500-a40": "var(--color-deep-purple-500-a40)",
   "deep-purple-500-a60": "var(--color-deep-purple-500-a60)",
   "deep-purple-500-a80": "var(--color-deep-purple-500-a80)",
+  "deep-purple-900-a30": "var(--color-deep-purple-900-a30)",
   "chat-input-bg": "var(--color-chat-input-bg)",
   "blue-50": "var(--color-blue-50)",
   "blue-100": "var(--color-blue-100)",
@@ -525,6 +526,8 @@ module.exports = {
   "toast-warning-accent": "var(--color-toast-warning-accent)",
   "toast-success-accent": "var(--color-toast-success-accent)",
   "toast-neutral-accent": "var(--color-toast-neutral-accent)",
+  "modal-overlay": "var(--color-modal-overlay)",
+  "modal-title-text": "var(--color-modal-title-text)",
   "content-state-bg": "var(--color-content-state-bg)",
   "content-state-icon-badge-bg": "var(--color-content-state-icon-badge-bg)",
   "content-state-icon-fg": "var(--color-content-state-icon-fg)",
@@ -803,6 +806,13 @@ module.exports = {
     {
       "lineHeight": "var(--text-body-lg-line-height)",
       "fontWeight": "var(--text-body-lg-weight)"
+    }
+  ],
+  "body-lg-w600": [
+    "var(--text-body-lg-w600-size)",
+    {
+      "lineHeight": "var(--text-body-lg-w600-line-height)",
+      "fontWeight": "var(--text-body-lg-w600-weight)"
     }
   ],
   "body-md": [

@@ -5,12 +5,7 @@ import {
   LumenLogo,
   FileUploadDropzone,
   FileUploadProgressList,
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
+  Modal,
   Button,
   cn,
   type FileUploadFile
@@ -432,21 +427,25 @@ function OnboardingFlow({
         </StepTransition>
       )}
       <DragMask visible={step === "upload" && isDraggingPage} pulsing={isDropping} />
-      <Dialog
+      {/* Migrated 2026-08-05 from raw Dialog primitives to the new Modal
+          composite — this exact content (title/description copy, Keep
+          file/Remove file actions) is Figma's own example content for the
+          canonical Modal component, so this is that component's first real
+          consumer, not just a styling match. */}
+      <Modal
         open={fileToRemove !== undefined}
         onOpenChange={(open) => {
           if (!open) handleCancelRemoveFile();
         }}
-      >
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Remove file?</DialogTitle>
-            <DialogDescription>
-              Remove <strong>{fileToRemove?.name}</strong> from this upload? This can&apos;t be
-              undone.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
+        title="Remove file?"
+        description={
+          <>
+            Remove <strong>{fileToRemove?.name}</strong> from this upload? This can&apos;t be
+            undone.
+          </>
+        }
+        actions={
+          <>
             {/* Not labeled "Cancel" — the progress step's own footer already has
                 a "Cancel" button (cancels the whole upload) mounted behind this
                 dialog, and a duplicate accessible name would be ambiguous for
@@ -457,9 +456,9 @@ function OnboardingFlow({
             <Button type="button" variant="destructive" onClick={handleConfirmRemoveFile}>
               Remove file
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          </>
+        }
+      />
     </>
   );
 }
@@ -513,11 +512,18 @@ function OnboardingFlow({
  * what this repo's `Drawer`/`Sheet` already rely on for the same reason),
  * switched to the already-existing, Radix-backed `Dialog` — its `modal`
  * default (`true`) locks body scroll and traps focus/marks the rest of the
- * page inert while open, for free. `Modal` itself is unchanged and still
- * exported (had zero other consumers in this repo either way); the overlay
+ * page inert while open, for free. The unrelated, zero-consumer `Modal`
+ * composite that existed at the time was left unchanged; the overlay
  * color/blur fix lives in `Dialog`'s own `DialogOverlay`
  * (`components/internal/dialog.tsx`), so it also applies to `CommandDialog`,
  * `Dialog`'s only other consumer.
+ *
+ * Migrated 2026-08-05 from raw `Dialog` primitives to a new `Modal`
+ * composite (direct user request, following a `Dialog` Figma-fidelity
+ * correction against Figma's canonical "Modal" component) — this dialog's
+ * exact content turned out to be Figma's own example content for that
+ * component. The prior zero-consumer `Modal` was retired the same day and
+ * this migration makes the new one's first real consumer.
  *
  * Corrected again same-day (direct user report, with a reference
  * screenshot of the intended "Creating your project" screen: "Clicking on

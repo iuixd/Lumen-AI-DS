@@ -10,12 +10,17 @@ import { cn } from "../../lib/cn"
  * Same adaptation pattern as Command's internal `dialog.tsx` (built on the
  * same `@radix-ui/react-dialog`, already a dependency): relative imports,
  * Lumen's `XIcon` instead of `lucide-react`, `bg-black/40` overlay matching
- * Modal.tsx's existing scrim value, `--shadow-menu-default` instead of
- * `shadow-lg`, `title-sm`/`body-sm` type scale instead of bare
- * `text-lg`/`text-sm`, `focus-visible:` instead of `focus:` on the close
- * button, and the `animate-in`/`slide-in-from-*`/duration classes dropped
- * (no Lumen motion tokens yet — same deferred-motion decision as Command's
- * dialog).
+ * the (now retired) `Modal` composite's scrim value at the time,
+ * `--shadow-menu-default` instead of `shadow-lg`, `title-sm`/`body-sm` type
+ * scale instead of bare `text-lg`/`text-sm`, `focus-visible:` instead of
+ * `focus:` on the close button, and the `animate-in`/`slide-in-from-*`/
+ * duration classes dropped (no Lumen motion tokens yet — same
+ * deferred-motion decision as Command's dialog).
+ *
+ * Not re-audited 2026-08-05 when `Dialog`'s own overlay was corrected to a
+ * Figma-sourced purple-tinted scrim (`--color-modal-overlay`) — this
+ * component's overlay remains `black/40`, a known, flagged divergence, not
+ * an oversight (no Sheet-specific Figma source was supplied in that pass).
  */
 
 const Sheet = SheetPrimitive.Root

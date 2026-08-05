@@ -11,49 +11,92 @@ const meta = {
     docs: {
       description: {
         component:
-          "Dependency-free modal (Escape to close, backdrop click to close, no strict focus trap). Swap for Radix Dialog if strict focus trapping/portal behavior is required — keep the same props contract."
+          "Figma's canonical \"Modal\" component (Lumen-AI-Design-System nodes 1737:4152/1737:4154 \"Modal\"/\"Modal Mask\"). A thin composite over `Dialog` — title, optional description, and an optional right-aligned actions row below a separator. Controlled: this component owns no open state of its own."
       }
     },
     controls: { disable: true }
   },
-  // This story drives `open` from local state in a custom `render` below, so
-  // these args are unused placeholders — only present to satisfy Modal's
+  // This story drives `open` from local state in each custom `render` below,
+  // so these args are unused placeholders — only present to satisfy Modal's
   // required-props type.
-  args: { open: false, onClose: () => {}, title: "Delete this record?", children: null }
+  args: { open: false, onOpenChange: () => {}, title: "Remove file?" }
 } satisfies Meta<typeof Modal>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/** Figma's own example content for this component, verbatim. */
 export const Playground: Story = {
   render: function Render() {
     const [open, setOpen] = useState(false);
     return (
       <>
-        <Button onClick={() => setOpen(true)}>Delete record</Button>
+        <Button onClick={() => setOpen(true)}>Remove file</Button>
         <Modal
           open={open}
-          onClose={() => setOpen(false)}
-          title="Delete this record?"
-          footer={
+          onOpenChange={setOpen}
+          title="Remove file?"
+          description={
+            <>
+              Remove <strong>photo.jpg</strong> from this upload? This can&apos;t be undone.
+            </>
+          }
+          actions={
+            <>
+              <Button variant="ghost" onClick={() => setOpen(false)}>
+                Keep file
+              </Button>
+              <Button variant="destructive" onClick={() => setOpen(false)}>
+                Remove file
+              </Button>
+            </>
+          }
+        />
+      </>
+    );
+  }
+};
+
+/** No `actions` — the footer separator omits itself along with it. */
+export const TitleAndDescriptionOnly: Story = {
+  render: function Render() {
+    const [open, setOpen] = useState(false);
+    return (
+      <>
+        <Button onClick={() => setOpen(true)}>Show info</Button>
+        <Modal
+          open={open}
+          onOpenChange={setOpen}
+          title="Upload complete"
+          description="All 20 files were uploaded successfully."
+        />
+      </>
+    );
+  }
+};
+
+/** No `description` either — a title-only modal. */
+export const TitleOnly: Story = {
+  render: function Render() {
+    const [open, setOpen] = useState(false);
+    return (
+      <>
+        <Button onClick={() => setOpen(true)}>Confirm</Button>
+        <Modal
+          open={open}
+          onOpenChange={setOpen}
+          title="Are you sure?"
+          actions={
             <>
               <Button variant="ghost" onClick={() => setOpen(false)}>
                 Cancel
               </Button>
-              {/* Figma's Buttons page has no distinct destructive/error type — tint Secondary
-                  with the status-error token as a manual override until design adds one. */}
-              <Button
-                variant="secondary"
-                className="border-[var(--color-status-error)] text-[var(--color-status-error)] hover:bg-[var(--color-status-error-subtle)]"
-                onClick={() => setOpen(false)}
-              >
-                Delete
+              <Button variant="destructive" onClick={() => setOpen(false)}>
+                Confirm
               </Button>
             </>
           }
-        >
-          This action can&apos;t be undone. The record and its history will be permanently removed.
-        </Modal>
+        />
       </>
     );
   }

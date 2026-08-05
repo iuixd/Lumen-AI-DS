@@ -165,6 +165,12 @@
       "weight": 400,
       "usage": "Primary paragraph text (Figma Body lg)"
     },
+    "body-lg-w600": {
+      "fontSize": 20,
+      "lineHeight": 32,
+      "weight": 600,
+      "usage": "Dialog/Modal title text (Figma 'Body/Large SemiBold') — same size/line-height as body-lg, weight bumped to 600. Figma-evidenced 2026-08-05 via get_variable_defs on Lumen-AI-Design-System node 1737:4152 ('Modal' component). Follows the numeric-weight-suffix naming convention established by body-sm-w500 (2026-08-04)."
+    },
     "body-md": {
       "fontSize": 16,
       "lineHeight": 26,

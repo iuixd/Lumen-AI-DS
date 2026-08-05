@@ -244,7 +244,8 @@
     "500-a24": { "value": "#5e35b13d" },
     "500-a40": { "value": "#5e35b166" },
     "500-a60": { "value": "#5e35b199" },
-    "500-a80": { "value": "#5e35b1cc" }
+    "500-a80": { "value": "#5e35b1cc" },
+    "900-a30": { "value": "#1b0e334d", "_comment": "deep-purple.900 at 30% alpha — sourced from Lumen-AI-Design-System node 1737:4154 ('Modal Mask')'s bg/modal-mask bound variable, 2026-08-05. Not part of the family's systematic 8/16/24/40/60/80% alpha set (which is scoped to the 500 step) — a distinct one-off tint for the modal scrim." }
   },
   "chat": {
     "_comment": "Exact chat-bubble-only primitive sourced from Lumen-AI-Design-System node 1412:3030 ('AI Conversation Components'), the `bg/chat-input` bound variable (verified via get_variable_defs 2026-07-26). Light mode only — this frame has no dark-mode instance/evidence.",

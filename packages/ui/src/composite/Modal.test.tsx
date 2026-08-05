@@ -5,43 +5,47 @@ import { Modal } from "./Modal";
 
 describe("Modal", () => {
   it("renders nothing when closed", () => {
-    render(
-      <Modal open={false} onClose={vi.fn()} title="Delete item">
-        Are you sure?
-      </Modal>
-    );
+    render(<Modal open={false} onOpenChange={vi.fn()} title="Remove file?" />);
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
-  it("renders the dialog with its title when open", () => {
+  it("renders the dialog with its title and description when open", () => {
     render(
-      <Modal open onClose={vi.fn()} title="Delete item">
-        Are you sure?
-      </Modal>
+      <Modal open onOpenChange={vi.fn()} title="Remove file?" description="This can't be undone." />
     );
     expect(screen.getByRole("dialog")).toBeInTheDocument();
-    expect(screen.getByText("Delete item")).toBeInTheDocument();
+    expect(screen.getByText("Remove file?")).toBeInTheDocument();
+    expect(screen.getByText("This can't be undone.")).toBeInTheDocument();
   });
 
-  it("calls onClose on Escape", async () => {
-    const onClose = vi.fn();
+  it("renders without a description when omitted", () => {
+    render(<Modal open onOpenChange={vi.fn()} title="Remove file?" />);
+    expect(screen.getByText("Remove file?")).toBeInTheDocument();
+  });
+
+  it("renders the actions slot when provided", () => {
     render(
-      <Modal open onClose={onClose} title="Delete item">
-        Are you sure?
-      </Modal>
+      <Modal
+        open
+        onOpenChange={vi.fn()}
+        title="Remove file?"
+        actions={<button type="button">Remove file</button>}
+      />
     );
+    expect(screen.getByRole("button", { name: "Remove file" })).toBeInTheDocument();
+  });
+
+  it("calls onOpenChange(false) on Escape", async () => {
+    const onOpenChange = vi.fn();
+    render(<Modal open onOpenChange={onOpenChange} title="Remove file?" />);
     await userEvent.keyboard("{Escape}");
-    expect(onClose).toHaveBeenCalledOnce();
+    expect(onOpenChange).toHaveBeenCalledWith(false);
   });
 
-  it("calls onClose on backdrop click", async () => {
-    const onClose = vi.fn();
-    render(
-      <Modal open onClose={onClose} title="Delete item">
-        Are you sure?
-      </Modal>
-    );
-    await userEvent.click(screen.getByLabelText("Close dialog"));
-    expect(onClose).toHaveBeenCalledOnce();
+  it("calls onOpenChange(false) on close-button click", async () => {
+    const onOpenChange = vi.fn();
+    render(<Modal open onOpenChange={onOpenChange} title="Remove file?" />);
+    await userEvent.click(screen.getByRole("button", { name: "Close" }));
+    expect(onOpenChange).toHaveBeenCalledWith(false);
   });
 });
