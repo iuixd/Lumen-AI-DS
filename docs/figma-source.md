@@ -136,9 +136,8 @@ These sections form the current documented Lumen foundation.
 
 ## 2.3 Scale
 
-- **Node:** `429:14216`
-- Contains the documented general scale.
-- Scale labels are present, but exact values must be verified before code generation.
+- **Node:** `429:14216` (original static frame — still no bound Variables, unchanged legacy reference)
+- **Resolved 2026-08-04:** two new frames, `1716:3625` (Radius scale) and `1716:3692` (Typography scale), now carry real live variable bindings — see `docs/figma-sync.md`'s Scale row for the full verification record. All values match `packages/tokens/src/{radius,typography}.json` exactly; no code changes were needed.
 - Scale tokens should not replace semantic component sizing.
 
 ## 2.4 Spacing

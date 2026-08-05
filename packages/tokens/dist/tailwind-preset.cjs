@@ -239,7 +239,6 @@ module.exports = {
   "blue-500-a80": "var(--color-blue-500-a80)",
   "button-light-accent-on-action": "var(--color-button-light-accent-on-action)",
   "button-dark-accent-on-action": "var(--color-button-dark-accent-on-action)",
-  "button-dark-disabled-on-action": "var(--color-button-dark-disabled-on-action)",
   "button-dark-secondary-hover-bg": "var(--color-button-dark-secondary-hover-bg)",
   "button-dark-secondary-hover-on-action": "var(--color-button-dark-secondary-hover-on-action)",
   "button-dark-ghost-hover-bg": "var(--color-button-dark-ghost-hover-bg)",
@@ -418,6 +417,7 @@ module.exports = {
   "input-primary-hover-border": "var(--color-input-primary-hover-border)",
   "input-primary-focused-border": "var(--color-input-primary-focused-border)",
   "input-primary-error-border": "var(--color-input-primary-error-border)",
+  "input-primary-text": "var(--color-input-primary-text)",
   "input-search-icon": "var(--color-input-search-icon)",
   "input-search-bg": "var(--color-input-search-bg)",
   "input-search-border": "var(--color-input-search-border)",
@@ -427,6 +427,7 @@ module.exports = {
   "input-radio-checkbox-selected-text": "var(--color-input-radio-checkbox-selected-text)",
   "input-radio-checkbox-disabled-border": "var(--color-input-radio-checkbox-disabled-border)",
   "input-radio-checkbox-disabled-fill": "var(--color-input-radio-checkbox-disabled-fill)",
+  "input-radio-checkbox-hover-bg": "var(--color-input-radio-checkbox-hover-bg)",
   "badge-default-text": "var(--color-badge-default-text)",
   "badge-gray-bg": "var(--color-badge-gray-bg)",
   "badge-gray-text": "var(--color-badge-gray-text)",
@@ -484,6 +485,11 @@ module.exports = {
   "button-neutral-border": "var(--color-button-neutral-border)",
   "button-neutral-on-action": "var(--color-button-neutral-on-action)",
   "button-neutral-hover-bg": "var(--color-button-neutral-hover-bg)",
+  "button-neutral-hover-on-action": "var(--color-button-neutral-hover-on-action)",
+  "button-neutral-solid-bg": "var(--color-button-neutral-solid-bg)",
+  "button-neutral-solid-on-action": "var(--color-button-neutral-solid-on-action)",
+  "button-neutral-solid-hover-bg": "var(--color-button-neutral-solid-hover-bg)",
+  "icon-button-neutral-outline-border": "var(--color-icon-button-neutral-outline-border)",
   "brand-default": "var(--color-brand-default)",
   "brand-hover": "var(--color-brand-hover)",
   "brand-pressed": "var(--color-brand-pressed)",
@@ -511,8 +517,25 @@ module.exports = {
   "segment-border-selected": "var(--color-segment-border-selected)",
   "segment-text": "var(--color-segment-text)",
   "segment-text-selected": "var(--color-segment-text-selected)",
+  "toast-container-bg": "var(--color-toast-container-bg)",
   "toast-title-text": "var(--color-toast-title-text)",
+  "toast-body-text": "var(--color-toast-body-text)",
+  "toast-icon-default": "var(--color-toast-icon-default)",
   "toast-info-accent": "var(--color-toast-info-accent)",
+  "toast-warning-accent": "var(--color-toast-warning-accent)",
+  "toast-success-accent": "var(--color-toast-success-accent)",
+  "toast-neutral-accent": "var(--color-toast-neutral-accent)",
+  "content-state-bg": "var(--color-content-state-bg)",
+  "content-state-icon-badge-bg": "var(--color-content-state-icon-badge-bg)",
+  "content-state-icon-fg": "var(--color-content-state-icon-fg)",
+  "content-state-title-text": "var(--color-content-state-title-text)",
+  "content-state-description-text": "var(--color-content-state-description-text)",
+  "content-state-error-description-text": "var(--color-content-state-error-description-text)",
+  "content-state-error-icon-bg": "var(--color-content-state-error-icon-bg)",
+  "content-state-error-icon-fg": "var(--color-content-state-error-icon-fg)",
+  "content-state-skeleton-bar-bg": "var(--color-content-state-skeleton-bar-bg)",
+  "content-state-skeleton-card-bg": "var(--color-content-state-skeleton-card-bg)",
+  "content-state-skeleton-card-border": "var(--color-content-state-skeleton-card-border)",
   "auth-hero-text-title": "var(--color-auth-hero-text-title)",
   "auth-hero-text-body": "var(--color-auth-hero-text-body)",
   "auth-hero-text-label": "var(--color-auth-hero-text-label)",
@@ -796,11 +819,11 @@ module.exports = {
       "fontWeight": "var(--text-body-sm-weight)"
     }
   ],
-  "body-sm-medium": [
-    "var(--text-body-sm-medium-size)",
+  "body-sm-w500": [
+    "var(--text-body-sm-w500-size)",
     {
-      "lineHeight": "var(--text-body-sm-medium-line-height)",
-      "fontWeight": "var(--text-body-sm-medium-weight)"
+      "lineHeight": "var(--text-body-sm-w500-line-height)",
+      "fontWeight": "var(--text-body-sm-w500-weight)"
     }
   ],
   "body-xs": [

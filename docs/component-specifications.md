@@ -347,7 +347,14 @@ the live component's `--color-button-*` tokens implement under those
 different names; it was not rewritten to match React's exact prop values.
 `Accent` remains declared in Figma with no built visual states in either
 mode, same as before. React also added a `neutral` variant (2026-07-31, for
-Figma's own `Style=Neutral`) with no equivalent in this list.
+Figma's own `Style=Neutral Outline`) with no equivalent in this list, and a
+`neutral-solid` variant (2026-08-04, for Figma's `Style=Neutral Solid` — a
+second, previously-undocumented style distinct from `neutral`, a permanent
+dark fill rather than an outline). `neutral-solid` was also added to Web
+Components' and Angular's `lumen-button`, which have no plain `neutral` at
+all (a deliberate, documented asymmetry — see `docs/figma-sync.md`'s Button
+row). `neutral`'s hover state was corrected the same day: it previously
+lightened, Figma's real Hover is a solid dark fill with white text.
 
 **"Synchronized across React, Web Components, Angular" is now stale** (added
 during an August 2026 doc-accuracy audit — not corrected in place above to
@@ -3574,8 +3581,9 @@ lists — see that section's Status note.
 
 - Node: `1034:4459` ("Sizes" reference frame)
 - Instance: `1035:4738` ("Icon Only - light")
+- Node: `1565:3815` (dedicated icon-only reference frame, "ico only - 34px" — Primary/Outline/Solid types)
 - Verified with `get_metadata`, `get_design_context`, `get_variable_defs`
-- Last synchronized: 2026-07-29
+- Last synchronized: 2026-08-04
 
 ## Purpose
 
@@ -3609,15 +3617,25 @@ already share:
 default
 destructive
 outline
-secondary   (default — the only variant with a literal Figma instance)
+secondary        (default — matches Figma's icon-only "Primary" type exactly)
 ghost
 link
+neutral-outline  (matches Figma's icon-only "Outline" type exactly — added 2026-08-04)
+neutral-solid    (matches Figma's icon-only "Solid" type exactly — added 2026-08-04)
 ```
 
-Only `secondary` at `size="md"` matches the Figma "Icon Only - light"
-instance exactly. The other five variants reuse the same already-Figma-synced
-`--color-button-*` roles applied to this new icon-only geometry —
-consistent by construction, not independently sourced per variant.
+`secondary`/`neutral-outline`/`neutral-solid` at `size="md"` each match a
+literal Figma instance in node `1565:3815`'s dedicated icon-only reference
+frame exactly (that frame's "Primary" type is the same instance already
+backing `secondary`, reconfirmed not new). `default`/`destructive`/`outline`/
+`ghost`/`link` reuse the same already-Figma-synced `--color-button-*` roles
+applied to this new icon-only geometry — consistent by construction, not
+independently sourced per variant. `neutral-solid` fully reuses Button's own
+`neutral-solid` tokens (see §5's Change history), re-verified byte-exact.
+`neutral-outline` reuses Button's `neutral` bg/text tokens, but **not** its
+border — real per-component divergence found 2026-08-04: this frame's own
+dark border is `#FFFFFF`, not Button's `#5E5E5E`, so `neutral-outline` gets
+its own dedicated `icon-button.neutral-outline-border` token instead.
 
 ## Sizes
 
@@ -3654,7 +3672,7 @@ Property contract (framework-neutral):
 
 ```text
 icon      renderable content (icon), required — IconButton has no text label
-variant   enum: default | destructive | outline | secondary | ghost | link (default: secondary)
+variant   enum: default | destructive | outline | secondary | ghost | link | neutral-outline | neutral-solid (default: secondary)
 size      enum: sm | md | lg | xl (default: md)
 disabled  boolean
 ```
@@ -3668,7 +3686,15 @@ Plus every native `<button>` attribute (`onClick`, `type`, `aria-label`,
 export interface IconButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "children"> {
   icon: React.ReactNode;
-  variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
+  variant?:
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | "link"
+    | "neutral-outline"
+    | "neutral-solid";
   size?: "sm" | "md" | "lg" | "xl";
 }
 ```
@@ -3740,10 +3766,16 @@ the native `type="button"` default.
 
 ## Known differences from Figma
 
-- **Only one variant/size combination is a literal Figma instance.** The
-  other 23 combinations reuse already-Figma-synced `Button` color tokens
-  and this same frame's Primary Button icon-size ladder, by consistency —
-  not independently sourced. Recorded, not silently presented as verified.
+- **Only three variant/size combinations are literal Figma instances**
+  (`secondary`/`neutral-outline`/`neutral-solid` at `md`). The remaining
+  combinations reuse already-Figma-synced `Button` color tokens and this
+  same frame's Primary Button icon-size ladder, by consistency — not
+  independently sourced. Recorded, not silently presented as verified.
+  **Confirmed permanent (2026-08-04)**: a direct search of the whole Figma
+  file for any component/component-set named "IconButton" (any casing)
+  found none exists — `sm`/`lg`/`xl` icon-glyph sizes, for every variant,
+  are permanent inference-by-consistency, not a gap a future sync could
+  close without Figma authoring a dedicated multi-size component first.
 - **Variant vocabulary reuses `Button`'s live token family**, not the
   Primary/Secondary/Ghost/Danger/AI list in §6 — direct user decision,
   since that older vocabulary has no live component behind it (the
@@ -3753,7 +3785,11 @@ the native `type="button"` default.
 ## Known limitations
 
 - React only. No `@lumen/web-components`/`@lumen/angular` equivalent —
-  both packages are Button-only proofs of concept.
+  `IconButton` isn't among either package's 9 shipped components.
+- `sm`/`lg`/`xl` icon-glyph sizes are permanent inference-by-consistency
+  with Button's own icon-size ladder — no dedicated multi-size Figma
+  component exists to source them from, confirmed 2026-08-04 (see "Known
+  differences from Figma" above).
 - No Loading state (not evidenced).
 - No visual-regression coverage; the repo has no such tooling configured.
 
@@ -3761,6 +3797,14 @@ the native `type="button"` default.
 
 - 2026-07-29: added, sourced from node `1034:4459`'s "Icon Only - light"
   instance.
+- 2026-08-04: added `neutral-outline`/`neutral-solid`, sourced from a
+  dedicated icon-only reference frame (node `1565:3815`) — direct user
+  request, same session that fixed Button's `neutral` hover bug and added
+  `neutral-solid` there (see §5's Change history).
+- 2026-08-04, same day: confirmed permanent that `sm`/`lg`/`xl` icon-glyph
+  sizes have no Figma source and never will without a dedicated component —
+  direct user search of the whole file for any "IconButton" component or
+  component-set found none exists.
 
 ---
 

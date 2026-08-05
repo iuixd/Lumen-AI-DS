@@ -21,6 +21,15 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/**
+ * Demo copy matches the payroll-product example content shown directly on
+ * the Figma Toast frame (node `1475:5100`) exactly, per tone — not generic
+ * placeholder text. Previously each tone pushed a distinct-looking button
+ * but `warning`/`error` both actually fired `info`'s copy (a copy/paste
+ * bug); `success`/`neutral` used unrelated placeholder text ("Saved" / "3
+ * records updated") instead of Figma's own example. Fixed 2026-08-04,
+ * direct user report against a Figma screenshot.
+ */
 function Demo() {
   const { push } = useToast();
   return (
@@ -42,9 +51,9 @@ function Demo() {
         variant="ghost"
         onClick={() =>
           push({
-            title: "Memorial Day - Office Closed",
+            title: "Submission Due Tomorrow - 1:00 PM (EST)",
             description:
-              "Today is a federal holiday. Your payroll deadline has been extended to Tuesday, May 26 - 1:00 PM (EST).",
+              "4 open exceptions remain for the week of May 18 - 22. Review and resolve before the extended deadline.",
             tone: "warning"
           })
         }
@@ -55,19 +64,39 @@ function Demo() {
         variant="ghost"
         onClick={() =>
           push({
-            title: "Memorial Day - Office Closed",
+            title: "Critical: Min Wage Violation",
             description:
-              "Today is a federal holiday. Your payroll deadline has been extended to Tuesday, May 26 - 1:00 PM (EST).",
+              "Maya Thompson (E-1042) - effective rate $6.50/hr is below minimum wage. Shortfall of $340.00 must be corrected.",
             tone: "error"
           })
         }
       >
         Trigger error
       </Button>
-      <Button variant="ghost" onClick={() => push({ title: "Saved", tone: "success" })}>
+      <Button
+        variant="ghost"
+        onClick={() =>
+          push({
+            title: "Payroll Submitted Successfully",
+            description:
+              "Your payroll has been submitted successfully. No exceptions remain, and this week's payroll is ready for processing.",
+            tone: "success"
+          })
+        }
+      >
         Trigger success
       </Button>
-      <Button variant="ghost" onClick={() => push({ title: "3 records updated", tone: "neutral" })}>
+      <Button
+        variant="ghost"
+        onClick={() =>
+          push({
+            title: "Payroll Submitted Successfully",
+            description:
+              "Your payroll has been submitted successfully. No exceptions remain, and this week's payroll is ready for processing.",
+            tone: "neutral"
+          })
+        }
+      >
         Trigger neutral
       </Button>
     </div>
@@ -83,9 +112,12 @@ export const Playground: Story = {
 };
 
 /**
- * All five tones stacked at once, so the info/warning/error accent, icon,
- * and progress-bar colors can be compared side by side against the three
- * Figma-sourced instances.
+ * All five tones stacked at once, so every accent, icon, and progress-bar
+ * color can be compared side by side against the Figma reference (node
+ * `1475:5100`) — one push per tone, same example copy Figma shows on each.
+ * Previously only pushed 3 of the 5 tones despite this docblock's own
+ * "all five" claim; fixed 2026-08-04, direct user report against a Figma
+ * screenshot showing all 5 stacked.
  */
 export const AllTones: Story = {
   render: () => {
@@ -113,9 +145,21 @@ export const AllTones: Story = {
                 "Maya Thompson (E-1042) - effective rate $6.50/hr is below minimum wage. Shortfall of $340.00 must be corrected.",
               tone: "error"
             });
+            push({
+              title: "Payroll Submitted Successfully",
+              description:
+                "Your payroll has been submitted successfully. No exceptions remain, and this week's payroll is ready for processing.",
+              tone: "success"
+            });
+            push({
+              title: "Payroll Submitted Successfully",
+              description:
+                "Your payroll has been submitted successfully. No exceptions remain, and this week's payroll is ready for processing.",
+              tone: "neutral"
+            });
           }}
         >
-          Show info, warning, and error
+          Show all five tones
         </Button>
       );
     }

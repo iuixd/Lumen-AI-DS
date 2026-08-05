@@ -49,7 +49,7 @@ describe("LumenButtonComponent", () => {
     expect(host.querySelector("[iconEnd]")).not.toBeNull();
   });
 
-  it.each(["primary", "accent", "secondary", "outline", "ghost", "destructive"] as const)(
+  it.each(["primary", "accent", "secondary", "outline", "ghost", "destructive", "neutral-solid"] as const)(
     "reflects variant=%s for styling",
     (variant) => {
       const fixture = createHost({ variant });
@@ -58,6 +58,14 @@ describe("LumenButtonComponent", () => {
       );
     }
   );
+
+  it("binds the neutral-solid variant's Figma-sourced dark-fill tokens", () => {
+    const styles = (LumenButtonComponent as unknown as { ɵcmp: { styles: string[] } }).ɵcmp.styles;
+    const css = styles.join("\n");
+    expect(css).toContain('[variant="neutral-solid"]');
+    expect(css).toContain("var(--color-button-neutral-solid-bg)");
+    expect(css).toContain("var(--color-button-neutral-solid-hover-bg)");
+  });
 
   it.each(["sm", "md", "lg", "xl"] as const)("reflects size=%s for styling", (size) => {
     const fixture = createHost({ size });

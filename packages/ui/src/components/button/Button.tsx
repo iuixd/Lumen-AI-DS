@@ -10,8 +10,9 @@ import { Button as InternalButton, buttonVariants } from "../internal/button";
  * docs/shadcn-integration.md §7.8) — no longer `Shadcn`-prefixed since
  * there's nothing left to collide with. Note the variant vocabulary
  * changed: `default`/`destructive`/`outline`/`secondary`/`ghost`/`link`/
- * `neutral` (shadcn's set, plus `neutral` added 2026-07-31 for Figma's own
- * `Style=Neutral` — see internal/button.tsx) replaces the retired
+ * `neutral`/`neutral-solid` (shadcn's set, plus `neutral` added 2026-07-31
+ * and `neutral-solid` added 2026-08-04, both for Figma's `Style=Neutral
+ * Outline`/`Style=Neutral Solid` — see internal/button.tsx) replaces the retired
  * primitive's `primary`/`accent`/`secondary`/`outline`/`ghost`/
  * `destructive`/`ai` — there is no `accent` or `ai` equivalent, and there
  * are no dedicated `iconStart`/`iconEnd` props; pass an icon as a plain

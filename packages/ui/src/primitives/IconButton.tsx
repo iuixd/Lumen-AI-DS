@@ -26,6 +26,45 @@ import { cn } from "../lib/cn";
  * inferred by consistency with this same Figma frame's Primary Button icon
  * sizes (12/16/18px), not independently sourced icon-only instances — see
  * `packages/tokens/src/icon-button.json`.
+ *
+ * `neutral-outline`/`neutral-solid` added 2026-08-04, direct user request,
+ * sourced from a dedicated icon-only reference frame (node `1565:3815`,
+ * "ico only - 34px", 3 types: Primary/Outline/Solid). That frame's "Primary"
+ * type binds to `--btn/secondary/*` — the same instance already documented
+ * above as the one literal `secondary` match, reconfirmed, not new. Its
+ * "Outline" type binds to `--btn/neutral/secondary/border` (`#dbe1e2`, gray)
+ * — a different color family from this component's existing `outline`
+ * variant (crimson, from Button's `Outline` style) — so it's added as its
+ * own `neutral-outline` variant rather than changing `outline`, reusing
+ * Button's `neutral` tokens (`--color-button-neutral-*`) exactly. Its
+ * "Solid" type (`#393939` dark fill, white text) has no prior IconButton
+ * equivalent — added as `neutral-solid`, reusing Button's new
+ * `--color-button-neutral-solid-*` tokens (see
+ * `packages/tokens/src/semantic/color.json`'s `_neutralButtonComment`).
+ * Only `size="md"` (34px) has a literal instance in this frame, same
+ * disclosed-inference caveat as every other variant above.
+ *
+ * Confirmed permanent, same day: a direct search of the whole Figma file
+ * for any component or component-set named "IconButton" (any casing)
+ * found none exists — there is no dedicated multi-size icon-only component
+ * to source `sm`/`lg`/`xl` from. Every icon-glyph size below `md`, for
+ * every variant, is permanent inference-by-consistency with Button's own
+ * icon-size ladder, not a temporary gap pending a future sync.
+ *
+ * Corrected same day, direct user re-confirmation against the full icon-only
+ * token table: `neutral-outline`'s border color is the one field that
+ * genuinely differs from Button's own `neutral` (outline) variant it
+ * otherwise reuses — Figma's dedicated icon-only frame binds a different
+ * dark value (`neutral.white`, #FFFFFF) than Button's own Neutral Outline
+ * style (`neutral.500`, #5E5E5E); light matches exactly (`lumen-gray.200`
+ * both places). Given real, confirmed evidence that this one field diverges
+ * per-component, it's no longer safe to blindly inherit Button's shared
+ * `--color-button-neutral-border` here — added a dedicated
+ * `--color-icon-button-neutral-outline-border` token instead (light value
+ * unchanged, dark value now icon-button-specific). Every other field
+ * (`Primary`'s bg/border via `secondary`, `Solid`'s bg via `neutral-solid`)
+ * was re-verified byte-exact against Button's already-corrected 2026-08-04
+ * dark values — genuinely safe to keep inheriting there.
  */
 export type IconButtonVariant =
   | "default"
@@ -33,7 +72,9 @@ export type IconButtonVariant =
   | "outline"
   | "secondary"
   | "ghost"
-  | "link";
+  | "link"
+  | "neutral-outline"
+  | "neutral-solid";
 export type IconButtonSize = "sm" | "md" | "lg" | "xl";
 
 const iconButtonVariants = cva(
@@ -50,7 +91,11 @@ const iconButtonVariants = cva(
         secondary:
           "border-[width:var(--icon-button-border-width)] border-[var(--color-button-secondary-border)] bg-[var(--color-button-secondary-bg)] text-[var(--color-button-secondary-on-action)] hover:border-[var(--color-button-secondary-hover-border)] hover:bg-[var(--color-button-secondary-hover-bg)] hover:text-[var(--color-button-secondary-hover-on-action)]",
         ghost: "text-[var(--color-button-ghost-on-action)] hover:bg-[var(--color-button-ghost-hover-bg)]",
-        link: "text-[var(--color-button-link-on-action)] hover:underline"
+        link: "text-[var(--color-button-link-on-action)] hover:underline",
+        "neutral-outline":
+          "border-[width:var(--icon-button-border-width)] border-[var(--color-icon-button-neutral-outline-border)] bg-[var(--color-button-neutral-bg)] text-[var(--color-button-neutral-on-action)] hover:bg-[var(--color-button-neutral-hover-bg)] hover:text-[var(--color-button-neutral-hover-on-action)]",
+        "neutral-solid":
+          "bg-[var(--color-button-neutral-solid-bg)] text-[var(--color-button-neutral-solid-on-action)] hover:bg-[var(--color-button-neutral-solid-hover-bg)]"
       },
       size: {
         sm: "size-[var(--spacing-30)] [&_svg]:size-[var(--icon-button-icon-size-sm)]",

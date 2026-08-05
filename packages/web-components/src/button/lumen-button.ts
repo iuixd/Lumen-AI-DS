@@ -1,9 +1,24 @@
 import { LitElement, css, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 
-/** Standard Button, sourced from Figma nodes 1027:3733 (variants/states) and 1034:4459 (sizes). */
+/**
+ * Standard Button, sourced from Figma nodes 1027:3733 (variants/states) and
+ * 1034:4459 (sizes).
+ *
+ * `neutral-solid` added 2026-08-04, direct user request to bring this
+ * variant to all three framework packages after it was found missing during
+ * a React Button audit (node 1565:3797, canonical set 1174:1349,
+ * `Style=Neutral Solid`) — a permanent dark fill (`--color-button-neutral-
+ * solid-bg`, neutral.700/#393939) with white text, hovering to pure black.
+ * This package has no plain `neutral` (outline-style) variant at all — its
+ * variant vocabulary predates that addition to React `Button` and wasn't
+ * separately audited then; adding only `neutral-solid` here, not
+ * `neutral`, since that's what was explicitly requested. See
+ * `packages/tokens/src/semantic/color.json`'s `_neutralButtonComment` for
+ * the full token-level record.
+ */
 export type LumenButtonVariant =
-  "primary" | "accent" | "secondary" | "outline" | "ghost" | "destructive";
+  "primary" | "accent" | "secondary" | "outline" | "ghost" | "destructive" | "neutral-solid";
 export type LumenButtonSize = "sm" | "md" | "lg" | "xl";
 
 @customElement("lumen-button")
@@ -143,6 +158,13 @@ export class LumenButton extends LitElement {
     }
     :host([variant="destructive"]) button:hover:not([aria-disabled="true"]) {
       background: var(--color-button-destructive-hover-bg);
+    }
+    :host([variant="neutral-solid"]) button {
+      background: var(--color-button-neutral-solid-bg);
+      color: var(--color-button-neutral-solid-on-action);
+    }
+    :host([variant="neutral-solid"]) button:hover:not([aria-disabled="true"]) {
+      background: var(--color-button-neutral-solid-hover-bg);
     }
     button[aria-disabled="true"] {
       pointer-events: none;

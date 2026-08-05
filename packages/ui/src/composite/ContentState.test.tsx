@@ -34,9 +34,11 @@ describe("ContentState", () => {
       expect(screen.queryByRole("status")).not.toBeInTheDocument();
     });
 
-    it("uses the tertiary text role for its description, per Figma's text/tertiary binding", () => {
+    it("uses the ContentState description text role, per Figma's text/tertiary binding", () => {
       render(<ContentState title="No projects yet" description="Some copy." />);
-      expect(screen.getByText("Some copy.")).toHaveClass("text-[var(--color-text-tertiary)]");
+      expect(screen.getByText("Some copy.")).toHaveClass(
+        "text-[var(--color-content-state-description-text)]"
+      );
     });
   });
 
@@ -63,13 +65,15 @@ describe("ContentState", () => {
     it("tints the badge with the error status roles rather than the empty state's neutral roles", () => {
       const { container } = render(<ContentState state="error" title="Something went wrong" />);
       const badge = container.querySelector("[aria-hidden]");
-      expect(badge).toHaveClass("bg-[var(--color-status-error-subtle)]");
-      expect(badge).toHaveClass("text-[var(--color-status-error)]");
+      expect(badge).toHaveClass("bg-[var(--color-content-state-error-icon-bg)]");
+      expect(badge).toHaveClass("text-[var(--color-content-state-error-icon-fg)]");
     });
 
-    it("uses the secondary text role for its description, a step darker than the empty state's", () => {
+    it("uses the error description text role, a step darker than the empty state's", () => {
       render(<ContentState state="error" title="Something went wrong" description="Some copy." />);
-      expect(screen.getByText("Some copy.")).toHaveClass("text-[var(--color-text-secondary)]");
+      expect(screen.getByText("Some copy.")).toHaveClass(
+        "text-[var(--color-content-state-error-description-text)]"
+      );
     });
   });
 
@@ -140,7 +144,7 @@ describe("ContentState", () => {
   it("sits on the app canvas background in every state, per Figma's bg/app binding", () => {
     (["empty", "loading", "error"] as const).forEach((state) => {
       const { container, unmount } = render(<ContentState state={state} title="Title" />);
-      expect(container.firstElementChild).toHaveClass("bg-[var(--color-background-app)]");
+      expect(container.firstElementChild).toHaveClass("bg-[var(--color-content-state-bg)]");
       unmount();
     });
   });

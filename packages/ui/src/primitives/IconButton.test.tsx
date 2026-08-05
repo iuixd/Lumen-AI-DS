@@ -21,7 +21,16 @@ describe("IconButton", () => {
     expect(screen.getByTestId("plus-glyph")).toBeInTheDocument();
   });
 
-  it.each(["default", "destructive", "outline", "secondary", "ghost", "link"] as IconButtonVariant[])(
+  it.each([
+    "default",
+    "destructive",
+    "outline",
+    "secondary",
+    "ghost",
+    "link",
+    "neutral-outline",
+    "neutral-solid"
+  ] as IconButtonVariant[])(
     "binds the %s variant's Button color tokens",
     (variant) => {
       render(<IconButton variant={variant} icon={<PlusGlyph />} aria-label={`${variant} action`} />);
