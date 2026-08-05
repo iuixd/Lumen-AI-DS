@@ -1076,6 +1076,39 @@ Full Screen
 - Provide an accessible name and optional description.
 - Destructive confirmations should use Alert Dialog behavior.
 
+## Current implementation (corrected 2026-08-05)
+
+This section predates any Figma source for Dialog and described an aspirational
+API broader than what's built — see `docs/figma-sync.md`'s Modal row (Figma
+nodes `1737:4152`/`1737:4154`) for the sync record. What actually ships:
+
+- **`Dialog`** (`packages/ui/src/components/dialog/Dialog.tsx`, Radix-backed):
+  `Dialog`/`DialogTrigger`/`DialogContent`/`DialogHeader`/`DialogFooter`/
+  `DialogTitle`/`DialogDescription`/`DialogClose`/`DialogOverlay`/
+  `DialogPortal` — low-level, composable primitives. Always modal (Radix's
+  `modal` prop defaults `true`; there is no `Non-modal` mode).
+- **`Modal`** (`packages/ui/src/composite/Modal.tsx`): a thin composite over
+  `Dialog` matching Figma's canonical "Modal" component — `open`/
+  `onOpenChange`/`title`/`description`/`actions` props, not a variant
+  system. This is the only variant Figma has authored (no separate `Alert
+  Dialog` component or style exists in Figma to source one from —
+  destructive confirmations, e.g. `DataExtractionOnboardingPage`'s "Remove
+  file?", just use a `Button variant="destructive"` inside `actions`, not a
+  structurally distinct dialog type).
+- No `Sm`/`Md`/`Lg`/`Full Screen` size prop — Figma's Modal is one fixed
+  550px-wide card (`max-w-[550px]`); no Figma evidence exists for any other
+  size.
+- Focus trap, scroll lock, Escape-to-close, and return-focus-to-trigger are
+  all handled by Radix (`Dialog`'s `modal` default) — no custom
+  implementation needed to satisfy the Requirements above. Accessible name/
+  description come from `DialogTitle`/`DialogDescription` (or `Modal`'s
+  `title`/`description` props), which Radix wires to `aria-labelledby`/
+  `aria-describedby` automatically.
+- `Non-modal`/`Alert Dialog`/`Sm`/`Lg`/`Full Screen` remain undocumented
+  aspirations, not a gap in this sync — no Figma source has ever specified
+  them, so nothing was built or removed to reconcile against this section;
+  they're left listed above as future direction.
+
 ---
 
 # 19. Drawer

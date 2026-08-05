@@ -215,6 +215,7 @@
   --color-deep-purple-500-a40: #5e35b166;
   --color-deep-purple-500-a60: #5e35b199;
   --color-deep-purple-500-a80: #5e35b1cc;
+  --color-deep-purple-900-a30: #1b0e334d;
   --color-chat-input-bg: #2B2F2F;
   --color-blue-50: #EAF0FD;
   --color-blue-100: #D3E0FB;
@@ -414,6 +415,7 @@
   --shadow-elevation-sm: 0px 1px 2px rgba(0,0,0,0.08);
   --shadow-menu-default: 0px 1px 4px rgba(0,0,0,0.06), 0px 4px 16px rgba(0,0,0,0.12);
   --shadow-toast-default: 0px 16px 32px -4px rgba(0,0,0,0.1), 0px 2px 4px rgba(0,0,0,0.04);
+  --shadow-modal-default: 0px 16px 24px rgba(0,0,0,0.16);
 
   /* divider (translucent, raw rgba — see divider.json) */
   --divider-button-primary: rgba(255, 255, 255, 0.3);
@@ -501,6 +503,9 @@
   --text-body-lg-size: 20px;
   --text-body-lg-line-height: 32px;
   --text-body-lg-weight: 400;
+  --text-body-lg-w600-size: 20px;
+  --text-body-lg-w600-line-height: 32px;
+  --text-body-lg-w600-weight: 600;
   --text-body-md-size: 16px;
   --text-body-md-line-height: 26px;
   --text-body-md-weight: 400;
@@ -1018,6 +1023,8 @@
   --color-toast-warning-accent: #FF832B;
   --color-toast-success-accent: #00A700;
   --color-toast-neutral-accent: #9F9F9F;
+  --color-modal-overlay: #1b0e334d;
+  --color-modal-title-text: #1E2021;
   --color-content-state-bg: #F6F8F8;
   --color-content-state-icon-badge-bg: #EDF0F1;
   --color-content-state-icon-fg: #262626;
@@ -1235,7 +1242,7 @@
   --color-button-outline-hover-border: #E599B1;
   --color-button-outline-focus-border: #E599B1;
   --color-button-ghost-bg: #00000000;
-  --color-button-ghost-on-action: #FFF5F8;
+  --color-button-ghost-on-action: #F9E6EC;
   --color-button-ghost-hover-bg: #be003c99;
   --color-button-link-on-action: #F2CCD8;
   --color-button-destructive-bg: #DA1E28;
@@ -1285,6 +1292,8 @@
   --color-toast-warning-accent: #C97A2E;
   --color-toast-success-accent: #0B8A3E;
   --color-toast-neutral-accent: #9F9F9F;
+  --color-modal-overlay: #1b0e334d;
+  --color-modal-title-text: #FFF5F8;
   --color-content-state-bg: #1E2021;
   --color-content-state-icon-badge-bg: #3D3039;
   --color-content-state-icon-fg: #191919;

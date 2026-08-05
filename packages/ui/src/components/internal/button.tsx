@@ -113,9 +113,22 @@ import { cn } from "../../lib/cn"
  * already have its own text-size override (`default`/`lg`); `sm`'s existing
  * `text-label-sm` override was not re-verified — no Figma evidence exists
  * for a `sm`-sized instance of this canonical Button to check it against.
+ *
+ * Corrected 2026-08-05, direct user report ("Button label font style also
+ * not matching the Figma Design") — the same latent gap just found and
+ * fixed on `Dialog`'s title/description: `body-sm-w500` (like every
+ * typography-scale utility in this repo) only carries font-size/line-
+ * height/weight, never font-family, and this base class string never paired
+ * it with an explicit `font-interface` class. With no repo-wide font-family
+ * reset, every Button label was silently falling through to Tailwind
+ * Preflight's generic system-UI stack instead of the actual bound
+ * `Instrument Sans` webfont (loaded via Storybook's Google Fonts import,
+ * but never requested) — a real, if subtle, typeface mismatch against
+ * Figma on every single Button in the app, not particular to any one
+ * variant/size. Added `font-interface` to the base class string.
  */
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[var(--radius-button)] text-body-sm-w500 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-button-focus-ring)] disabled:pointer-events-none disabled:border-transparent disabled:bg-[var(--color-button-disabled-bg)] disabled:text-[var(--color-button-disabled-on-action)] [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[var(--radius-button)] font-interface text-body-sm-w500 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-button-focus-ring)] disabled:pointer-events-none disabled:border-transparent disabled:bg-[var(--color-button-disabled-bg)] disabled:text-[var(--color-button-disabled-on-action)] [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {

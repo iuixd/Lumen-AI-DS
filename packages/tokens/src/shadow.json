@@ -20,5 +20,11 @@
       "value": "0px 16px 32px -4px rgba(0,0,0,0.1), 0px 2px 4px rgba(0,0,0,0.04)",
       "_comment": "Exact two-layer drop shadow ('Shadow/sm - y:16') read off Figma node 1475:5100's Toast frame via get_design_context. No existing shadow tier matches this combination."
     }
+  },
+  "modal": {
+    "default": {
+      "value": "0px 16px 24px rgba(0,0,0,0.16)",
+      "_comment": "Figma's own named effect is 'Elevation/4 — Modal' — sourced via get_variable_defs on node 1737:4152 ('Modal' component), 2026-08-05. A distinct, component-scoped tier; doesn't extend the generic elevation.sm scale since no Elevation/1-3 data exists yet to interpolate a real numbered scale from one data point."
+    }
   }
 }
