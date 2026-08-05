@@ -93,6 +93,12 @@ corepack pnpm --version
 
 The result must be `11.11.0`. Avoid using a globally installed incompatible pnpm version.
 
+This pin is checked weekly by Renovate (`renovate.json`, scoped only to the
+`packageManager` field — it never touches `dependencies`/`devDependencies`)
+and proposed as a PR when a new stable pnpm release has been out for a few
+days; it's never bumped automatically without CI passing and a human
+merging.
+
 Every root script that runs a nested `pnpm --filter`/`pnpm dlx` command (including
 `create:react`) invokes that nested call through `corepack` explicitly, so it resolves
 the pinned `11.11.0` regardless of what pnpm install, if any, is also on `PATH` —

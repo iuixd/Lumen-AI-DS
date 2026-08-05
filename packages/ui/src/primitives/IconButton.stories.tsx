@@ -4,7 +4,16 @@ import { PlusIcon } from "../icons/generated/PlusIcon";
 import { TrashIcon } from "../icons/generated/TrashIcon";
 import { XIcon } from "../icons/generated/XIcon";
 
-const variants: IconButtonVariant[] = ["default", "destructive", "outline", "secondary", "ghost", "link"];
+const variants: IconButtonVariant[] = [
+  "default",
+  "destructive",
+  "outline",
+  "secondary",
+  "ghost",
+  "link",
+  "neutral-outline",
+  "neutral-solid"
+];
 const sizes: IconButtonSize[] = ["sm", "md", "lg", "xl"];
 
 const meta = {
@@ -15,7 +24,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "A compact, square, icon-only control. Sourced from Lumen-AI-Design-System node `1034:4459`'s \"Icon Only - light\" instance — only `variant=\"secondary\"` at `size=\"md\"` (34px) matches that Figma instance exactly; the other variants reuse Button's already-synced color tokens applied to this new icon-only geometry."
+          "A compact, square, icon-only control. Sourced from Lumen-AI-Design-System node `1034:4459`'s \"Icon Only - light\" instance and node `1565:3815`'s dedicated icon-only reference frame — only `variant=\"secondary\"` at `size=\"md\"` (34px) matches a literal Figma instance exactly (that same instance is also Figma's icon-only \"Primary\" type); `neutral-outline`/`neutral-solid` (added 2026-08-04) match that frame's \"Outline\"/\"Solid\" types exactly. The remaining variants reuse Button's already-synced color tokens applied to this new icon-only geometry."
       }
     }
   },

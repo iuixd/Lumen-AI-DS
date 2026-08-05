@@ -167,7 +167,7 @@ function FileRow({
             // one-off. Supersedes an earlier flat "+2px" (13px) guess made
             // before this pull existed.
             "m-0 truncate",
-            disabled ? "text-body-xs-medium" : "text-body-sm-medium",
+            disabled ? "text-body-xs-medium" : "text-body-sm-w500",
             disabled ? "text-[#bfbfbf]" : "text-[var(--color-text-title)]"
           )}
         >
@@ -315,7 +315,10 @@ function FileRow({
  *   size/line-height as the existing `body-sm`/`body-xs` tiers, weight
  *   bumped to 500 — this file's own established `<tier>`/`<tier>-medium`
  *   naming, e.g. `app-caption`/`app-caption-medium`) rather than another
- *   one-off literal.
+ *   one-off literal. `body-sm-medium` renamed to `body-sm-w500` 2026-08-04
+ *   (numeric weight suffix, direct user request, made when `Button` became
+ *   a second consumer) — `body-xs-medium` was left as-is, this rename
+ *   didn't extend to it.
  * - File-row status text ("100kb · Uploaded") was `text-app-caption`
  *   (11/16/400, an unrelated AppShell-scoped tier) — real value is
  *   "Body/XSmall Regular" (12/20/400), unchanged between active/disabled
@@ -458,11 +461,11 @@ export function FileUploadProgressList({
           // 32px height, 12px horizontal padding, and the 11px `label-sm`
           // tier — none Figma-evidenced for this footer. The real bound
           // values are h-34/px-14 (`--spacing-34`/`--spacing-14`) and
-          // "Body/Small Medium" (14/22/500 = the new `body-sm-medium`
-          // tier), overridden locally since neither existing Button size
+          // "Body/Small Medium" (14/22/500 = `body-sm-w500`, renamed from
+          // `body-sm-medium` 2026-08-04), overridden locally since neither existing Button size
           // preset matches and this is one footer, not every `size="sm"`
           // Button in the app.
-          className="h-[var(--spacing-34)] px-[var(--spacing-14)] text-body-sm-medium text-[var(--color-text-title)]"
+          className="h-[var(--spacing-34)] px-[var(--spacing-14)] text-body-sm-w500 text-[var(--color-text-title)]"
           onClick={onCancel}
         >
           {cancelLabel}
@@ -473,7 +476,7 @@ export function FileUploadProgressList({
           disabled={primaryActionDisabled || primaryActionLoading}
           onClick={onPrimaryAction}
           className={cn(
-            "h-[var(--spacing-34)] px-[var(--spacing-14)] text-body-sm-medium",
+            "h-[var(--spacing-34)] px-[var(--spacing-14)] text-body-sm-w500",
             "transition-transform duration-[var(--duration-fast)] ease-[var(--easing-enter)] active:scale-[0.97] motion-reduce:transition-none motion-reduce:active:scale-100",
             justActivated && "scale-[0.98]"
           )}

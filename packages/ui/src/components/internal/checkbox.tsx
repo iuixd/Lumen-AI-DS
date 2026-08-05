@@ -125,9 +125,26 @@ const indeterminateGeometryBySize = {
  *   in the compiled Storybook CSS (not just the className strings) that
  *   `border-width`/`border-color`/`border-radius`/`outline-width`/
  *   `outline-color` all resolve to the intended CSS properties.
+ *
+ * Dark mode corrected 2026-08-05, direct user report — Figma published real
+ * `Theme=Dark` instances for this collection for the first time (21 symbols,
+ * matching Light 1:1). Reuses the same `input.radio-checkbox-*`/`input.
+ * primary-*` tokens already fixed by the Input/Radio dark-mode passes, so
+ * most fields (`selected`/`selected-text`/`disabled-border`, every
+ * `primary-*` border) were already correct — re-verified byte-exact, not
+ * re-guessed. Two real findings: `radio-checkbox-disabled-fill` (dark) was
+ * `neutral.600`, a 2026-07-31 ramp-mirror placeholder — Figma's real value
+ * is `nightshade.950`, a different family, not a nearby step. Hover also
+ * binds a background fill (`input/radio-checkbox/hover-bg`, light
+ * `lumen-gray.50`, dark `nightshade.800`) that this component never
+ * implemented at all — only the border color changed on hover before. Added
+ * as the new `hover:bg-[var(--color-input-radio-checkbox-hover-bg)]` class
+ * above, with `disabled:hover:` / `data-[state=checked]:hover:` /
+ * `data-[state=indeterminate]:hover:` overrides so the hover fill doesn't
+ * leak into those states' own fixed backgrounds.
  */
 const checkboxVariants = cva(
-  "peer relative shrink-0 border-solid bg-[var(--color-input-radio-checkbox-bg,var(--color-input-primary-bg))] outline outline-[length:0px] outline-[color:var(--color-input-primary-focused-border)] transition-colors disabled:cursor-not-allowed data-[state=checked]:border-[color:var(--color-input-radio-checkbox-selected)] data-[state=checked]:bg-[var(--color-input-radio-checkbox-selected)] data-[state=checked]:text-[var(--color-input-radio-checkbox-selected-text)] data-[state=indeterminate]:border-[color:var(--color-input-radio-checkbox-selected)] data-[state=indeterminate]:bg-[var(--color-input-radio-checkbox-selected)] data-[state=indeterminate]:text-[var(--color-input-radio-checkbox-selected-text)] aria-invalid:border-[color:var(--color-input-primary-error-border)] disabled:border-[color:var(--color-input-radio-checkbox-disabled-border)] disabled:bg-[var(--color-input-radio-checkbox-disabled-fill)] disabled:data-[state=checked]:border-[color:var(--color-input-radio-checkbox-disabled-border)] disabled:data-[state=checked]:bg-[var(--color-input-radio-checkbox-disabled-fill)]",
+  "peer relative shrink-0 border-solid bg-[var(--color-input-radio-checkbox-bg,var(--color-input-primary-bg))] outline outline-[length:0px] outline-[color:var(--color-input-primary-focused-border)] transition-colors hover:bg-[var(--color-input-radio-checkbox-hover-bg)] disabled:cursor-not-allowed disabled:hover:bg-[var(--color-input-radio-checkbox-disabled-fill)] data-[state=checked]:border-[color:var(--color-input-radio-checkbox-selected)] data-[state=checked]:bg-[var(--color-input-radio-checkbox-selected)] data-[state=checked]:text-[var(--color-input-radio-checkbox-selected-text)] data-[state=checked]:hover:bg-[var(--color-input-radio-checkbox-selected)] data-[state=indeterminate]:border-[color:var(--color-input-radio-checkbox-selected)] data-[state=indeterminate]:bg-[var(--color-input-radio-checkbox-selected)] data-[state=indeterminate]:text-[var(--color-input-radio-checkbox-selected-text)] data-[state=indeterminate]:hover:bg-[var(--color-input-radio-checkbox-selected)] aria-invalid:border-[color:var(--color-input-primary-error-border)] disabled:border-[color:var(--color-input-radio-checkbox-disabled-border)] disabled:bg-[var(--color-input-radio-checkbox-disabled-fill)] disabled:data-[state=checked]:border-[color:var(--color-input-radio-checkbox-disabled-border)] disabled:data-[state=checked]:bg-[var(--color-input-radio-checkbox-disabled-fill)]",
   {
     variants: {
       size: {

@@ -121,8 +121,12 @@ The Badge collection at Figma node `1079:893` maps its exact light variables to
 the `badge.*` group in `packages/tokens/src/semantic/color.json`. The only new
 raw color is `badge.default-bg` (`#191919`); every other Badge color aliases an
 existing ramp step. `badge-sm`, `badge-md`, and `badge-lg` preserve the exact
-Instrument Sans medium typography, `radius.pill` preserves Figma's 100px pill
-radius, and existing `spacing.*` tokens provide the gap, padding, and dot sizes.
+Instrument Sans medium typography, `radius.pill` (999px as of 2026-08-04,
+matching the generic Radius primitive scale's authored value — see
+`packages/tokens/src/radius.json`'s own comment; visually identical to the
+Badge-sourced 100px it replaced, since CSS clamps border-radius to 50% of an
+element's shortest side either way) provides the pill radius, and existing
+`spacing.*` tokens provide the gap, padding, and dot sizes.
 Dark Badge roles now use the exact values evidenced in the canonical AppShell
 light/dark variants at Figma node `1007:3700`; Badge modes outside that
 composition remain governed by the standalone Badge collection.

@@ -59,16 +59,19 @@ Icon content uses Angular's native content-projection selectors, not React's
 ### `LumenButtonComponent` (`<lumen-button>`)
 
 Final Figma node `1027:3733` contract, as of 2026-07-20: `variant` is
-`primary | accent | secondary | outline | ghost | destructive` (default
-`primary`) and `size` is `sm | md | lg | xl` (30px, 34px, 38px, and 42px;
-default `md`). `disabled` is boolean (default `false`). Leading and
+`primary | accent | secondary | outline | ghost | destructive | neutral-solid`
+(default `primary`) and `size` is `sm | md | lg | xl` (30px, 34px, 38px, and
+42px; default `md`). `disabled` is boolean (default `false`). Leading and
 trailing icons use the `[iconStart]` and `[iconEnd]` projection selectors.
 The standard Button has no status, pill, icon-only, or loading inputs.
+`neutral-solid` added 2026-08-04 (Figma `Style=Neutral Solid`) — this
+package has no plain `neutral` (outline-style) variant, a documented
+asymmetry, see `docs/figma-sync.md`'s Button row.
 
 **Why this doesn't match React's `Button` right now**: `@lumen/ui`'s
 `Button` was rewritten after 2026-07-20 on a shadcn-sourced base
 (`docs/shadcn-integration.md`) — new variant names
-(`default|destructive|outline|secondary|ghost|link|neutral`, no
+(`default|destructive|outline|secondary|ghost|link|neutral|neutral-solid`, no
 `primary`/`accent`), a new size scale (`default|sm|lg|icon`, not
 `sm|md|lg|xl`), no `iconStart`/`iconEnd` inputs (icons pass as projected
 content directly), and native `disabled` instead of `aria-disabled`.

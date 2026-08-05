@@ -63,7 +63,7 @@ inherit through the shadow DOM boundary, so no extra wiring is needed.
 
 | Property (attribute) | Type                                                                | Default   | Notes                                                   |
 | -------------------- | ------------------------------------------------------------------- | --------- | ------------------------------------------------------- |
-| `variant`            | `primary \| accent \| secondary \| outline \| ghost \| destructive` | `primary` | Final Figma collection; use semantic links for navigation. |
+| `variant`            | `primary \| accent \| secondary \| outline \| ghost \| destructive \| neutral-solid` | `primary` | Final Figma collection; use semantic links for navigation. `neutral-solid` added 2026-08-04 (Figma `Style=Neutral Solid`) — this package has no plain `neutral` (outline-style) variant, a documented asymmetry, see `docs/figma-sync.md`'s Button row. |
 | `size`               | `sm \| md \| lg \| xl`                                              | `md`      | 30px, 34px, 38px, and 42px from Figma node `1034:4459`. |
 | `disabled`           | boolean                                                             | `false`   |                                                         |
 
@@ -203,7 +203,7 @@ implemented the same final contract as of 2026-07-20.
 **This is no longer fully true.** `@lumen/ui`'s `Button` was rewritten again
 after that reconciliation, on a shadcn-sourced base (`docs/shadcn-
 integration.md`) — new variant names (`default|destructive|outline|
-secondary|ghost|link|neutral`, no `primary`/`accent`), a new size scale
+secondary|ghost|link|neutral|neutral-solid`, no `primary`/`accent`), a new size scale
 (`default|sm|lg|icon`, not `sm|md|lg|xl`), no `iconStart`/`iconEnd` props,
 native `disabled` instead of `aria-disabled`. `<lumen-button>` here still
 implements the 2026-07-20 contract described in the property table above —

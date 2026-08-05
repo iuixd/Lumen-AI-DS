@@ -26,13 +26,19 @@ describe("lumen-button", () => {
     expect(element.getAttribute("size")).toBe("md");
   });
 
-  it.each(["primary", "accent", "secondary", "outline", "ghost", "destructive"])(
+  it.each(["primary", "accent", "secondary", "outline", "ghost", "destructive", "neutral-solid"])(
     "reflects variant=%s for styling",
     async (variant) => {
       const element = await renderButton(`<lumen-button variant="${variant}">Save</lumen-button>`);
       expect(element.getAttribute("variant")).toBe(variant);
     }
   );
+
+  it("binds the neutral-solid variant's Figma-sourced dark-fill tokens", () => {
+    expect(LumenButton.styles.cssText).toContain('[variant="neutral-solid"]');
+    expect(LumenButton.styles.cssText).toContain("var(--color-button-neutral-solid-bg)");
+    expect(LumenButton.styles.cssText).toContain("var(--color-button-neutral-solid-hover-bg)");
+  });
 
   it.each(["sm", "md", "lg", "xl"])("reflects size=%s for styling", async (size) => {
     const element = await renderButton(`<lumen-button size="${size}">Save</lumen-button>`);

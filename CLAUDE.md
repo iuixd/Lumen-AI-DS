@@ -48,11 +48,13 @@ packages:
   `packages/web-components/README.md`. **Known drift, not yet reconciled**:
   `@lumen/ui`'s `Button` was later rewritten on a shadcn-sourced base with a
   different variant/size contract (`default|destructive|outline|secondary|
-  ghost|link|neutral`, no dedicated icon-slot props); this package's
-  `lumen-button` still implements the original contract
+  ghost|link|neutral|neutral-solid`, no dedicated icon-slot props); this
+  package's `lumen-button` still implements the original contract
   (`primary|accent|secondary|outline|ghost|destructive`, `icon-start`/
-  `icon-end`) and has not been migrated — do not assume the two are
-  prop-for-prop identical without checking both source files first.
+  `icon-end`) and has not been migrated — except `neutral-solid`, added to
+  both `lumen-button`s directly on 2026-08-04 by explicit request, ahead of
+  the rest of the migration. Do not assume the two are prop-for-prop
+  identical without checking both source files first.
 - `@lumen/angular` — Angular standalone components targeting Angular 20 LTS
   (not the latest major — see the package README for the TypeScript-version
   reason), implementing the same component specifications. Ships the same 9

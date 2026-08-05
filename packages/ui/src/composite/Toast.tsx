@@ -80,6 +80,48 @@ import { CircleCheckIcon } from "../icons/generated/CircleCheckIcon";
  * same `--toast-width` as a ceiling so a pathologically long
  * caller-supplied title still wraps/truncates instead of stretching
  * edge-to-edge, rather than reusing it as a fixed size.
+ *
+ * Corrected 2026-08-04, direct user dark-mode/dimension audit of node
+ * `1475:5100` (its own Theme axis resolves via Figma's variable mode
+ * system, not separate Dark instances). `success`/`neutral` from the
+ * 2026-07-29 note above are no longer fully generic: `success` now has real
+ * Figma evidence (`toast.success-accent`, distinct from the generic
+ * `status.success` in dark mode) — only `neutral` remains unevidenced.
+ * `warning`'s dark accent also diverged from the generic `status.warning`
+ * (a distinct muted amber, `status.amber`) — both promoted to their own
+ * `toast.{warning,success}-accent` tokens rather than continuing to reuse
+ * the shared `status.*` roles, which no longer matched in dark mode. Three
+ * more toast-scoped tokens added for the same reason (values differing
+ * from their generic equivalents, mostly in dark): `container-bg` (was the
+ * generic `background.raised`), `body-text` (was `text.secondary`), and
+ * `icon-default` for the dismiss button (was `text.secondary`, wrong in
+ * both themes for that role). `title-text`'s existing dark value was
+ * corrected from `lumen-gray.50` to `nightshade.50` — a family mismatch,
+ * not a shade error. `--toast-width` corrected 450px->448px (a 2px
+ * transcription drift, not a Figma change). `error`'s accent color was
+ * removed entirely (now matches `neutral`'s plain border color) — this
+ * tone has no bound accent-bar or icon-stroke variable in Figma at all,
+ * relying on the warning-triangle icon shape alone for differentiation;
+ * the icon itself is unchanged, only its distinct red tint is gone. Every
+ * other value (Info accent both themes, SystemInfo/`celebration` bg both
+ * themes, title-text light) was re-verified byte-exact, no change. See
+ * `packages/tokens/src/semantic/color.json`'s `_toastComment` for the full
+ * token-level record.
+ *
+ * Corrected same day, direct user report: Figma added a genuine `Type=Neutral`
+ * instance to this node (`1716:3818`, 448x150, Light) that didn't exist at
+ * the time of the audit above. Its accent (`Neutral/300`, #9F9F9F) is a real
+ * primitive already in this codebase — added as `toast.neutral-accent`,
+ * replacing the placeholder `--color-border-default` `neutral` had been
+ * using. Every other bound value on this instance (title/body text,
+ * container bg, border) re-confirmed the same-day dark-mode audit's values
+ * exactly, no further changes there. `error` was also repointed from the
+ * unrelated card-border color to this same new `neutral-accent` token, to
+ * actually match "look like `neutral`" as intended rather than a
+ * coincidental equal value that no longer held once `neutral` got its own
+ * evidence. No dark-mode instance exists for `Neutral` yet — `dark.toast.
+ * neutral-accent` reuses the light value unchanged, flagged provisional,
+ * same as `info-accent`'s existing precedent for a single-mode primitive.
  */
 export interface ToastItem {
   id: string;
@@ -117,19 +159,36 @@ type Tone = NonNullable<ToastItem["tone"]>;
 
 /**
  * Accent color driving the icon, left border, and progress bar for each
- * tone. `info` is the exact Figma-evidenced `toast.info-accent` (sky.500,
- * #2563EB) — distinct from the generic `status.info` token, which currently
- * aliases blue.500 (#0E17FF) and does not match this Figma source; see the
- * `_toastComment` in semantic/color.json for the full drift note.
- * `warning`/`error` reuse the existing, already-exact `status.warning`/
- * `status.error`. `success`/`neutral` reuse their pre-existing generic
- * colors — not evidenced by this Figma node.
+ * tone. `info`, `warning`, `success`, and (as of 2026-08-04) `neutral` are
+ * all real, Figma-evidenced toast-scoped tokens
+ * (`toast.{info,warning,success,neutral}-accent`) — `info`/`warning`/
+ * `success` each diverge from their same-named generic `status.*` role in
+ * dark mode, so none of them reuse the shared status tokens directly; see
+ * the `_toastComment` in semantic/color.json for the full record.
+ *
+ * `error` has no bound accent in Figma at all (see below) — briefly matched
+ * to `neutral`'s accent color same-day, then reverted same-day after direct
+ * user review of the rendered result: color is the strongest available
+ * signal that something failed, and a colorless error toast reads as
+ * informational, not a failure, at a glance. Kept on the pre-existing
+ * generic `status.error` token (unchanged from before this whole audit) —
+ * a deliberate usability call overriding the literal Figma finding, not an
+ * oversight.
  */
 const accentVar: Record<Tone, string> = {
-  neutral: "var(--color-border-default)",
+  neutral: "var(--color-toast-neutral-accent)",
   info: "var(--color-toast-info-accent)",
-  success: "var(--color-status-success)",
-  warning: "var(--color-status-warning)",
+  success: "var(--color-toast-success-accent)",
+  warning: "var(--color-toast-warning-accent)",
+  // No accent bar or bound icon-stroke variable exists on this tone in
+  // Figma at all (re-verified 2026-08-04, direct user dimension/color audit
+  // of node 1475:5115, then labeled "Type=Critical" — renamed to "Type=Error"
+  // by the user in Figma the same day, matching this tone's existing code
+  // name) — it relies on the warning-triangle icon *shape* alone for
+  // differentiation there. Kept on the pre-existing generic `status.error`
+  // regardless — see the docblock above this const for the reasoning (direct
+  // user call, after seeing the colorless version rendered, that failure
+  // states need color as a signal even where Figma's own binding doesn't).
   error: "var(--color-status-error)",
   // The exact semantic token Figma cites (`bg/toaster-systeminfo-bg`, node
   // `1519:6185`) rather than the primitive it happened to alias
@@ -231,7 +290,7 @@ function ToastCard({
         isSolid ? "w-fit max-w-[var(--toast-width)]" : "w-[var(--toast-width)]",
         isSolid
           ? "border-transparent text-[var(--color-neutral-white)]"
-          : "border-[var(--color-border-default)] bg-[var(--color-background-raised)]",
+          : "border-[var(--color-border-default)] bg-[var(--color-toast-container-bg)]",
         isRemoving
           ? "ease-[var(--easing-exit)] opacity-0"
           : entered
@@ -309,7 +368,7 @@ function ToastCard({
             </div>
             {toast.description && (
               <p
-                className="text-body-sm text-[var(--color-text-secondary)]"
+                className="text-body-sm text-[var(--color-toast-body-text)]"
                 style={
                   icon ? { paddingLeft: "calc(var(--toast-icon-size) + var(--spacing-16))" } : undefined
                 }
@@ -323,7 +382,7 @@ function ToastCard({
             type="button"
             aria-label={DISMISS_LABEL}
             onClick={() => onDismiss(toast.id)}
-            className="absolute right-[var(--spacing-8)] top-[var(--spacing-8)] flex size-[var(--toast-close-size)] items-center justify-center text-[var(--color-text-secondary)] hover:text-[var(--color-toast-title-text)]"
+            className="absolute right-[var(--spacing-8)] top-[var(--spacing-8)] flex size-[var(--toast-close-size)] items-center justify-center text-[var(--color-toast-icon-default)] hover:text-[var(--color-toast-title-text)]"
           >
             <CloseFilledIcon className="size-full" />
           </button>

@@ -82,9 +82,40 @@ import { cn } from "../../lib/cn"
  * classes, since Figma's own bound values for both states already match
  * this component's existing shared global treatment exactly (the base
  * `focus-visible:ring` color and the base `disabled:*` classes).
+ *
+ * Corrected 2026-08-04, direct user request against a fresh Figma pull (node
+ * `1565:3797`, the reorganized 'Variants' showcase for canonical set
+ * `1174:1349`): `neutral`'s hover state was wrong — it lightened
+ * (`neutral.50`) instead of Figma's real solid dark fill (`lumen-gray.800`,
+ * `#424849`) with text flipping to white; both fixed, see
+ * `packages/tokens/src/semantic/color.json`'s `_neutralButtonComment` for
+ * the full token-level record. Also added `neutral-solid`, a second,
+ * previously-undocumented Figma style (`Style=Neutral Solid`) distinct from
+ * plain `neutral` (which is Figma's `Style=Neutral Outline`) — a permanent
+ * dark fill (`neutral.700`) with white text, hovering to pure black
+ * (`neutral.black`), not an outline at all. Kept as a separate variant name
+ * rather than folding into `neutral` since the two are visually and
+ * semantically distinct treatments in Figma, not two states of one style.
+ *
+ * Corrected 2026-08-04, direct user request against a fresh `get_variable_defs`
+ * pull on this same canonical node (`1174:1349`): the base label typography
+ * was `text-label-md font-medium` — a "helper labels" preset (12px/18) never
+ * meant for button text at all, with its baked-in 600 weight only
+ * accidentally landing on the right value (500) because `font-medium`
+ * happened to win the cascade. Figma's real bound label style across every
+ * variant/state (`Body/Small Medium`) is 14px/22/weight-500 — exactly
+ * `body-sm-w500` (renamed same day from `body-sm-medium`, direct user
+ * request, to a numeric-weight suffix — a one-token exception to this
+ * file's usual word-based weight naming), an existing token from an
+ * earlier, unrelated sync (`FileUploadProgressList`). Swapped to
+ * `text-body-sm-w500` and dropped the now-redundant `font-medium`
+ * override. Affects every size that doesn't
+ * already have its own text-size override (`default`/`lg`); `sm`'s existing
+ * `text-label-sm` override was not re-verified — no Figma evidence exists
+ * for a `sm`-sized instance of this canonical Button to check it against.
  */
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[var(--radius-button)] text-label-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-button-focus-ring)] disabled:pointer-events-none disabled:border-transparent disabled:bg-[var(--color-button-disabled-bg)] disabled:text-[var(--color-button-disabled-on-action)] [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[var(--radius-button)] text-body-sm-w500 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-button-focus-ring)] disabled:pointer-events-none disabled:border-transparent disabled:bg-[var(--color-button-disabled-bg)] disabled:text-[var(--color-button-disabled-on-action)] [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -100,7 +131,9 @@ const buttonVariants = cva(
           "text-[var(--color-button-ghost-on-action)] hover:bg-[var(--color-button-ghost-hover-bg)]",
         link: "text-[var(--color-button-link-on-action)] underline-offset-4 hover:underline",
         neutral:
-          "border border-[var(--color-button-neutral-border)] bg-[var(--color-button-neutral-bg)] text-[var(--color-button-neutral-on-action)] hover:bg-[var(--color-button-neutral-hover-bg)]"
+          "border border-[var(--color-button-neutral-border)] bg-[var(--color-button-neutral-bg)] text-[var(--color-button-neutral-on-action)] hover:bg-[var(--color-button-neutral-hover-bg)] hover:text-[var(--color-button-neutral-hover-on-action)]",
+        "neutral-solid":
+          "bg-[var(--color-button-neutral-solid-bg)] text-[var(--color-button-neutral-solid-on-action)] hover:bg-[var(--color-button-neutral-solid-hover-bg)]"
       },
       size: {
         default: "h-[var(--spacing-34)] px-4 py-2",

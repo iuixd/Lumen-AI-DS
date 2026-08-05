@@ -36,12 +36,16 @@ import { cn } from "../../lib/cn"
  * three `State=Error` symbols (Figma had reorganized again since the
  * initial sync) shows Error is now uniformly `border-2` at every size —
  * previously sm/md were 1px (md's had actually *shrunk* from its own 1.5px
- * default). Also newly visible in that same fresh pull, NOT yet acted on
- * pending explicit scope confirmation: Error's padding-x is 2px larger
- * than each size's own default (12/16/18 vs. 10/14/18), and its text has
- * switched from Regular weight/placeholder-text color to a SemiBold
- * weight at a new `input/primary/text` (`#111`) color — neither requested
- * yet, flagged here rather than silently folded into this border fix.
+ * default). Also newly visible in that same fresh pull, flagged then as
+ * NOT yet acted on: Error's padding-x is 2px larger than each size's own
+ * default (12/16/18 vs. 10/14/18 — `lg`'s error value equals its own
+ * default, so it needs no override, not a "+2 uniformly" pattern), and its
+ * text switches from Regular weight/placeholder-text color to SemiBold at
+ * a new `input/primary/text` color. Both implemented 2026-08-04 (direct
+ * user request, alongside a dark-mode audit that reconfirmed the same
+ * finding with real dark values too — light's approximate `#111` note
+ * turned out exact, `#111111`/`neutral.950`; dark is `nightshade.50`,
+ * `#F9F3F7`) — no longer deferred.
  *
  * `size` (`sm`/`md`/`lg`, default `md`) replaces the retired primitive's
  * single fixed height — deliberately reintroducing a prop name the
@@ -98,7 +102,7 @@ import { cn } from "../../lib/cn"
  * this repo's existing generic convention rather than invented.
  */
 const inputVariants = cva(
-  "flex w-full appearance-none rounded-[var(--radius-input)] border-solid transition-colors placeholder:text-[var(--color-input-primary-placeholder-text)] focus-visible:border-[2.5px] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 file:border-0 file:bg-transparent file:font-medium file:text-foreground [&::-webkit-search-cancel-button]:appearance-none",
+  "flex w-full appearance-none rounded-[var(--radius-input)] border-solid transition-colors placeholder:text-[var(--color-input-primary-placeholder-text)] aria-invalid:font-semibold aria-invalid:text-[var(--color-input-primary-text)] focus-visible:border-[2.5px] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 file:border-0 file:bg-transparent file:font-medium file:text-foreground [&::-webkit-search-cancel-button]:appearance-none",
   {
     variants: {
       size: {
@@ -117,7 +121,13 @@ const inputVariants = cva(
       { size: "sm", variant: "primary", class: "hover:border-2 aria-invalid:border-2" },
       { size: "sm", variant: "search", class: "hover:border-2 aria-invalid:border-2" },
       { size: "md", variant: "search", class: "hover:border-2 aria-invalid:border-2" },
-      { size: "md", variant: "primary", class: "aria-invalid:border-2" }
+      { size: "md", variant: "primary", class: "aria-invalid:border-2" },
+      // Error state's extra horizontal padding — 12/16/18 vs each size's own
+      // 10/14/18 default. lg needs no override: its Error padding (18) is
+      // identical to its own default, confirmed via get_variable_defs, not
+      // an oversight of a "+2 uniformly" pattern that doesn't actually hold.
+      { size: "sm", class: "aria-invalid:px-[var(--spacing-12)]" },
+      { size: "md", class: "aria-invalid:px-[var(--spacing-16)]" }
     ],
     defaultVariants: { size: "md", variant: "primary" }
   }

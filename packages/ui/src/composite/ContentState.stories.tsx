@@ -20,7 +20,7 @@ const meta = {
         component: [
           "Sourced from Lumen-AI-Design-System node `1174:1355` (variants `1073:4486` Empty, `1073:4484` Loading, `1073:4483` Error).",
           "",
-          "**Not the same thing as `Composite/EmptyState`.** `EmptyState` is an *inline* treatment — a dashed box or a bordered card that sits inside a surface. `ContentState` replaces a whole content region, sits on the app canvas (`--color-background-app`), and owns the loading and error cases too. Reach for `EmptyState` inside a card or table; reach for `ContentState` for a page or panel body.",
+          "**Not the same thing as `Composite/EmptyState`.** `EmptyState` is an *inline* treatment — a dashed box or a bordered card that sits inside a surface. `ContentState` replaces a whole content region, sits on the app canvas (`--color-content-state-bg`), and owns the loading and error cases too. Reach for `EmptyState` inside a card or table; reach for `ContentState` for a page or panel body.",
           "",
           "**Design tokens consumed.** Surface: `background.app` (new), `background.raised`, `background.nav-active`. Border: `border.table` (skeleton bars), `border.subtle` (skeleton cards/rows). Text: `text.body` (heading), `text.tertiary` (new — empty description), `text.secondary` (error description). Status: `status.error-subtle` / `status.error` (error badge). Typography: `content-state-title` (new — Source Serif Pro 24/32 Regular). Motion: `duration.skeleton-pulse`, `easing.skeleton-pulse`, `opacity.skeleton-pulse-*`, `stagger.skeleton-step-*` (all new — see `motion.json`). Geometry: `--content-state-*` (see `content-state.json`).",
           "",
@@ -186,8 +186,8 @@ export const CustomSkeleton: Story = {
       loadingLabel="Loading conversation"
       skeleton={
         <div className="flex w-full flex-col gap-[var(--spacing-12)]">
-          <div className="h-[var(--spacing-40)] w-full animate-pulse rounded-[var(--radius-chat-bubble)] bg-[var(--color-border-table)]" />
-          <div className="h-[var(--spacing-40)] w-3/4 animate-pulse rounded-[var(--radius-chat-bubble)] bg-[var(--color-border-table)]" />
+          <div className="h-[var(--spacing-40)] w-full animate-pulse rounded-[var(--radius-chat-bubble)] bg-[var(--color-content-state-skeleton-bar-bg)]" />
+          <div className="h-[var(--spacing-40)] w-3/4 animate-pulse rounded-[var(--radius-chat-bubble)] bg-[var(--color-content-state-skeleton-bar-bg)]" />
         </div>
       }
     />

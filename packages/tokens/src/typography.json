@@ -177,11 +177,11 @@
       "weight": 400,
       "usage": "Fine print, captions (Figma Body sm)"
     },
-    "body-sm-medium": {
+    "body-sm-w500": {
       "fontSize": 14,
       "lineHeight": 22,
       "weight": 500,
-      "usage": "Medium-weight fine print (Figma 'Body/Small Medium') — footer button labels and active (non-disabled) file-row filenames in FileUploadProgressList. Figma-evidenced 2026-08-03 via get_variable_defs on Lumen-AI-Design-System nodes 1565:3298/1565:3337, exact match to this file's existing `body-sm`/`app-caption`-vs-`app-caption-medium` naming convention (same size/line-height as the regular tier, weight bumped to 500)."
+      "usage": "Medium-weight fine print (Figma 'Body/Small Medium') — footer button labels, active (non-disabled) file-row filenames in FileUploadProgressList, and the canonical Button's own label text. Figma-evidenced 2026-08-03 via get_variable_defs on Lumen-AI-Design-System nodes 1565:3298/1565:3337, exact match to this file's existing `body-sm`/`app-caption`-vs-`app-caption-medium` naming convention (same size/line-height as the regular tier, weight bumped to 500). Renamed 2026-08-04 from `body-sm-medium` to `body-sm-w500` (numeric weight suffix, unambiguous) — direct user request, in the same session that added the Button consumer; this is now the only numeric-weight-suffixed key in this file, the rest still use word-based suffixes (`-medium`/`-bold`), a deliberate one-token exception, not a repo-wide convention change."
     },
     "body-xs": {
       "fontSize": 12,

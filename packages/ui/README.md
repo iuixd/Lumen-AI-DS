@@ -67,11 +67,13 @@ Carousel, Item, Collapsible, Label, NavigationMenu, Form, Command, Menubar,
 Resizable.
 
 **Note on `Button`**: this is the canonical, current React `Button` contract
-— `default | destructive | outline | secondary | ghost | link | neutral`
-variants, `default | sm | lg | icon` sizes, icons passed as plain children
-(no `iconStart`/`iconEnd` props), native `disabled`. `@lumen/web-components`
-and `@lumen/angular` have not yet been migrated to match this contract; see
-their READMEs before assuming prop-for-prop parity.
+— `default | destructive | outline | secondary | ghost | link | neutral |
+neutral-solid` variants, `default | sm | lg | icon` sizes, icons passed as
+plain children (no `iconStart`/`iconEnd` props), native `disabled`.
+`@lumen/web-components` and `@lumen/angular` have not yet been migrated to
+match this contract (though both did pick up `neutral-solid` on 2026-08-04,
+by direct request, ahead of the rest of the migration); see their READMEs
+before assuming prop-for-parity elsewhere.
 
 ### Composite (`src/composite/`)
 

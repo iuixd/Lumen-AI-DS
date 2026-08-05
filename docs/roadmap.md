@@ -1240,15 +1240,20 @@ documentation-accuracy audit; no code changed by that audit).
 `Button` was separately rewritten on a shadcn-sourced base (see
 `docs/shadcn-integration.md`) after the 2026-07-20 Button reconciliation
 below — new variant names (`default|destructive|outline|secondary|ghost|
-link|neutral`, no `primary`/`accent`), a new size scale (`default|sm|lg|
+link|neutral|neutral-solid`, no `primary`/`accent`), a new size scale (`default|sm|lg|
 icon`, not `sm|md|lg|xl`), no `iconStart`/`iconEnd` props, native `disabled`
 instead of `aria-disabled`. `@lumen/web-components`'s `lumen-button` and
 `@lumen/angular`'s `LumenButtonComponent` still implement the contract from
 the 2026-07-20 reconciliation and have not been migrated — this is exactly
 the failure mode Phase 13 exists to catch, now recurring for the same
-component. Not yet scheduled as a deliverable below; needs a decision on
-whether to migrate the two framework packages' Button to match, or keep them
-pinned to the pre-shadcn contract deliberately.
+component. **Partial exception, 2026-08-04**: `neutral-solid` was added to
+both packages' `lumen-button` directly, by explicit user request, ahead of
+any full migration decision — they still have no plain `neutral`
+(outline-style) variant at all, so this is one variant grafted onto the old
+contract, not a reconciliation. Full migration is still not scheduled as a
+deliverable below; still needs a decision on whether to migrate the two
+framework packages' Button to match the rest of React's contract, or keep
+them pinned to the pre-shadcn contract deliberately.
 ```
 
 ## Sequencing
