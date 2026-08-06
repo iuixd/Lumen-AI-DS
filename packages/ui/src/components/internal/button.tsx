@@ -144,7 +144,7 @@ const buttonVariants = cva(
           "text-[var(--color-button-ghost-on-action)] hover:bg-[var(--color-button-ghost-hover-bg)]",
         link: "text-[var(--color-button-link-on-action)] underline-offset-4 hover:underline",
         neutral:
-          "border border-[var(--color-button-neutral-border)] bg-[var(--color-button-neutral-bg)] text-[var(--color-button-neutral-on-action)] hover:bg-[var(--color-button-neutral-hover-bg)] hover:text-[var(--color-button-neutral-hover-on-action)]",
+          "border border-[var(--color-button-neutral-border)] bg-[var(--color-button-neutral-bg)] text-[var(--color-button-neutral-on-action)] hover:bg-[var(--color-button-neutral-hover-bg)] hover:text-[var(--color-button-neutral-hover-on-action)] disabled:border-[var(--color-button-neutral-disabled-border)]",
         "neutral-solid":
           "bg-[var(--color-button-neutral-solid-bg)] text-[var(--color-button-neutral-solid-on-action)] hover:bg-[var(--color-button-neutral-solid-hover-bg)]"
       },

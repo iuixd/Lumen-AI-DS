@@ -75,7 +75,7 @@ export function PageHeader({
         </nav>
       )}
       <div className="flex items-center gap-[var(--spacing-16)]">
-        <h1 className="font-interface text-headline-md text-[var(--color-app-shell-text-primary)]">
+        <h1 className="font-editorial text-headline-md text-[var(--color-app-shell-text-primary)]">
           {title}
         </h1>
         <div className="min-w-px flex-1" />

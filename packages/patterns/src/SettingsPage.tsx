@@ -14,7 +14,7 @@ export function SettingsPage({ title, sections }: { title: string; sections: Set
   return (
     <Container size="md">
       <Stack gap={24}>
-        <h1 className="text-headline-sm text-[var(--color-text-title)]">{title}</h1>
+        <h1 className="font-editorial text-headline-sm text-[var(--color-text-title)]">{title}</h1>
         <Tabs defaultValue={sections[0]?.id}>
           <TabsList>
             {sections.map((s) => (
