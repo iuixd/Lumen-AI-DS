@@ -377,12 +377,8 @@
     "500-a60": { "value": "#917d8999" },
     "500-a80": { "value": "#917d89cc" }
   },
-  "accent": {
-    "_comment": "New family added 2026-08-02 from a fresh Variables export (Primitives/Default collection, 'Accent/Purple'). This is the same value the Dark-theme export's own `stroke/focus` variable resolves to ('Brand in light, accent purple in dark') — used to correct `dark.border.focus` in semantic/color.json, previously `primary.300` (#D8668A), an unevidenced placeholder.",
-    "purple": { "value": "#B48EE0" }
-  },
   "overlay": {
-    "_comment": "New family added 2026-08-02 from a fresh Variables export — translucent black/white steps used by the new semantic bg.hover/bg.pressed/bg.overlay roles (see semantic/color.json). Distinct from the existing neutral.white-a* series (those are Enterprise Login prototype-specific, no Figma source); these are the real Figma 'Overlay' collection. `transparent` added same day after Figma's own Variables panel showed this collection has 11 members, not the 10 originally added — fully transparent black, alpha 0, matching `neutral.transparent`'s existing value exactly (kept as its own entry per this collection's own naming, not deduplicated against the unrelated `neutral` family).",
+    "_comment": "New family added 2026-08-02 from a fresh Variables export — translucent black/white steps used by the new semantic bg.hover/bg.pressed/bg.overlay roles (see semantic/color.json). Distinct from the existing neutral.white-a* series (those are Enterprise Login prototype-specific, no Figma source); these are the real Figma 'Overlay' collection. `transparent` added same day after Figma's own Variables panel showed this collection has 11 members, not the 10 originally added — fully transparent black, alpha 0, matching `neutral.transparent`'s existing value exactly (kept as its own entry per this collection's own naming, not deduplicated against the unrelated `neutral` family). `black-60` added 2026-08-06, direct user-supplied dark-theme audit fix for `dark.modal.overlay` (`bg/modal-mask`) — not part of the original 2026-08-02 systematic export, a one-off addition the same way `deep-purple.900-a30` was added for the light side, since 60% doesn't fall on this family's existing 4/5/8/10/15/30/50/70 step pattern.",
     "black-4": { "value": "#0000000a" },
     "black-5": { "value": "#0000000d" },
     "black-8": { "value": "#00000014" },
@@ -390,6 +386,7 @@
     "black-15": { "value": "#00000026" },
     "black-30": { "value": "#0000004d" },
     "black-50": { "value": "#00000080" },
+    "black-60": { "value": "#00000099" },
     "black-70": { "value": "#000000b3" },
     "white-6": { "value": "#ffffff0f" },
     "white-10": { "value": "#ffffff1a" },

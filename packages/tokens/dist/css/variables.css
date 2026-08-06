@@ -311,7 +311,6 @@
   --color-nightshade-500-a40: #917d8966;
   --color-nightshade-500-a60: #917d8999;
   --color-nightshade-500-a80: #917d89cc;
-  --color-accent-purple: #B48EE0;
   --color-overlay-black-4: #0000000a;
   --color-overlay-black-5: #0000000d;
   --color-overlay-black-8: #00000014;
@@ -319,6 +318,7 @@
   --color-overlay-black-15: #00000026;
   --color-overlay-black-30: #0000004d;
   --color-overlay-black-50: #00000080;
+  --color-overlay-black-60: #00000099;
   --color-overlay-black-70: #000000b3;
   --color-overlay-white-6: #ffffff0f;
   --color-overlay-white-10: #ffffff1a;
@@ -412,6 +412,11 @@
   --shadow-button-active: 0px 0px 1px rgba(0,0,0,0.16), 0px 1px 1px rgba(0,0,0,0.18);
   --shadow-button-disabled: 0px 1px 1px rgba(0,0,0,0.12);
   --shadow-button-pressed-inset: inset 0px 2px 4px rgba(0,0,0,0.18);
+  --shadow-elevation-1: 0px 2px 4px rgba(0,0,0,0.04);
+  --shadow-elevation-2: 0px 4px 8px rgba(0,0,0,0.08);
+  --shadow-elevation-3: 0px 8px 16px rgba(0,0,0,0.12);
+  --shadow-elevation-4: 0px 16px 24px rgba(0,0,0,0.16);
+  --shadow-elevation-5: 0px 24px 48px rgba(0,0,0,0.24);
   --shadow-elevation-sm: 0px 1px 2px rgba(0,0,0,0.08);
   --shadow-menu-default: 0px 1px 4px rgba(0,0,0,0.06), 0px 4px 16px rgba(0,0,0,0.12);
   --shadow-toast-default: 0px 16px 32px -4px rgba(0,0,0,0.1), 0px 2px 4px rgba(0,0,0,0.04);
@@ -980,7 +985,8 @@
   --color-button-destructive-on-action: #FFFFFF;
   --color-button-destructive-hover-bg: #AE1820;
   --color-button-neutral-bg: #00000000;
-  --color-button-neutral-border: #DBE1E2;
+  --color-button-neutral-border: #DFDFDF;
+  --color-button-neutral-disabled-border: #DFDFDF;
   --color-button-neutral-on-action: #262626;
   --color-button-neutral-hover-bg: #424849;
   --color-button-neutral-hover-on-action: #FFFFFF;
@@ -1118,7 +1124,7 @@
   --color-background-table-bg: #17101A;
   --color-background-table-header-bg: #231C24;
   --color-background-table-text: #F9F3F7;
-  --color-background-code: #B8ACB3;
+  --color-background-code: #17101A;
   --color-background-disabled: #231C24;
   --color-background-avatar: #262626;
   --color-background-brand-tint: #231C24;
@@ -1143,11 +1149,11 @@
   --color-text-success-muted: #0B8A3E;
   --color-text-warning: #F5B46E;
   --color-text-danger: #E9787E;
-  --color-text-badge: #000000;
+  --color-text-badge: #F9F3F7;
   --color-border-default: #4C4C4C;
   --color-border-strong: #7F7F7F;
-  --color-border-focus: #B48EE0;
-  --color-border-subtle: #626B6E;
+  --color-border-focus: #9E86D0;
+  --color-border-subtle: #231C24;
   --color-border-table: #838F92;
   --color-border-input: #A4B3B7;
   --color-border-brand: #594D54;
@@ -1194,7 +1200,7 @@
   --color-input-radio-checkbox-disabled-border: #7A6674;
   --color-input-radio-checkbox-disabled-fill: #17101A;
   --color-input-radio-checkbox-hover-bg: #3D3039;
-  --color-badge-default-bg: #3D3039;
+  --color-badge-default-bg: #002121;
   --color-badge-default-text: #F9F3F7;
   --color-badge-gray-bg: #1E2021;
   --color-badge-gray-text: #F9F3F7;
@@ -1250,6 +1256,7 @@
   --color-button-destructive-hover-bg: #E14B53;
   --color-button-neutral-bg: #00000000;
   --color-button-neutral-border: #5E5E5E;
+  --color-button-neutral-disabled-border: #4C4C4C;
   --color-button-neutral-on-action: #EFEFEF;
   --color-button-neutral-hover-bg: #DFDFDF;
   --color-button-neutral-hover-on-action: #000000;
@@ -1265,11 +1272,11 @@
   --color-brand-border: #720024;
   --color-brand-border-strong: #980030;
   --color-brand-solid-active: #720024;
-  --color-status-success: #66CA66;
+  --color-status-success: #0B8A3E;
   --color-status-success-subtle: #004300;
   --color-status-success-text: #CCEDCC;
   --color-status-success-border: #008600;
-  --color-status-warning: #FFB580;
+  --color-status-warning: #C97A2E;
   --color-status-warning-subtle: #663411;
   --color-status-warning-text: #FFE6D5;
   --color-status-warning-border: #CC6922;
@@ -1292,7 +1299,7 @@
   --color-toast-warning-accent: #C97A2E;
   --color-toast-success-accent: #0B8A3E;
   --color-toast-neutral-accent: #9F9F9F;
-  --color-modal-overlay: #1b0e334d;
+  --color-modal-overlay: #00000099;
   --color-modal-title-text: #FFF5F8;
   --color-content-state-bg: #1E2021;
   --color-content-state-icon-badge-bg: #3D3039;

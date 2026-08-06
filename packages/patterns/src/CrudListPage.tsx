@@ -58,7 +58,7 @@ export function CrudListPage<T>({
       <Stack gap={24}>
         <Stack direction="row" justify="between" align="center">
           <Stack direction="row" gap={8} align="center">
-            <h1 className="text-headline-sm text-[var(--color-text-title)]">{title}</h1>
+            <h1 className="font-editorial text-headline-sm text-[var(--color-text-title)]">{title}</h1>
             <Badge tone="neutral">{data.length}</Badge>
           </Stack>
           {onCreate && <Button onClick={onCreate}>{createLabel}</Button>}

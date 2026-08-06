@@ -566,20 +566,31 @@ Border/Width/4
 ## Elevation
 
 ```text
-Elevation/None
-Elevation/Sm
-Elevation/Md
-Elevation/Lg
-Elevation/Xl
+Elevation/1
+Elevation/2
+Elevation/3
+Elevation/4
+Elevation/5
 ```
 
-**Partially implemented.** `packages/tokens/src/shadow.json` is real and
+**Corrected 2026-08-06**: this scale was previously documented as an
+aspirational `Elevation/None-Sm-Md-Lg-Xl` naming, invented before any generic
+elevation data existed in Figma. A live 'Scale / Elevation (Live)' frame
+(node `1770:7`) was found with the real scale — Figma's own naming is
+numeric (`Elevation/1`-`5`), not None/Sm/Md/Lg/Xl. Renamed here to match;
+Figma is this repo's source of truth for naming as well as values.
+
+**Now fully implemented.** `packages/tokens/src/shadow.json` is real and
 Figma-sourced — it defines complete shadow values (not only blur radius), as
-required below — but it ships component-scoped shadows (`button`, `menu`,
-`toast`) plus a single generic `elevation.sm` step, not the full
-None/Sm/Md/Lg/Xl generic scale listed above. `Md`/`Lg`/`Xl` remain
-unpublished by Figma and are a tracked gap, not yet a placeholder value —
-don't invent them. The Split Button AI dropdown binds `shadow.menu-default`
+required below. It ships component-scoped shadows (`button`, `menu`,
+`toast`, `modal`) plus the full generic `elevation.1`-`elevation.5` scale
+(added 2026-08-06 from node `1770:7`) and a separate `elevation.sm` step —
+sourced earlier from KPICard under the old aspirational naming, `elevation.sm`
+does not byte-match any of the 5 real numbered steps, so it is NOT step 1 of
+this scale despite the name; kept as its own real, distinct value rather than
+folded in or renumbered. `elevation.4` is byte-identical to `modal.default`,
+confirming that tier really is generic Elevation/4, not a one-off. The Split
+Button AI dropdown binds `shadow.menu-default`
 to the published two-layer menu shadow: `0 1px 4px rgb(0 0 0 / 6%)` plus
 `0 4px 16px rgb(0 0 0 / 12%)`; `Toast`, `Button`, and several shadcn-sourced
 components (`Card`, `Popover`, `DropdownMenu`, `Command`) bind their own
