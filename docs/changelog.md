@@ -231,6 +231,15 @@ Use the following headings for every release:
 
 ### Fixed
 
+- Bumped `deploy-storybook.yml`'s GitHub Pages actions off deprecated Node.js 20 runtimes.
+  - Affected: `.github/workflows/deploy-storybook.yml`
+  - Source: a post-merge CI run (PR #74) showed the `deploy` job timing out after ~10 minutes (`actions/deploy-pages@v4`'s Pages-publish poll hanging), plus deprecation warnings for `actions/configure-pages@v5`, an internally-pinned `actions/upload-artifact` (inside `upload-pages-artifact@v4`), and `deploy-pages@v4` all being force-run on Node 24 despite targeting Node 20. The timeout itself was diagnosed as transient (the custom domain `srikumar.design/Lumen-AI-DS/` has served successfully before, per an earlier changelog entry; a re-run was recommended) — this fix addresses the separate deprecation warnings.
+  - Previous: `actions/configure-pages@v5`, `actions/upload-pages-artifact@v4`, `actions/deploy-pages@v4`.
+  - Current: bumped to `actions/configure-pages@v6`, `actions/upload-pages-artifact@v5`, `actions/deploy-pages@v5` — all three confirmed via each action's GitHub releases page to target Node 24 natively. `upload-pages-artifact@v5` also bumps its internal `actions/upload-artifact` dependency to v7 and, since its own v4, no longer includes dotfiles in the artifact by default; checked the actual Storybook build output (`packages/storybook/storybook-static`) and confirmed it contains no dotfiles at its root, so this behavior change has no effect here. `actions/checkout@v7`, `pnpm/action-setup@v6`, `actions/setup-node@v6` were not flagged in the deprecation warnings and were left unchanged.
+  - Affects: `.github/workflows/deploy-storybook.yml` only
+  - Migration: none — CI-only change, no package/token/component impact
+  - Validation: re-read the edited YAML for structural correctness (no YAML linter available in this environment); rebuilt Storybook locally to confirm the artifact directory has no dotfiles affected by the v5 upload-artifact behavior change. Full validation of the actual deploy job requires the next push to `main`.
+
 - Resolved as many of `docs/figma-source.md` §18's remaining "current known limitations" as available Figma tooling and evidence allowed, per direct user request ("fix all possible items, align with Figma tokens"). 3 real, previously-uncaught bugs were found and fixed in the process; one real finding was investigated and deliberately left unchanged due to blast radius; a full generic Elevation scale was added.
   - Affected tokens/components: new `shadow.json` `elevation.1`-`elevation.5`; `PageHeader.tsx`, `CrudListPage.tsx`, `SettingsPage.tsx` heading font-family; `typography.json`/`design-tokens.md`/`figma-sync.md`/`figma-source.md` documentation corrections
   - Figma sources: "Scale / Elevation (Live)" frame (node `1770:7`, user-supplied URL) for the elevation scale; Typography Scale (`1716:3625`) and Button (`1174:1349`) for the font-family/weight findings; `list_file_components_for_code_connect` API response for the Code Connect blocker
