@@ -1,0 +1,20 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "enabled": false,
+  "packageRules": [
+    {
+      "matchDepTypes": ["packageManager"],
+      "matchPackageNames": ["pnpm"],
+      "enabled": true,
+      "followTag": "latest",
+      "minimumReleaseAge": "3 days",
+      "schedule": ["before 6am on monday"],
+      "automerge": false,
+      "commitMessageTopic": "pnpm packageManager pin",
+      "prBodyNotes": [
+        "This PR was opened by a Renovate config scoped only to the `packageManager` field in `package.json` — it never touches `dependencies`/`devDependencies`. Merge only after CI (typecheck, tests, lint, Storybook build) passes."
+      ]
+    }
+  ]
+}
