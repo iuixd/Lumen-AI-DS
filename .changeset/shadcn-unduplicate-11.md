@@ -1,5 +1,0 @@
----
-"@lumen/ui": major
----
-
-**Breaking:** `Button`, `Card`, `Tabs`, `Tooltip`, `Select`, `Avatar`, `Input`, `Switch`, `Checkbox`, `Pagination`, and `ButtonGroup` are now the shadcn-sourced implementations (promoted from `ShadcnButton`, `ShadcnCard`, etc.) — Lumen's original hand-built components of the same names have been removed. See `docs/shadcn-integration.md` §7.8 for the full rationale and per-component migration notes. Key API changes: `Button` has no `accent`/`ai` variant or `iconStart`/`iconEnd` props (pass icons as children); `Input` has no `size`/`variant="search"`/leading-icon/shortcut-badge; `Avatar` has no `name`/`tone`/`size` (compose `AvatarFallback` directly); `Switch` has no `label` (compose a separate `Label`); `Card`'s root has no padding (wrap content in the new `CardContent`); `Tabs`' sub-parts are renamed (`TabList`→`TabsList`, `Tab`→`TabsTrigger`, `TabPanel`→`TabsContent`); `Pagination` is now a set of composable parts (`PaginationContent`/`PaginationItem`/`PaginationPrevious`/`PaginationNext`) instead of a single `page`/`pageCount`/`onPageChange` component.
