@@ -1,5 +1,0 @@
----
-"@lumen/ui": patch
----
-
-Fixed `FileUploadDropzone` to match its Figma source (node `1511:2702`) exactly, per direct user report: the upload icon now uses `--color-icon-secondary` instead of `--color-text-secondary` (a distinct token family Figma binds it to); the header's own top corners are now explicitly rounded at `radius/2xl` (16px, node `1511:2703`) instead of relying solely on the outer card's 18px clip; and the root container no longer stretches to fill an oversized parent height and vertically center its content (`size-full` + `justify-center` → `w-full`, no `justify-*`) — a real layout bug that split extra height into visible gaps above the header and below the dropzone whenever the component was given more room than its content needs (as the Storybook Playground's fixed-height wrapper did; also removed there). Also added a subtle on-load fade/rise animation (reusing `DataExtractionOnboardingPage`'s existing `StepTransition` timing/easing), a code-side addition with no Figma source, same as this component's other disclosed motion enhancements.

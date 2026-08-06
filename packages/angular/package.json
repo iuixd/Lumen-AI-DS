@@ -1,6 +1,6 @@
 {
   "name": "@lumen/angular",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Lumen Angular — standalone Angular components implementing the same component specifications as @lumen/ui and @lumen/web-components. Ships 9 components (Button, AIButton, SplitButton, FilterChip, ChoiceChip, SegmentedControl, KPICard, Footer, ThemeToggle). See docs/roadmap.md Phase 13 and this package's README for a known Button-contract drift against @lumen/ui.",
   "license": "Apache-2.0",
   "type": "module",
