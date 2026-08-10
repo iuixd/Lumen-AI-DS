@@ -13,6 +13,9 @@ describe("FileUploadDropzone", () => {
     expect(screen.getByRole("heading", { name: "Start by uploading 20+ files" })).toBeInTheDocument();
     expect(screen.getByText("to create a project for optimal results")).toBeInTheDocument();
     expect(screen.getByText("PDF, PNG, JPG or GIF (max. 3MB)")).toBeInTheDocument();
+    expect(screen.getByLabelText("Upload files")).toHaveAttribute("type", "file");
+    expect(screen.getByTestId("file-upload-zone").tagName).toBe("LABEL");
+    expect(screen.queryByRole("button", { name: /Click to upload/ })).not.toBeInTheDocument();
   });
 
   it("renders custom copy when provided", () => {
@@ -27,7 +30,7 @@ describe("FileUploadDropzone", () => {
     const onFilesSelected = vi.fn();
     render(<FileUploadDropzone onFilesSelected={onFilesSelected} />);
     const file = makeFile("report.pdf");
-    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+    const input = screen.getByLabelText("Upload files") as HTMLInputElement;
     await user.upload(input, file);
     expect(onFilesSelected).toHaveBeenCalledWith([file]);
   });
@@ -35,7 +38,7 @@ describe("FileUploadDropzone", () => {
   it("calls onFilesSelected when files are dropped on the dropzone", () => {
     const onFilesSelected = vi.fn();
     render(<FileUploadDropzone onFilesSelected={onFilesSelected} />);
-    const dropzone = screen.getByRole("button", { name: /Click to upload/ });
+    const dropzone = screen.getByTestId("file-upload-zone");
     const file = makeFile("image.png", "image/png");
     fireEvent.drop(dropzone, { dataTransfer: { files: [file] } });
     expect(onFilesSelected).toHaveBeenCalledWith([file]);
@@ -43,7 +46,7 @@ describe("FileUploadDropzone", () => {
 
   it("crossfades from the default header SVG to the animated SVG while the dropzone is hovered", async () => {
     render(<FileUploadDropzone />);
-    const dropzone = screen.getByRole("button", { name: /Click to upload/ });
+    const dropzone = screen.getByTestId("file-upload-zone");
     const defaultHeader = screen.getByTestId("header-default-asset");
 
     expect(defaultHeader).toHaveClass("opacity-100");
@@ -62,7 +65,7 @@ describe("FileUploadDropzone", () => {
   it("does not call onFilesSelected when disabled", () => {
     const onFilesSelected = vi.fn();
     render(<FileUploadDropzone disabled onFilesSelected={onFilesSelected} />);
-    const dropzone = document.querySelector('[aria-disabled="true"]') as HTMLElement;
+    const dropzone = screen.getByTestId("file-upload-zone");
     const file = makeFile("report.pdf");
     fireEvent.drop(dropzone, { dataTransfer: { files: [file] } });
     expect(onFilesSelected).not.toHaveBeenCalled();

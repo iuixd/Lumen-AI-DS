@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type DragEvent } from "react";
+import { useEffect, useId, useRef, useState, type DragEvent } from "react";
 import { cn } from "../lib/cn";
 import { UploadIcon } from "../icons/generated/UploadIcon";
 
@@ -242,8 +242,8 @@ export function FileUploadDropzone({
   const [isHoverAssetReady, setIsHoverAssetReady] = useState(false);
   const [entered, setEntered] = useState(false);
   const dragCounter = useRef(0);
-  const inputRef = useRef<HTMLInputElement>(null);
   const hoverExitTimerRef = useRef<ReturnType<typeof setTimeout>>();
+  const inputId = useId();
   // Skips mounting the 165-node Pile of Papers animation tree entirely for
   // reduced-motion users, rather than hiding it visually with CSS while its
   // JS-driven (motion.dev) animations keep running underneath — matching
@@ -279,7 +279,7 @@ export function FileUploadDropzone({
     onFilesSelected?.(Array.from(fileList));
   }
 
-  function handleDragEnter(e: DragEvent<HTMLDivElement>) {
+  function handleDragEnter(e: DragEvent<HTMLLabelElement>) {
     e.preventDefault();
     // Deliberately does NOT stopPropagation (unlike handleDrop below) — it
     // must bubble up to a page-level "drop anywhere" listener (e.g.
@@ -295,7 +295,7 @@ export function FileUploadDropzone({
     setIsDragging(true);
   }
 
-  function handleDragLeave(e: DragEvent<HTMLDivElement>) {
+  function handleDragLeave(e: DragEvent<HTMLLabelElement>) {
     e.preventDefault();
     dragCounter.current -= 1;
     if (dragCounter.current <= 0) {
@@ -304,7 +304,7 @@ export function FileUploadDropzone({
     }
   }
 
-  function handleDrop(e: DragEvent<HTMLDivElement>) {
+  function handleDrop(e: DragEvent<HTMLLabelElement>) {
     e.preventDefault();
     // Stops here so a page-level drag-and-drop overlay (e.g.
     // DataExtractionOnboardingPage's full-viewport mask) that also listens
@@ -362,17 +362,9 @@ export function FileUploadDropzone({
         <p className="m-0 text-body-md text-[var(--color-text-secondary)]">{subheading}</p>
       </div>
 
-      <div
-        role="button"
-        tabIndex={disabled ? -1 : 0}
-        aria-disabled={disabled}
-        onClick={() => !disabled && inputRef.current?.click()}
-        onKeyDown={(e) => {
-          if (!disabled && (e.key === "Enter" || e.key === " ")) {
-            e.preventDefault();
-            inputRef.current?.click();
-          }
-        }}
+      <label
+        htmlFor={inputId}
+        data-testid="file-upload-zone"
         onDragEnter={handleDragEnter}
         onDragOver={(e) => e.preventDefault()}
         onDragLeave={handleDragLeave}
@@ -380,7 +372,7 @@ export function FileUploadDropzone({
         onMouseEnter={handleDropzoneMouseEnter}
         onMouseLeave={handleDropzoneMouseLeave}
         className={cn(
-          "group flex w-[436px] max-w-full cursor-pointer flex-col items-center gap-[var(--spacing-8)] rounded-[var(--radius-button)] border border-dashed px-[var(--spacing-16)] py-[var(--spacing-24)] transition-colors duration-[var(--duration-fast)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)] motion-reduce:transition-none",
+          "group flex w-[436px] max-w-full cursor-pointer flex-col items-center gap-[var(--spacing-8)] rounded-[var(--radius-button)] border border-dashed px-[var(--spacing-16)] py-[var(--spacing-24)] transition-colors duration-[var(--duration-fast)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--color-border-focus)] motion-reduce:transition-none",
           isDragging
             ? "border-[var(--color-primary-500)] bg-[var(--color-primary-500-a8)]"
             : disabled
@@ -390,8 +382,9 @@ export function FileUploadDropzone({
         )}
       >
         <input
-          ref={inputRef}
+          id={inputId}
           type="file"
+          aria-label="Upload files"
           accept={accept}
           multiple={multiple}
           disabled={disabled}
@@ -410,7 +403,7 @@ export function FileUploadDropzone({
           <span className="text-[var(--color-text-title)]">or drag and drop</span>
         </div>
         <p className="m-0 text-body-sm text-[var(--color-text-secondary)]">{helperText}</p>
-      </div>
+      </label>
     </div>
   );
 }
