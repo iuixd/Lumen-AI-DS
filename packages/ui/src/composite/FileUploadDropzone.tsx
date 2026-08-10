@@ -2,10 +2,8 @@ import { useEffect, useRef, useState, type DragEvent } from "react";
 import { cn } from "../lib/cn";
 import { UploadIcon } from "../icons/generated/UploadIcon";
 
-const pdfFileAsset = new URL("../assets/data-onboarding-file-pdf.svg", import.meta.url).href;
-const imageFileAsset = new URL("../assets/data-onboarding-file-image.svg", import.meta.url).href;
-const uploadArrowAsset = new URL("../assets/data-onboarding-upload-arrow.svg", import.meta.url).href;
-const uploadTrayAsset = new URL("../assets/data-onboarding-upload-tray.svg", import.meta.url).href;
+const defaultHeaderAsset = new URL("../assets/file-upload-header-default.svg", import.meta.url).href;
+const hoverHeaderAsset = new URL("../assets/file-upload-header-hover.svg", import.meta.url).href;
 
 export interface FileUploadDropzoneProps {
   heading?: string;
@@ -23,6 +21,14 @@ export interface FileUploadDropzoneProps {
  * with an overlapping file-icon cluster, a heading/subheading, and a
  * dashed-border dropzone supporting both click-to-browse and native
  * drag-and-drop onto the dropzone itself.
+ *
+ * Updated 2026-08-10 from Figma node `1874:392` and the two user-supplied
+ * 500x150 header exports. The default SVG is always present; entering the
+ * upload zone mounts the self-animated hover SVG and crossfades to it using
+ * existing motion tokens. Leaving reverses the crossfade, then unmounts the
+ * animated document so the next hover restarts at its authored first frame.
+ * Reduced-motion mode keeps the default artwork and hides the animated SVG.
+ * This supersedes the earlier `PileOfPapers` implementation documented below.
  *
  * Sourced from Lumen-AI-Design-System node `1511:2701` ("01 - Upload
  * Component", "Upload Component" section), read via `get_design_context`
@@ -77,6 +83,22 @@ export interface FileUploadDropzoneProps {
  * stopPropagation from `handleDragEnter` only — `handleDrop` still needs
  * it, to keep a page-level listener from double-handling a drop that
  * lands directly on this card.
+ *
+ * **Superseded 2026-08-06** — the icon cluster's own hover transform
+ * described in the next several paragraphs (arrow lift, file-icon push/
+ * rotate) has been removed. The user supplied real Figma prototype URLs
+ * for this exact interaction (Default `1813:2509`, Hover `1834:1167`) —
+ * Figma's live `get_motion_context` data (165 animated nodes, verified
+ * programmatically, not sampled) shows the icon cluster itself is NOT
+ * animated at all; instead a separate, previously-hidden "Pile of Papers"
+ * illustration (16 document sheets + 96 "data extraction" strip/particle
+ * elements across two waves + 5 "detach" pieces that tumble away) fades in
+ * on top of it and plays a 4-second looping sequence. See `PileOfPapers.tsx`
+ * and `pile-of-papers-data.ts` for the full implementation and sourcing
+ * record. The static icon-asset history below (why the arrow/tray are
+ * separate committed SVGs, their exact coordinates) is still accurate and
+ * still applies — only the icon cluster's *hover response* is gone; it
+ * stays at its resting position/rotation now, matching Figma exactly.
  *
  * Added 2026-08-03, direct user request for a coordinated hover animation
  * on the header-graphic icon cluster when the dropzone below it is
@@ -216,14 +238,41 @@ export function FileUploadDropzone({
 }: FileUploadDropzoneProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [isDropzoneHovered, setIsDropzoneHovered] = useState(false);
+  const [isHoverAssetMounted, setIsHoverAssetMounted] = useState(false);
+  const [isHoverAssetReady, setIsHoverAssetReady] = useState(false);
   const [entered, setEntered] = useState(false);
   const dragCounter = useRef(0);
   const inputRef = useRef<HTMLInputElement>(null);
+  const hoverExitTimerRef = useRef<ReturnType<typeof setTimeout>>();
+  // Skips mounting the 165-node Pile of Papers animation tree entirely for
+  // reduced-motion users, rather than hiding it visually with CSS while its
+  // JS-driven (motion.dev) animations keep running underneath — matching
+  // this repo's "disable motion entirely" convention, applied at the mount
+  // level since motion-reduce:* Tailwind classes can't stop WAAPI animation
+  // execution the way they stop CSS transitions.
 
   useEffect(() => {
     const raf = requestAnimationFrame(() => setEntered(true));
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      cancelAnimationFrame(raf);
+      if (hoverExitTimerRef.current !== undefined) clearTimeout(hoverExitTimerRef.current);
+    };
   }, []);
+
+  function handleDropzoneMouseEnter() {
+    if (disabled) return;
+    if (hoverExitTimerRef.current !== undefined) clearTimeout(hoverExitTimerRef.current);
+    setIsHoverAssetMounted(true);
+    setIsDropzoneHovered(true);
+  }
+
+  function handleDropzoneMouseLeave() {
+    setIsDropzoneHovered(false);
+    hoverExitTimerRef.current = setTimeout(() => {
+      setIsHoverAssetMounted(false);
+      setIsHoverAssetReady(false);
+    }, 300);
+  }
 
   function handleFiles(fileList: FileList | null) {
     if (!fileList || fileList.length === 0) return;
@@ -281,45 +330,29 @@ export function FileUploadDropzone({
         style={{ background: "var(--gradient-upload-header)" }}
         aria-hidden="true"
       >
-        <div className="absolute left-1/2 top-[20px] h-[130px] w-[107px] -translate-x-1/2">
-          <div
-            data-testid="header-pdf-file"
+        <img
+          src={defaultHeaderAsset}
+          alt=""
+          data-testid="header-default-asset"
+          className={cn(
+            "absolute inset-0 size-full transition-opacity duration-[var(--duration-slow)] ease-[var(--easing-enter)] motion-reduce:transition-none",
+            isDropzoneHovered && isHoverAssetReady
+              ? "opacity-0 motion-reduce:opacity-100"
+              : "opacity-100"
+          )}
+        />
+        {isHoverAssetMounted && (
+          <img
+            src={hoverHeaderAsset}
+            alt=""
+            data-testid="header-hover-asset"
+            onLoad={() => setIsHoverAssetReady(true)}
             className={cn(
-              "absolute left-0 top-[9px] h-[63px] w-[58px] transition-transform delay-[50ms] duration-[var(--duration-moderate)] ease-[var(--easing-enter)] motion-reduce:transition-none motion-reduce:delay-0",
-              isDropzoneHovered
-                ? "-translate-y-1.5 -translate-x-1.5 rotate-[-9deg]"
-                : "translate-y-0 translate-x-0 rotate-[-19deg]"
+              "absolute inset-0 size-full transition-opacity duration-[var(--duration-slow)] ease-[var(--easing-enter)] motion-reduce:hidden",
+              isDropzoneHovered && isHoverAssetReady ? "opacity-100" : "opacity-0"
             )}
-          >
-            <img src={pdfFileAsset} alt="" className="size-full" />
-          </div>
-          <div
-            data-testid="header-image-file"
-            className={cn(
-              "absolute left-[47px] top-0 h-[64px] w-[61px] transition-transform delay-[50ms] duration-[var(--duration-moderate)] ease-[var(--easing-enter)] motion-reduce:transition-none motion-reduce:delay-0",
-              isDropzoneHovered
-                ? "-translate-y-1.5 translate-x-1.5 rotate-[13deg]"
-                : "translate-y-0 translate-x-0 rotate-[23deg]"
-            )}
-          >
-            <img src={imageFileAsset} alt="" className="size-full" />
-          </div>
-          <div
-            data-testid="header-upload-arrow-glyph"
-            className={cn(
-              "absolute left-[37.61px] top-[71.57px] h-[32.87px] w-[25.82px] transition-transform duration-[var(--duration-fast)] motion-reduce:transition-none",
-              isDropzoneHovered ? "-translate-y-1.5" : "translate-y-0"
-            )}
-          >
-            <img src={uploadArrowAsset} alt="" className="size-full" />
-          </div>
-          <div
-            data-testid="header-upload-tray"
-            className="absolute left-[21.18px] top-[112.74px] h-[18.26px] w-[58.43px]"
-          >
-            <img src={uploadTrayAsset} alt="" className="size-full" />
-          </div>
-        </div>
+          />
+        )}
       </div>
 
       <div className="flex flex-col items-center gap-[var(--spacing-8)] text-center">
@@ -344,8 +377,8 @@ export function FileUploadDropzone({
         onDragOver={(e) => e.preventDefault()}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
-        onMouseEnter={() => setIsDropzoneHovered(true)}
-        onMouseLeave={() => setIsDropzoneHovered(false)}
+        onMouseEnter={handleDropzoneMouseEnter}
+        onMouseLeave={handleDropzoneMouseLeave}
         className={cn(
           "group flex w-[436px] max-w-full cursor-pointer flex-col items-center gap-[var(--spacing-8)] rounded-[var(--radius-button)] border border-dashed px-[var(--spacing-16)] py-[var(--spacing-24)] transition-colors duration-[var(--duration-fast)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)] motion-reduce:transition-none",
           isDragging

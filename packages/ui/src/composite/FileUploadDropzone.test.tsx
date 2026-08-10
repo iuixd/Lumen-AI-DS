@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { FileUploadDropzone } from "./FileUploadDropzone";
 
@@ -41,42 +41,22 @@ describe("FileUploadDropzone", () => {
     expect(onFilesSelected).toHaveBeenCalledWith([file]);
   });
 
-  it("animates the header graphic when the dropzone is hovered, and reverts on mouse-leave", () => {
+  it("crossfades from the default header SVG to the animated SVG while the dropzone is hovered", async () => {
     render(<FileUploadDropzone />);
     const dropzone = screen.getByRole("button", { name: /Click to upload/ });
-    const arrowGlyph = screen.getByTestId("header-upload-arrow-glyph");
-    const tray = screen.getByTestId("header-upload-tray");
-    const pdfFile = screen.getByTestId("header-pdf-file");
-    const imageFile = screen.getByTestId("header-image-file");
+    const defaultHeader = screen.getByTestId("header-default-asset");
 
-    // The tray/bracket is its own element (a separate, Figma-sourced asset
-    // from the arrow glyph) and never carries a translate class at all.
-    expect(tray.className).not.toContain("translate");
-    expect(arrowGlyph.className).toContain("translate-y-0");
-    expect(pdfFile.className).toContain("translate-x-0");
-    expect(pdfFile.className).toContain("rotate-[-19deg]");
-    expect(imageFile.className).toContain("translate-x-0");
-    expect(imageFile.className).toContain("rotate-[23deg]");
+    expect(defaultHeader).toHaveClass("opacity-100");
+    expect(screen.queryByTestId("header-hover-asset")).not.toBeInTheDocument();
 
     fireEvent.mouseEnter(dropzone);
-    expect(arrowGlyph.className).toContain("-translate-y-1.5");
-    expect(tray.className).not.toContain("translate");
-    // Icons converge toward each other on hover: PDF (left) pushes further
-    // left, image (right) pushes further right, each easing back toward
-    // level rotation.
-    expect(pdfFile.className).toContain("-translate-y-1.5");
-    expect(pdfFile.className).toContain("-translate-x-1.5");
-    expect(pdfFile.className).toContain("rotate-[-9deg]");
-    expect(imageFile.className).toContain("-translate-y-1.5");
-    expect(imageFile.className).toContain("translate-x-1.5");
-    expect(imageFile.className).toContain("rotate-[13deg]");
+    fireEvent.load(screen.getByTestId("header-hover-asset"));
+    await waitFor(() => expect(screen.getByTestId("header-hover-asset")).toHaveClass("opacity-100"));
+    expect(defaultHeader).toHaveClass("opacity-0");
 
     fireEvent.mouseLeave(dropzone);
-    expect(arrowGlyph.className).toContain("translate-y-0");
-    expect(pdfFile.className).toContain("translate-x-0");
-    expect(pdfFile.className).toContain("rotate-[-19deg]");
-    expect(imageFile.className).toContain("translate-x-0");
-    expect(imageFile.className).toContain("rotate-[23deg]");
+    expect(screen.getByTestId("header-hover-asset")).toHaveClass("opacity-0");
+    expect(defaultHeader).toHaveClass("opacity-100");
   });
 
   it("does not call onFilesSelected when disabled", () => {
