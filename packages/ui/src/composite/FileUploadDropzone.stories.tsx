@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "The idle-state file-upload card: gradient header with an overlapping file-icon cluster, a heading/subheading, and a dashed dropzone supporting click-to-browse and drag-and-drop. Sourced from Lumen-AI-Design-System node `1511:2701` (\"Upload Component\" section). Only tracks drag state over its own area — see `DataExtractionOnboardingPage` for the full-viewport \"drop anywhere\" overlay layered on top."
+          "The idle-state file-upload card: gradient header with an overlapping file-icon cluster, a heading/subheading, and a dashed dropzone supporting click-to-browse and drag-and-drop. Hovering the File Upload Zone crossfades the header to the supplied animated SVG and restores the default SVG on exit. Sourced from Lumen-AI-Design-System node `1874:392`. Only tracks drag state over its own area — see `DataExtractionOnboardingPage` for the full-viewport \"drop anywhere\" overlay layered on top."
       }
     }
   },
