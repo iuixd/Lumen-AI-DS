@@ -164,7 +164,8 @@ describe("DataExtractionOnboardingPage", () => {
 
   it("shows the full-page drag mask even when the drag starts directly over the dropzone card, not just the page background", () => {
     render(<DataExtractionOnboardingPage initialStep="upload" />);
-    const dropzone = screen.getByRole("button", { name: /drag and drop/i });
+    const dropzone = screen.getByLabelText("Upload files").closest("label");
+    if (!dropzone) throw new Error("Expected the file input to be associated with its dropzone label");
     const dataTransfer = { types: ["Files"] };
 
     expect(screen.getByTestId("drag-mask")).toHaveAttribute("aria-hidden", "true");

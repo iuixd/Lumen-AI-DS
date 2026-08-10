@@ -45,7 +45,7 @@ Use the following headings for every release:
   - Affects: `packages/ui/src/assets/{file-upload-header-default.svg,file-upload-header-hover.svg}`, `packages/ui/src/composite/{FileUploadDropzone.tsx,FileUploadDropzone.test.tsx}`, `packages/ui/package.json`, `pnpm-lock.yaml`
   - Migration: none — no public prop, event, layout, or sizing contract changed
   - Accessibility: replaced the synthetic `div[role="button"]` wrapper around the native file input with an associated `<label>` and uniquely identified `<input aria-label="Upload files">`. This removes the nested-interactive-control structure, gives the form control an accessible name, and moves the visible focus treatment to `focus-within` so native keyboard focus remains visible.
-  - Validation: `@lumen/ui` TypeScript check passed; focused ESLint passed; all 6 `FileUploadDropzone` tests passed; production Storybook build passed and emitted both SVG assets. Browser screenshot automation could load the page but did not render the Storybook iframe in this environment, so final live hover visual QA remains pending.
+  - Validation: `@lumen/ui` TypeScript check passed; focused ESLint passed; all 444 `@lumen/ui` tests and the affected `@lumen/patterns` integration suite passed; production Storybook build passed and emitted both SVG assets. Browser screenshot automation could load the page but did not render the Storybook iframe in this environment, so final live hover visual QA remains pending.
   - Changeset: `.changeset/pile-of-papers-hover-animation.md` (`@lumen/ui` patch)
 
 - Added `Modal`, a new `@lumen/ui` composite matching Figma's canonical "Modal" component, replacing an unrelated retired composite of the same name.
