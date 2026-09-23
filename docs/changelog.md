@@ -38,6 +38,26 @@ Use the following headings for every release:
 
 ### Added
 
+- Added `FileUploadFlow`, a new `@lumen/ui` composite for the working upload journey: dropzone → drag overlay → Uploading → Uploaded → Create Project.
+  - Source: direct user request (2026-09-23): the dropzone showed the drag overlay in Storybook, but dropping files went nowhere. Scope choice, confirmed by the user: a new composite extracted from the pattern, with `FileUploadDropzone` kept as the idle input. Not previously listed in `[Unreleased]`.
+  - Previous: the flow (files state, simulated per-file progress, remove-file confirmation `Modal`, Cancel, Create Project phases with the 600ms "creating" floor and failure recovery, "Files uploaded!" toast) was private to `DataExtractionOnboardingPage`'s `OnboardingFlow`.
+  - Change: moved unchanged into `FileUploadFlow`. It composes `FileUploadDropzone` (`dropOverlay="none"`), `FileUploadProgressList`, `FileDropOverlay`/`useWindowFileDrag`, `Modal`, and its own bottom-center `ToastProvider`. A `renderStep` prop lets a page wrap each step's card in its own chrome, and `dropzoneProps` forwards dropzone copy. `DataExtractionOnboardingPage` now keeps only the login step and its header/page background/dim-on-drag, passed in through `renderStep`. Its 13 existing tests pass unchanged.
+  - Affects: `packages/ui/src/composite/{FileUploadFlow.tsx,FileUploadFlow.test.tsx,FileUploadFlow.stories.tsx}` (new), `packages/ui/src/composite/{FileUploadDropzone.stories.tsx,FileUploadDropzone.mdx}` (new `WithUploadFlow` story), `packages/ui/src/index.ts`, `packages/patterns/src/DataExtractionOnboardingPage.tsx`
+  - Migration: none for `DataExtractionOnboardingPage`'s props. Its outer `ToastProvider` wrapper is gone (the flow brings its own). `initialStep="progress"` now starts at the upload step, because there are no files to show without a drop.
+  - Accessibility: unchanged from the pattern — the Radix-backed `Modal` for remove confirmation, distinct "Keep file"/"Remove file" names, a `role="alert"` create error, and a decorative overlay.
+  - Cross-framework: React only.
+  - Changeset: `.changeset/file-upload-dropzone-drag-overlay.md` (`@lumen/ui` minor, `@lumen/patterns` patch)
+
+- Added the full-viewport violet drag overlay to `FileUploadDropzone`, so the composite shows the same drag-and-drop feedback on its own as it does inside `DataExtractionOnboardingPage`.
+  - Source: direct user report (2026-09-23) comparing the two in Storybook; the overlay itself is unchanged from Figma node `1565:3375`. Not previously listed in `[Unreleased]` — added here at the user's direct, confirmed request (scope choice: full-window overlay on by default).
+  - Previous: the overlay (`DragMask`) and its window-level drag tracking were private to `DataExtractionOnboardingPage`; `FileUploadDropzone` only tinted its own dashed zone while a file was over it.
+  - Change: moved both into `@lumen/ui` as the new `FileDropOverlay` component and `useWindowFileDrag` hook, with no visual or behavioral change. `FileUploadDropzone` renders them by default (new `dropOverlay` prop, `"page"` | `"none"`) and accepts a drop anywhere on the window. The overlay now portals to `document.body`, because the card's mount transition would otherwise pin a `fixed` overlay to the card. `DataExtractionOnboardingPage` now uses the same hook and overlay, and passes `dropOverlay="none"` so its own overlay can still pulse and scale out across the upload→progress step change.
+  - Affects: `packages/ui/src/composite/{FileDropOverlay.tsx (new),FileDropOverlay.stories.tsx (new),FileUploadDropzone.tsx,FileUploadDropzone.test.tsx,FileUploadDropzone.stories.tsx,FileUploadDropzone.mdx}`, `packages/ui/src/index.ts`, `packages/patterns/src/DataExtractionOnboardingPage.tsx`
+  - Migration: none required. Existing `FileUploadDropzone` consumers gain the window-level overlay by default; pass `dropOverlay="none"` to keep the old card-only behavior (recommended when a page hosts more than one dropzone). The resting appearance is unchanged.
+  - Accessibility: the overlay stays decorative (`aria-hidden`, `pointer-events-none`), as before; keyboard and click-to-browse paths are unaffected.
+  - Cross-framework: React only — `FileUploadDropzone` isn't among `@lumen/web-components`'/`@lumen/angular`'s shipped components.
+  - Changeset: `.changeset/file-upload-dropzone-drag-overlay.md` (`@lumen/ui` minor, `@lumen/patterns` patch)
+
 - Updated `FileUploadDropzone` to crossfade its header from the supplied default SVG to the supplied self-animated hover SVG while the File Upload Zone is hovered, and to reverse the crossfade on pointer exit.
   - Source: Lumen-AI-Design-System component node `1874:392` (header `1874:393`, File Upload Zone `1874:591`) plus user-supplied `DEFAULT-FileUpload-final-header.svg` and `HOVER-FileUpload-final-header.svg` exports.
   - Previous: the header illustration was assembled from four separate static assets and overlaid with a 165-node React/motion.dev `PileOfPapers` recreation during hover.

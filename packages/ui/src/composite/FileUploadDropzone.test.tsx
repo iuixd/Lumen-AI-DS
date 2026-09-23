@@ -62,6 +62,72 @@ describe("FileUploadDropzone", () => {
     expect(defaultHeader).toHaveClass("opacity-100");
   });
 
+  describe("full-window drag overlay", () => {
+    const fileDrag = () => ({ dataTransfer: { types: ["Files"], files: [] as File[] } });
+
+    it("stays hidden at rest, shows while files are dragged over the window, and hides when they leave", () => {
+      render(<FileUploadDropzone />);
+      const overlay = screen.getByTestId("drag-mask");
+      expect(overlay).toHaveAttribute("aria-hidden", "true");
+      expect(overlay.parentElement).toBe(document.body);
+
+      fireEvent.dragEnter(window, fileDrag());
+      expect(overlay).toHaveAttribute("aria-hidden", "false");
+      expect(screen.getByText("Drop your files like there's no limit!")).toBeInTheDocument();
+
+      fireEvent.dragLeave(window, fileDrag());
+      expect(overlay).toHaveAttribute("aria-hidden", "true");
+    });
+
+    it("stays visible while the drag crosses onto the dropzone card", () => {
+      render(<FileUploadDropzone />);
+      const dropzone = screen.getByTestId("file-upload-zone");
+      fireEvent.dragEnter(window, fileDrag());
+      fireEvent.dragEnter(dropzone, fileDrag());
+      fireEvent.dragLeave(window, fileDrag());
+      expect(screen.getByTestId("drag-mask")).toHaveAttribute("aria-hidden", "false");
+    });
+
+    it("accepts a drop anywhere on the window and hides the overlay", () => {
+      const onFilesSelected = vi.fn();
+      render(<FileUploadDropzone onFilesSelected={onFilesSelected} />);
+      const file = makeFile("report.pdf");
+      fireEvent.dragEnter(window, fileDrag());
+      fireEvent.drop(window, { dataTransfer: { types: ["Files"], files: [file] } });
+      expect(onFilesSelected).toHaveBeenCalledWith([file]);
+      expect(screen.getByTestId("drag-mask")).toHaveAttribute("aria-hidden", "true");
+    });
+
+    it("hides the overlay and selects files once when the drop lands on the card", () => {
+      const onFilesSelected = vi.fn();
+      render(<FileUploadDropzone onFilesSelected={onFilesSelected} />);
+      const dropzone = screen.getByTestId("file-upload-zone");
+      const file = makeFile("report.pdf");
+      fireEvent.dragEnter(window, fileDrag());
+      fireEvent.dragEnter(dropzone, fileDrag());
+      fireEvent.drop(dropzone, { dataTransfer: { types: ["Files"], files: [file] } });
+      expect(onFilesSelected).toHaveBeenCalledTimes(1);
+      expect(screen.getByTestId("drag-mask")).toHaveAttribute("aria-hidden", "true");
+    });
+
+    it("ignores drags that don't carry files", () => {
+      render(<FileUploadDropzone />);
+      fireEvent.dragEnter(window, { dataTransfer: { types: ["text/plain"], files: [] } });
+      expect(screen.getByTestId("drag-mask")).toHaveAttribute("aria-hidden", "true");
+    });
+
+    it("is not rendered when disabled or when dropOverlay is \"none\"", () => {
+      const { unmount } = render(<FileUploadDropzone disabled />);
+      fireEvent.dragEnter(window, fileDrag());
+      expect(screen.getByTestId("drag-mask")).toHaveAttribute("aria-hidden", "true");
+      unmount();
+
+      render(<FileUploadDropzone dropOverlay="none" />);
+      fireEvent.dragEnter(window, fileDrag());
+      expect(screen.queryByTestId("drag-mask")).not.toBeInTheDocument();
+    });
+  });
+
   it("does not call onFilesSelected when disabled", () => {
     const onFilesSelected = vi.fn();
     render(<FileUploadDropzone disabled onFilesSelected={onFilesSelected} />);
