@@ -1,5 +1,14 @@
 # @lumen/storybook
 
+## 0.1.2
+
+### Patch Changes
+
+- Updated dependencies [a1926ff]
+- Updated dependencies [775a13e]
+  - @lumen/ui@1.1.0
+  - @lumen/patterns@0.2.1
+
 ## 0.1.1
 
 ### Patch Changes
