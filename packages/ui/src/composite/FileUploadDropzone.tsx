@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, useState, type DragEvent } from "react";
 import { cn } from "../lib/cn";
 import { UploadIcon } from "../icons/generated/UploadIcon";
+import { FileDropOverlay, useWindowFileDrag } from "./FileDropOverlay";
 
 const defaultHeaderAsset = new URL("../assets/file-upload-header-default.svg", import.meta.url).href;
 const hoverHeaderAsset = new URL("../assets/file-upload-header-hover.svg", import.meta.url).href;
@@ -14,6 +15,14 @@ export interface FileUploadDropzoneProps {
   disabled?: boolean;
   className?: string;
   onFilesSelected?: (files: File[]) => void;
+  /**
+   * `"page"` (default): dragging files anywhere over the window shows the
+   * full-viewport violet `FileDropOverlay`, and a drop anywhere is accepted.
+   * `"none"`: only the dropzone itself reacts to drags — for pages that
+   * render their own `FileDropOverlay` (e.g. one that must outlive this
+   * component), or that host more than one dropzone at once.
+   */
+  dropOverlay?: "page" | "none";
 }
 
 /**
@@ -48,12 +57,16 @@ export interface FileUploadDropzoneProps {
  * glyphs.
  *
  * The full-viewport "drop anywhere on the page" mask Figma shows as a
- * separate screen (node `1518:3718`) is deliberately NOT built into this
- * composite — that's a page-level concern (global `dragenter`/`drop`
- * listeners), not something a reusable card should own. See
- * `DataExtractionOnboardingPage` in `@lumen/patterns`, which layers that
- * behavior on top. This component only tracks drag state over its own
- * dropzone area.
+ * separate screen (node `1518:3718`) was originally left out of this
+ * composite as a page-level concern, living only in
+ * `DataExtractionOnboardingPage`. **Changed 2026-09-23** (direct user
+ * report: used on its own, this card showed no drag-over feedback while
+ * the onboarding pattern did): the mask moved into `@lumen/ui` as
+ * `FileDropOverlay` + `useWindowFileDrag`, and this component now shows it
+ * by default (`dropOverlay="page"`), accepting a drop anywhere on the
+ * window. `dropOverlay="none"` restores the old card-only behavior. The
+ * resting appearance is unchanged — the overlay stays scaled to zero until
+ * a file drag starts, and never appears while `disabled`.
  *
  * Corrected 2026-08-03, against a reorganized Figma section (fileKey
  * `GJBYRm6ySR7XIECFcHMgy2`, node `1565:3097`), while redesigning this
@@ -234,7 +247,8 @@ export function FileUploadDropzone({
   multiple = true,
   disabled = false,
   className,
-  onFilesSelected
+  onFilesSelected,
+  dropOverlay = "page"
 }: FileUploadDropzoneProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [isDropzoneHovered, setIsDropzoneHovered] = useState(false);
@@ -279,6 +293,11 @@ export function FileUploadDropzone({
     onFilesSelected?.(Array.from(fileList));
   }
 
+  const pageDrag = useWindowFileDrag({
+    enabled: dropOverlay === "page" && !disabled,
+    onDrop: (files) => onFilesSelected?.(files)
+  });
+
   function handleDragEnter(e: DragEvent<HTMLLabelElement>) {
     e.preventDefault();
     // Deliberately does NOT stopPropagation (unlike handleDrop below) — it
@@ -309,11 +328,13 @@ export function FileUploadDropzone({
     // Stops here so a page-level drag-and-drop overlay (e.g.
     // DataExtractionOnboardingPage's full-viewport mask) that also listens
     // for `drop` on `window` doesn't double-handle a drop that landed
-    // directly on this dropzone.
+    // directly on this dropzone. Since that also hides the drop from this
+    // component's own window listener, end the page-level drag here.
     e.stopPropagation();
     dragCounter.current = 0;
     setIsDragging(false);
     if (disabled) return;
+    if (dropOverlay === "page") pageDrag.acknowledgeDrop();
     handleFiles(e.dataTransfer.files);
   }
 
@@ -404,6 +425,9 @@ export function FileUploadDropzone({
         </div>
         <p className="m-0 text-body-sm text-[var(--color-text-secondary)]">{helperText}</p>
       </label>
+      {dropOverlay === "page" && (
+        <FileDropOverlay visible={pageDrag.isDragging} pulsing={pageDrag.isDropping} />
+      )}
     </div>
   );
 }

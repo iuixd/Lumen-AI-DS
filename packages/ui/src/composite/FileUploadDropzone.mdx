@@ -7,9 +7,19 @@ import * as FileUploadDropzoneStories from "./FileUploadDropzone.stories";
 
 The idle-state file-upload card: a gradient header with an overlapping file-icon cluster, a
 heading/subheading, and a dashed-border dropzone that supports both click-to-browse and
-drag-and-drop onto the card itself.
+drag-and-drop. Dragging files anywhere over the window shows a full-viewport violet overlay
+("Drop your files like there's no limit!") and accepts a drop anywhere.
 
 <Canvas of={FileUploadDropzoneStories.Playground} />
+
+## Full upload flow
+
+On its own, the dropzone is the idle screen: it reports the chosen files through
+`onFilesSelected` and then goes back to rest. To get the working journey (Uploading →
+Uploaded → Create Project), render `FileUploadFlow`, which wraps this dropzone together
+with `FileUploadProgressList`, the drag overlay, and the remove-file confirmation.
+
+<Canvas of={FileUploadDropzoneStories.WithUploadFlow} />
 
 ## Custom copy
 
@@ -23,11 +33,25 @@ drag-and-drop onto the card itself.
 | `accept` | `string` | Native `<input type="file">` accept string |
 | `multiple` | `boolean` | Defaults to `true` |
 | `disabled` | `boolean` | |
-| `onFilesSelected` | `(files: File[]) => void` | Called on both click-to-browse and drop |
+| `onFilesSelected` | `(files: File[]) => void` | Called on click-to-browse, a drop on the card, and (with `dropOverlay="page"`) a drop anywhere on the window |
+| `dropOverlay` | `"page" \| "none"` | Defaults to `"page"` — see below |
 
-This component only tracks drag state over its own area. It does not implement a full-viewport
-"drop anywhere on the page" overlay — see `DataExtractionOnboardingPage` in `@lumen/patterns`,
-which layers that behavior on top using page-level `dragenter`/`drop` listeners. If you build
-your own page-level drag handling around this component, note that its drop handler calls
-`stopPropagation()` so a drop landing directly on the card isn't also picked up by a
-window-level listener.
+## Drag overlay
+
+With the default `dropOverlay="page"`, the component listens for file drags on `window` and
+shows `FileDropOverlay`, the same full-viewport overlay `DataExtractionOnboardingPage` uses.
+The overlay appears only for drags that carry files, hides when the drag leaves the window or
+the files are dropped, and never appears while `disabled`. At rest the card looks exactly the
+same as before.
+
+Use `dropOverlay="none"` to limit drag feedback to the card:
+
+- when a page hosts more than one dropzone (each would otherwise listen on `window`), or
+- when the page renders its own `FileDropOverlay` with `useWindowFileDrag` — for example, so
+  the overlay can keep animating after the dropzone unmounts, which is what
+  `DataExtractionOnboardingPage` does.
+
+<Canvas of={FileUploadDropzoneStories.CardOnlyDrop} />
+
+The card's own drop handler calls `stopPropagation()`, so a drop landing directly on the card
+isn't picked up a second time by a window-level listener.
